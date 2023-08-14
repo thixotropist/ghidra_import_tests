@@ -1,4 +1,9 @@
-
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import ghidra.program.model.listing.Program;
 import ghidra.app.script.GhidraScript;
 import ghidra.program.model.mem.Memory;
 import ghidra.program.model.mem.MemoryBlock;
@@ -6,16 +11,59 @@ import ghidra.program.model.address.Address;
 import ghidra.util.task.TaskMonitorAdapter;
 import ghidra.program.model.address.AddressFactory;
 import ghidra.program.model.address.AddressSpace;
-
+import ghidra.program.model.symbol.SymbolTable;
+import ghidra.program.model.symbol.SourceType;
 
 public class KernelImport extends GhidraScript {
+
+    public void importSyms(Program program, AddressFactory addressFactory, int spaceID) {
+        String systemMapFile = "/tmp/ghidra_import_tests/System.map-6.0.10-300.0.riscv64.fc37.riscv64";
+        SymbolTable st = program.getSymbolTable();
+        BufferedReader reader;
+        Pattern pattern = Pattern.compile("(?<addr>[a-f0-9]{16})\\s*(?<type>[TtDdRdBbRr])\\s(?<name>[\\w.]+)");
+        try {
+            reader = new BufferedReader(new FileReader(systemMapFile));
+            String line = reader.readLine();
+            long addr;
+            while (line != null) {
+                Matcher matcher = pattern.matcher(line);
+                boolean matchFound = matcher.find();
+                if (matchFound && (matcher.groupCount() == 3)) {
+                    addr = Long.parseLong(matcher.group("addr").substring(8),16);
+                    if (matcher.group("addr").substring(0,8).equals("ffffffff")) {
+                        addr = Long.parseLong(matcher.group("addr").substring(8),16);
+                    }
+                    else {
+                        addr = Long.parseLong(matcher.group("addr"),16) & 0x00000000ffffffffL;
+                    }
+                    String name = matcher.group("name");
+                    String type = matcher.group("type").toLowerCase();
+                    try {
+                           st.createLabel(addressFactory.getAddress(spaceID, addr), name, ghidra.program.model.symbol.SourceType.IMPORTED);
+                        }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if (type.equals("t")) {
+                        //println("createFunction(" + Long.toHexString(addr) + ", " + name + ")");
+                        Address funcAddr = addressFactory.getAddress(spaceID, addr);
+                        int transactionID = program.startTransaction("Import function name");
+                        disassemble(funcAddr);
+                        createFunction(funcAddr, name);
+                        program.endTransaction(transactionID, true);
+                    }
+                }
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
  
     @Override
     public void run() throws Exception {
-        final long LOAD_OFFSET = 0x80000000L;
-        final long FUNC_ADDR_PANIC = 0x0000000080b6b188L;
-        final long FUNC_ADDR__PRINTK = 0x0000000080b6bf44L;
-
+        final long LOAD_OFFSET = 0x0000000080000000L;
         println("Invoked pre-analysis Ghidra Script");
         Memory mem = currentProgram.getMemory();
         TaskMonitorAdapter monitor = new TaskMonitorAdapter();
@@ -25,7 +73,7 @@ public class KernelImport extends GhidraScript {
 
         for (MemoryBlock b : blocks) {
             long start = b.getStart().getOffset();
-            Address newStart = b.getStart().add(LOAD_OFFSET);
+            Address newStart = addressFactory.getAddress(spaceID, start | LOAD_OFFSET);
             println("Found block " + b.getName() + " starting at 0x" + Long.toHexString(start));
             int transactionID = currentProgram.startTransaction("Move sections");
             try {
@@ -37,9 +85,7 @@ public class KernelImport extends GhidraScript {
                 currentProgram.endTransaction(transactionID, true);
             }
         }
-        Address panicAddr = addressFactory.getAddress(spaceID, FUNC_ADDR_PANIC);
-        println("identifying panic function at 0x" + Long.toHexString(panicAddr.getOffset()));
-        createFunction(addressFactory.getAddress(spaceID, FUNC_ADDR_PANIC), "panic");
-        //createFunction(addressFactory.getAddress(spaceID, FUNC_ADDR__PRINTK), "_printk");
+        importSyms(currentProgram, addressFactory, spaceID);
+
     }
 }

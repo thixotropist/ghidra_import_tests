@@ -1,6 +1,5 @@
 Fedora_37_riscv_image := Fedora-Developer-37-20221130.n.0-nvme.raw.img
 
-
 Analyzer := /opt/ghidra_10.4_DEV/support/analyzeHeadless
 Project := Fedora_37_riscv
 
@@ -58,6 +57,10 @@ riscv64/kernel/vmlinux-6.0.10-300.0.riscv64.fc37.riscv64:
 	gunzip -c -S riscv64 $(cache)/Fedora_37_boot/vmlinuz-6.0.10-300.0.riscv64.fc37.riscv64 > $@
 	cp $(cache)/Fedora_37_boot/System.map-6.0.10-300.0.riscv64.fc37.riscv64 riscv64/kernel/
 
+/tmp/ghidra_import_tests/System.map-6.0.10-300.0.riscv64.fc37.riscv64:
+	mkdir -p /tmp/ghidra_import_tests
+	cp $(cache)/Fedora_37_boot/System.map-6.0.10-300.0.riscv64.fc37.riscv64 /tmp/ghidra_import_tests/System.map-6.0.10-300.0.riscv64.fc37.riscv64
+
 # a reasonably comlicated loadable kernel module
 riscv64/kernel_mod/igc.ko:
 	xzcat $(cache)/Fedora_37_root/usr/lib/modules/6.0.10-300.0.riscv64.fc37.riscv64/kernel/drivers/net/ethernet/intel/igc/igc.ko.xz > $@
@@ -79,6 +82,7 @@ all_exemplars: riscv64/kernel/vmlinux-6.0.10-300.0.riscv64.fc37.riscv64 riscv64/
 
 all_imports: riscv64/system_lib/libc.log riscv64/system_lib/libssl.log riscv64/system_executable/ssh.log \
 			 riscv64/kernel_mod/igc.log riscv64/kernel/vmlinux.log
+
 # run each exemplar through Ghidra analysis
 
 riscv64/system_lib/libc.log:
@@ -93,7 +97,7 @@ riscv64/system_executable/ssh.log:
 riscv64/kernel_mod/igc.log:
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel_mod/igc.ko > $@ 2>&1
 
-riscv64/kernel/vmlinux.log:
+riscv64/kernel/vmlinux.log: /tmp/ghidra_import_tests/System.map-6.0.10-300.0.riscv64.fc37.riscv64
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel/vmlinux-6.0.10-300.0.riscv64.fc37.riscv64 \
 		-processor RISCV:LE:64:RV64IC  \
 		-scriptPath $(CurrentDir)/riscv64/kernel \

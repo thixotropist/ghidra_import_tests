@@ -43,6 +43,13 @@ $ make all_imports
 
 Review log files of the form `riscv64/*/*.log` to identify errors and warnings.
 
+To test or retest a single exemplar import like the kernel import, simply delete the associated import log file:
+
+```console
+$ rm riscv64/kernel/vmlinux.log
+$ make all_imports
+```
+
 ## Caveats
 
 These are not regression tests.  A test failure or regression is not necessarily a Ghidra release blocker.
@@ -65,7 +72,7 @@ ASCII characters, like `.L0^B1`.
 
 ## TODO
 
-* [ ] Consider loading the Fedora 37 RISCV kernel at 0xffffffff80000000 instead of 0x0000000080000000.  This will
+* [X] Consider loading the Fedora 37 RISCV kernel at 0xffffffff80000000 instead of 0x0000000080000000.  This will
       make 64 bit absolute pointers align better, but may not materially affect Ghidra import testing except to stress
       signed versus unsigned address offset calculations.
 * [ ] Add pre- and post- analysis import scripts for the kernel load module exemplar.  The post-analysis script should

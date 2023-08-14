@@ -14,6 +14,11 @@ import ghidra.program.model.address.AddressSpace;
 import ghidra.program.model.symbol.SymbolTable;
 import ghidra.program.model.symbol.SourceType;
 
+/**
+ * @brief Import a vmlinux kernel as a binary file, relocate to 0xffffffff80000000, then apply
+ * all symbols from the associated System.map file.
+ */
+
 public class KernelImport extends GhidraScript {
 
     public void importSyms(Program program, AddressFactory addressFactory, int spaceID) {
@@ -29,13 +34,7 @@ public class KernelImport extends GhidraScript {
                 Matcher matcher = pattern.matcher(line);
                 boolean matchFound = matcher.find();
                 if (matchFound && (matcher.groupCount() == 3)) {
-                    addr = Long.parseLong(matcher.group("addr").substring(8),16);
-                    if (matcher.group("addr").substring(0,8).equals("ffffffff")) {
-                        addr = Long.parseLong(matcher.group("addr").substring(8),16);
-                    }
-                    else {
-                        addr = Long.parseLong(matcher.group("addr"),16) & 0x00000000ffffffffL;
-                    }
+                    addr = Long.parseUnsignedLong(matcher.group("addr"),16);
                     String name = matcher.group("name");
                     String type = matcher.group("type").toLowerCase();
                     try {
@@ -63,7 +62,7 @@ public class KernelImport extends GhidraScript {
  
     @Override
     public void run() throws Exception {
-        final long LOAD_OFFSET = 0x0000000080000000L;
+        final long LOAD_OFFSET = 0xffffffff80000000L;
         println("Invoked pre-analysis Ghidra Script");
         Memory mem = currentProgram.getMemory();
         TaskMonitorAdapter monitor = new TaskMonitorAdapter();

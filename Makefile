@@ -95,7 +95,10 @@ riscv64/system_executable/ssh.log:
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/system_executable/ssh > $@ 2>&1
 
 riscv64/kernel_mod/igc.log:
-	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel_mod/igc.ko > $@ 2>&1
+	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel_mod/igc.ko \
+		-scriptPath $(CurrentDir)/riscv64/kernel \
+		-postScript IgcTests.java \
+		> $@ 2>&1
 
 riscv64/kernel/vmlinux.log: /tmp/ghidra_import_tests/System.map-6.0.10-300.0.riscv64.fc37.riscv64
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel/vmlinux-6.0.10-300.0.riscv64.fc37.riscv64 \

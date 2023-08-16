@@ -13,7 +13,6 @@ RISCV relocation types found in this exemplar include:
 
 ## Verification
 
-
 Importing `igc.ko` generates several warnings similar to:
 
     ERROR Failed to process GOT at 00100028: Insufficent memory
@@ -32,7 +31,7 @@ used in that processing, and Ghidra accepts the symbol anyway.  Ghidra should pr
 
 Open Ghidra's Relocation Table window and verify that all relocations were applied.
 
-Go to `igc_poll`, open a decompiler window, and export the function as `igc_poll.c`.  Compare this file with the
+Go to `igc_poll`, open a decompiler window, and export the function as `igc_poll_decompiled.c`.  Compare this file with the
 provided `igc_poll.c` in the visual difftool of your choice (e.g. `meld`) and check for the presence of lines
 like:
 

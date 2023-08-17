@@ -96,7 +96,7 @@ riscv64/system_executable/ssh.log:
 
 riscv64/kernel_mod/igc.log:
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel_mod/igc.ko \
-		-scriptPath $(CurrentDir)/riscv64/kernel \
+		-scriptPath $(CurrentDir)/riscv64/kernel_mod \
 		-postScript IgcTests.java \
 		> $@ 2>&1
 

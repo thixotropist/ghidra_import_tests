@@ -1,0 +1,6 @@
+# bazel build artifacts
+bazel-bin
+bazel-out
+bazel-testlogs
+bazel-toolchains
+MODULE.bazel.lock

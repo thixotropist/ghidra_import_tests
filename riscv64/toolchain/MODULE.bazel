@@ -1,0 +1,17 @@
+module(
+    name = "ghidra_import_tests",
+    version = "0.1",
+)
+bazel_dep(name = "googletest", version = "1.12.1")
+bazel_dep(name = "glog", version = "0.5.0")
+
+# We need to patch our local version of `glog` to remove
+# a dependency on RTTI.  This means dynamic_cast is disabled
+# in favor of static_cast
+
+single_version_override(
+  module_name = "glog",
+  version = "0.5.0",
+  patches = ["//:glog.pat"],
+  patch_strip = 1,
+)

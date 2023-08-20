@@ -1,0 +1,27 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# custom risc-v 64 bit toolchain
+http_archive(
+    name = "gcc-12-riscv64-toolchains",
+    urls = ["file:///opt/bazel/risc64_linux_gnu-12.tar.xz"],
+    build_file = "//:gcc-12-riscv64-toolchains.BUILD",
+    sha256 = "58bc005f5cbc8b6ef2e52aa29c013d7fe1777708103a77767260a3f3e2bf8542",
+)
+
+# system libraries used by toolchain build system
+# We built the custom toolchain on a fedora x86_64 platform, so we need some
+# fedora x86_64 sharable system libraries to execute.
+http_archive(
+    name = "fedora38-system-libs",
+    urls = ["file:///opt/bazel/fedora38_system_libs.tar.xz"],
+    build_file = "//:fedora38-system-libs.BUILD",
+    sha256 = "9a1e1c17226687db140c32ceb5ff1865e553b4f8735fd37faecd42a1738ac767",
+)
+
+register_toolchains(
+    # an interim toolchain provided locally under /opt/riscv
+    # "//toolchains:riscv64-local",
+    # a separate Bazel project independent of /opt/riscv
+    "//toolchains:riscv64-default",
+    "//toolchains:x86_64_local_host",
+)

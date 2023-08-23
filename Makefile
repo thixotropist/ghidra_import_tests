@@ -80,8 +80,14 @@ riscv64/system_executable/ssh:
 all_exemplars: riscv64/kernel/vmlinux-6.0.10-300.0.riscv64.fc37.riscv64 riscv64/kernel_mod/igc.ko \
 			 riscv64/system_lib/libc.so.6 riscv64/system_lib/libssl.so.3.0.5 riscv64/system_executable/ssh
 
-all_imports: riscv64/system_lib/libc.log riscv64/system_lib/libssl.log riscv64/system_executable/ssh.log \
-			 riscv64/kernel_mod/igc.log riscv64/kernel/vmlinux.log
+# perform all ghidra imports
+
+IMPORT_LOGS:= riscv64/system_lib/libc.log riscv64/system_lib/libssl.log riscv64/system_executable/ssh.log \
+				riscv64/kernel_mod/igc.log riscv64/kernel/vmlinux.log
+all_imports: $(IMPORT_LOGS)
+
+clean_imports:
+	rm $(foreach f,$(IMPORT_LOGS),$(f))
 
 # run each exemplar through Ghidra analysis
 

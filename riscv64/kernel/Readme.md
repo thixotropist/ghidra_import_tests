@@ -5,7 +5,7 @@ help.
 
 * The import Makefile explicitly sets the processor on the command line: `-processor RISCV:LE:64:RV64IC`.
   This will likely be the same as the processor determined from imported kernel load modules.
-* Ghidra recognizes three sections, one text and two data.  All three need to be manually moved
+* Ghidra recognizes three sections, one text and two data.  All three need to be moved
   to the offset suggested in the associated `System.map` file.  For example, `.text` moves from
   0x1000 to 0x80001000.  Test this by verifying function start addresses identified in `System.map`
   look like actual RISCV-64 kernel functions.  Most begin with 16 bytes of no-op instructions
@@ -24,9 +24,6 @@ Verify that kernel code correctly references data:
  /* WARNING: Subroutine does not return */
   panic(s_Fatal_exception_in_interrupt_813f84f8);
 ```
-
-Note that the disassembler window does not recognize the string parameter reference - perhaps we needed
-to move .text and .data *before* the analysis phase.
 
 ## Notes
 

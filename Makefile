@@ -102,13 +102,14 @@ riscv64/system_executable/ssh.log:
 
 riscv64/kernel_mod/igc.log:
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel_mod/igc.ko \
-		-scriptPath $(CurrentDir)/riscv64/kernel_mod \
+		-scriptPath "$(CurrentDir)/riscv64/java" \
 		-postScript IgcTests.java \
+		/tmp/igc_ko_tests.json \
 		> $@ 2>&1
 
 riscv64/kernel/vmlinux.log: /tmp/ghidra_import_tests/System.map-6.0.10-300.0.riscv64.fc37.riscv64
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel/vmlinux-6.0.10-300.0.riscv64.fc37.riscv64 \
 		-processor RISCV:LE:64:RV64IC  \
-		-scriptPath $(CurrentDir)/riscv64/kernel \
+		-scriptPath $(CurrentDir)/riscv64/java \
 		-preScript KernelImport.java \
 		> $@ 2>&1

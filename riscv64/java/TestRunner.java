@@ -76,6 +76,15 @@ public class TestRunner extends GhidraScript {
                 String.format("0x%04x", observedValue)));
     }
 
+    public void skipTest(String description, long addr) throws Exception {
+        testResults.add(new TestResult(
+            "SKIPPED: " + description,
+            true,
+            addr,
+            "NA",
+            "NA"));
+    }
+
     public void writeTestResults(String outFileName) {
         FileWriter resultsFile = null;
         BufferedWriter resultsWriter = null;

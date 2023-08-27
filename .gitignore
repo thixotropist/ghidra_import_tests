@@ -11,3 +11,5 @@ riscv64/kernel_mod/igc.log
 riscv64/system_lib/libc*
 riscv64/system_lib/libssl*
 riscv64/system_executable/ssh*
+# Ignore test results
+testResults/*

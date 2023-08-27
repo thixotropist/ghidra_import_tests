@@ -1,4 +1,3 @@
-
 import ghidra.app.script.GhidraScript;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.listing.Program;
@@ -11,8 +10,6 @@ import ghidra.program.model.address.AddressFactory;
  * not found in basic user-space executables.  Output is in the form of a JSON file that our Python integration test
  * script can process.
  * 
- * TODO: Move the match and formatting code into a sharable Java class
- * TODO: Find a better way to create a temporary file here to be consumed by the integration test.
  */
 public class IgcTests extends TestRunner {
     Memory memory;

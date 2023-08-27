@@ -3,7 +3,8 @@ Fedora_37_riscv_image := Fedora-Developer-37-20221130.n.0-nvme.raw.img
 Analyzer := /opt/ghidra_10.4_DEV/support/analyzeHeadless
 Project := Fedora_37_riscv
 
-CurrentDir = $(strip $(shell pwd))
+CurrentDir := $(strip $(shell pwd))
+TestResultsDir :=$(CurrentDir)/testResults
 
 # Unpack the image file in a disposable cache directory.  This can also be something like /run/usr/1000
 cache := ~/.cache/ghidraTest
@@ -87,7 +88,8 @@ IMPORT_LOGS:= riscv64/system_lib/libc.log riscv64/system_lib/libssl.log riscv64/
 all_imports: $(IMPORT_LOGS)
 
 clean_imports:
-	rm $(foreach f,$(IMPORT_LOGS),$(f))
+	rm -f $(foreach f,$(IMPORT_LOGS),$(f))
+	rm -f $(TestResultsDir)/igc_ko_tests.json
 
 # run each exemplar through Ghidra analysis
 
@@ -100,11 +102,11 @@ riscv64/system_lib/libssl.log:
 riscv64/system_executable/ssh.log:
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/system_executable/ssh > $@ 2>&1
 
-riscv64/kernel_mod/igc.log:
+$(TestResultsDir)/igc_ko_tests.json riscv64/kernel_mod/igc.log:
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel_mod/igc.ko \
 		-scriptPath "$(CurrentDir)/riscv64/java" \
 		-postScript IgcTests.java \
-		/tmp/igc_ko_tests.json \
+		$(TestResultsDir)/igc_ko_tests.json \
 		> $@ 2>&1
 
 riscv64/kernel/vmlinux.log: /tmp/ghidra_import_tests/System.map-6.0.10-300.0.riscv64.fc37.riscv64

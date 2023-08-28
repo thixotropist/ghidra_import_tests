@@ -74,8 +74,8 @@ class Bazel():
         self.logger = logging.getLogger('Bazel')
         stream_handler = logging.StreamHandler(sys.stdout)
         self.logger.addHandler(stream_handler)
-        self.logger.setLevel(logging.INFO)
-        #self.logger.setLevel(logging.WARN)
+        #self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.WARN)
 
     def execute(self, platform, target, operation='build', mode='dbg'):
         """

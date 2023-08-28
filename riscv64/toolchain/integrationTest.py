@@ -13,6 +13,7 @@ import re
 import sys
 import os
 import logging
+import json
 
 class Bazel():
     """
@@ -73,8 +74,8 @@ class Bazel():
         self.logger = logging.getLogger('Bazel')
         stream_handler = logging.StreamHandler(sys.stdout)
         self.logger.addHandler(stream_handler)
-        self.logger.setLevel(logging.INFO)
-        #self.logger.setLevel(logging.WARN)
+        #self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.WARN)
 
     def execute(self, platform, target, operation='build', mode='dbg'):
         """
@@ -137,7 +138,7 @@ class Ghidra():
     GHIDRA_HOME = "/opt/ghidra_10.4_DEV"
     GHIDRA_RUN = GHIDRA_HOME + "/support/analyzeHeadless"
 
-    def __init__(self, scriptPath="testScripts"):
+    def __init__(self, scriptPath="../java"):
         """
         Ghidra's analyzeHeadless runs in this directory,
         importing riscv-64 binaries with optional postAnalysis
@@ -152,7 +153,7 @@ class Ghidra():
         #self.logger.setLevel(logging.INFO)
         self.logger.setLevel(logging.WARN)
 
-    def import_binary(self, binaryPath, preScript='', postScript=''):
+    def import_binary(self, binaryPath, preScript='', postScript='', scriptArgs=''):
         """
         Perform the headless import, collecting return codes, stderr, and stdout
         as part of the subprocess Result returned object
@@ -169,6 +170,8 @@ class Ghidra():
             command = command + ['-preScript', preScript]
         if postScript:
             command = command + ['-postScript', postScript]
+        if scriptArgs:
+            command = command + [scriptArgs,]
         self.logger.info("Running: %s", ' '.join(command))
         result = subprocess.run(command,
             check=False, capture_output=True, encoding='utf8')
@@ -216,10 +219,10 @@ class T0ToolchainTest(unittest.TestCase):
         """
         local host toolchain (x86_64) build of helloworld, 
         """
-        result = self.bazel.execute(Bazel.CI_PLATFORM, Toolchain.REFERENCE_C_PGM,
+        result = self.bazel.execute(Bazel.LOCAL_HOST_PLATFORM, Toolchain.REFERENCE_C_PGM,
                                     operation='build', mode='dbg')
         self.assertEqual(0, result.returncode,
-            f'bazel {Bazel.CI_PLATFORM} build of {Toolchain.REFERENCE_C_PGM} failed')
+            f'bazel {Bazel.LOCAL_HOST_PLATFORM} build of {Toolchain.REFERENCE_C_PGM} failed')
 
     def test02InitializeToolchain(self):
         """
@@ -241,7 +244,7 @@ class T0ToolchainTest(unittest.TestCase):
             'bazel {Bazel.PRODUCT_PLATFORM} build of {Toolchain.REFERENCE_C_PGM} failed')
 
         objectFile = f'{self.objDir}/helloworld/helloworld.pic.o'
-        self.bazel.logger.info("Running: file {objectFile}")
+        self.bazel.logger.info(f"Running: file {objectFile}")
         result = subprocess.run(['file', objectFile],
             check=True, capture_output=True, encoding='utf8')
         self.assertRegex(result.stdout, 'ELF 64-bit LSB relocatable, UCB RISC-V',
@@ -343,7 +346,8 @@ class T2RelocationTests(unittest.TestCase):
         # import the pie object file, running an analysis script and saving stdout and stderr for analysis
         cls.import_results['objectfile'] = \
             cls.ghidra.import_binary('bazel-bin/userSpaceSamples/_objs/relocationTest_pie/relocationTest.o',
-                                     postScript='RelocationTests.java')
+                                     postScript='RelocationTestImport.java',
+                                     scriptArgs=f'{cls.resultsDir}/relocationTest.json')
         with open(cls.resultsDir + '/relocationTest_objectfile_import_stdout', 'w', encoding='utf-8') as file:
             file.write(cls.import_results['objectfile'].stdout)
         with open(cls.resultsDir + '/relocationTest_pie_objectfile_import_stderr', 'w', encoding='utf-8') as file:
@@ -367,11 +371,23 @@ class T2RelocationTests(unittest.TestCase):
         vary quite a bit based on compiler options.  Position Independent Code (PIC) is for objects that might be used in a sharable object
         file.  Position Independent Executable (PIE) is more likely found in kernel load modules.
         """
-        testlog = self.import_results['objectfile'].stdout
-        self.assertRegex(testlog, r'Passed: R_RISCV_PCREL_HI20 at 0x100004')
-        self.assertRegex(testlog, r'Passed: R_RISCV_PCREL_HI20 at 0x10000c')
-        self.assertRegex(testlog, r'Passed: R_RISCV_PCREL_LO12_I at 0x100008')
-        self.assertRegex(testlog, r'Passed: R_RISCV_PCREL_LO12_S at 0x1000010')
+        jsonResultsFileName = self.resultsDir +"/relocationTest.json"
+        fileExists = os.path.exists(jsonResultsFileName)
+        self.assertTrue(fileExists,
+                        "Json test results file from relocationTest import exists")
+        if fileExists:
+            f = open(jsonResultsFileName)
+            tests = json.load(f)
+            for t in tests:
+                #self.logger.info("inspecting the %s test", t['description'])
+                if t['description'].startswith('SKIPPED:'):
+                    #self.logger.info("\ SKIPPED!")
+                    pass
+                else:
+                    self.assertTrue(t['passed']=='true',
+                                    f"{t['description']} : expected {t['expected']} at {t['addr']}" +
+                                    f" but found {t['observed']}")
+            f.close()
 
     @unittest.skip("Relocations to thread Local storage needs support")
     def test03GccTpRelRelocations(self):

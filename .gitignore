@@ -1,6 +1,8 @@
 # Ignore generated Ghidra projects
 riscv64/exemplars.gpr
 riscv64/exemplars.rep
+riscv64/exemplars.lock
+riscv64/exemplars.lock~
 # Ignore imported and extracted binaries
 riscv64/kernel/System.map*
 riscv64/kernel/vmlinux*
@@ -9,3 +11,5 @@ riscv64/kernel_mod/igc.log
 riscv64/system_lib/libc*
 riscv64/system_lib/libssl*
 riscv64/system_executable/ssh*
+# Ignore test results
+testResults/*

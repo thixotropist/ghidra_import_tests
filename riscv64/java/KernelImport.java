@@ -22,7 +22,7 @@ import ghidra.program.model.symbol.SourceType;
 public class KernelImport extends GhidraScript {
 
     public void importSyms(Program program, AddressFactory addressFactory, int spaceID) {
-        String systemMapFile = "/tmp/ghidra_import_tests/System.map-6.0.10-300.0.riscv64.fc37.riscv64";
+        String systemMapFile = getScriptArgs()[0];
         SymbolTable st = program.getSymbolTable();
         BufferedReader reader;
         Pattern pattern = Pattern.compile("(?<addr>[a-f0-9]{16})\\s*(?<type>[TtDdRdBbRr])\\s(?<name>[\\w.]+)");

@@ -24,8 +24,9 @@ allows expansion:
 1. The only processor considered is the RISCV-64 Little Endian processor with a common instruction set base.
    32 bit RISCV systems are ignored.  The first toolchain considered is a Linux gcc/g++
    toolchain.
-2. The first external package considered is a Fedora 37 system image built on a Linux 6.0 kernel.  The kernel included in
-   this package appears to be tuned for an SiFive system development kit.
+2. The first external package considered was a Fedora 37 system image built on a Linux 6.0 kernel.  The kernel included in
+   this package appears to be tuned for an SiFive system development kit.  The current external package is a Fedora 38 system image
+   built with gcc-13 and binutils 2.40-10.0.
 3. Exemplars are chosen from common networking components, with a bias towards components demonstrating - or stressing -
    RISCV-64 concurrency management.
 4. Initial tests deal with Ghidra's import handling of RISCV-64 relocation codes.  This is fairly easy

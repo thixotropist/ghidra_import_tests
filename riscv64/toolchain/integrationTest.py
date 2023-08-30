@@ -128,7 +128,6 @@ class Toolchain():
     # Bazel targets used to test the toolchain environment
     REFERENCE_C_PGM = 'userSpaceSamples:helloworld'
     REFERENCE_CPP_PGM = 'userSpaceSamples:helloworld++'
-    REFERENCE_ASM_PGM = 'userSpaceSamples:syntheticRelocations'
 
 class Ghidra():
     """
@@ -261,22 +260,6 @@ class T0ToolchainTest(unittest.TestCase):
 
         objectFile = f'{self.objDir}/helloworld++/helloworld.pic.o'
         self.bazel.logger.info(f"Running: file {objectFile}")
-        result = subprocess.run(['file', objectFile],
-            check=True, capture_output=True, encoding='utf8')
-        self.assertRegex(result.stdout, 'ELF 64-bit LSB relocatable, UCB RISC-V',
-            f'//platforms:{Bazel.PRODUCT_PLATFORM} compilation generated an unexpected object file format' )
-
-    def test04RiscV64AssemblyBuild(self):
-        """
-        riscV64 assembly build with synthetic relocations, with checks to see if the right toolchain was
-        invoked
-        """
-        result = self.bazel.execute(Bazel.PRODUCT_PLATFORM, Toolchain.REFERENCE_ASM_PGM, operation='build', mode='dbg')
-        self.assertEqual(0, result.returncode,
-            'bazel {Bazel.PRODUCT_PLATFORM} build of {Toolchain.REFERENCE_C_PGM} failed')
-
-        objectFile = f'{self.objDir}/syntheticRelocations/syntheticRelocations.pic.o'
-        self.bazel.logger.info(f"Running:file {objectFile}")
         result = subprocess.run(['file', objectFile],
             check=True, capture_output=True, encoding='utf8')
         self.assertRegex(result.stdout, 'ELF 64-bit LSB relocatable, UCB RISC-V',

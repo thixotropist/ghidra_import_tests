@@ -7,23 +7,22 @@ import ghidra.program.model.mem.Memory;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.address.AddressFactory;
 
-class TestResult {
-    String description;
-    boolean passed;
-    String addr;
-    String expecting;
-    String observed;
-
-    TestResult(String descr, boolean passValue, long addrValue, String expectedValue, String observedValue) {
-        description = descr;
-        passed = passValue;
-        addr = String.format("0x%08x", addrValue);
-        expecting = expectedValue;
-        observed = observedValue;
-    }
-}
-
 public class TestRunner extends GhidraScript {
+    class TestResult {
+        String description;
+        boolean passed;
+        String addr;
+        String expecting;
+        String observed;
+
+        TestResult(String descr, boolean passValue, long addrValue, String expectedValue, String observedValue) {
+            description = descr;
+            passed = passValue;
+            addr = String.format("0x%08x", addrValue);
+            expecting = expectedValue;
+            observed = observedValue;
+        }
+    }
     Memory memory;
     AddressFactory addressFactory;
     int spaceID;

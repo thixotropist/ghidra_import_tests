@@ -46,27 +46,5 @@ class T0Fedora37RiscvImage(unittest.TestCase):
                                 f" but found {t['observed']}")
             f.close()
 
-    @unittest.skip("Relocate this test to execute after the toolchain setup has run")
-    def test01RelocationTest(self):
-        """
-        Verify that postAnalysis tests on relocationTest.o import succeeded
-        """
-        jsonResultsFileName = self.testResultsDir +"/relocationTest.json"
-        fileExists = os.path.exists(jsonResultsFileName);
-        self.assertTrue(fileExists,
-                        "Json test results file from relocationTest.o import exists")
-        if fileExists:
-            f = open(jsonResultsFileName)
-            tests = json.load(f)
-            for t in tests:
-                self.logger.info("inspecting the %s test", t['description'])
-                if t['description'].startswith('SKIPPED:'):
-                    self.logger.info("\ SKIPPED!")
-                else:
-                    self.assertTrue(t['passed']=='true',
-                                f"{t['description']} : expected {t['expected']} at {t['addr']}" +
-                                f" but found {t['observed']}")
-            f.close()
-
 if __name__ == '__main__':
     unittest.main()

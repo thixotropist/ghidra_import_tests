@@ -89,7 +89,7 @@ all_exemplars: riscv64/kernel/vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64 riscv64/
 
 IMPORT_LOGS:= riscv64/system_lib/libc.log riscv64/system_lib/libssl.log riscv64/system_executable/ssh.log \
 				riscv64/kernel_mod/igc.log riscv64/kernel/vmlinux.log
-all_imports: $(IMPORT_LOGS)
+all_imports: $(IMPORT_LOGS) $(TestResultsDir)/igc_ko_tests.json
 
 clean_imports:
 	rm -f $(foreach f,$(IMPORT_LOGS),$(f))
@@ -106,12 +106,12 @@ riscv64/system_lib/libssl.log: riscv64/system_lib/libssl.so.3.0.8
 riscv64/system_executable/ssh.log: riscv64/system_executable/ssh
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/system_executable/ssh > $@ 2>&1
 
-$(TestResultsDir)/igc_ko_tests.json riscv64/kernel_mod/igc.log: riscv64/kernel_mod/igc.ko
+riscv64/kernel_mod/igc.log $(TestResultsDir)/igc_ko_tests.json: riscv64/kernel_mod/igc.ko
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel_mod/igc.ko \
 		-scriptPath "$(CurrentDir)/riscv64/java" \
 		-postScript IgcTests.java \
 		$(TestResultsDir)/igc_ko_tests.json \
-		> $@ 2>&1
+		> riscv64/kernel_mod/igc.log 2>&1
 
 riscv64/kernel/vmlinux.log: riscv64/kernel/vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64 /tmp/ghidra_import_tests/System.map-6.4.12-200.0.riscv64.fc38.riscv64
 	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel/vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64 \

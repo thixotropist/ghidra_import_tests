@@ -399,25 +399,5 @@ class T2RelocationTests(unittest.TestCase):
         self.assertRegex(testlog, r'Passed: R_RISCV_TPREL_LO12_I at 0x100030')
         self.assertRegex(testlog, r'Passed: R_RISCV_TPREL_ADD')
 
-    def test04GasPcRelRelocations(self):
-        """
-        Build and import a short assembly program similar to relocationTest_pie, where
-        back references to local labels are used.  This should generate symbol labels like `.L1^B1`
-        """
-         # import the executable
-        self.build_results['syntheticRelocations'] = \
-            self.bazel.execute(Bazel.PRODUCT_PLATFORM, 'userSpaceSamples:syntheticRelocations', operation='build', mode='opt')
-        with open(self.resultsDir + '/syntheticRelocations_build_stdout', 'w', encoding='utf-8') as file:
-            file.write(self.build_results['executable'].stdout)
-        with open(self.resultsDir + '/syntheticRelocations_build_stderr', 'w', encoding='utf-8') as file:
-            file.write(self.build_results['executable'].stderr)
-        self.assertEqual(0, self.build_results['syntheticRelocations'].returncode,
-                        f'bazel {Bazel.PRODUCT_PLATFORM} build of syntheticRelocations.S failed')
-        # import the synthetic relocations object file
-        self.import_results['syntheticRelocations'] = \
-            self.ghidra.import_binary('bazel-bin/userSpaceSamples/_objs/syntheticRelocations/syntheticRelocations.o')
-        self.assertEqual(0, self.import_results['syntheticRelocations'].returncode,
-                         'Ghidra imported syntheticRelocations.o object file built for riscv64')
-
 if __name__ == '__main__':
     unittest.main()

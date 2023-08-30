@@ -21,13 +21,6 @@ cc_binary(
     features = ["-pic"]
 )
 
-# Assemble a riscv object file with various relocation types
-cc_library(
-    name = "syntheticRelocations",
-    srcs = ["syntheticRelocations.S"],
-    copts = ["-O3", "-Wa,-a", "-Wa,-am", "-Wa,-a=/tmp/syntheticRelocations.listing", "-fpie"],
-)
-
 # Build the relocation test object file with Position Independent Code
 #    - this might be typical of a user space sharable library build, where 
 #       .data and .bss are relocated independently of .text and .rodata

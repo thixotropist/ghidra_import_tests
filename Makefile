@@ -16,15 +16,18 @@ $(cache):
 
 # Fetch the image from one of the external repositories.
 
-$(cache)/$(Fedora_37_riscv_image): $(cache)
+$(cache)/$(Fedora_37_riscv_image): | $(cache)
 	cd $(cache) && \
 	wget -q https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images/$(Fedora_37_riscv_image).xz && \
 	xz -d $@.xz
 
-$(cache)/$(Fedora_38_riscv_image): $(cache)
+$(cache)/$(Fedora_38_riscv_image).xz: | $(cache)
 	cd $(cache) && \
-	wget -q http://fedora.riscv.rocks/kojifiles/work/tasks/5889/1465889/$(Fedora_38_riscv_image).xz && \
-	xz -d $@.xz
+	wget -q http://fedora.riscv.rocks/kojifiles/work/tasks/5889/1465889/$(Fedora_38_riscv_image).xz
+
+$(cache)/$(Fedora_38_riscv_image): $(cache)/$(Fedora_38_riscv_image).xz
+	cd $(cache) && \
+	xz -d $<
 
 # The image will have several partitions.  Use guestfish to identify those partitions then guestmount to mount them
 # *without* needing root permissions.

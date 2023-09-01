@@ -1,4 +1,8 @@
 Fedora_37_riscv_image := Fedora-Developer-37-20221130.n.0-nvme.raw.img
+Fedora_38_riscv_image := Fedora-Developer-38-20230825.n.0-sda.raw
+
+Fedora_38_kernel := vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64
+Fedora_38_sysmap := System.map-6.4.12-200.0.riscv64.fc38.riscv64
 
 Analyzer := /opt/ghidra_10.4_DEV/support/analyzeHeadless
 
@@ -12,14 +16,14 @@ $(cache):
 
 # Fetch the image from one of the external repositories.
 
-$(Fedora_37_riscv_image): $(cache)
+$(cache)/$(Fedora_37_riscv_image): $(cache)
 	cd $(cache) && \
-	wget -q https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images/Fedora-Developer-37-20221130.n.0-nvme.raw.img.xz && \
+	wget -q https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images/$(Fedora_37_riscv_image).xz && \
 	xz -d $@.xz
 
-$(Fedora_38_riscv_image): $(cache)
+$(cache)/$(Fedora_38_riscv_image): $(cache)
 	cd $(cache) && \
-	wget -q http://fedora.riscv.rocks/kojifiles/work/tasks/5889/1465889/Fedora-Developer-38-20230825.n.0-sda.raw.xz && \
+	wget -q http://fedora.riscv.rocks/kojifiles/work/tasks/5889/1465889/$(Fedora_38_riscv_image).xz && \
 	xz -d $@.xz
 
 # The image will have several partitions.  Use guestfish to identify those partitions then guestmount to mount them
@@ -46,25 +50,25 @@ $(cache)/Fedora_38_boot:
 $(cache)/Fedora_38_root:
 	mkdir -p $@
 
-.PHONY: Fedora_Mounts Unmount_all all
+.PHONY: Fedora_Mounts Unmount_all
 
 # This particular image has two needed partitions
 Fedora_Mounts: $(cache)/$(Fedora_38_riscv_image) $(cache)/Fedora_38_boot $(cache)/Fedora_38_root
-	guestmount -a ~/.cache/ghidraTest/Fedora-Developer-38-20230825.n.0-sda.raw -m /dev/sda1 --ro $(cache)/Fedora_38_boot
-	guestmount -a ~/.cache/ghidraTest/Fedora-Developer-38-20230825.n.0-sda.raw -m /dev/sda2 --ro $(cache)/Fedora_38_root
+	guestmount -a ~/.cache/ghidraTest/$(Fedora_38_riscv_image) -m /dev/sda1 --ro $(cache)/Fedora_38_boot
+	guestmount -a ~/.cache/ghidraTest/$(Fedora_38_riscv_image) -m /dev/sda2 --ro $(cache)/Fedora_38_root
 
 Unmount_all:
 	guestunmount $(cache)/Fedora_38_boot
 	guestunmount $(cache)/Fedora_38_root
 
 # kernel
-riscv64/kernel/vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64: $(cache)/Fedora_38_boot/vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64
-	gunzip -c -S riscv64 $(cache)/Fedora_38_boot/vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64 > $@
+riscv64/kernel/$(Fedora_38_kernel): $(cache)/Fedora_38_boot/$(Fedora_38_kernel)
+	gunzip -c -S riscv64 $(cache)/Fedora_38_boot/$(Fedora_38_kernel) > $@
 
 # system map used to identify functions in kernel
-/tmp/ghidra_import_tests/System.map-6.4.12-200.0.riscv64.fc38.riscv64: $(cache)/Fedora_38_boot/System.map-6.4.12-200.0.riscv64.fc38.riscv64
+/tmp/ghidra_import_tests/$(Fedora_38_sysmap): $(cache)/Fedora_38_boot/$(Fedora_38_sysmap)
 	mkdir -p /tmp/ghidra_import_tests
-	cp $(cache)/Fedora_38_boot/System.map-6.4.12-200.0.riscv64.fc38.riscv64 /tmp/ghidra_import_tests
+	cp $(cache)/Fedora_38_boot/$(Fedora_38_sysmap) /tmp/ghidra_import_tests
 
 # a reasonably comlicated loadable kernel module
 riscv64/kernel_mod/igc.ko:
@@ -82,7 +86,7 @@ riscv64/system_lib/libssl.so.3.0.8:
 riscv64/system_executable/ssh:
 	cp $(cache)/Fedora_38_root/usr/bin/ssh $@
 
-all_exemplars: riscv64/kernel/vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64 riscv64/kernel_mod/igc.ko \
+all_exemplars: riscv64/kernel/$(Fedora_38_kernel) riscv64/kernel_mod/igc.ko \
 			 riscv64/system_lib/libc.so.6 riscv64/system_lib/libssl.so.3.0.8 riscv64/system_executable/ssh
 
 # perform all ghidra imports
@@ -113,10 +117,10 @@ riscv64/kernel_mod/igc.log $(TestResultsDir)/igc_ko_tests.json: riscv64/kernel_m
 		$(TestResultsDir)/igc_ko_tests.json \
 		> riscv64/kernel_mod/igc.log 2>&1
 
-riscv64/kernel/vmlinux.log: riscv64/kernel/vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64 /tmp/ghidra_import_tests/System.map-6.4.12-200.0.riscv64.fc38.riscv64
-	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel/vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64 \
+riscv64/kernel/vmlinux.log: riscv64/kernel/$(Fedora_38_kernel) /tmp/ghidra_import_tests/$(Fedora_38_sysmap)
+	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel/$(Fedora_38_kernel) \
 		-processor RISCV:LE:64:RV64IC  \
 		-scriptPath $(CurrentDir)/riscv64/java \
 		-preScript KernelImport.java \
-		/tmp/ghidra_import_tests/System.map-6.4.12-200.0.riscv64.fc38.riscv64 \
+		/tmp/ghidra_import_tests/$(Fedora_38_sysmap) \
 		> $@ 2>&1

@@ -1,0 +1,14 @@
+GAS LISTING assemblySamples/zvksg.S 			page 1
+
+
+   1 0000 77228086 		vsm4k.vi v4, v8, 0
+   2 0004 772280AE 		vsm3c.vi v4, v8, 0
+   3 0008 772286B2 		vghsh.vv v4, v8, v12
+   4 000c 77A2C8A2 		vgmul.vv v4, v12
+GAS LISTING assemblySamples/zvksg.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/zvksg.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zvbb1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvkg1p0_zvks1p0_zvksed1p0_zvksg1p0_zvksh1p0_zvkt1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+
+NO UNDEFINED SYMBOLS

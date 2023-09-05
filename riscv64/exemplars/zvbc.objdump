@@ -1,0 +1,15 @@
+
+bazel-out/k8-fastbuild/bin/assemblySamples/zvbc.o:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000000000000 <.text>:
+   0:	32862257          	vclmul.vv	v4,v8,v12
+   4:	30862257          	vclmul.vv	v4,v8,v12,v0.t
+   8:	3285e257          	vclmul.vx	v4,v8,a1
+   c:	3085e257          	vclmul.vx	v4,v8,a1,v0.t
+  10:	36862257          	vclmulh.vv	v4,v8,v12
+  14:	34862257          	vclmulh.vv	v4,v8,v12,v0.t
+  18:	3685e257          	vclmulh.vx	v4,v8,a1
+  1c:	3485e257          	vclmulh.vx	v4,v8,a1,v0.t

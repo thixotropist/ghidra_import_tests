@@ -1,0 +1,44 @@
+GAS LISTING assemblySamples/zvbb.S 			page 1
+
+
+   1 0000 57028606 		vandn.vv v4, v8, v12
+   2 0004 57028604 		vandn.vv v4, v8, v12, v0.t
+   3 0008 57C28506 		vandn.vx v4, v8, a1
+   4 000c 57C28504 		vandn.vx v4, v8, a1, v0.t
+   5 0010 5722854A 		vbrev.v v4, v8
+   6 0014 57228548 		vbrev.v v4, v8, v0.t
+   7 0018 5722844A 		vbrev8.v v4, v8
+   8 001c 57228448 		vbrev8.v v4, v8, v0.t
+   9 0020 57A2844A 		vrev8.v v4, v8
+  10 0024 57A28448 		vrev8.v v4, v8, v0.t
+  11 0028 57A2844A 		vrev8.v v4, v8
+  12 002c 57A28448 		vrev8.v v4, v8, v0.t
+  13 0030 5722864A 		vclz.v v4, v8
+  14 0034 57228648 		vclz.v v4, v8, v0.t
+  15 0038 57A2864A 		vctz.v v4, v8
+  16 003c 57A28648 		vctz.v v4, v8, v0.t
+  17 0040 5722874A 		vcpop.v v4, v8
+  18 0044 57228748 		vcpop.v v4, v8, v0.t
+  19 0048 57028656 		vrol.vv v4, v8, v12
+  20 004c 57028654 		vrol.vv v4, v8, v12, v0.t
+  21 0050 57C28556 		vrol.vx v4, v8, a1
+  22 0054 57C28554 		vrol.vx v4, v8, a1, v0.t
+  23 0058 57028652 		vror.vv v4, v8, v12
+  24 005c 57028650 		vror.vv v4, v8, v12, v0.t
+  25 0060 57C28552 		vror.vx v4, v8, a1
+  26 0064 57C28550 		vror.vx v4, v8, a1, v0.t
+  27 0068 57328052 		vror.vi v4, v8, 0
+  28 006c 57B28F54 		vror.vi v4, v8, 63, v0.t
+  29 0070 570286D6 		vwsll.vv v4, v8, v12
+  30 0074 570286D4 		vwsll.vv v4, v8, v12, v0.t
+  31 0078 57C285D6 		vwsll.vx v4, v8, a1
+  32 007c 57C285D4 		vwsll.vx v4, v8, a1, v0.t
+  33 0080 573280D6 		vwsll.vi v4, v8, 0
+  34 0084 57B28FD4 		vwsll.vi v4, v8, 31, v0.t
+GAS LISTING assemblySamples/zvbb.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/zvbb.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zvbb1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+
+NO UNDEFINED SYMBOLS

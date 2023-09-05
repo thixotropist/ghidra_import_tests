@@ -56,6 +56,7 @@ $(cache)/Fedora_38_root:
 .PHONY: Fedora_Mounts Unmount_all
 
 # This particular image has two needed partitions
+#   Should this be a dependency of later rules?
 Fedora_Mounts: $(cache)/$(Fedora_38_riscv_image) $(cache)/Fedora_38_boot $(cache)/Fedora_38_root
 	guestmount -a ~/.cache/ghidraTest/$(Fedora_38_riscv_image) -m /dev/sda1 --ro $(cache)/Fedora_38_boot
 	guestmount -a ~/.cache/ghidraTest/$(Fedora_38_riscv_image) -m /dev/sda2 --ro $(cache)/Fedora_38_root

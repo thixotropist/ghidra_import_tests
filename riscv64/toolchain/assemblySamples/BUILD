@@ -88,12 +88,14 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
     )
     # our default arch is rv64gv, which must be extended for everything but the vector extensions.
     for (fname, ext) in [
-        ("h-ext-64", "_h"),
+        ("h-ext-64", "_h"),       # hyvervisor extensions
+        ("svinval", "_svinval"),  # ?? used in sifive kernels near hypervisor extensions
         ("vector", ""),
         ("zvbb", "_zvbb"),
         ("zvkng", "_zvkng"),
         ("zvksg", "_zvksg"),
         ("zvbc", "_zvbc"),
+        ("unknown", ""),
     ]
 ]
 
@@ -103,6 +105,9 @@ filegroup(
         ":h-ext-64.o",
         ":h-ext-64.list",
         ":h-ext-64.objdump",
+        ":svinval.o",
+        ":svinval.list",
+        ":svinval.objdump",
         ":vector.o",
         ":vector.list",
         ":vector.objdump",
@@ -118,6 +123,9 @@ filegroup(
         ":zvbc.o",
         ":zvbc.list",
         ":zvbc.objdump",
+        ":unknown.o",
+        ":unknown.list",
+        ":unknown.objdump",
     ]
 )
 #

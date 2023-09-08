@@ -13,3 +13,5 @@ riscv64/system_lib/libssl*
 riscv64/system_executable/ssh*
 # Ignore test results
 testResults/*
+# Ignore editor metadata
+.vscode/*

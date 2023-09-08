@@ -1,32 +1,5 @@
 # TODO
 
-## h-ext-64 - hypervisor extensions
-
-
-### unimplemented
-
-```text
-   0:   22000073                hfence.vvma
-   4:   22050073                hfence.vvma     a0
-   8:   22b00073                hfence.vvma     zero,a1
-   c:   22c58073                hfence.vvma     a1,a2
-  10:   62000073                hfence.gvma
-  14:   62050073                hfence.gvma     a0
-  18:   62b00073                hfence.gvma     zero,a1
-  1c:   62c58073                hfence.gvma     a1,a2
-```
-
-### questionable disassembly
-
-operands should be reversed
-
-```text
-  48:   62a5c073                hsv.b   a0,(a1)
-  4c:   62a5c073                hsv.b   a0,(a1)
-  50:   66a5c073                hsv.h   a0,(a1)
-  54:   6aa5c073                hsv.w   a0,(a1)
-  58:   6ea5c073                hsv.d   a0,(a1)
-```
 
 ## vbb - vector bit manipulation
 

@@ -96,6 +96,7 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
         ("zvksg", "_zvksg"),
         ("zvbc", "_zvbc"),
         ("unknown", ""),
+        ("semantics", "")
     ]
 ]
 
@@ -128,8 +129,22 @@ filegroup(
         ":unknown.objdump",
     ]
 )
+[
+    filegroup(
+        name = "otherSources",
+        srcs = [
+            fname + ".o",
+            fname + ".list",
+            fname + ".objdump",
+            ],
+        )
+    for (fname, ext) in [
+    ("semantics",""),
+    ]
+]
 #
 # unpack this archive with tar xf archive.tar --strip-components=4
+# to get past the Bazel build directories
 genrule(
     name = "archive",
     srcs = [

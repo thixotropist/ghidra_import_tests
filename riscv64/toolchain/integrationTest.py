@@ -134,7 +134,7 @@ class Ghidra():
     Collect Ghidra headless analyzer commands.  Ghindra imports are
     sent to the `exemplars` project in the *parent* directory.
     """
-    GHIDRA_HOME = "/opt/ghidra_10.4_DEV"
+    GHIDRA_HOME = "/opt/ghidra_10.5_DEV"
     GHIDRA_RUN = GHIDRA_HOME + "/support/analyzeHeadless"
 
     def __init__(self, scriptPath="../java"):

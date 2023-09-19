@@ -1,11 +1,19 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-# custom risc-v 64 bit toolchain
+# custom risc-v 64 bit toolchains
 http_archive(
     name = "gcc-12-riscv64-toolchains",
     urls = ["file:///opt/bazel/risc64_linux_gnu-12.tar.xz"],
     build_file = "//:gcc-12-riscv64-toolchains.BUILD",
     sha256 = "58bc005f5cbc8b6ef2e52aa29c013d7fe1777708103a77767260a3f3e2bf8542",
+)
+
+# partial gcc-12 risc-v 64 bit toolchain without libc or C++
+http_archive(
+    name = "gcc-14-riscv64-toolchains",
+    urls = ["file:///opt/bazel/risc64_linux_gnu-14.tar.xz"],
+    build_file = "//:gcc-14-riscv64-toolchains.BUILD",
+    sha256 = "4318633698f872f48047954073f6ab48a33c4ff4125d65cf294090b0f1f80089",
 )
 
 # system libraries used by toolchain build system
@@ -19,9 +27,11 @@ http_archive(
 )
 
 register_toolchains(
-    # an interim toolchain provided locally under /opt/riscv
-    # "//toolchains:riscv64-local",
-    # a separate Bazel project independent of /opt/riscv
+    # a separate Bazel project independent of /opt/riscv,
+    # currently based on gcc-12-riscv64-toolchains
     "//toolchains:riscv64-default",
+    # an experimental and partial toolchain based on gcc-14-riscv64-toolchains
+    "//toolchains:riscv64-next",
+    # a local x86_64 toolchain based on whatever the host provides
     "//toolchains:x86_64_local_host",
 )

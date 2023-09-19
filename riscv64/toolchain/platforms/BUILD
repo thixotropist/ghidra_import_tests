@@ -1,6 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-# riscv_userspace
+# riscv_userspace using a stable gcc-12 environment
 platform(
     name = "riscv_userspace",
     constraint_values = [
@@ -8,7 +8,16 @@ platform(
     ],
 )
 
-# x86_64
+# a riscv userspace platform with a CPU supporting vector instructions.
+# In gcc machine architecture terms, a march=rv64gcv
+platform(
+    name = "riscv_vector",
+    constraint_values = [
+        "//toolchains:riscv64-v",
+    ],
+)
+
+# x86_64 on the local development computer
 platform(
     name = "x86_64_userspace",
     constraint_values = [

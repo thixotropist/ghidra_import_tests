@@ -1,0 +1,26 @@
+GAS LISTING assemblySamples/zbkb-64.S 			page 1
+
+
+   1              	target:
+   2 0000 33D5C560 	        ror     a0, a1, a2
+   3 0004 3395C560 	        rol     a0, a1, a2
+   4 0008 13D52560 	        rori    a0, a1, 2
+   5 000c 3BD5C560 	        rorw    a0, a1, a2
+   6 0010 3B95C560 	        rolw    a0, a1, a2
+   7 0014 1BD52560 	        roriw   a0, a1, 2
+   8 0018 33F5C540 	        andn    a0, a1, a2
+   9 001c 33E5C540 	        orn     a0, a1, a2
+  10 0020 33C5C540 	        xnor    a0, a1, a2
+  11 0024 33C5C508 	        pack    a0, a1, a2
+  12 0028 33F5C508 	        packh   a0, a1, a2
+  13 002c 3BC5C508 	        packw   a0, a1, a2
+  14 0030 13557568 	        brev8   a0, a0
+  15 0034 1355856B 	        rev8    a0, a0
+GAS LISTING assemblySamples/zbkb-64.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/zbkb-64.S:1      .text:0000000000000000 target
+assemblySamples/zbkb-64.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zbkb1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+
+NO UNDEFINED SYMBOLS

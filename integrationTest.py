@@ -11,11 +11,11 @@ import os
 import logging
 import json
 
-class T0Fedora37RiscvImage(unittest.TestCase):
+class T0Fedora38RiscvImage(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.logger = logging.getLogger('Fedora37Riscv')
+        cls.logger = logging.getLogger('Fedora38Riscv')
         stream_handler = logging.StreamHandler(sys.stdout)
         cls.logger.addHandler(stream_handler)
         cls.logger.setLevel(logging.INFO)
@@ -25,7 +25,7 @@ class T0Fedora37RiscvImage(unittest.TestCase):
         result = subprocess.run(command,
             check=False, capture_output=True, encoding='utf8')
         if result.returncode != 0:
-            cls.logger.error("Fedora37Riscv: make all_imports failed:\n %s", result.stderr)
+            cls.logger.error("Fedora38Riscv: make all_imports failed:\n %s", result.stderr)
         cls.testResultsDir = os.getcwd() + "/testResults"
 
     def test00IgcKernelModImport(self):

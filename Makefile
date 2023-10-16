@@ -1,10 +1,8 @@
-Fedora_37_riscv_image := Fedora-Developer-37-20221130.n.0-nvme.raw.img
-Fedora_38_riscv_image := Fedora-Developer-38-20230825.n.0-sda.raw
-
 Fedora_38_kernel := vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64
 Fedora_38_sysmap := System.map-6.4.12-200.0.riscv64.fc38.riscv64
+Fedora_38_riscv_image := Fedora-Developer-38-20230825.n.0-sda.raw
 
-Analyzer := /opt/ghidra_10.4_DEV/support/analyzeHeadless
+Analyzer := /opt/ghidra_10.5_DEV/support/analyzeHeadless
 
 CurrentDir := $(strip $(shell pwd))
 TestResultsDir :=$(CurrentDir)/testResults
@@ -15,11 +13,6 @@ $(cache):
 	mkdir -p $@
 
 # Fetch the image from one of the external repositories.
-
-$(cache)/$(Fedora_37_riscv_image): | $(cache)
-	cd $(cache) && \
-	wget -q https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images/$(Fedora_37_riscv_image).xz && \
-	xz -d $@.xz
 
 $(cache)/$(Fedora_38_riscv_image).xz: | $(cache)
 	cd $(cache) && \
@@ -53,41 +46,43 @@ $(cache)/Fedora_38_boot:
 $(cache)/Fedora_38_root:
 	mkdir -p $@
 
-.PHONY: Fedora_Mounts Unmount_all
+.PHONY: Unmount_all
 
 # This particular image has two needed partitions
-#   Should this be a dependency of later rules?
-Fedora_Mounts: $(cache)/$(Fedora_38_riscv_image) $(cache)/Fedora_38_boot $(cache)/Fedora_38_root
+#   We use $(cache)/Fedora_38_mounted as a coarse flag showing that the partitions are mounted
+$(cache)/Fedora_38_mounted: $(cache)/$(Fedora_38_riscv_image) | $(cache)/Fedora_38_boot $(cache)/Fedora_38_root
 	guestmount -a ~/.cache/ghidraTest/$(Fedora_38_riscv_image) -m /dev/sda1 --ro $(cache)/Fedora_38_boot
 	guestmount -a ~/.cache/ghidraTest/$(Fedora_38_riscv_image) -m /dev/sda2 --ro $(cache)/Fedora_38_root
+	touch $(cache)/Fedora_38_mounted
 
 Unmount_all:
 	guestunmount $(cache)/Fedora_38_boot
 	guestunmount $(cache)/Fedora_38_root
+	rm $(cache)/Fedora_38_mounted
 
 # kernel
-riscv64/kernel/$(Fedora_38_kernel): $(cache)/Fedora_38_boot/$(Fedora_38_kernel)
+riscv64/kernel/$(Fedora_38_kernel): $(cache)/Fedora_38_boot/$(Fedora_38_kernel) $(cache)/Fedora_38_mounted
 	gunzip -c -S riscv64 $(cache)/Fedora_38_boot/$(Fedora_38_kernel) > $@
 
 # system map used to identify functions in kernel
-/tmp/ghidra_import_tests/$(Fedora_38_sysmap): $(cache)/Fedora_38_boot/$(Fedora_38_sysmap)
+/tmp/ghidra_import_tests/$(Fedora_38_sysmap): $(cache)/Fedora_38_boot/$(Fedora_38_sysmap) $(cache)/Fedora_38_mounted
 	mkdir -p /tmp/ghidra_import_tests
 	cp $(cache)/Fedora_38_boot/$(Fedora_38_sysmap) /tmp/ghidra_import_tests
 
 # a reasonably comlicated loadable kernel module
-riscv64/kernel_mod/igc.ko:
+riscv64/kernel_mod/igc.ko: $(cache)/Fedora_38_mounted
 	xzcat $(cache)/Fedora_38_root/usr/lib/modules/6.4.12-200.0.riscv64.fc38.riscv64/kernel/drivers/net/ethernet/intel/igc/igc.ko.xz > $@
 
 # a shared library, full of useful symbols and PIC code
-riscv64/system_lib/libc.so.6:
+riscv64/system_lib/libc.so.6: $(cache)/Fedora_38_mounted
 	cp $(cache)/Fedora_38_root/usr/lib64/libc.so.6 $@
 
 # another shared library, useful in networking
-riscv64/system_lib/libssl.so.3.0.8:
+riscv64/system_lib/libssl.so.3.0.8: $(cache)/Fedora_38_mounted
 	cp $(cache)/Fedora_38_root/usr/lib64/libssl.so.3.0.8 $@
 
 # and a fully linked executable, using those two shared libraries
-riscv64/system_executable/ssh:
+riscv64/system_executable/ssh: $(cache)/Fedora_38_mounted
 	cp $(cache)/Fedora_38_root/usr/bin/ssh $@
 
 all_exemplars: riscv64/kernel/$(Fedora_38_kernel) riscv64/kernel_mod/igc.ko \

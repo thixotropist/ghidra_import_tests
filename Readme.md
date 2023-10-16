@@ -89,7 +89,6 @@ Build and import a short assembly program similar to relocationTest_pie, where .
 Ran 11 tests in 26.609s
 
 OK (skipped=1)
-
 ```
 
 ## ISA extensions
@@ -97,7 +96,7 @@ OK (skipped=1)
 The RISCV community has a rich set of extensions to the base Instruction Set Architecture.  That means a diverse set
 of new binary import targets to test against.  This work-in-progress is collected in the `riscv64/toolchain/assemblySamples` directory.
 The basic idea is to compare current Ghidra disassembly with current binutils `objdump` disassembly, using object files
-assembled from the binutils gas testsuite.  For example:
+assembled from the binutils `gas` testsuite.  For example:
 
 * `riscv64/toolchain/assemblySamples/h-ext-64.S` was copied from the binutils gas testsuite.  It contains unit test instructions for
   hypervisor support extensions like `hfence.vvma` and `hlv.w`.

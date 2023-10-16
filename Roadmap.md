@@ -9,6 +9,10 @@ The first step is to verify that Ghidra works well with current-generation RISCV
 predict the evolution paths for components of a RISCV-64 network appliance toolchain.  Then we can start working up
 possible add-ons to Ghidra to keep pace.
 
+The longer term goal is to gain some insight into what is possible when compilers autovectorize source code into riscv
+vector intrinsic functions.  Will Ghidra's decompiler be able to reconstruct the original C code or assist in locating
+compiler errors?
+
 ## Hardware
 
 https://www.sifive.com/boards/hifive-pro-p550
@@ -30,6 +34,10 @@ A network appliance development board might have two P670 class sockets and four
 To manage scope, we won't be worrying about instructions supporting AI or complex virtualization.  Custom instructions that might be used
 in network appliances are definitely in scope, while custom instructions for nested virtualization are not.  Possibly in scope are new instructions
 that help manage or synchronize multi-socket cache memory.
+
+Let's set a provocative long term goal: How will Ghidra analyze a future network appliance that combines Machine Learning with self-modifying code
+to accelerate network routing and forwarding?  Such a device might generate fast-path code sequences to sessionize incoming packets and deliver them with
+minimal cache flushes or branches taken.
 
 ## Software
 

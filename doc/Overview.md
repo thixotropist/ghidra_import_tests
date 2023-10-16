@@ -38,14 +38,14 @@ defined by Alibaba or others may need support sometime later.
 ## GCC-14 Vector Intrinsics and Autovectorization
 
 GCC-14, due sometime mid-2024, includes a huge number of RISCV vector builtin intrinsic functions.
-The full set of intrinsics is defined in https://github.com/riscv-non-isa/rvv-intrinsic-doc, and far beyond what Ghidra can recognize anytime soon.
+The full set of intrinsics is defined in https://github.com/riscv-non-isa/rvv-intrinsic-doc, and is far beyond what Ghidra can recognize anytime soon.
 We will start with the examples provided by that site:
 
-* rvv_memcpy.c  - a vector replacement for libc's memcpy
-* rvv_strncpy.c - a vector replacement for libc's strncpy
-* rvv index.c   - vector sum:  `a[i] = b[i] + (double)i * c[i]`
-* rvv_matmul.c  - floating point matrix multiply
-* rvv_reduce.c  - Masked vector sum: `if (a[i] != 42.0)  s += a[i] * b[i]`
+* `rvv_memcpy.c`  - a vector replacement for libc's memcpy
+* `rvv_strncpy.c` - a vector replacement for libc's strncpy
+* `rvv index.c`   - vector sum:  `a[i] = b[i] + (double)i * c[i]`
+* `rvv_matmul.c`  - floating point matrix multiply
+* `rvv_reduce.c`  - Masked vector sum: `if (a[i] != 42.0)  s += a[i] * b[i]`
 
 For each of these examples we compile with a minimal gcc-14 riscv toolchain
 into exemplar files, then import into Ghidra.  The next step for Ghidra is to

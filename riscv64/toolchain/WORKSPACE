@@ -7,8 +7,14 @@ http_archive(
     build_file = "//:gcc-12-riscv64-toolchains.BUILD",
     sha256 = "58bc005f5cbc8b6ef2e52aa29c013d7fe1777708103a77767260a3f3e2bf8542",
 )
+http_archive(
+    name = "gcc-13-riscv64-toolchains",
+    urls = ["file:///opt/bazel/risc64_linux_gnu-13.tar.xz"],
+    build_file = "//:gcc-13-riscv64-toolchains.BUILD",
+    sha256 = "d343e584037d51323d795c1fa4c88150d32d7c9841d770f7a4274e5f4e08ea53",
+)
 
-# partial gcc-12 risc-v 64 bit toolchain without libc or C++
+# partial gcc-14 risc-v 64 bit toolchain without libc or C++
 http_archive(
     name = "gcc-14-riscv64-toolchains",
     urls = ["file:///opt/bazel/risc64_linux_gnu-14.tar.xz"],

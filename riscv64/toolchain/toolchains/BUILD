@@ -24,16 +24,16 @@ filegroup(
 ##### riscv64 #####
 
 filegroup(
-    name = 'gcc_12_riscv_wrappers',
+    name = 'gcc_13_riscv_wrappers',
     srcs = glob([
-        "gcc-12-riscv/imported/*",
+        "gcc-13-riscv/imported/*",
     ])
 )
 
 filegroup(
-    name = 'compiler_files',
-    srcs = [':gcc_12_riscv_wrappers',
-       '@gcc-12-riscv64-toolchains//:compiler_files',
+    name = 'gcc_13_compiler_files',
+    srcs = [':gcc_13_riscv_wrappers',
+       '@gcc-13-riscv64-toolchains//:compiler_files',
     ]
 )
 
@@ -48,11 +48,11 @@ toolchain(
 cc_toolchain(
     name = "riscv64-default-gcc",
     all_files = ":all_files",
-    ar_files = ":compiler_files",
+    ar_files = ":gcc_13_compiler_files",
     as_files = ":empty",
-    compiler_files = ":compiler_files",
+    compiler_files = ":gcc_13_compiler_files",
     dwp_files = ":empty",
-    linker_files = ":compiler_files",
+    linker_files = ":gcc_13_compiler_files",
     objcopy_files = ":empty",
     strip_files = ":empty",
     supports_param_files = 0,
@@ -74,10 +74,10 @@ cc_toolchain_config(
     cpu = "riscv64",
     # we really want the following to be constructed from $(output_base) or $(location ...)
     cxx_builtin_include_directories = [
-       OUTPUT_BASE + "/external/gcc-12-riscv64-toolchains/sysroot/usr/include",
-       OUTPUT_BASE + "/external/gcc-12-riscv64-toolchains/riscv64-unknown-linux-gnu/include/c++/12.2.0",
-       OUTPUT_BASE + "/external/gcc-12-riscv64-toolchains/lib/gcc/riscv64-unknown-linux-gnu/12.2.0/include",
-       OUTPUT_BASE + "/external/gcc-12-riscv64-toolchains/lib/gcc/riscv64-unknown-linux-gnu/12.2.0/include-fixed",
+       OUTPUT_BASE + "/external/gcc-13-riscv64-toolchains/sysroot/usr/include",
+       OUTPUT_BASE + "/external/gcc-13-riscv64-toolchains/riscv64-unknown-linux-gnu/include/c++/13.2.1",
+       OUTPUT_BASE + "/external/gcc-13-riscv64-toolchains/lib/gcc/riscv64-unknown-linux-gnu/13.2.1/include",
+       OUTPUT_BASE + "/external/gcc-13-riscv64-toolchains/lib/gcc/riscv64-unknown-linux-gnu/13.2.1/include-fixed",
        ],
     cxx_flags = [
         "-std=c++20",
@@ -99,18 +99,18 @@ cc_toolchain_config(
     target_libc = ":empty",
     target_system_name = ":empty",
     tool_paths = {
-        "ar": "gcc-12-riscv/imported/ar",
-        "ld": "gcc-12-riscv/imported/riscv64-unknown-gnu-ld",
-        "cpp": "gcc-12-riscv/imported/cpp",
-        "gcc": "gcc-12-riscv/imported/gcc",
+        "ar": "gcc-13-riscv/imported/ar",
+        "ld": "gcc-13-riscv/imported/riscv64-unknown-gnu-ld",
+        "cpp": "gcc-13-riscv/imported/cpp",
+        "gcc": "gcc-13-riscv/imported/gcc",
         "dwp": ":empty",
         "gcov": ":empty",
-        "nm": "gcc-12-riscv/imported/nm",
-        "objcopy": "gcc-12-riscv/imported/objcopy",
-        "objdump": "gcc-12-riscv/imported/objdump",
-        "strip": "gcc-12-riscv/imported/strip",
+        "nm": "gcc-13-riscv/imported/nm",
+        "objcopy": "gcc-13-riscv/imported/objcopy",
+        "objdump": "gcc-13-riscv/imported/objdump",
+        "strip": "gcc-13-riscv/imported/strip",
     },
-    toolchain_identifier = "gcc-12-riscv64",
+    toolchain_identifier = "gcc-13-riscv64",
     unfiltered_compile_flags = [
         "-fno-canonical-system-headers",
         "-Wno-builtin-macro-redefined",
@@ -119,13 +119,6 @@ cc_toolchain_config(
         "-D__TIME__=\"redacted\"",
     ],
 )
-
-# cp -r /opt/riscv/sysroot /opt/riscvx/sysroot
-# /home2/vendor/gcc/configure --with-build-sysroot=/opt/riscv/sysroot --prefix=/opt/riscvx --enable-languages=c --disable-multilib --target=riscv64-unknown-linux-gnu
-# make
-# make install
-
-#
 
 filegroup(
     name = 'gcc_14_riscv_wrappers',

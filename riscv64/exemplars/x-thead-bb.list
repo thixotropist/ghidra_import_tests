@@ -1,0 +1,33 @@
+GAS LISTING assemblySamples/x-thead-bb.S 			page 1
+
+
+   1              	target:
+   2 0000 0B950510 		th.srri		a0, a1, 0
+   3 0004 0B951510 		th.srri		a0, a1, 1
+   4 0008 0B95E513 		th.srri		a0, a1, 62
+   5 000c 0B95F513 		th.srri		a0, a1, 63
+   6 0010 0B950514 		th.srriw	a0, a1, 0
+   7 0014 0B951514 		th.srriw	a0, a1, 1
+   8 0018 0B95E515 		th.srriw	a0, a1, 30
+   9 001c 0B95F515 		th.srriw	a0, a1, 31
+  10 0020 0BA50504 		th.ext		a0, a1, 1, 0
+  11 0024 0BA5057C 		th.ext		a0, a1, 31, 0
+  12 0028 0BA5F5FD 		th.ext		a0, a1, 63, 31
+  13 002c 0BA5E5FF 		th.ext		a0, a1, 63, 62
+  14 0030 0BB50504 		th.extu		a0, a1, 1, 0
+  15 0034 0BB5057C 		th.extu		a0, a1, 31, 0
+  16 0038 0BB5F5FD 		th.extu		a0, a1, 63, 31
+  17 003c 0BB5E5FF 		th.extu		a0, a1, 63, 62
+  18 0040 0B950584 		th.ff0		a0, a1
+  19 0044 0B950586 		th.ff1		a0, a1
+  20 0048 0B950582 		th.rev		a0, a1
+  21 004c 0B950590 		th.revw		a0, a1
+  22 0050 0B950580 		th.tstnbz	a0, a1
+GAS LISTING assemblySamples/x-thead-bb.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/x-thead-bb.S:1      .text:0000000000000000 target
+assemblySamples/x-thead-bb.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_xtheadbb1p0
+
+NO UNDEFINED SYMBOLS

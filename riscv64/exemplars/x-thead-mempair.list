@@ -1,0 +1,17 @@
+GAS LISTING assemblySamples/x-thead-mempair.S 			page 1
+
+
+   1              	target:
+   2 0000 0B45B6F8 		th.ldd		a0, a1, (a2), 0, 4
+   3 0004 0B45B6E2 		th.lwd		a0, a1, (a2), 1, 3
+   4 0008 0B45B6F4 		th.lwud		a0, a1, (a2), 2, 3
+   5 000c 0B55B6FE 		th.sdd		a0, a1, (a2), 3, 4
+   6 0010 0B55B6E0 		th.swd		a0, a1, (a2), 0, 3
+GAS LISTING assemblySamples/x-thead-mempair.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/x-thead-mempair.S:1      .text:0000000000000000 target
+assemblySamples/x-thead-mempair.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_xtheadmempair1p0
+
+NO UNDEFINED SYMBOLS

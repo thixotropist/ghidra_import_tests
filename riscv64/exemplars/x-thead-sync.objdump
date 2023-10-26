@@ -1,0 +1,12 @@
+
+bazel-out/k8-fastbuild/bin/assemblySamples/x-thead-sync.o:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000000000000 <target>:
+   0:	04b5000b          	th.sfence.vmas	a0,a1
+   4:	0180000b          	th.sync
+   8:	01a0000b          	th.sync.i
+   c:	01b0000b          	th.sync.is
+  10:	0190000b          	th.sync.s

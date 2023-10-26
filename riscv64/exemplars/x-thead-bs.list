@@ -1,0 +1,17 @@
+GAS LISTING assemblySamples/x-thead-bs.S 			page 1
+
+
+   1              	target:
+   2 0000 0B950588 		th.tst	a0, a1, 0
+   3 0004 0B951588 		th.tst	a0, a1, 1
+   4 0008 0B95F589 		th.tst	a0, a1, 31
+   5 000c 0B95058A 		th.tst	a0, a1, 32
+   6 0010 0B95F58B 		th.tst	a0, a1, 63
+GAS LISTING assemblySamples/x-thead-bs.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/x-thead-bs.S:1      .text:0000000000000000 target
+assemblySamples/x-thead-bs.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_xtheadbs1p0
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,23 @@
+
+bazel-out/k8-fastbuild/bin/assemblySamples/x-thead-fmemidx.o:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000000000000 <target>:
+   0:	60c5e50b          	th.flrd	fa0,a1,a2,0
+   4:	66c5e50b          	th.flrd	fa0,a1,a2,3
+   8:	40c5e50b          	th.flrw	fa0,a1,a2,0
+   c:	46c5e50b          	th.flrw	fa0,a1,a2,3
+  10:	70c5e50b          	th.flurd	fa0,a1,a2,0
+  14:	76c5e50b          	th.flurd	fa0,a1,a2,3
+  18:	50c5e50b          	th.flurw	fa0,a1,a2,0
+  1c:	56c5e50b          	th.flurw	fa0,a1,a2,3
+  20:	60c5f50b          	th.fsrd	fa0,a1,a2,0
+  24:	66c5f50b          	th.fsrd	fa0,a1,a2,3
+  28:	40c5f50b          	th.fsrw	fa0,a1,a2,0
+  2c:	46c5f50b          	th.fsrw	fa0,a1,a2,3
+  30:	70c5f50b          	th.fsurd	fa0,a1,a2,0
+  34:	76c5f50b          	th.fsurd	fa0,a1,a2,3
+  38:	50c5f50b          	th.fsurw	fa0,a1,a2,0
+  3c:	56c5f50b          	th.fsurw	fa0,a1,a2,3

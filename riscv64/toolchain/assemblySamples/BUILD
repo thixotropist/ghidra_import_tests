@@ -88,7 +88,7 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
     )
     # our default arch is rv64gv, which must be extended for everything but the vector extensions.
     for (fname, ext) in [
-        ("h-ext-64", "_h"),       # hyvervisor extensions
+        ("h-ext-64", "_h"),       # hypervisor extensions
         ("svinval", "_svinval"),  # ?? used in sifive kernels near hypervisor extensions
         ("vector", ""),
         ("zbkb-64", "_zbkb"),
@@ -104,7 +104,17 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
         ("zvksg", "_zvksg"),
         ("zvbc", "_zvbc"),
         ("unknown", ""),
-        ("semantics", "")
+        ("semantics", ""),
+        ("x-thead-ba", "_xtheadba"),
+        ("x-thead-bb", "_xtheadbb"),
+        ("x-thead-bs", "_xtheadbs"),
+        ("x-thead-cmo", "_xtheadcmo"),
+        ("x-thead-condmov", "_xtheadcondmov"),
+        ("x-thead-mac", "_xtheadmac"),
+        ("x-thead-fmemidx", "_xtheadfmemidx"),
+        ("x-thead-memidx", "_xtheadmemidx"),
+        ("x-thead-mempair", "_xtheadmempair"),
+        ("x-thead-sync", "_xtheadsync"),
     ]
 ]
 
@@ -161,19 +171,51 @@ filegroup(
         ":unknown.objdump",
     ]
 )
-[
-    filegroup(
+
+filegroup(
         name = "otherSources",
         srcs = [
-            fname + ".o",
-            fname + ".list",
-            fname + ".objdump",
-            ],
-        )
-    for (fname, ext) in [
-    ("semantics",""),
+            "semantics.o",
+            "semantics.list",
+            "semantics.objdump"]
+)
+
+filegroup(
+    name = "theadSources",
+    srcs = [
+        "x-thead-memidx.o",
+        "x-thead-memidx.list",
+        "x-thead-memidx.objdump",
+        "x-thead-ba.o",
+        "x-thead-ba.list",
+        "x-thead-ba.objdump",
+        "x-thead-bb.o",
+        "x-thead-bb.list",
+        "x-thead-bb.objdump",
+        "x-thead-bs.o",
+        "x-thead-bs.list",
+        "x-thead-bs.objdump",
+        "x-thead-cmo.o",
+        "x-thead-cmo.list",
+        "x-thead-cmo.objdump",
+        "x-thead-condmov.o",
+        "x-thead-condmov.list",
+        "x-thead-condmov.objdump",
+        "x-thead-fmemidx.o",
+        "x-thead-fmemidx.list",
+        "x-thead-fmemidx.objdump",
+        "x-thead-mac.o",
+        "x-thead-mac.list",
+        "x-thead-mac.objdump",
+        "x-thead-mempair.o",
+        "x-thead-mempair.list",
+        "x-thead-mempair.objdump",
+        "x-thead-sync.o",
+        "x-thead-sync.list",
+        "x-thead-sync.objdump",
     ]
-]
+)
+
 #
 # unpack this archive with tar xf archive.tar --strip-components=4
 # to get past the Bazel build directories
@@ -181,11 +223,13 @@ genrule(
     name = "archive",
     srcs = [
         ":exemplars",
+        ":otherSources",
+        ":theadSources",
     ],
     outs = ["archive.tar"],
     cmd = 
         """
-        tar cJhf $(location archive.tar) $(locations :exemplars)
+        tar cJhf $(location archive.tar) $(locations :exemplars) $(locations :otherSources) $(locations :theadSources)
         """
 )
 

@@ -1,0 +1,33 @@
+GAS LISTING assemblySamples/x-thead-cmo.S 			page 1
+
+
+   1              	target:
+   2 0000 0B001000 		th.dcache.call
+   3 0004 0B003000 		th.dcache.ciall
+   4 0008 0B002000 		th.dcache.iall
+   5 000c 0B009502 		th.dcache.cpa	a0
+   6 0010 0B80B502 		th.dcache.cipa	a1
+   7 0014 0B00A602 		th.dcache.ipa	a2
+   8 0018 0B805602 		th.dcache.cva	a3
+   9 001c 0B007702 		th.dcache.civa	a4
+  10 0020 0B806702 		th.dcache.iva	a5
+  11 0024 0B001802 		th.dcache.csw	a6
+  12 0028 0B803802 		th.dcache.cisw	a7
+  13 002c 0B802202 		th.dcache.isw	t0
+  14 0030 0B008302 		th.dcache.cpal1	t1
+  15 0034 0B804302 		th.dcache.cval1	t2
+  16 0038 0B000001 		th.icache.iall
+  17 003c 0B001001 		th.icache.ialls
+  18 0040 0B008E03 		th.icache.ipa	t3
+  19 0044 0B800E03 		th.icache.iva	t4
+  20 0048 0B005001 		th.l2cache.call
+  21 004c 0B007001 		th.l2cache.ciall
+  22 0050 0B006001 		th.l2cache.iall
+GAS LISTING assemblySamples/x-thead-cmo.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/x-thead-cmo.S:1      .text:0000000000000000 target
+assemblySamples/x-thead-cmo.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_xtheadcmo1p0
+
+NO UNDEFINED SYMBOLS

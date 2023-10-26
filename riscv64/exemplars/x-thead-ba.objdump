@@ -1,0 +1,11 @@
+
+bazel-out/k8-fastbuild/bin/assemblySamples/x-thead-ba.o:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000000000000 <target>:
+   0:	00c5950b          	th.addsl	a0,a1,a2,0
+   4:	02c5950b          	th.addsl	a0,a1,a2,1
+   8:	04c5950b          	th.addsl	a0,a1,a2,2
+   c:	06c5950b          	th.addsl	a0,a1,a2,3

@@ -233,3 +233,19 @@ genrule(
         """
 )
 
+# Try a 32 bit build of the vector extensions
+
+genrule(
+    name = "rvv_32",
+    srcs = [
+        "vector.S",
+    ],
+    outs = [
+        "vector_32.o",
+        "vector_32.list",
+        "vector_32.objdump",
+    ],
+    cmd = "{} --march=rv32gv $(location vector.S) -a -am -a=$(location vector_32.list) -o $(location vector_32.o)".format(GAS) +
+            " && {} -d $(location vector_32.o) > $(location vector_32.objdump)".format(OBJDUMP)
+)
+

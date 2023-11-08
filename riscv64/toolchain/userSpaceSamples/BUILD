@@ -5,11 +5,24 @@ cc_binary(
     srcs = ["helloworld.c"],
 )
 
+# Build a simple HelloWorld RISCV-32 C executable
+#  Warning: the platform must be configured with something like:
+#     configure --prefix=/opt/riscv --enable-multilib
+#  This is not currently the case
+cc_binary(
+    name = "helloworld_32",
+    srcs = ["helloworld.c"],
+    copts = [
+        "-march=rv32i",
+    ]
+)
+
 # Build a simple HelloWorld RISCV-64 C++ executable
 cc_binary(
     name = "helloworld++",
     srcs = ["helloworld.cc"],
 )
+
 
 # Build the relocation test object file with Position Independent Executable
 #    - this might be typical of a kernel module where .data and .bss are

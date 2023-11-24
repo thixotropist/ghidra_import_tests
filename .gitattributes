@@ -1,0 +1,1 @@
+riscv64/kernel/vmlinuz-6.4.12-200.0.riscv64.fc38.riscv64 filter=lfs diff=lfs merge=lfs -text

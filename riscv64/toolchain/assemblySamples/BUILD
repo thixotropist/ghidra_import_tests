@@ -103,7 +103,7 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
         ("zvkng", "_zvkng"),
         ("zvksg", "_zvksg"),
         ("zvbc", "_zvbc"),
-        ("unknown", ""),
+        ("unknown", "_zbb_zicbom_zicbop_zicboz"),
         ("semantics", ""),
         ("x-thead-ba", "_xtheadba"),
         ("x-thead-bb", "_xtheadbb"),

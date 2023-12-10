@@ -16,21 +16,25 @@ code into a Ghidra project.  The basic Concept of Operations is:
    highlight the Ghidra import elements under test.
 4. For each exemplar, bundle import assertion tests into a post-analysis Ghidra script.
 
-Additional exemplars are generated from source and a cross-platform toolchain.
+Additional exemplars are generated from source and a cross-platform gcc toolchain.
 
 This project starts with a narrowly defined objective, hopefully within a test framework that
 allows expansion:
 
 1. The only processor considered is the RISCV-64 Little Endian processor with a common instruction set base.
-   32 bit RISCV systems are ignored.  The first toolchain considered is a Linux gcc/g++
-   toolchain.
+   32 bit RISCV systems are ignored.  The first toolchains considered are a Linux gcc/g++
+   toolchains with a binutils assembler.
 2. The first external package considered was a Fedora 37 system image built on a Linux 6.0 kernel.  The kernel included in
-   this package appears to be tuned for an SiFive system development kit.  The current external package is a Fedora 38 system image
-   built with gcc-13 and binutils 2.40-10.0.
+   this package appears to be tuned for an SiFive system development kit.  The current external package is a Fedora 39 system image
+   built with gcc-13 and binutils 2.40 or 2.41.
 3. Exemplars are chosen from common networking components, with a bias towards components demonstrating - or stressing -
    RISCV-64 concurrency management.
 4. Initial tests deal with Ghidra's import handling of RISCV-64 relocation codes.  This is fairly easy
    for Linux executables but more involved for position independent code like kernel load modules.
+5. Current tests focus on RISCV instruction set extensions likely to impact Ghidra users in the future.
+   This started with RISCV vector instructions, then added common bit manipulation and crypto instructions.
+   Selected vendor-specific instruction additions are included now, if only to explore Ghidra design-space
+   options for support of vendor-specific RISCV designs.
 
 ## Running Tests
 
@@ -120,8 +124,12 @@ The short term answer is to treat extension instructions as pcode function calls
 vector extensions, then see what kind of C source is conventionally used when invoking those extensions.  The `memcpy` inline function from `libc` is a likely
 place to find early use of vector instructions.
 
-Also, what can we safely ignore for now?  The proposed vendor-specific T-Head extension instruciton
-[`th.l2cache.iall`](https://github.com/T-head-Semi/thead-extension-spec/blob/master/xtheadcmo/l2cache_iall.adoc) won't be seen by most Ghidra users.  On the other hand, the encoding rules published with those T-Head extensions look like a good example to follow.
+Also, what can we safely ignore for now?  The proposed vendor-specific T-Head extension instruction
+[`th.l2cache.iall`](https://github.com/T-head-Semi/thead-extension-spec/blob/master/xtheadcmo/l2cache_iall.adoc) won't be seen by most Ghidra users.
+On the other hand, the encoding rules published with those T-Head extensions look like a good example to follow.
+
+The Fedora 39 kernel includes virtual machine cache management instructions that are not necessarily supported by binutils - they are 'assembled' with gcc macros
+before reaching the binutils assembler.  We will ignore those instruction extensions for now, and only consider instruction extensions supported by binutils.
 
 ## Caveats
 
@@ -129,7 +137,7 @@ These are not regression tests.  A test failure or regression is not necessarily
 Test failures and successes should only be considered as indicators of how well Ghidra handles specific
 import edge cases.  Discussion of how well Ghidra *should* handle those cases is out of scope for this repository.
 
-With a single Fedora 37 import example we have poor sample diversity.  An Ubuntu system image is also available,
+With a single Fedora import example we have poor sample diversity.  An Ubuntu system image is also available,
 with a somewhat older kernel. We could add the Ubuntu image to this test framework.  It's not clear whether
 the Ubuntu image was built with a different toolchain or even by a different development team.  It is possible that
 the development team modified the toolchain or used unusual build and link options in assembling the image.
@@ -137,16 +145,17 @@ the development team modified the toolchain or used unusual build and link optio
 The RISCV-64 instruction set architecture is mutable.  We can expect to see hardware implementations with vector, crypto,
 and transactional code extensions at some time in the near future.
 
-The RISCV-64 ISA and toolchain use more link-time optimization, resulting in more ELF relocation codes and more work
-for Ghidra in ELF relocation handling.  We don't know whether this is a trend that may be seen in other processor families.
-We do know that this first package includes binaries with multiple relocation codes at a single address and relocation codes that
-can only be resolved indirectly by searching for a related relocation code entry.  We also see symbol names containing non-printing
-ASCII characters, like `.L0^B1`.
-
 ## TODO
 
 * [ ] Clarify the toolchains we are using.  At present we are using the base gcc-12 toolchain https://github.com/riscv/riscv-gnu-toolchain,
   a patched variant of that to invoke gcc-13, and a standalone binutils 2-41 daily snapshot.
+* [ ] Collect technical debt, such as the lack of Ghidra support for thread-local and cpu-local storage and the relocation codes used to
+  identify and support that storage class.  This is likely not just a RISCV issue for Ghidra.
+* [ ] Identify a workflow starting with ISA extensions added to the binutils gas testsuite and ending with PR updates to Ghidra's RISCV
+  sleigh files.  There are a number of out-of-date entries within `Ghidra/Processors/RISCV/data/languages`.
+* [ ] Identify the methods the RISCV community and binutils developers manage vendor-specific instruction set extensions, then compare
+  with the methods Ghidra uses to recommend a processor 'language' on import of any given binary.  For example, which GCC versions encode
+  extension requirements into ELF files?
 
 ## Backburner goals
 

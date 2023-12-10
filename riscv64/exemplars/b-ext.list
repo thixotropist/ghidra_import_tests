@@ -1,0 +1,54 @@
+GAS LISTING assemblySamples/b-ext.S 			page 1
+
+
+   1              	target:
+   2 0000 13150560 		clz	a0, a0
+   3 0004 13151560 		ctz	a0, a0
+   4 0008 13152560 		cpop	a0, a0
+   5 000c 33C5C50A 		min	a0, a1, a2
+   6 0010 33D5C50A 		minu	a0, a1, a2
+   7 0014 33E5C50A 		max	a0, a1, a2
+   8 0018 33F5C50A 		maxu	a0, a1, a2
+   9 001c 13154560 		sext.b	a0, a0
+  10 0020 13155560 		sext.h	a0, a0
+  11 0024 3B450508 		zext.h	a0, a0
+  12 0028 33F5C540 		andn	a0, a1, a2
+  13 002c 33E5C540 		orn	a0, a1, a2
+  14 0030 33C5C540 		xnor	a0, a1, a2
+  15 0034 3395C560 		rol	a0, a1, a2
+  16 0038 33D5C560 		ror	a0, a1, a2
+  17 003c 13D52560 		ror	a0, a1, 2
+  18 0040 13D52560 		rori	a0, a1, 2
+  19 0044 1355856B 		rev8	a0, a0
+  20 0048 13557528 		orc.b	a0, a0
+  21 004c 33A5C520 		sh1add	a0, a1, a2
+  22 0050 33C5C520 		sh2add	a0, a1, a2
+  23 0054 33E5C520 		sh3add	a0, a1, a2
+  24 0058 3395C50A 		clmul	a0, a1, a2
+  25 005c 33B5C50A 		clmulh	a0, a1, a2
+  26 0060 33A5C50A 		clmulr	a0, a1, a2
+  27 0064 13950548 		bclri   a0, a1, 0
+  28 0068 1395F549 		bclri   a0, a1, 31
+  29 006c 13950528 		bseti   a0, a1, 0
+  30 0070 1395F529 		bseti   a0, a1, 31
+  31 0074 13950568 		binvi   a0, a1, 0
+  32 0078 1395F569 		binvi   a0, a1, 31
+  33 007c 13D50548 		bexti   a0, a1, 0
+  34 0080 13D5F549 		bexti   a0, a1, 31
+  35 0084 3395C548 		bclr    a0, a1, a2
+  36 0088 3395C528 		bset    a0, a1, a2
+  37 008c 3395C568 		binv    a0, a1, a2
+  38 0090 33D5C548 		bext    a0, a1, a2
+  39              		#aliases
+  40 0094 1395F549 		bclr    a0, a1, 31
+  41 0098 1395F529 		bset    a0, a1, 31
+  42 009c 1395F569 		binv    a0, a1, 31
+  43 00a0 13D5F549 		bext    a0, a1, 31
+GAS LISTING assemblySamples/b-ext.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/b-ext.S:1      .text:0000000000000000 target
+assemblySamples/b-ext.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zba1p0_zbb1p0_zbc1p0_zbs1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+
+NO UNDEFINED SYMBOLS

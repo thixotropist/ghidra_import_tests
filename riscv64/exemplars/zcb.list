@@ -1,0 +1,36 @@
+GAS LISTING assemblySamples/zcb.S 			page 1
+
+
+   1              	target:
+   2 0000 2080     		lbu x8,2(x8)
+   3 0002 8083     		c.lbu x8,(x15)
+   4 0004 2084     		lhu x8,2(x8)
+   5 0006 8087     		c.lhu x8,(x15)
+   6 0008 6084     		lh x8,2(x8)
+   7 000a C087     		c.lh x8,(x15)
+   8 000c 2088     		sb x8,2(x8)
+   9 000e 808B     		c.sb x8,(x15)
+  10 0010 208C     		sh x8,2(x8)
+  11 0012 808F     		c.sh x8,(x15)
+  12 0014 619C     		zext.b x8,x8
+  13 0016 E19F     		c.zext.b x15
+  14 0018 659C     		sext.b x8,x8
+  15 001a E59F     		c.sext.b x15
+  16 001c 699C     		zext.h x8,x8
+  17 001e E99F     		c.zext.h x15
+  18 0020 6D9C     		sext.h x8,x8
+  19 0022 ED9F     		c.sext.h x15
+  20 0024 719C     		zext.w x8,x8
+  21 0026 F19F     		c.zext.w x15
+  22 0028 759C     		not x8,x8
+  23 002a F59F     		c.not x15
+  24 002c 5D9C     		mul x8,x8,x15
+  25 002e D19C     		c.mul x9,x12
+GAS LISTING assemblySamples/zcb.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/zcb.S:1      .text:0000000000000000 target
+assemblySamples/zcb.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zca1p0_zcb1p0_zba1p0_zbb1p0_zbc1p0_zbs1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+
+NO UNDEFINED SYMBOLS

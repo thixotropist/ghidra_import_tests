@@ -1,0 +1,31 @@
+
+bazel-out/k8-fastbuild/bin/assemblySamples/zcb.o:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000000000000 <target>:
+   0:	8020                	lbu	s0,2(s0)
+   2:	8380                	lbu	s0,0(a5)
+   4:	8420                	lhu	s0,2(s0)
+   6:	8780                	lhu	s0,0(a5)
+   8:	8460                	lh	s0,2(s0)
+   a:	87c0                	lh	s0,0(a5)
+   c:	8820                	sb	s0,2(s0)
+   e:	8b80                	sb	s0,0(a5)
+  10:	8c20                	sh	s0,2(s0)
+  12:	8f80                	sh	s0,0(a5)
+  14:	9c61                	zext.b	s0,s0
+  16:	9fe1                	zext.b	a5,a5
+  18:	9c65                	sext.b	s0,s0
+  1a:	9fe5                	sext.b	a5,a5
+  1c:	9c69                	zext.h	s0,s0
+  1e:	9fe9                	zext.h	a5,a5
+  20:	9c6d                	sext.h	s0,s0
+  22:	9fed                	sext.h	a5,a5
+  24:	9c71                	zext.w	s0,s0
+  26:	9ff1                	zext.w	a5,a5
+  28:	9c75                	not	s0,s0
+  2a:	9ff5                	not	a5,a5
+  2c:	9c5d                	mul	s0,s0,a5
+  2e:	9cd1                	mul	s1,s1,a2

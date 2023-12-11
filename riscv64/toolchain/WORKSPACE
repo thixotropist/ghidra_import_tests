@@ -11,7 +11,7 @@ http_archive(
     name = "gcc-13-riscv64-toolchains",
     urls = ["file:///opt/bazel/risc64_linux_gnu-13.tar.xz"],
     build_file = "//:gcc-13-riscv64-toolchains.BUILD",
-    sha256 = "d343e584037d51323d795c1fa4c88150d32d7c9841d770f7a4274e5f4e08ea53",
+    sha256 = "8022d3e61f7ab709379284418799cbddea47dc90f77e80eaf3df2706b513d4c8",
 )
 
 # partial gcc-14 risc-v 64 bit toolchain without libc or C++
@@ -26,10 +26,10 @@ http_archive(
 # We built the custom toolchain on a fedora x86_64 platform, so we need some
 # fedora x86_64 sharable system libraries to execute.
 http_archive(
-    name = "fedora38-system-libs",
-    urls = ["file:///opt/bazel/fedora38_system_libs.tar.xz"],
-    build_file = "//:fedora38-system-libs.BUILD",
-    sha256 = "9a1e1c17226687db140c32ceb5ff1865e553b4f8735fd37faecd42a1738ac767",
+    name = "fedora39-system-libs",
+    urls = ["file:///opt/bazel/fedora39_system_libs.tar.xz"],
+    build_file = "//:fedora39-system-libs.BUILD",
+    sha256 = "53771d96d01f90c2deed96b8bde174526a72694e38ee41dff3d4d7a7e1631431",
 )
 
 register_toolchains(

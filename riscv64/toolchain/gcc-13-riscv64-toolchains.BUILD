@@ -46,7 +46,7 @@ filegroup(
                 "bin/riscv64-unknown-linux-gnu-ld.bfd",
                 "bin/riscv64-unknown-linux-gnu-ranlib",
                 ":c++_std_includes",
-                "@fedora38-system-libs//:common_compiler_ldd_dependencies",
+                "@fedora39-system-libs//:common_compiler_ldd_dependencies",
                 ]
 )
 

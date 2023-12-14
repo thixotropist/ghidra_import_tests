@@ -7,6 +7,23 @@ Fedora_kernel_offset := 40056
 Fedora_kernel_decompressed := vmlinux-6.5.4-300.0.riscv64.fc39.riscv64
 Fedora_sysmap := System.map-6.5.4-300.0.riscv64.fc39.riscv64
 
+Toolchain_exemplar_dir := riscv64/exemplars
+Toolchain_exemplar_logdir := riscv64/exemplars/logs
+
+# most extensions are either ratified or frozen, guaranteed to not overlap in opcode assignments
+Toolchain_exemplar_common_names := b-ext-64 b-ext h-ext-64 rvv_index.pic rvv_matmul.pic rvv_memcpy.pic \
+	rvv_reduce.pic rvv_strncpy.pic vector zbkb-64 zbkc zbkx \
+	zca zcb zknd-64 zkne-64 zknh-64 zksed zksh zvbb zvbc zvkng zvksg
+
+# vendor-specific extensions from THead Alibaba - these need an explicit vendor-specific processor variant
+Toolchain_exemplar_thead_names := ba bb bs cmo condmov \
+	fmemidx mac memidx mempair sync
+
+Toolchain_exemplar_common_objects := $(foreach name,$(Toolchain_exemplar_common_names),$(Toolchain_exemplar_dir)/$(name).o)
+Toolchain_exemplar_common_logs := $(foreach name,$(Toolchain_exemplar_common_names),$(Toolchain_exemplar_logdir)/$(name).log)
+Toolchain_exemplar_thead_objects := $(foreach name,$(Toolchain_exemplar_common_names),$(Toolchain_exemplar_dir)/x-thead-$(name).o)
+Toolchain_exemplar_thead_logs := $(foreach name,$(Toolchain_exemplar_thead_names),$(Toolchain_exemplar_logdir)/x-thead-$(name).log)
+
 Analyzer := /opt/ghidra_10.5_DEV/support/analyzeHeadless
 
 CurrentDir := $(strip $(shell pwd))
@@ -94,7 +111,9 @@ riscv64/system_executable/ssh: $(cache)/Fedora_mounted
 	cp $(cache)/Fedora_root/usr/bin/ssh $@
 
 all_exemplars: riscv64/kernel/$(Fedora_kernel_decompressed) riscv64/kernel_mod/igc.ko \
-			 riscv64/system_lib/libc.so.6 riscv64/system_lib/libssl.so.3.0.8 riscv64/system_executable/ssh
+			 riscv64/system_lib/libc.so.6 riscv64/system_lib/libssl.so.3.0.8 riscv64/system_executable/ssh \
+			 $(Toolchain_exemplar_common_logs) \
+			 $(Toolchain_exemplar_thead_logs)
 
 # perform all ghidra imports
 
@@ -131,3 +150,18 @@ riscv64/kernel/vmlinux.log: riscv64/kernel/$(Fedora_kernel_decompressed) /tmp/gh
 		-preScript KernelImport.java \
 		/tmp/ghidra_import_tests/$(Fedora_sysmap) \
 		> $@ 2>&1
+
+# toolchain ISA extension exemplars should be imported as well
+
+$(Toolchain_exemplar_logdir):
+	mkdir -p $(Toolchain_exemplar_logdir)
+
+$(Toolchain_exemplar_logdir)/x-thead-%.log: $(Toolchain_exemplar_dir)/x-thead-%.o | $(Toolchain_exemplar_logdir)
+	$(Analyzer) riscv64 exemplars -overwrite -import $< \
+	-processor RISCV:LE:64:thead \
+	> $@ 2>&1
+
+$(Toolchain_exemplar_logdir)/%.log: $(Toolchain_exemplar_dir)/%.o | $(Toolchain_exemplar_logdir)
+	$(Analyzer) riscv64 exemplars -overwrite -import $< \
+	-processor RISCV:LE:64:RV64IC  \
+	> $@ 2>&1

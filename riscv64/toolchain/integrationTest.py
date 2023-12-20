@@ -49,7 +49,9 @@ class Bazel():
         'show': "-s",
         'resolution_debug': "--=toolchain_resolution_debug\'.*\'",
         'opt': "--compilation_mode=opt",
-        'dbg': "--compilation_mode=dbg"
+        'dbg': "--compilation_mode=dbg",
+        # add an early 7.0.0 bazel workaround
+        'hack': "--incompatible_sandbox_hermetic_tmp=false"
     }
     # a successful build is reported with this string
     BUILD_SUCCESS_PATTERN = 'Build completed successfully'
@@ -87,7 +89,8 @@ class Bazel():
                     operation,                              # request a build or a test
                     Bazel.options['distdir'],               #   into a local distribution cache
                     Bazel.options['toolchain_resolution'],  #   enabling platform resolution
-                    Bazel.options['bzlmod'],                #   and bzlmod imports
+                    Bazel.options['bzlmod'],                #     and bzlmod imports
+                    Bazel.options['hack'],                  #   hack to permit builds in a tmpfs
                     f'--compilation_mode={mode}',           #   choosing debug or optimized
                     Bazel.options['save_temps'],            #   keeping intermediate files
                     f'--platforms={platform}',              #   naming the target platform

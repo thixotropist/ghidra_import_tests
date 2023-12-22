@@ -1,4 +1,5 @@
 #include <riscv_vector.h>
+#include <string.h>
 #include "common.h"
 // reference https://github.com/riscv/riscv-v-spec/blob/master/example/strncpy.s
 char *strncpy_vec(char *destination, char *source, size_t count) {

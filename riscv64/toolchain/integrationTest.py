@@ -68,6 +68,9 @@ class Bazel():
     PRODUCT_PLATFORM = '//platforms:riscv_userspace'
     # The x86_64 server platform used for integration testing, including mocks for risc-v components
     CI_PLATFORM = '//platforms:x86_64_userspace'
+    # A 'bleeding edge' RISCV-64 platform with support for vector and other extensions.
+    #  this likely includes gcc-14 and binutils libraries not yet formally released
+    VECTOR_PLATFORM = '//platforms:riscv_vector'
     # a bazel-generated platform representing the local development system
     LOCAL_HOST_PLATFORM = '@local_config_platform//:host'
 
@@ -105,13 +108,15 @@ class Bazel():
 
 class Toolchain():
     """ 
-    We would like at least three user process C and C++ toolchains:
+    We would like at least four user process C and C++ toolchains:
     * a riscv64 toolchain matching the deployment instruction set, system root,
     *    and base library set.
     * an x86_64 toolchain used by the Continuous Integration test server,
     *    ideally with identical versions of gcc, glib, etc.
     * an optional local host toolchain for checking basic C and C++ syntax or
     *    generating locally-executed tools
+    * a riscv64 toolchain aligned with unreleased gcc, binutils, and libraries
+    *    to get experience with newer features like riscv intrinsics and autovectorization
 
     Toolchain testing needs exemplars combining:
     * C and C++ sources
@@ -384,6 +389,41 @@ class T2RelocationTests(unittest.TestCase):
         self.assertRegex(testlog, r'Passed: R_RISCV_TPREL_HI20 at 0x100020')
         self.assertRegex(testlog, r'Passed: R_RISCV_TPREL_LO12_I at 0x100030')
         self.assertRegex(testlog, r'Passed: R_RISCV_TPREL_ADD')
+
+class T3VectorTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.ghidra = Ghidra()
+        cls.bazel = Bazel()
+        cls.resultsDir = os.getcwd() + "/testResults"
+        cls.build_results = {}
+        cls.import_results = {}
+        cls.vector_intrinsic_files = ('rvv_index', 'rvv_matmul', 'rvv_memcpy', 'rvv_reduce', 'rvv_strncpy')
+
+    def test01BuildAndImportIntrinsicsDemos(self):
+        """
+        build and import the executables
+        """
+        for fileName in self.vector_intrinsic_files:
+            # build the executable
+            build_result = \
+                self.bazel.execute(Bazel.VECTOR_PLATFORM, f"gcc_vectorization:{fileName}", operation='build', mode='opt')
+            with open(self.resultsDir + f"/{fileName}_build_stdout", 'w', encoding='utf-8') as file:
+                file.write(build_result.stdout)
+            with open(self.resultsDir + f"/{fileName}_build_stderr", 'w', encoding='utf-8') as file:
+                file.write(build_result.stderr)
+            self.assertEqual(0, build_result.returncode,
+                        f"bazel {Bazel.VECTOR_PLATFORM} build of gcc_vectorization/{fileName} failed")
+
+            # import into the Bazel project
+            import_result = \
+            self.ghidra.import_binary(f"bazel-bin/gcc_vectorization/{fileName}")
+            with open(self.resultsDir + f"/{fileName}_import_stdout", 'w', encoding='utf-8') as file:
+                file.write(import_result.stdout)
+            with open(self.resultsDir + f"/{fileName}_import_stderr", 'w', encoding='utf-8') as file:
+                file.write(import_result.stderr)
+            self.assertEqual(0, import_result.returncode,
+                         f"Ghidra import failed for gcc_vectorization/{fileName} ")
 
 if __name__ == '__main__':
     unittest.main()

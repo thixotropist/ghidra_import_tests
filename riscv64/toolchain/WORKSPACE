@@ -19,7 +19,7 @@ http_archive(
     name = "gcc-14-riscv64-toolchains",
     urls = ["file:///opt/bazel/risc64_linux_gnu-14.tar.xz"],
     build_file = "//:gcc-14-riscv64-toolchains.BUILD",
-    sha256 = "4318633698f872f48047954073f6ab48a33c4ff4125d65cf294090b0f1f80089",
+    sha256 = "703f4e7e2ac9b0fdbab95d2ac99992e5a9692f5486de7c4cf97d76f21b81de80",
 )
 
 # system libraries used by toolchain build system
@@ -29,7 +29,7 @@ http_archive(
     name = "fedora39-system-libs",
     urls = ["file:///opt/bazel/fedora39_system_libs.tar.xz"],
     build_file = "//:fedora39-system-libs.BUILD",
-    sha256 = "53771d96d01f90c2deed96b8bde174526a72694e38ee41dff3d4d7a7e1631431",
+    sha256 = "fe91415b05bb902964f05f7986683b84c70338bf484f23d05f7e8d4096949d1b",
 )
 
 register_toolchains(

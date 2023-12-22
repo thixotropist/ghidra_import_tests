@@ -10,5 +10,5 @@ pushd /tmp/export && tar cJf /tmp/risc64_linux_gnu-14.tar.xz . && popd
 
 # generate tarball of x86_64 dynamic libraries needed by that toolchain
 
-mkdir -p /tmp/ldd && rsync -rav --include-from=ldd.files --delete /lib64 /tmp/ldd
-pushd /tmp/ldd && tar cJf /tmp/fedora38_system_libs.tar.xz . && popd
+mkdir -p /tmp/ldd && rsync -rav --include-from=ldd.files --delete /usr/lib64/ /tmp/ldd
+pushd /tmp/ldd && tar cJf /tmp/fedora39_system_libs.tar.xz . && popd

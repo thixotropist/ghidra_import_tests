@@ -20,5 +20,6 @@
         "rvv_memcpy",
         "rvv_reduce",
         "rvv_strncpy",
+        "helloworld_challenge",
     )
 ]

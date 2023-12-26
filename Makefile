@@ -1,5 +1,5 @@
 SHELL := bash
-
+GHIDRA_VERSION := 11.1_DEV
 Fedora_riscv_site := http://fedora.riscv.rocks/kojifiles/work/tasks/6900/1466900
 Fedora_riscv_image := Fedora-Developer-39-20230927.n.0-sda.raw
 Fedora_kernel := vmlinuz-6.5.4-300.0.riscv64.fc39.riscv64
@@ -24,7 +24,7 @@ Toolchain_exemplar_common_logs := $(foreach name,$(Toolchain_exemplar_common_nam
 Toolchain_exemplar_thead_objects := $(foreach name,$(Toolchain_exemplar_common_names),$(Toolchain_exemplar_dir)/x-thead-$(name).o)
 Toolchain_exemplar_thead_logs := $(foreach name,$(Toolchain_exemplar_thead_names),$(Toolchain_exemplar_logdir)/x-thead-$(name).log)
 
-Analyzer := /opt/ghidra_10.5_DEV/support/analyzeHeadless
+Analyzer := /opt/ghidra_$(GHIDRA_VERSION)/support/analyzeHeadless
 
 CurrentDir := $(strip $(shell pwd))
 TestResultsDir :=$(CurrentDir)/testResults
@@ -122,6 +122,7 @@ IMPORT_LOGS:= riscv64/system_lib/libc.log riscv64/system_lib/libssl.log riscv64/
 all_imports: $(IMPORT_LOGS) $(TestResultsDir)/igc_ko_tests.json
 
 clean_imports:
+	rm -f $(cache)/Fedora_mounted
 	rm -f $(foreach f,$(IMPORT_LOGS),$(f))
 	rm -f $(TestResultsDir)/igc_ko_tests.json
 

@@ -16,3 +16,6 @@ testResults/*
 riscv64/exemplars/logs
 # Ignore editor metadata
 .vscode/*
+# ignore generated wesite files
+.hugo_build.lock
+resources/_gen/*

@@ -1,0 +1,24 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# gcc-14 x86_64 toolchain from snapshot gcc-14 and glibc development heads
+http_archive(
+    name = "gcc-14-x86_64-toolchains",
+    urls = ["file:///opt/bazel/x86_64_linux_gnu-14.tar.xz"],
+    build_file = "//:gcc-14-x86_64-toolchains.BUILD",
+    sha256 = "df535d99965dc280a83b73f5c3af17c60c66779f107937954330139537dc7072",
+)
+
+# system libraries used by toolchain build system
+# We built the custom toolchain on a fedora x86_64 platform, so we need some
+# fedora x86_64 sharable system libraries to execute.
+http_archive(
+    name = "fedora39-system-libs",
+    urls = ["file:///opt/bazel/fedora39_system_libs.tar.xz"],
+    build_file = "//:fedora39-system-libs.BUILD",
+    sha256 = "fe91415b05bb902964f05f7986683b84c70338bf484f23d05f7e8d4096949d1b",
+)
+
+register_toolchains(
+    # an experimental toolchain based on gcc-14 and a 64 bit Fedora-39 system root
+    "//toolchains:x86_64_default",
+)

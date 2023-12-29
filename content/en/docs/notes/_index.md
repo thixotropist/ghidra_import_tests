@@ -19,8 +19,6 @@ Put unstructured comments here until we know what to do with them.
  6215 Oct 16 06:39 ./Design.md
  9928 Dec 22 14:04 ./Readme.md
  3715 Oct 16 06:27 ./Roadmap.md
-  572 Sep 20 10:07 ./doc/binutils_extensions.md
- 7405 Dec 19 12:42 ./doc/gcc_14_toolchain.md
  5252 Nov 20 13:08 ./Sidebars.md
 
 ```

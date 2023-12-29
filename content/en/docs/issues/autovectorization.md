@@ -116,7 +116,10 @@ undefined8 main(void)
 
 >See the RISCV [vector spec](https://github.com/riscv/riscv-v-spec/blob/master/v-spec.adoc) for more information
 
-* `vsetvli_e32m1tama(0)` - sets the vector context to expect 32 bit vectors with tail agnostic and mask agnostic processing
+* `vsetvli_e32m1tama(0)` - sets the vector context to expect 32 bit elements with tail agnostic and mask agnostic processing.
+* `vsetvli(lVar4,0xcf)` - given the total number of elements to process, determine the number of elements that fit into
+  this hardware thread's vector registers.  If the vector registers hold 256 bits, that would be 8 elements per vector and
+  8 elements processed per loop iteration.
 * `vid_v()` - The vid.v instruction writes each element’s index to the destination vector register group, from 0 to vl-1
 * `vmv1r_v` - copy all elements of one vector register to another vector register
 * `vncvt_xxw`  - narrow the elements of a vector register by half, e.g. 32 bits to 16, or 16 to 8.
@@ -135,7 +138,9 @@ What would we like Ghidra's decompiler to do with this kind of input?
 
 * A minimal solution would add a line of descriptive text to every vector instruction definition, which would be passed into the decompiler to be displayed
   as a comment.
-* A wildly optimistic solution would treat the loop the same way a processor with an infinite vector size would treat it, rendering the loop as python - 
+* A wildly optimistic solution would treat the loop the same way a processor with an infinite vector size would treat it, rendering the loop with a python comment - 
     ```python
     [0xff & (x+1) for x in range(0,1320)]
     ```
+* An extremely optimistic solution would use ML training and machine translation tools to recognize the generated instruction sequence and produce the C source code
+  most often associated with that generated sequence.

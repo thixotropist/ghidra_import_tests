@@ -1,0 +1,43 @@
+/**
+ * @file relocationTest.c
+ * @brief generate riscv-64 relocations and local symbols in an object file.
+ */
+
+/// @brief an object in blank storage (bss) that needs 12 bit offsets
+char bssString[4096];
+/// @brief same as above, but with a symbol name requiring UTF-8 encoding
+char ว่างเปล่า[4096];
+/// @brief an thread-local object accessible via the tp register
+__thread char threadLocalString[4096];
+#include <stdio.h>
+
+/// @brief a trivial function symbol requiring UTF8
+void ตรวจสอบ() {
+  printf("Inspected\n");
+}
+
+/// @brief an example of inline riscv64 atomics and local backreferences
+/// derived from the kernel function futex_atomic_cmpxchg_inatomic
+
+int
+main (void)
+{
+  // exercise store into .bss with small offset
+  bssString[8] = 0;
+  // exercise store into .bss with 12 bit offset with high order bit set
+  bssString[2049] = 0;
+  // reference bssString to prevent optimization erasure
+  printf(bssString);
+  // repeat with a unicode global symbol
+  ว่างเปล่า[8] = 0;
+  // exercise store into .bss with 12 bit offset with high order bit set
+  ว่างเปล่า[2049] = 0;
+  // reference bssString to prevent optimization erasure
+  printf(ว่างเปล่า);
+  // repeat with thread local storage
+  threadLocalString[8] = 0;
+  threadLocalString[2049] = 0;
+  printf(threadLocalString);
+
+ return 0;
+}

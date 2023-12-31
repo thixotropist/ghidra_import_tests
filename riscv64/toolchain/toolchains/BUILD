@@ -66,6 +66,7 @@ cc_toolchain_config(
     abi_version = ":empty",
     compile_flags = [
         # take the isystem ordering from the output of gcc -xc++ -E -v -
+        "--sysroot=external/gcc-13-riscv64-toolchains/sysroot",
         "-Wall",
     ],
     compiler = "gcc",
@@ -85,7 +86,9 @@ cc_toolchain_config(
         ],
     dbg_compile_flags = ["-g"],
     host_system_name = ":empty",
-    link_flags = [],
+    link_flags = [
+        "-Wl,--library-path=external/gcc-13-riscv64-toolchains/sysroot/lib",
+    ],
     link_libs = ["-lstdc++", "-lm"],
     opt_compile_flags = [
         "-g0",
@@ -163,7 +166,7 @@ cc_toolchain_config(
     abi_version = ":empty",
     compile_flags = [
         # take the isystem ordering from the output of gcc -xc++ -E -v -
-        "-isystem", "external/gcc-14-riscv64-toolchains/sysroot/usr/include",
+        "--sysroot=external/gcc-14-riscv64-toolchains/sysroot",
         "-Wall",
     ],
     compiler = "gcc",
@@ -183,16 +186,19 @@ cc_toolchain_config(
         ],
     dbg_compile_flags = ["-g"],
     host_system_name = ":empty",
-    link_flags = [],
+    link_flags = [
+        "-Wl,--library-path=external/gcc-14-riscv64-toolchains/sysroot/usr/lib",
+    ],
     link_libs = ["-lstdc++", "-lm"],
     opt_compile_flags = [
-        "-g0",
-        "-Os",
+        "-O3",
         "-DNDEBUG",
         "-ffunction-sections",
         "-fdata-sections",
     ],
-    opt_link_flags = ["-Wl,--gc-sections"],
+    opt_link_flags = [
+        "-Wl,--gc-sections",
+        ],
     supports_start_end_lib = False,
     target_libc = ":empty",
     target_system_name = ":empty",

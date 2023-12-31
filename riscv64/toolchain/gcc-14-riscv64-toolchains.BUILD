@@ -70,7 +70,8 @@ filegroup(
 
 filegroup(
     name = "riscv64_lib",
-    srcs = glob(["lib/gcc/riscv64-unknown-linux-gnu/14/*"])
+    srcs = glob(["lib/riscv64-unknown-linux-gnu/*"]) +
+        glob(["lib/gcc/riscv64-unknown-linux-gnu/14/*"])
 )
 
 filegroup(

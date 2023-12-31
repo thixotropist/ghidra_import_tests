@@ -326,7 +326,7 @@ cc_toolchain_config(
 The `tool_paths` element points to small bash scripts needed to launch compiler components like `gcc` and `ar` and `strip`.
 These give us the chance to use imported system sharable object libraries rather than the host's sharable object libraries.
 
-```bash```
+```bash
 #!/bin/bash
 set -euo pipefail
 PATH=`pwd`/toolchains/gcc-14-x86_64/imported \

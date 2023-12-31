@@ -1,6 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-# riscv_userspace using a stable gcc-12 environment
+# riscv_userspace using a stable gcc environment
 platform(
     name = "riscv_userspace",
     constraint_values = [

@@ -4,60 +4,46 @@
 
 [
     cc_binary(
-        name = file + "_vector",
-        srcs = [
-            "common.h",
-            file + ".c",
-        ],
-        copts = [
-            "-march=rv64gcv",
-        ],
-    )
-    for file in (
-        "rvv_index",
-        "rvv_matmul",
-        "rvv_memcpy",
-        "rvv_reduce",
-        "rvv_strncpy",
-        "narrowing_loop",
-        "memcpy_demo",
-    )
-]
-
-[
-    cc_binary(
         name = file,
         srcs = [
             "common.h",
             file + ".c",
         ],
         copts = [
-            "-march=rv64gc",
+            "-O3",
+#            "-march=alderlake",
+#            "-march=raptorlake",
+#            "-march=sapphirerapids",
+#            "-march=rocketlake",
         ],
     )
     for file in (
+        "rvv_index",
+        "rvv_matmul",
+        "memcpy",
+        "rvv_reduce",
+        "rvv_strncpy",
+        "helloworld_challenge",
         "narrowing_loop",
-        "memcpy_demo",
     )
 ]
+
 [
     cc_binary(
-        name = file + "_lto",
+        name = "memcpy_" + march,
         srcs = [
             "common.h",
-            file + ".c",
+            "memcpy_demo.c",
         ],
         copts = [
             "-O3",
-            "-march=rv64gc",
-            "-flto"
-        ],
-        linkopts = [
-            "-Wl,-flto"
-        ]
+            "-march=" + march,
+            ]
     )
-    for file in (
-        "narrowing_loop",
-        "memcpy_demo",
+    for march in (
+        "alderlake",
+        "raptorlake",
+        "rocketlake",
+        "sapphirerapids"
     )
 ]

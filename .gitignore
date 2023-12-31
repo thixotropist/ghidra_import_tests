@@ -19,3 +19,7 @@ riscv64/exemplars/logs
 # ignore generated wesite files
 .hugo_build.lock
 resources/_gen/*
+node_modules/*
+public/*
+package.json
+package-lock.json

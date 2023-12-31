@@ -8,8 +8,9 @@ If a processor supports vector (aka SIMD) instructions, optimizing compilers wil
 the generated code.
 {{% /pageinfo %}}
 
-What happens when the gcc-14 RISCV toolchain optimizes the following code for a processor with vector extensions?
+## Loop autovectorization
 
+What happens when a gcc toolchain optimizes the following code?
 
 ```c
 #include <stdio.h>
@@ -26,121 +27,176 @@ int main(int argc, char** argv){
 This involves a simple loop filling a character array with integers.  It isn't a well formed C string,
 so the `printf` statement is just there to keep the character array from being optimized away.
 
-The elements of the loop involve incremental indexing, narrowing from 32 bit to 8 bit elements,
+The elements of the loop involve incremental indexing, narrowing from 16 bit to 8 bit elements,
 and storage in a 1320 element vector.
 
+The result depends on the compiler version and what kind of microarchitecture gcc-14 was told to compile for.
 
-Ghidra's 11.0 release decompiles this into:
+Compile and link this file with a variety of compiler versions, flags, and microarchitectures to see how well
+Ghidra tracks toolchain evolution.  In each case the decompiler output is manually adjusted to relabel
+variables like `s` and `i` and remove extraneous declarations.
 
-```text
-/* WARNING: Control flow encountered unimplemented instructions */
+### RISCV-64 gcc-13, no optimization, no vector extensions
 
+```console
+$ bazel build -s --platforms=//platforms:riscv_userspace  gcc_vectorization:narrowing_loop
+...
+```
+
+Ghidra gives:
+
+```c
+  char s [1319];
+ ...
+  int i;
+  ...
+  for (i = 0; i < 0x527; i = i + 1) {
+    s[i] = (char)i + '\x01';
+  }
+  ...
+  printf(s);
+```
+
+The loop consists of 17 instructions and 60 bytes.  It is executed 1319 times
+
+### RISCV-64 gcc-13, full optimization, no vector extensions
+
+```console
+bazel build -s --platforms=//platforms:riscv_userspace --copt="-O3" gcc_vectorization:narrowing_loop
+```
+
+Ghidra gives:
+
+```c
+  long i;
+  char s_offset_by_1 [1320];
+ 
+  i = 1;
+  do {
+    s_offset_by_1[i] = (char)i;
+    i = i + 1;
+  } while (i != 0x528);
+  uStack_19 = 0;
+  printf(s_offset_by_1 + 1);
+```
+
+The loop consists of 4 instructions and 14 bytes. It is executed 1319 times.
+
+Note that Ghidra has reconstructed the target vector `s` a bit strangely, with the beginning
+offset by one byte to help shorten the loop.
+
+### RISCV-64 gcc-13, full optimization, with vector extensions
+
+```console
+bazel build -s --platforms=//platforms:riscv_userspace --copt="-O3"  gcc_vectorization:narrowing_loop_vector
+```
+
+The Ghidra import is essentially unchanged - updating the target architecture from `rv64igc` to `rv64igcv` makes no difference
+when building with gcc-13.
+
+### RISCV-64 gcc-14, no optimization, no vector extensions
+
+```console
+bazel build -s --platforms=//platforms:riscv_vector gcc_vectorization:narrowing_loop
+```
+
+The Ghidra import is essentially unchanged - updating gcc from gcc-13 to gcc-14 makes no difference without optimization.
+
+### RISCV-64 gcc-14, full optimization, no vector extensions
+
+```console
+bazel build -s --platforms=//platforms:riscv_vector --copt="-O3" gcc_vectorization:narrowing_loop
+```
+
+The Ghidra import is essentially unchanged - updating gcc from gcc-13 to gcc-14 makes no difference - when using the default
+target architecture without vector extensions.
+
+### RISCV-64 gcc-14, full optimization, with vector extensions
+
+Build with `-march=rv64gcv` to tell the compiler to assume the processor supports RISCV vector extensions.
+
+```console
+bazel build -s --platforms=//platforms:riscv_vector --copt="-O3"  gcc_vectorization:narrowing_loop_vector
+```
+
+```c
+                    /* WARNING: Unimplemented instruction - Truncating control flow here */
+  halt_unimplemented();
+```
+
+The disassembly window shows that the loop consists of 13 instructions and 46 bytes.
+Many of these are vector extension instructions for which Ghidra 11.0 has no semantics.
+Different RISCV processors will take a different number of iterations to finish the loop.
+If the processor VLEN=128, then each vector register will hold 4 32 bit integers and the
+loop will take 330 iterations.  If the processor VLEN=1024 then the loop will take 83 iterations.
+
+Either way, Ghidra 11.0 will fail to decompile any such autovectorized loop, and fail to decompile
+the remainder of any function which contains such an autovectorized loop.
+
+
+### x86-64 gcc-14, full optimization, with sapphirerapids
+
+>Note: Intel's Saphire Rapids includes high end server processors like the Xeon Max family.
+
+```console
+$ bazel build -s --platforms=//platforms:x86_64_default --copt="-O3" --copt="-march=sapphirerapids" gcc_vectorization:narrowing_loop
+```
+
+Ghidra 11.0 disassembler and decompiler fail immediately on hitting the first vector instruction `vpbroadcastd`, an older avx2 vector extension.
+
+```c
+    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+```
+
+## builtin autovectorization
+
+GCC can replace calls to some functions like `memcpy`, replacing those calls with inline - and potentially vectorized - instructions.
+
+This source file shows different ways memcopy can be compiled.
+
+```c
+include "common.h"
+#include <string.h>
+
+int main() {
+  const int N = 127;
+  const uint32_t seed = 0xdeadbeef;
+  srand(seed);
+
+  // data gen
+  double A[N];
+  gen_rand_1d(A, N);
+
+  // compute
+  double copy[N];
+  memcpy(copy, A, sizeof(A));
+  
+  // prevent optimization from removing result
+  printf("%f\n", copy[N-1]);
+}
+```
+
+Build this with:
+
+```console
+$ bazel build -s --platforms=//platforms:x86_64_default --copt="-O3" --copt="-march=sapphirerapids" gcc_vectorization:memcpy_sapphirerapids
+```
+
+Ghidra 11.0's disassembler and decompiler bail out when they reach the inline replacement for `memcpy` - gcc-14 has replaced the call with 
+vector instructions like `vmovdqu64`, which is unrecognized by Ghidra.
+
+```c
 void main(void)
 
 {
-  gp = &__global_pointer$;
-                    /* WARNING: Unimplemented instruction - Truncating control flow here */
-  halt_unimplemented();
-}
-```
-
-Ghidra 11.0 fails because its vector extensions lack any pcode semantics, and are intended for the
-deprecated and unratified 0.7 vector extension documents.
-
-Try the import again with the `isa_ext` experimental branch of Ghidra.  This branch updates vector extensions to
-the ratified 1.0 release and includes placeholder pcode semantics.
-
-```text
-undefined8 main(void)
-
-{
-  undefined auVar1 [64];
-  undefined8 uVar2;
-  undefined (*pauVar3) [64];
-  long lVar4;
-  long lVar5;
-  undefined auVar6 [256];
-  undefined auVar7 [256];
-  char local_540 [1319];
-  undefined uStack_19;
+  undefined auStack_428 [1016];
+  undefined8 uStack_30;
   
-  gp = &__global_pointer$;
-  pauVar3 = (undefined (*) [64])local_540;
-  lVar4 = 0x527;
-  vsetvli_e32m1tama(0);
-  auVar7 = vid_v();
-  do {
-    lVar5 = vsetvli(lVar4,0xcf);
-    auVar6 = vmv1r_v(auVar7);
-    lVar4 = lVar4 - lVar5;
-    auVar6 = vncvt_xxw(auVar6);
-    vsetvli(0,0xc6);
-    auVar6 = vncvt_xxw(auVar6);
-    auVar6 = vadd_vi(auVar6,1);
-    auVar1 = vse8_v(auVar6);
-    *pauVar3 = auVar1;
-    uVar2 = vsetvli_e32m1tama(0);
-    pauVar3 = (undefined (*) [64])(*pauVar3 + lVar5);
-    auVar6 = vmv_v_x(lVar5);
-    auVar7 = vadd_vv(auVar7,auVar6);
-  } while (lVar4 != 0);
-  uStack_19 = 0;
-  printf(local_540,uVar2);
-  return 0;
+  uStack_30 = 0x4010ad;
+  srand(0xdeadbeef);
+  gen_rand_1d(auStack_428,0x7f);
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
 }
 ```
-
-That Ghidra branch decompiles, but the decompilation listing only resembles the C source code if you are familiar with RISCV vector extension instructions.
-
-Repeat the example, this time building with a gcc-13 toolchain.  Ghidra 11.0 does a fine job of decompiling this.
-
-```c
-undefined8 main(void)
-{
-  long lVar1;
-  char acStack_541 [1320];
-  undefined uStack_19;
-    gp = &__global_pointer$;
-  lVar1 = 1;
-  do {
-    acStack_541[lVar1] = (char)lVar1;
-    lVar1 = lVar1 + 1;
-  } while (lVar1 != 0x528);
-  uStack_19 = 0;
-  printf(acStack_541 + 1);
-  return 0;
-}
-```
-
-## understanding the vector instructions
-
->See the RISCV [vector spec](https://github.com/riscv/riscv-v-spec/blob/master/v-spec.adoc) for more information
-
-* `vsetvli_e32m1tama(0)` - sets the vector context to expect 32 bit elements with tail agnostic and mask agnostic processing.
-* `vsetvli(lVar4,0xcf)` - given the total number of elements to process, determine the number of elements that fit into
-  this hardware thread's vector registers.  If the vector registers hold 256 bits, that would be 8 elements per vector and
-  8 elements processed per loop iteration.
-* `vid_v()` - The vid.v instruction writes each element’s index to the destination vector register group, from 0 to vl-1
-* `vmv1r_v` - copy all elements of one vector register to another vector register
-* `vncvt_xxw`  - narrow the elements of a vector register by half, e.g. 32 bits to 16, or 16 to 8.
-* `vadd_vi` - add an immediate integer to a vector
-* `vse8_v` - 8 bit unit stride store
-* `vmv_v_x` - move a scalar value into all elements of a vector
-* `vadd_vv` - add two vectors
-
-If this binary executes on a processor with vectors of 256 bits, the 32 bit vector elements are processed 8 at a time instead of 1 at a time.
-If we changed `for (int i = 0; i < N - 1; ++i)` into `for (unsigned short i = 0; i < N - 1; ++i)` we would likely get 16 elements processed at each loop iteration.
-
-Note that the binary code is the same no matter what the vector register length may be.  If the processor had 512 bit vectors, it would handle twice as many
-elements per loop iteration.
-
-What would we like Ghidra's decompiler to do with this kind of input?
-
-* A minimal solution would add a line of descriptive text to every vector instruction definition, which would be passed into the decompiler to be displayed
-  as a comment.
-* A wildly optimistic solution would treat the loop the same way a processor with an infinite vector size would treat it, rendering the loop with a python comment - 
-    ```python
-    [0xff & (x+1) for x in range(0,1320)]
-    ```
-* An extremely optimistic solution would use ML training and machine translation tools to recognize the generated instruction sequence and produce the C source code
-  most often associated with that generated sequence.

@@ -12,14 +12,15 @@ List the current importable and buildable exemplars, their origins, and the Ghid
 ## Overview
 
 Exemplars suitable for Ghidra import are generally collected by platform architecture, such as `riscv64/exemplars` or `x86_64/exemplars`.
-Some are imported from system disk images.  Others are locally built from small source code files and an appropriate toolchain.
-The initial scope includes LInux-capable RISCV 64 bit systems that might be found in network appliances or ML inference engines.  That makes for a local
-bias towards privileged code, concurrency management, and performance optimization.
+Some are imported from system disk images.  Others are locally built from small source code files and an appropriate compiler toolchain.
+The initial scope includes Linux-capable RISCV 64 bit systems that might be found in network appliances or ML inference engines.  That makes for a local
+bias towards privileged code, concurrency management, and performance optimization.  That scope expands slightly to x86_64 exemplars that
+may help triage issues that show up first in RISCV 64 exemplars.
 
 ## Imported exemplars
 
 Most of the imported large binary exemplars are broken out of current Fedora disk images.  The top level `Makefile`
-controls this process with rules like the following.
+controls this process, usually with some manual intervention to handle image mounting.
 
 These rules derive the kernel and ssh binaries from a disk image and import them both through Ghidra's `analyzeHeadless` application
 
@@ -100,9 +101,9 @@ This kernel includes 149 strings including `sifive`, most of which appear in `Sy
 indicate kernel mods by SiFive or an SDK kernel module compiled into the kernel.
 
 The kernel currently includes a few RISCV instruction set extensions not handled by Ghidra, and possibly not even by `binutils` and the `gas`
-RISCV assembler.  Current linux kernels can bypass the standard assembler to insert custom or obscure privileged instructions.
+RISCV assembler.  Current Linux kernels can bypass the standard assembler to insert custom or obscure privileged instructions.
 
-This linux kernel explicitly includes ISA extension code for processors that support those extensions.  For example, if the kernel boots
+This Linux kernel explicitly includes ISA extension code for processors that support those extensions.  For example, if the kernel boots
 up on a processor supporting the `_zbb` bit manipulation instruction extensions, then the vanilla `strlen`, `strcmp`, and `strncmp` kernel
 functions are patched out to invoke `strlen_zbb`, `strcmp_zbb`, and `strncmp_zbb` respectively.
 
@@ -142,12 +143,12 @@ This statement generates - and provides tests for - at least four relocation typ
 #### Notes
 
 The decompiler translates *all* fence instructions as `fence()`.  This kernel module uses 8 distinct `fence` instructions
-to request memory barriers.  The sleigh files should probably be extended to show either `fence(1,5)` or the linux macro names
+to request memory barriers.  The sleigh files should probably be extended to show either `fence(1,5)` or the Linux macro names
 given in `linux/arch/riscv/include/asm/barrier.h`.
 
 ### Fedora system libraries
 
-System libraries like `libc.so` and `libssl.so` typically link to versioned sharable object libraries like `libc.so.6` and `libssl.so.3.0.5`.  Ghidra imports
+System libraries like `libc.so` and `libssl.so` typically link to versioned shareable object libraries like `libc.so.6` and `libssl.so.3.0.5`.  Ghidra imports
 RISCV system libraries well.
 
 Relocation types observed include:
@@ -290,4 +291,3 @@ undefined8 main(void)
   return 0;
 }
 ```
-

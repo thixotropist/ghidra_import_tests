@@ -81,7 +81,7 @@ $(cache)/Fedora_mounted: $(cache)/$(Fedora_riscv_image) | $(cache)/Fedora_boot $
 Unmount_all:
 	guestunmount $(cache)/Fedora_boot
 	guestunmount $(cache)/Fedora_root
-	rm $(cache)/Fedora_mounted
+	rm -f $(cache)/Fedora_mounted
 
 # The vmlinux kernel is embedded within the vmlinuz self-decompressing executable.  Search for the gzip flag bytes then skip
 # to the correct offset

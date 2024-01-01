@@ -10,6 +10,8 @@ We can help Ghidra import newer binaries by collecting samples of those binaries
 {{% /pageinfo %}}
 
 >Note: This proof-of-concept project focuses on a single processor family, RISCV.
+>      Some results are checked against equivalent x86_64 processors, to see if pending
+>      issues are limited in scope or likely to hit a larger community
 
 This project collects files that may stress - in a good way - Ghidra's import capabilities.
 Others are doing a great job extending Ghidra's ability to import
@@ -27,7 +29,8 @@ There are two key goals here:
    a number of processor and toolchain binary exemplars to be imported plus analysis scripts to verify those import results
    remain valid.  Example: verify that ELF relocation codes are properly handled when importing a RISCV-64 kernel
    module.  These integration tests should always pass after changes to Ghidra's source code.
-2. Collect feature-specific binary exemplars that might highlight gaps in Ghidra's import processes.  Ghidra will usually
+2. Collect feature-specific binary exemplars that might highlight emergent gaps in
+   Ghidra's import processes.  Ghidra will usually
    fail to properly import these exemplars, allowing the Ghidra development team to triage the gap and evaluate options for closing
    it.  Example: pass the RISCV instruction set extension testsuite from `binutils/gas` into Ghidra to test whether Ghidra can
    recognize all of the new instructions `gas` can generate.

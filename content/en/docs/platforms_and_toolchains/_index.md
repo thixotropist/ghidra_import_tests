@@ -20,19 +20,18 @@ The directory riscv64/toolchain defines three platforms:
 
 * `//platforms:riscv_userspace` for a generic RISCV-64 linux appliance with the usual libc and libstdio APIs
 * `//platforms:riscv_vector` for a more specialized RISCV-64 linux appliance with vector extensions supported
-* `//platforms:x86_64_userspace` for a generic x86-64 linux environment, perhaps used for local integration testing
 
 This directory defines these toolchains:
 
 * `//toolchains:riscv64-default` - a gcc-13 stable RISCV compiler, linker, loader, and sysroot of related include files and libraries
-* `//toolchains:riscv64-gcc-14` - a gcc-14 unreleased but feature-frozen RISCV compiler, linker, loader, and sysroot of related include files and libraries
+* `//toolchains:riscv64-next` - a gcc-14 unreleased but feature-frozen RISCV compiler, linker, loader, and sysroot of related include files and libraries
 
 Exemplars are built by naming the platform for each build.  Bazel then finds a compatible toolchain to complete the build.
 
 ```console
 # compile for the riscv_userspace platform, automatically selecting the riscv64-default toolchain with gcc-13.
 bazel build -s --platforms=//platforms:riscv_userspace gcc_vectorization:helloworld_challenge
-# compile for the riscv_vector platform, automatically selecting the riscv64-default toolchain with gcc-14.
+# compile for the riscv_vector platform, automatically selecting the riscv64-next toolchain with gcc-14.
 bazel build -s --platforms=//platforms:riscv_vector gcc_vectorization:helloworld_challenge
 ```
 
@@ -42,6 +41,7 @@ Toolchains generally include several components that can affect the generated bi
 
 * the gcc compiler, built from source and configured for a specific target architecture and language set
 * binutils utilities, including a `gas` assembler with support for various instruction set extensions
+  and dissassembler tools like `objdump` that provide reference handling of newer instructions.
 * linker and linker scripts
 * a `sysroot` holding files the above subsystems would normally expect to find under `/usr`, for instance
     `/usr/include` files supplied by the kernel and standard libraries
@@ -51,8 +51,4 @@ Toolchains generally include several components that can affect the generated bi
 The toolchain prepared for building a kernel module won't be the same as a toolchain built for userspace programs,
 even if the compilers are identical.
 
-## Adding a new toolchain
-
->TODO: show how the gcc-14 developmental compiler is built locally, installed to `/opt/riscvx`, packaged into
->      the portable tarball /opt/bazel/risc64_linux_gnu-14.tar.xz, imported into `WORKSPACE`, and wired into
->      `//toolchains:riscv64-gcc-14`.
+See [adding toolchains]({{< relref "adding_toolchains" >}}) for an example of adding a new toolchain to this project.

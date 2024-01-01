@@ -23,5 +23,8 @@ Ghidra, nor is it clear how TLS storage should be handled itself within Ghidra -
 To reproduce, import `libc.so.6` and look for lines like `Elf Relocation Warning: Type = R_RISCV_TLS_TPREL64`.
 Alternatively, compile, link, and import `riscv64/toolchain/userSpaceSamples/relocationTest.c`.
 
+## Vector instruction support
 
-
+Newer C compiler releases can replace simple loops and standard C library invocations with processor-specific vector instructions.  These vector
+instructions can be handled poorly by Ghidra's disassembler and worse by Ghidra's decompiler.  See [autovectorization]({{< relref "autovectorization" >}})
+and [vector_intrinsics]({{< relref "vector_intrinsics" >}}) for examples.

@@ -428,9 +428,14 @@ really needed runnable applications.
 If this were a production environment we would be a lot more careful.  It's not, so we will just summarize some of the areas
 that might benefit from such a cleanup.
 
+## toolchain directories
+
+Adding and testing a toolchain involves lots of similar-looking directories.
+
 ### /opt/gcc14
 
-This directory is the install target for our binutils, gcc, and glibc builds.
+This directory is the install target for our binutils, gcc, and glibc builds.  It is not itself used by the Bazel build
+framework, and need not be present on any host machine running the toolchain.
 
 * The overall size is reported as 3.1 GB, inflated somewhat by multiple hardlinks
 * `fdupes` reports 2446 duplicate files (in 2136 sets), occupying 200.2 megabytes
@@ -438,8 +443,8 @@ This directory is the install target for our binutils, gcc, and glibc builds.
 
 ### /tmp/export
 
-This directory is a subset of `/opt/gcc14`, with many binaries stripped.  The hard links
-of `/opt/gcc14`` are lost.
+This directory holds a subset of `/opt/gcc14`, with many binaries stripped.  The hard links
+of `/opt/gcc14`` are lost.  It may be discarded after the portable tarball is generated.
 
 * the overall size is 731 MB
 * `fdupes` reports 1010 duplicate files (in 983 sets), occupying 69.0 megabytes
@@ -448,4 +453,16 @@ of `/opt/gcc14`` are lost.
 ### /opt/bazel/x86_64_linux_gnu-14.tar.xz
 
 The compressed portable tarball size is 171M.  It expands into a locally cached equivalent of `/tmp/export`.
+This file must be accessible to Bazel during a crosscompilation, either as a file reference or as a remote http or
+https URL.
 
+### /run/user/1000/bazel/execroot/_main/external/x86_64_linux_gnu-14
+
+Bazel agents will decompress the tarball if and when needed into a local cache directory.  In this case, it is unpacked
+into a RAM file system for speed.
+
+### /run/user/1000/bazel/sandbox/linux-sandbox/2/execroot/_main/external/x86_64_linux_gnu-14
+
+Temporary sandboxes like this are created when individual compiler and linker steps are executed.  They implement whatever subset of the
+cached toolchain tarball are explicitly named as dependencies for that step.  Toolchain references outside of the sandbox are often flagged
+as hermeticity errors and abort the build.

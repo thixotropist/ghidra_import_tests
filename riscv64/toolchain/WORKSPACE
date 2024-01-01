@@ -34,7 +34,7 @@ http_archive(
 
 register_toolchains(
     # a separate Bazel project independent of /opt/riscv,
-    # currently based on gcc-12-riscv64-toolchains
+    # currently based on gcc-13-riscv64-toolchains
     "//toolchains:riscv64-default",
     # an experimental and partial toolchain based on gcc-14-riscv64-toolchains
     "//toolchains:riscv64-next",

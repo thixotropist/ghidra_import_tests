@@ -16,6 +16,7 @@ Put unstructured comments here until we know what to do with them.
   or triaging future research and development initiatives.
 * Add toolchain exemplars to generate binaries with Link Time Optimization.
 * Add toolchain exemplars where the source uses C++ header modules.
+* Update the `isa_ext` Ghidra branch to expand `vsetvli`` arguments 
 * Cleanup and annotate the Bazel toolchain framework.
     * mark stanzas that are believed to be currently unused
     * minimize variances between the different toolchains - there are a lot of
@@ -25,9 +26,6 @@ Put unstructured comments here until we know what to do with them.
 
 ```text
 
- 5181 Aug 21 18:06 ./riscv64/toolchain/Readme.md
- 6706 Sep  6 15:20 ./riscv64/toolchain/assemblySamples/TODO.md
-  563 Dec 22 07:32 ./riscv64/toolchain/gcc_vectorization/Readme.md
  6215 Oct 16 06:39 ./Design.md
  9928 Dec 22 14:04 ./Readme.md
  3715 Oct 16 06:27 ./Roadmap.md

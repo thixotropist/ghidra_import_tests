@@ -1,5 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-PATH=`pwd`/toolchains/imported \
-LD_LIBRARY_PATH=external/gcc-12-riscv64/fedora38-system-libs \
-  external/gcc-12-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-strip "$@"

@@ -14,6 +14,6 @@ int main() {
   double copy[N];
   memcpy(copy, A, sizeof(A));
   
-  // prevent optimization from removing result
-  printf("%f\n", copy[N-1]);
+  // print
+  printf("%f\n", copy[1]);
 }

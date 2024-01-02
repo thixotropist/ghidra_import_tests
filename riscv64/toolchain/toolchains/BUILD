@@ -11,30 +11,19 @@ constraint_value(
     constraint_setting = "@platforms//cpu",
 )
 
-constraint_value(
-    name = "x86_64",
-    constraint_setting = "@platforms//cpu",
-)
-
 filegroup(
     name = "empty",
     srcs = [],
 )
 
-##### riscv64 #####
-
-filegroup(
-    name = 'gcc_13_riscv_wrappers',
-    srcs = glob([
-        "gcc-13-riscv/imported/*",
-    ])
-)
-
+# Most compiler and linker actions depend on an imported gcc and local wrappers
 filegroup(
     name = 'gcc_13_compiler_files',
-    srcs = [':gcc_13_riscv_wrappers',
-       '@gcc-13-riscv64-toolchains//:compiler_files',
-    ]
+    srcs = 
+        glob(["gcc-13-riscv/imported/*"]) +
+        [
+            '@gcc-13-riscv64-toolchains//:compiler_files',
+        ]
 )
 
 toolchain(
@@ -91,8 +80,7 @@ cc_toolchain_config(
     ],
     link_libs = ["-lstdc++", "-lm"],
     opt_compile_flags = [
-        "-g0",
-        "-Os",
+        "-O3",
         "-DNDEBUG",
         "-ffunction-sections",
         "-fdata-sections",
@@ -103,7 +91,7 @@ cc_toolchain_config(
     target_system_name = ":empty",
     tool_paths = {
         "ar": "gcc-13-riscv/imported/ar",
-        "ld": "gcc-13-riscv/imported/riscv64-unknown-gnu-ld",
+        "ld": ":empty",
         "cpp": "gcc-13-riscv/imported/cpp",
         "gcc": "gcc-13-riscv/imported/gcc",
         "dwp": ":empty",
@@ -123,18 +111,14 @@ cc_toolchain_config(
     ],
 )
 
-filegroup(
-    name = 'gcc_14_riscv_wrappers',
-    srcs = glob([
-        "gcc-14-riscv/imported/*",
-    ])
-)
 
 filegroup(
-    name = 'gcc14_compiler_files',
-    srcs = [':gcc_14_riscv_wrappers',
-       '@gcc-14-riscv64-toolchains//:compiler_files',
-    ]
+    name = 'gcc_14_compiler_files',
+    srcs = 
+        glob(["gcc-14-riscv/imported/*"]) + 
+        [
+         '@gcc-14-riscv64-toolchains//:compiler_files',
+        ]
 )
 
 toolchain(
@@ -148,11 +132,11 @@ toolchain(
 cc_toolchain(
     name = "riscv64-gcc-14",
     all_files = ":all_files",
-    ar_files = ":gcc14_compiler_files",
+    ar_files = ":gcc_14_compiler_files",
     as_files = ":empty",
-    compiler_files = ":gcc14_compiler_files",
+    compiler_files = ":gcc_14_compiler_files",
     dwp_files = ":empty",
-    linker_files = ":gcc14_compiler_files",
+    linker_files = ":gcc_14_compiler_files",
     objcopy_files = ":empty",
     strip_files = ":empty",
     supports_param_files = 0,
@@ -204,7 +188,7 @@ cc_toolchain_config(
     target_system_name = ":empty",
     tool_paths = {
         "ar": "gcc-14-riscv/imported/ar",
-        "ld": "gcc-14-riscv/imported/riscv64-unknown-gnu-ld",
+        "ld": ":empty",
         "cpp": "gcc-14-riscv/imported/cpp",
         "gcc": "gcc-14-riscv/imported/gcc",
         "dwp": ":empty",
@@ -222,94 +206,4 @@ cc_toolchain_config(
         "-D__TIMESTAMP__=\"redacted\"",
         "-D__TIME__=\"redacted\"",
     ],
-)
-
-# x86_64 local
-
-filegroup(
-    name = "x86_64_compiler_deps",
-    srcs = [],
-)
-
-toolchain(
-    name = "x86_64_local_host",
-    target_compatible_with = [
-        ":x86_64",
-    ],
-    toolchain = ":cc-compiler-k8",
-    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-)
-
-cc_toolchain(
-    name = "cc-compiler-k8",
-    toolchain_identifier = "local",
-    toolchain_config = ":local_config",
-    all_files = ":x86_64_compiler_deps",
-    ar_files = ":x86_64_compiler_deps",
-    as_files = ":x86_64_compiler_deps",
-    compiler_files = ":x86_64_compiler_deps",
-    dwp_files = ":empty",
-    linker_files = ":x86_64_compiler_deps",
-    objcopy_files = ":empty",
-    strip_files = ":empty",
-    supports_param_files = 1,
-    module_map = None,
-)
-cc_toolchain_config(
-    name = "local_config",
-    cpu = "k8",
-    compiler = "gcc",
-    toolchain_identifier = "local",
-    host_system_name = "local",
-    target_system_name = "local",
-    target_libc = "local",
-    abi_version = "local",
-    abi_libc_version = "local",
-    cxx_builtin_include_directories = ["/usr/lib/gcc/x86_64-redhat-linux/13/include",
-    "/usr/local/include",
-    "/usr/include",
-    "/usr/include/c++/13",
-    "/usr/include/c++/13/x86_64-redhat-linux",
-    "/usr/include/c++/13/backward"],
-    tool_paths = {"ar": "/usr/bin/ar",
-        "ld": "/usr/bin/ld",
-        "llvm-cov": "None",
-        "llvm-profdata": "None",
-        "cpp": "/usr/bin/cpp",
-        "gcc": "/usr/bin/gcc",
-        "dwp": "/usr/bin/dwp",
-        "gcov": "/usr/bin/gcov",
-        "nm": "/usr/bin/nm",
-        "objcopy": "/usr/bin/objcopy",
-        "objdump": "/usr/bin/objdump",
-        "strip": "/usr/bin/strip"},
-    compile_flags = ["-fstack-protector",
-    "-Wall",
-    "-Wunused-but-set-parameter",
-    "-Wno-free-nonheap-object",
-    "-fno-omit-frame-pointer"],
-    opt_compile_flags = ["-g0",
-    "-O2",
-    "-D_FORTIFY_SOURCE=1",
-    "-DNDEBUG",
-    "-ffunction-sections",
-    "-fdata-sections"],
-    dbg_compile_flags = ["-g"],
-    cxx_flags = ["-std=c++0x"],
-    link_flags = ["-fuse-ld=gold",
-    "-Wl,-no-as-needed",
-    "-Wl,-z,relro,-z,now",
-    "-B/usr/bin",
-    "-pass-exit-codes"],
-    link_libs = ["-lstdc++",
-                "-lm"],
-    opt_link_flags = ["-Wl,--gc-sections"],
-    unfiltered_compile_flags = ["-fno-canonical-system-headers",
-    "-Wno-builtin-macro-redefined",
-    "-D__DATE__=\"redacted\"",
-    "-D__TIMESTAMP__=\"redacted\"",
-    "-D__TIME__=\"redacted\""],
-    coverage_compile_flags = ["--coverage"],
-    coverage_link_flags = ["--coverage"],
-    supports_start_end_lib = True,
 )

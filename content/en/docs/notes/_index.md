@@ -14,10 +14,10 @@ Put unstructured comments here until we know what to do with them.
 * Collect exemplars that fail Ghidra import into a common directory,
   including material that might help in creating a formal Ghidra issue
   or triaging future research and development initiatives.
-* Add toolchain exemplars to generate binaries with Link Time Optimization.
-* Add toolchain exemplars where the source uses C++ header modules.
+* ~~Add toolchain exemplars to generate binaries with Link Time Optimization.~~
+* ~~Add toolchain exemplars where the source uses C++ header modules.~~
 * Update the `isa_ext` Ghidra branch to expand `vsetvli`` arguments 
-* Cleanup and annotate the Bazel toolchain framework.
+* ~~Cleanup and annotate the Bazel toolchain framework.~~
     * mark stanzas that are believed to be currently unused
     * minimize variances between the different toolchains - there are a lot of
       variances that just add confusion, especially involving linking and system root paths.

@@ -133,10 +133,13 @@ loop will take 330 iterations.  If the processor VLEN=1024 then the loop will ta
 Either way, Ghidra 11.0 will fail to decompile any such autovectorized loop, and fail to decompile
 the remainder of any function which contains such an autovectorized loop.
 
-
 ### x86-64 gcc-14, full optimization, with sapphirerapids
 
 >Note: Intel's Saphire Rapids includes high end server processors like the Xeon Max family.
+>      A more general choice for x86_64 exemplars would be `-march=x86-64-v3` with `-O2` optimization.
+>      We can expect full Red Hat Linux distributions soon built with those options.  The `x86-64-v4`
+>      microarchitecture is a generalization of Saphire Rapids microarchitecture, and would more likely be found
+>      in servers specialized for numerical analysis or possibly ML applications.
 
 ```console
 $ bazel build -s --platforms=//platforms:x86_64_default --copt="-O3" --copt="-march=sapphirerapids" gcc_vectorization:narrowing_loop
@@ -177,7 +180,74 @@ int main() {
 }
 ```
 
-Build this with:
+### riscv-64 builds
+
+Build with:
+
+```console
+$ bazel build --platforms=//platforms:riscv_vector --copt="-O3" gcc_vectorization:memcpy_vector
+```
+Ghidra 11 gives:
+
+```c
+undefined8 main(void)
+
+{
+  undefined auVar1 [64];
+  undefined *puVar2;
+  undefined (*pauVar3) [64];
+  long lVar4;
+  long lVar5;
+  undefined auVar6 [256];
+  undefined local_820 [8];
+  undefined8 uStack_818;
+  undefined auStack_420 [1032];
+  
+  srand(0xdeadbeef);
+  puVar2 = auStack_420;
+  gen_rand_1d(auStack_420,0x7f);
+  pauVar3 = (undefined (*) [64])local_820;
+  lVar4 = 0x3f8;
+  do {
+    lVar5 = vsetvli_e8m8tama(lVar4);
+    auVar6 = vle8_v(puVar2);
+    lVar4 = lVar4 - lVar5;
+    auVar1 = vse8_v(auVar6);
+    *pauVar3 = auVar1;
+    puVar2 = puVar2 + lVar5;
+    pauVar3 = (undefined (*) [64])(*pauVar3 + lVar5);
+  } while (lVar4 != 0);
+  printf("%f\n",uStack_818);
+  return 0;
+}
+```
+
+What would we like the decompiler to show instead?  The `memcpy` pattern should be fairly general and stable.
+
+```c
+  src = auStack_420;
+  gen_rand_1d(auStack_420,0x7f);
+  dest = (undefined (*) [64])local_820;
+  /* char* dest, src;
+    dest[0..n] ≔ src[0..n]; */
+  n = 0x3f8;
+  do {
+    lVar2 = vsetvli_e8m8tama(n);
+    auVar3 = vle8_v(src);
+    n = n - lVar2;
+    auVar1 = vse8_v(auVar3);
+    *dest = auVar1;
+    src = src + lVar2;
+    dest = (undefined (*) [64])(*dest + lVar2);
+  } while (n != 0);
+```
+
+More generally, we want a precomment showing the memcpy in vector terms immediately before
+the loop.  The type definition of `dest` is a red herring to be dealth with.
+
+### x86-64 builds
+
+Build with:
 
 ```console
 $ bazel build -s --platforms=//platforms:x86_64_default --copt="-O3" --copt="-march=sapphirerapids" gcc_vectorization:memcpy_sapphirerapids

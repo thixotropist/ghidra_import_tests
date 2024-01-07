@@ -1,6 +1,6 @@
 ---
 title: vector intrinsics
-weight: 10
+weight: 30
 ---
 
 {{% pageinfo %}}
@@ -62,4 +62,3 @@ vfloat32m1_t __riscv_vfredmax_vs_f32m4_f32m1(vfloat32m4_t vs2, vfloat32m1_t vs1,
 ```
 
 There aren't all that many vector instruction genotypes, but there are an enormous number of contextual variations the compiler and assembler know about.
-

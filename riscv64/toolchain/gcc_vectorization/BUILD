@@ -20,7 +20,7 @@
         "rvv_reduce",
         "rvv_strncpy",
         "narrowing_loop",
-        "memcpy_demo",
+        "memcpy",
     )
 ]
 
@@ -37,7 +37,7 @@
     )
     for file in (
         "narrowing_loop",
-        "memcpy_demo",
+        "memcpy",
     )
 ]
 [
@@ -49,7 +49,7 @@
         ],
         copts = [
             "-O3",
-            "-march=rv64gc",
+            "-march=rv64gcv",
             "-flto"
         ],
         linkopts = [
@@ -58,6 +58,6 @@
     )
     for file in (
         "narrowing_loop",
-        "memcpy_demo",
+        "memcpy",
     )
 ]

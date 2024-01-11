@@ -132,7 +132,8 @@ expand_block_move (rtx dst_in, rtx src_in, rtx length_in)
 ```
 
 Note that the riscv assembly instructions in the comment are just an example, and that the C++ implementation
-handles many different variants.
+handles many different variants.  The `ret` instruction is not part of the expansion, just copied into the source
+code from the testsuite.
 
 The testsuite (`gcc/testsuite/gcc.target/riscv`) shows which variants are common enough to test against.
 

@@ -30,14 +30,20 @@ defaults:
 jobs:
   # Build job
   build:
-    runs-on: docker.io/hugomods/hugo
+    runs-on: docker.io/library/ubuntu:latest
     env:
       HUGO_VERSION: 0.121.0
+      HUGO_BASEURL: https://thixotropist.github.io/ghidra_import_tests
     steps:
+      - name: update system
+        run: apt update -y && apt install -y wget npm golang
+      - name install Hugo
+        run: wget -O /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.121.2/hugo_extended_0.121.2_linux-amd64.deb \
+          && dpkg -i /tmp/hugo.deb
       - name: Install Supporting modules
-        run: npm install postcss-cli --location=global &&  npm install autoprefixer
-      - name: Install Dart Sass
-        run: sudo snap install dart-sass
+        run: npm install -g npm@latest n postcss-cli autoprefixer
+      - name: Run n
+        run: n stable
       - name: Checkout
         uses: actions/checkout@v4
         with:

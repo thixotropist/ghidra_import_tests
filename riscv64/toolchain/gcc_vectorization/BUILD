@@ -40,6 +40,7 @@
         "memcpy",
     )
 ]
+
 [
     cc_binary(
         name = file + "_lto",
@@ -50,14 +51,31 @@
         copts = [
             "-O3",
             "-march=rv64gcv",
-            "-flto"
+            "-flto",
         ],
         linkopts = [
-            "-Wl,-flto"
-        ]
+            "-Wl,-flto",
+        ],
     )
     for file in (
         "narrowing_loop",
         "memcpy",
     )
 ]
+
+cc_library(
+    name = "autovec_binop",
+    srcs = [
+        "vadd-rv64gcv.c",
+        "vadd-template.h",
+        "vmax-rv64gcv.c",
+        "vmax-template.h",
+        "vmul-rv64gcv.c",
+        "vmul-template.h",
+    ],
+    copts = [
+        "-O3",
+        "-march=rv64gcv",
+        "-ffast-math",
+    ],
+)

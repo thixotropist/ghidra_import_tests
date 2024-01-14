@@ -1,6 +1,5 @@
 # Use the development snapshot of gcc14 to compile sample programs
-# using riscv vector intrinsics.  Note that gcc14 will in some cases autovectorize the
-# 'golden' C code too, letting us compare manually vectorized with autovectorized loops.
+# using riscv vector intrinsics.
 
 [
     cc_binary(

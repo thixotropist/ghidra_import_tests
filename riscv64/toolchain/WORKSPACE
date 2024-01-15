@@ -30,6 +30,8 @@ register_toolchains(
     # a separate Bazel project independent of /opt/riscv,
     # currently based on gcc-13-riscv64-toolchains
     "//toolchains:riscv64-default",
-    # an experimental toolchain based on gcc-14-riscv64-toolchains
+    # a toolchain based on a snapshot of gcc-14-riscv64-toolchains
     "//toolchains:riscv64-next",
+    # a toolchain loaded with supported customizations
+    "//toolchains:riscv64-custom"
 )

@@ -17,6 +17,13 @@ platform(
     ],
 )
 
+platform(
+    name = "riscv_custom",
+    constraint_values = [
+        "//toolchains:riscv64-c",
+    ],
+)
+
 # x86_64 on the local development computer
 platform(
     name = "x86_64_userspace",

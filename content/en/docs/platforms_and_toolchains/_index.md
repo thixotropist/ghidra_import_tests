@@ -16,15 +16,22 @@ are all versioned and importable, so build results are the same no matter where 
 
 ## Example of RISCV-64 platforms and toolchains
 
-The directory riscv64/toolchain defines three platforms:
+The directory riscv64/toolchain defines these platforms:
 
 * `//platforms:riscv_userspace` for a generic RISCV-64 linux appliance with the usual libc and libstdio APIs
 * `//platforms:riscv_vector` for a more specialized RISCV-64 linux appliance with vector extensions supported
+* `//platforms:riscv_custom` for a highly specialized RISCV-64 linux appliance with vector and vendor-specific extensions supported
+
+>Note: The currently binutils and gcc show more vendor-specific instruction set extensions from THead, so we will arbitrarily use that
+>      as an exemplar platform.
 
 This directory defines these toolchains:
 
 * `//toolchains:riscv64-default` - a gcc-13 stable RISCV compiler, linker, loader, and sysroot of related include files and libraries
-* `//toolchains:riscv64-next` - a gcc-14 unreleased but feature-frozen RISCV compiler, linker, loader, and sysroot of related include files and libraries
+* `//toolchains:riscv64-next` - a gcc-14 unreleased but feature-frozen RISCV compiler, linker, loader, and sysroot of related include files
+  and libraries
+* `//toolchains:riscv64-custom` a variant of  `//toolchains:riscv64-next` with multiple standard and vendor-specific ISA extensions enabled
+  by default
 
 Exemplars are built by naming the platform for each build.  Bazel then finds a compatible toolchain to complete the build.
 

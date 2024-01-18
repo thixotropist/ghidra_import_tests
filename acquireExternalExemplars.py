@@ -284,6 +284,5 @@ class T2RiscvImports(unittest.TestCase):
             self.logger.info("Copying ssh system executable")
             copyfile(source, destination)
 
-
 if __name__ == '__main__':
     unittest.main()

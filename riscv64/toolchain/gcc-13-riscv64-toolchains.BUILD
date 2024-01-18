@@ -37,6 +37,7 @@ filegroup(
                 "bin/riscv64-unknown-linux-gnu-ld",
                 "bin/riscv64-unknown-linux-gnu-ld.bfd",
                 "bin/riscv64-unknown-linux-gnu-ranlib",
+                "bin/riscv64-unknown-linux-gnu-objdump",
                 "@fedora39-system-libs//:common_compiler_ldd_dependencies",
                 ]
 )

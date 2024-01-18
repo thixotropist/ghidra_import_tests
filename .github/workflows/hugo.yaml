@@ -37,8 +37,8 @@ jobs:
     steps:
       - name: update system
         run: apt update -y && apt install -y wget npm golang
-      - name install Hugo
-        run:|
+      - name: install Hugo
+        run: |
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.121.2/hugo_extended_0.121.2_linux-amd64.deb \
           && dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Install Supporting modules

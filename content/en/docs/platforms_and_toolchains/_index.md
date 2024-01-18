@@ -22,7 +22,7 @@ The directory riscv64/toolchain defines these platforms:
 * `//platforms:riscv_vector` for a more specialized RISCV-64 linux appliance with vector extensions supported
 * `//platforms:riscv_custom` for a highly specialized RISCV-64 linux appliance with vector and vendor-specific extensions supported
 
->Note: The currently binutils and gcc show more vendor-specific instruction set extensions from THead, so we will arbitrarily use that
+>Note: The current binutils and gcc show more vendor-specific instruction set extensions from THead, so we will arbitrarily use that
 >      as an exemplar platform.
 
 This directory defines these toolchains:

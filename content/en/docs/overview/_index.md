@@ -46,23 +46,28 @@ the `binutils` main branch.
 
 ## Running integration tests
 
->Note: These tests often run Ghidra in a headless mode.  There should be no other Ghidra
-processes currently locking the `riscv64/exemplars` project, or the tests will fail.
+The first two steps collect binary exemplars for Ghidra to import.  Large binaries are extracted from public disk images,
+such as the latest Fedora RISCV-64 system disk image.  Small binaries are generated locally from minimal C or C++ source
+files and gcc toolchains.
 
-These tests retrieve open source binaries - typically disk images - then break them down
-into kernel, kernel module, system library, and user process exemplars to be imported into Ghidra.
-
-Runs `make all_imports` then imports a kernel module exemplar into Ghidra, validating proper 
-Ghidra handling of RISCV relocation codes found in that exemplar.
-
-After the external binaries are processed, any object files found in `riscv64/exemplars` are imported into Ghidra
-for manaual analysis
+The large binaries are downloaded and extracted using `acquireExternalExemplars.py`.  This script is built on the python `unittest` framework
+to either verify the existence of previously extracted exemplars or regenerate those if missing.
 
 ```console
-$ make clean_imports
-$ ./integrationTest.py
-./integrationTest.py 
-Running: make all_imports
+$ ./acquireExternalExemplars.py 
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 0.003s
+
+OK
+```
+
+>TODO: add the script example for `generateInternalExemplars.py`
+
+>TODO: add the script example for `importExemplars.py`
+
+```console
+$ ./integrationTest.py 
 inspecting the R_RISCV_BRANCH relocation test
 inspecting the R_RISCV_JAL test
 inspecting the R_RISCV_PCREL_HI20 1/2 test
@@ -77,67 +82,5 @@ inspecting the R_RISCV_ADD64 test
 inspecting the R_RISCV_RVC_JUMP test
 .
 ----------------------------------------------------------------------
-Ran 1 test in 537.806s
-
-OK
+Ran 1 test in 0.000s
 ```
-
-The imported binaries with their Ghidra import log files can include:
-
-```text
-riscv64/kernel/vmlinux-6.5.4-300.0.riscv64.fc39.riscv64
-riscv64/kernel/vmlinux.log
-riscv64/kernel_mod/igc.ko
-riscv64/kernel_mod/igc.log
-riscv64/system_lib/libc.so.6
-riscv64/system_lib/libc.log
-riscv64/system_lib/libssl.so.3.0.8
-riscv64/system_lib/libssl.log
-riscv64/system_executable/ssh
-riscv64/system_executable/ssh.log
-```
-
-Locally compiled binaries (without explicit Ghidra import logs) can include:
-
-```text
-b-ext-64.o
-b-ext.o
-h-ext-64.o
-relocationTest.o
-rvv_index.pic.o
-rvv_matmul.pic.o
-rvv_memcpy.pic.o
-rvv_reduce.pic.o
-rvv_strncpy.pic.o
-semantics.o
-syntheticRelocations.o
-vector.o
-x-thead-ba.o
-x-thead-bb.o
-x-thead-bs.o
-x-thead-cmo.o
-x-thead-condmov.o
-x-thead-fmemidx.o
-x-thead-mac.o
-x-thead-memidx.o
-x-thead-mempair.o
-x-thead-sync.o
-zbkb-64.o
-zbkc.o
-zbkx.o
-zca.o
-zcb.o
-zknd-64.o
-zkne-64.o
-zknh-64.o
-zksed.o
-zksh.o
-zvbb.o
-zvbc.o
-zvkng.o
-zvksg.o
-```
-
-The matching source code for these binary exemplars can be found in [exemplars]({{< relref "/exemplars" >}})
-
-All of these binaries should be available in the Ghidra local repository `riscv/exemplars`

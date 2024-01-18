@@ -19,61 +19,26 @@ may help triage issues that show up first in RISCV 64 exemplars.
 
 ## Imported exemplars
 
-Most of the imported large binary exemplars are broken out of current Fedora disk images.  The top level `Makefile`
-controls this process, usually with some manual intervention to handle image mounting.
+Most of the imported large binary exemplars are broken out of current Fedora disk images.  The top level `acquireExternalExemplars.py`
+script controls this process, sometimes with some manual intervention to handle image mounting.  Selection of the imported disk image
+is controlled with text like:
 
-These rules derive the kernel and ssh binaries from a disk image and import them both through Ghidra's `analyzeHeadless` application
+```py
+LOGLEVEL = logging.WARN
+FEDORA_RISCV_SITE = "http://fedora.riscv.rocks/kojifiles/work/tasks/6900/1466900"
+FEDORA_RISCV_IMAGE = "Fedora-Developer-39-20230927.n.0-sda.raw"
+FEDORA_KERNEL = "vmlinuz-6.5.4-300.0.riscv64.fc39.riscv64"
+FEDORA_KERNEL_OFFSET = 40056
+FEDORA_KERNEL_DECOMPRESSED = "vmlinux-6.5.4-300.0.riscv64.fc39.riscv64"
+FEDORA_SYSMAP = "System.map-6.5.4-300.0.riscv64.fc39.riscv64"
 
-```text
-Fedora_riscv_site := http://fedora.riscv.rocks/kojifiles/work/tasks/6900/1466900
-Fedora_riscv_image := Fedora-Developer-39-20230927.n.0-sda.raw
-Fedora_kernel := vmlinuz-6.5.4-300.0.riscv64.fc39.riscv64
-Fedora_kernel_offset := 40056
-Fedora_kernel_decompressed := vmlinux-6.5.4-300.0.riscv64.fc39.riscv64
-Fedora_sysmap := System.map-6.5.4-300.0.riscv64.fc39.riscv64
-...
-# Fetch the image from one of the external repositories.
-
-$(cache)/$(Fedora_riscv_image).xz: | $(cache)
-	cd $(cache) && \
-	wget -q $(Fedora_riscv_site)/$(Fedora_riscv_image).xz
-...
-# This particular image has three partitions of which two are needed
-#   We use $(cache)/Fedora_mounted as a coarse flag showing that the partitions are mounted
-#   Note: /dev/sda3 is a BTRFS device
-$(cache)/Fedora_mounted: $(cache)/$(Fedora_riscv_image) | $(cache)/Fedora_boot $(cache)/Fedora_root
-	guestmount -a ~/.cache/ghidraTest/$(Fedora_riscv_image) -m /dev/sda2 --ro $(cache)/Fedora_boot
-	guestmount -a ~/.cache/ghidraTest/$(Fedora_riscv_image) -m /dev/sda3:/:subvol=root --ro $(cache)/Fedora_root
-	touch $(cache)/Fedora_mounted
-
-# The vmlinux kernel is embedded within the vmlinuz self-decompressing executable.  Search for the gzip flag bytes then skip
-# to the correct offset
-riscv64/kernel/$(Fedora_kernel_decompressed): $(cache)/Fedora_mounted $(cache)/Fedora_boot/$(Fedora_kernel) $(cache)/Fedora_mounted
-	dd ibs=1 skip=$(Fedora_kernel_offset) if=$(cache)/Fedora_boot/$(Fedora_kernel) of=/tmp/vmlinux-6.5.4-300.0.riscv64.fc39.riscv64
-	gunzip -dcf /tmp/vmlinux-6.5.4-300.0.riscv64.fc39.riscv64 > $@
-...
-# a fully linked executable
-riscv64/system_executable/ssh: $(cache)/Fedora_mounted
-	cp $(cache)/Fedora_root/usr/bin/ssh $@
-...
-riscv64/kernel/vmlinux.log: riscv64/kernel/$(Fedora_kernel_decompressed) /tmp/ghidra_import_tests/$(Fedora_sysmap)
-	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/kernel/$(Fedora_kernel_decompressed) \
-		-processor RISCV:LE:64:RV64IC  \
-		-scriptPath $(CurrentDir)/riscv64/java \
-		-preScript KernelImport.java \
-		/tmp/ghidra_import_tests/$(Fedora_sysmap) \
-		> $@ 2>&1
-...
-riscv64/system_executable/ssh.log: riscv64/system_executable/ssh
-	$(Analyzer) riscv64 exemplars -overwrite -import riscv64/system_executable/ssh > $@ 2>&1
 ```
-
 ### Fedora kernel
 
 This exemplar kernel is not an ELF file, so analysis of the import process will need
 help.
 
-* The import Makefile explicitly sets the processor on the command line: `-processor RISCV:LE:64:RV64IC`.
+* The import process explicitly sets the processor on the command line: `-processor RISCV:LE:64:RV64IC`.
   This will likely be the same as the processor determined from imported kernel load modules.
 * Ghidra recognizes three sections, one text and two data.  All three need to be moved
   to the offset suggested in the associated `System.map` file.  For example, `.text` moves from
@@ -98,7 +63,7 @@ Verify that kernel code correctly references data:
 #### Notes
 
 This kernel includes 149 strings including `sifive`, most of which appear in `System.map`.  It's not immediately clear whether these
-indicate kernel mods by SiFive or an SDK kernel module compiled into the kernel.
+indicate kernel mods by SiFive or an SiFive SDK kernel module compiled into the kernel.
 
 The kernel currently includes a few RISCV instruction set extensions not handled by Ghidra, and possibly not even by `binutils` and the `gas`
 RISCV assembler.  Current Linux kernels can bypass the standard assembler to insert custom or obscure privileged instructions.
@@ -166,7 +131,7 @@ Relocation types observed include:
 
   R_RISCV_64(2), R_RISCV_RELATIVE(3), R_RISCV_JUMP_SLOT(5)
 
-All appear to be processed cleanly.  Function thunks referencing external library functions do not automatically get the name of the external function propagated into the name of the thunk.
+Function thunks referencing external library functions do not automatically get the name of the external function propagated into the name of the thunk.
 
 ## Locally built exemplars
 
@@ -175,19 +140,22 @@ development board, a 64 bit RISCV processor with support for Integer and Compres
 variation on that, say to look ahead at challenges a gcc-14 toolchain might throw our way, we need to build our own exemplars.
 
 Open source test suites can be a good source for feature-focused importable exemplars.  If we want to test Ghidra's ability to import RISCV instruction
-set extensions, we want to import many of the files from `binutils-gdb/gas/testsuite/gas/riscv` or https://sourceware.org/git?p=binutils-gdb.git;a=tree;f=gas/testsuite/gas/riscv;hb=HEAD.
+set extensions, we want to import many of the files from `binutils-gdb/gas/testsuite/gas/riscv`
+or https://sourceware.org/git?p=binutils-gdb.git;a=tree;f=gas/testsuite/gas/riscv;hb=HEAD.
 
-For example, most of the ratified set of RISCV vector instructions are used in `vector-insns.s`.  If we assemble this with a `gas` assembler compatible with the `-march=rv32ifv` architecture
+For example, most of the ratified set of RISCV vector instructions are used in `vector-insns.s`.
+If we assemble this with a `gas` assembler compatible with the `-march=rv32ifv` architecture
 we get an importable binary exemplar for those instructions.
 Even better, we can disassemble that exemplar with a compatible `objdump` and get the reference disassembly to compare against Ghidra's disassembly.
 This gives us three kinds of insights into Ghidra's import capabilities:
 
 1. When new instructions appear in the `binutils` `gas` main branch, they are good candidates for implementation in Ghidra within the next 12 months.
-   This currently includes vector, bit manipulation, cache management, and crypto approved extensions plus about a dozen vendor-specific extensions from AliBaba's THead RISCV server
-   initiative.
+   This currently includes vector, bit manipulation, cache management, and crypto approved extensions plus about a dozen vendor-specific extensions
+   from AliBaba's THead RISCV server initiative.
 2. These exemplars drive extension of Ghidra's RISCV sleigh files, both as new instruction definitions and as pcode semantics for display in the decompiler window.
-3. Disassembly of those exemplars with a current `binutils` `objdump` utility gives us a reference disassembly to compare with Ghidra's.  We can minimize arbitrary or erroneous
-   Ghidra disassembly by comparing the two disassembler views.  Ghidra and `objdump` have different goals, so we don't need strict alignment of Ghidra with `objdump`.
+3. Disassembly of those exemplars with a current `binutils` `objdump` utility gives us a reference disassembly to compare with Ghidra's.
+   We can minimize arbitrary or erroneous Ghidra disassembly by comparing the two disassembler views.
+   Ghidra and `objdump` have different goals, so we don't need strict alignment of Ghidra with `objdump`.
 
 Most exemplars appear as four related files.  We can use the `vector` exemplar as an example.
 

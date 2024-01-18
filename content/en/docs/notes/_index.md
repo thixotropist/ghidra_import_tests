@@ -25,12 +25,8 @@ Put unstructured comments here until we know what to do with them.
 ## Existing scattered documentation to be consolidated here
 
 ```text
-
- 6215 Oct 16 06:39 ./Design.md
- 9928 Dec 22 14:04 ./Readme.md
  3715 Oct 16 06:27 ./Roadmap.md
  5252 Nov 20 13:08 ./Sidebars.md
-
 ```
 
 ## Experiments

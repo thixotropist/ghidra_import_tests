@@ -20,12 +20,7 @@ class T0FedoraRiscvImage(unittest.TestCase):
         cls.logger.addHandler(stream_handler)
         cls.logger.setLevel(logging.INFO)
         #cls.logger.setLevel(logging.WARN)
-        command = ('make', 'all_imports')
-        cls.logger.info("Running: %s", ' '.join(command))
-        result = subprocess.run(command,
-            check=False, capture_output=True, encoding='utf8')
-        if result.returncode != 0:
-            cls.logger.error("FedoraRiscv: make all_imports failed:\n %s", result.stderr)
+
         cls.testResultsDir = os.getcwd() + "/testResults"
 
     def test00IgcKernelModImport(self):
@@ -41,7 +36,7 @@ class T0FedoraRiscvImage(unittest.TestCase):
             tests = json.load(f)
             for t in tests:
                 self.logger.info("inspecting the %s test", t['description'])
-                self.assertTrue(t['passed']=='true',
+                self.assertEqual(t['passed'], 'true',
                                 f"{t['description']} : expected {t['expected']} at {t['addr']}" +
                                 f" but found {t['observed']}")
             f.close()

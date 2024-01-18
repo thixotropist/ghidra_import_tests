@@ -6,6 +6,7 @@ riscv64/exemplars.lock~
 # Ignore imported and extracted binaries
 riscv64/kernel/System.map*
 riscv64/kernel/vmlinux*
+riscv64/kernel/vmlinuz*
 riscv64/kernel_mod/igc.ko
 riscv64/kernel_mod/igc.log
 riscv64/system_lib/libc*

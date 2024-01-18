@@ -94,7 +94,7 @@ riscv64/kernel/$(Fedora_kernel_decompressed): $(cache)/Fedora_mounted $(cache)/F
 	mkdir -p /tmp/ghidra_import_tests
 	cp $(cache)/Fedora_boot/$(Fedora_sysmap) /tmp/ghidra_import_tests
 
-# a reasonably comlicated loadable kernel module
+# a reasonably complicated loadable kernel module
 riscv64/kernel_mod/igc.ko: $(cache)/Fedora_mounted
 	xzcat $(cache)/Fedora_root/usr/lib/modules/6.5.4-300.0.riscv64.fc39.riscv64/kernel/drivers/net/ethernet/intel/igc/igc.ko.xz > $@
 

@@ -38,7 +38,7 @@ jobs:
       - name: update system
         run: apt update -y && apt install -y wget npm golang
       - name install Hugo
-        run: |
+        run:|
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.121.2/hugo_extended_0.121.2_linux-amd64.deb \
           && dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Install Supporting modules
@@ -62,7 +62,7 @@ jobs:
           hugo \
             --gc \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"          
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
@@ -79,4 +79,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
-

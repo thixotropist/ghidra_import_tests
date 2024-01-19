@@ -36,13 +36,13 @@ jobs:
       HUGO_BASEURL: https://thixotropist.github.io/ghidra_import_tests
     steps:
       - name: update system
-        run: apt update -y && apt install -y wget npm golang
+        run: sudo apt update -y && sudo apt install -y wget npm golang
       - name: install Hugo
         run: |
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.121.2/hugo_extended_0.121.2_linux-amd64.deb \
-          && dpkg -i ${{ runner.temp }}/hugo.deb
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Install Supporting modules
-        run: npm install -g npm@latest n postcss-cli autoprefixer
+        run: sudo npm install -g npm@latest n postcss-cli autoprefixer
       - name: Run n
         run: n stable
       - name: Checkout

@@ -1,0 +1,15 @@
+GAS LISTING assemblySamples/svinval.S 			page 1
+
+
+   1 0000 7300B516 		sinval.vma	a0, a1
+   2 0004 73000018 		sfence.w.inval
+   3 0008 73001018 		sfence.inval.ir
+   4 000c 7300B526 		hinval.vvma	a0, a1
+   5 0010 7300B566 		hinval.gvma	a0, a1
+GAS LISTING assemblySamples/svinval.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/svinval.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_svinval1p0
+
+NO UNDEFINED SYMBOLS

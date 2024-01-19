@@ -1,0 +1,25 @@
+GAS LISTING assemblySamples/unknown.S 			page 1
+
+
+   1              	# apparent instructions found in external binaries
+   2              	#    search binutils source file include/opcode/riscv-opc.h
+   3              	#    or search linux kernel source arch/riscv/include/asm/insn-def.h
+   4              	
+   5 0000 73000018 	    .insn 0x18000073    # found in vmlinux kvm_riscv_local_hfence_vvma_asid_gva; MATCH_SFENCE_W_INV
+   6 0004 7300B626 	    .insn 0x26b60073    # MATCH_HINVAL_VVMA
+   7 0008 73001018 	    .insn 0x18100073    # MATCH_SFENCE_INVAL_IR
+   8 000c 73800526 	    .insn 0x26058073
+   9 0010 73800766 	    .insn 0x66078073    # MATCH_HINVAL_GVMA
+  10 0014 13DE7228 	    .insn 0x2872de13    # orc.b
+  11 0018 0F201500 	    .insn 0x0015200f    # cbo.clean
+  12 001c 0F200500 	    .insn 0x0005200f    # cbo.inval
+  13 0020 0F202500 	    .insn 0x0025200f    # cbo.flush
+  14 0024 7380A766 	    .insn 0x66a78073
+  15 0028 73800526 	    .insn 0x26058073
+GAS LISTING assemblySamples/unknown.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/unknown.S:5      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicbom1p0_zicbop1p0_zicboz1p0_zicsr2p0_zifencei2p0_zmmul1p0_zbb1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+
+NO UNDEFINED SYMBOLS

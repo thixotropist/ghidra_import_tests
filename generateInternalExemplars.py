@@ -233,9 +233,26 @@ class T1AssemblyExemplars(unittest.TestCase):
         cls.objDir = f'{cls.binDir}/_objs'
 
     def test_00_riscv64_assembly_exemplars(self):
+        """
+        generate a tarball of assembly instruction exemplars.  This tarball will have four layers of Bazel
+        directories to remove when unpacking
+        """
         result = self.bazel.execute(Bazel.VENDOR_EXTENSION_RISCV64_PLATFORM, 'assemblySamples:archive', operation='build')
         self.assertEqual(0, result.returncode,
             f'bazel {Bazel.VENDOR_EXTENSION_RISCV64_PLATFORM} build of assemblySamples:archive failed')
+
+    def test_01_riscv64_assembly_archive(self):
+        """
+        verify that the generated tarball exists and extract it into the riscv64 exemplar library.
+        Nothing in the exemplars directory should be executable, on any platform
+        """
+        exemplar_tarball = f"{self.bazel.workspace_dir}/bazel-out/k8-fastbuild/bin/assemblySamples/archive.tar"
+        self.assertTrue(os.path.exists(exemplar_tarball), "assembly language tarball is missing")
+        command = f'cd riscv64/exemplars && tar --strip-components=4 -xf {exemplar_tarball}' + ' && chmod a-x *.{o,objdump,list}'
+        result = subprocess.run(command,
+            check=False, capture_output=True, encoding='utf8', shell=True,)
+        if result.returncode != 0:
+            self.logger.error("Extraction of assembly archive failed:\n %s", result.stderr)
 
 
 if __name__ == '__main__':

@@ -7,7 +7,6 @@ import subprocess
 import sys
 import os
 import logging
-from shutil import copyfile
 
 class Bazel():
     """
@@ -105,7 +104,7 @@ class Bazel():
         if result.returncode != 0:
             self.logger.error("Bazel build failed:\n %s", result.stderr)
         return result
-    
+
     def query(self, query_text):
         """
         Run a bazel query
@@ -148,6 +147,9 @@ class Toolchain():
     REFERENCE_CPP_PGM = 'userSpaceSamples:helloworld++'
 
 class T0BazelEnvironment(unittest.TestCase):
+    """
+    wrap invocations of the Bazel environment
+    """
     @classmethod
     def setUpClass(cls):
         """
@@ -174,7 +176,7 @@ class T0BazelEnvironment(unittest.TestCase):
         Search Bazel workspace for key platforms
         """
         result = self.bazel.query("//platforms:*")
-        
+
         self.assertRegex(result.stdout, r'riscv_userspace', "riscv64 default user space platform is defined")
         self.assertRegex(result.stdout, r'riscv_vector', "riscv64 vector extension user space platform is defined")
         self.assertRegex(result.stdout, r'riscv_custom', "riscv64 custom  user space platform is defined")
@@ -212,8 +214,10 @@ class T0BazelEnvironment(unittest.TestCase):
         self.assertRegex(result.stdout, 'ELF 64-bit LSB relocatable, UCB RISC-V',
             f'//platforms:{Bazel.DEFAULT_RISCV64_PLATFORM} compilation generated an unexpected object file format' )
 
-class T1AssemblyExemplars(unittest.TestCase):
+class T1IsaExemplars(unittest.TestCase):
     """
+    Gather exemplars likely invoking instruction set extensions.
+
     The binutils gas testsuite includes many assembly language exemplars.  These are imported into the workspace,
     then assembled with a default riscv64 gcc toolchain - each with whatever architecture declaration is needed
     for the instructions to be recognized.  The exemplars include vector, bit manipulation, crypto, cache control,
@@ -231,6 +235,11 @@ class T1AssemblyExemplars(unittest.TestCase):
         cls.binDir = 'bazel-bin/userSpaceSamples'
         # object files (*.o) end up here
         cls.objDir = f'{cls.binDir}/_objs'
+        cls.logger = logging.getLogger('ISA_Exemplars')
+        stream_handler = logging.StreamHandler(sys.stdout)
+        cls.logger.addHandler(stream_handler)
+        #cls.logger.setLevel(logging.INFO)
+        cls.logger.setLevel(logging.WARN)
 
     def test_00_riscv64_assembly_exemplars(self):
         """
@@ -254,6 +263,19 @@ class T1AssemblyExemplars(unittest.TestCase):
         if result.returncode != 0:
             self.logger.error("Extraction of assembly archive failed:\n %s", result.stderr)
 
+    def test_02_riscv64_gcc_expansions(self):
+        """
+        Generate exemplars showing how gcc expands memory copy operations into extension instruction sequences
+        """
+        result = self.bazel.execute(Bazel.VENDOR_EXTENSION_RISCV64_PLATFORM, 'gcc_expansions:archive', operation='build')
+        self.assertEqual(0, result.returncode,
+            f'bazel {Bazel.VENDOR_EXTENSION_RISCV64_PLATFORM} build of gcc_expansions::archive failed')
+        exemplar_tarball = f"{self.bazel.workspace_dir}/bazel-bin/gcc_expansions/archive.tar"
+        command = f'cd riscv64/exemplars && tar --strip-components=4 -xf {exemplar_tarball} */*/*/*/*.so' + ' && chmod a-x *.so'
+        result = subprocess.run(command,
+            check=False, capture_output=True, encoding='utf8', shell=True,)
+        if result.returncode != 0:
+            self.logger.error("Extraction of gcc_expansions archive failed:\n %s", result.stderr)
 
 if __name__ == '__main__':
     unittest.main()

@@ -79,7 +79,8 @@ class T0RiscvImports(unittest.TestCase):
     kernel_module_path = workdir + '/' + kernel_module_file
     kernel_module_log_path = kernel_module_path + '.log'
     kernel_module_postanalysis_script = 'IgcTests.java'
-    kernel_module_postanalysis_script_path = ghidra.script_path +  '/' + kernel_module_postanalysis_script
+    kernel_module_postanalysis_script_path = ghidra.script_path + \
+        '/' + kernel_module_postanalysis_script
 
     def test_00_no_current_lock(self):
         """
@@ -145,6 +146,52 @@ class T0RiscvImports(unittest.TestCase):
                                     script_args=self.test_results_dir + '/igc_ko_tests.json')
             with open(self.kernel_module_log_path,'w', encoding='utf-8') as f:
                 f.write(result.stdout)
+        else:
+            self.ghidra.logger.info('Current Kernel module import log file found - skipping import')
+
+    def test_03_system_lib_imports(self):
+        """
+        Import several sharable system libraries.
+        """
+
+        libraries = ('libc.so.6', 'libssl.so.3.0.8')
+        for lib in libraries:
+            path_relative = 'system_lib/' + lib
+            path_abs = self.workdir + '/' + path_relative
+            self.assertTrue(os.path.exists(path_abs), f"missing system library {path_abs}")
+            log_path_relative = 'system_lib/' + lib.split('.', maxsplit=1)[0] + '.log'
+            log_path_abs = self.workdir + '/' + log_path_relative
+            log_mod_time = os.path.getmtime(log_path_abs) \
+                if os.path.exists(log_path_abs) else 0.0
+            if log_mod_time < os.path.getmtime(path_abs):
+                self.ghidra.logger.info('Library import %s needs to be refreshed', path_abs)
+                result = self.ghidra.import_binary(path_relative)
+                with open(log_path_abs,'w', encoding='utf-8') as f:
+                    f.write(result.stdout)
+            else:
+                self.ghidra.logger.info('Current library %s import log file found - skipping import', lib)
+
+    def test_04_system_executable_imports(self):
+        """
+        Import system applications.
+        """
+
+        apps = ('ssh',)
+        for app in apps:
+            path_relative = 'system_executable/' + app
+            path_abs = self.workdir + '/' + path_relative
+            self.assertTrue(os.path.exists(path_abs), f"missing system executable {path_abs}")
+            log_path_relative = 'system_executable/' + app.split('.', maxsplit=1)[0] + '.log'
+            log_path_abs = self.workdir + '/' + log_path_relative
+            log_mod_time = os.path.getmtime(log_path_abs) \
+                if os.path.exists(log_path_abs) else 0.0
+            if log_mod_time < os.path.getmtime(path_abs):
+                self.ghidra.logger.info('Executable import %s needs to be refreshed', path_abs)
+                result = self.ghidra.import_binary(path_relative)
+                with open(log_path_abs,'w', encoding='utf-8') as f:
+                    f.write(result.stdout)
+            else:
+                self.ghidra.logger.info('Current executable %s import log file found - skipping import', app)
 
 if __name__ == '__main__':
     unittest.main()

@@ -44,7 +44,7 @@ jobs:
       - name: Install Supporting modules
         run: sudo npm install -g npm@latest n postcss-cli autoprefixer
       - name: Run n
-        run: n stable
+        run: sudo n stable
       - name: Checkout
         uses: actions/checkout@v4
         with:

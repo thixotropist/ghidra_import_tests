@@ -9,6 +9,7 @@ riscv64/kernel/vmlinux*
 riscv64/kernel/vmlinuz*
 riscv64/kernel_mod/igc.ko
 riscv64/kernel_mod/igc.log
+riscv64/kernel_mod/igc.ko.log
 riscv64/system_lib/libc*
 riscv64/system_lib/libssl*
 riscv64/system_executable/ssh*

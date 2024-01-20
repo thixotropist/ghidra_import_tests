@@ -7,6 +7,8 @@ import subprocess
 import sys
 import os
 import logging
+import pathlib
+from itertools import chain
 
 class Ghidra():
     """
@@ -16,7 +18,7 @@ class Ghidra():
     GHIDRA_HOME = "/opt/ghidra_11.1_DEV"
     GHIDRA_RUN = GHIDRA_HOME + "/support/analyzeHeadless"
 
-    def __init__(self, work_dir, script_path='scripts'):
+    def __init__(self, work_dir, project_dir='riscv64/exemplars', script_dir='scripts'):
         """
         Ghidra's analyzeHeadless runs in this directory,
         importing riscv-64 binaries with optional postAnalysis
@@ -24,12 +26,13 @@ class Ghidra():
         """
 
         self.work_dir = work_dir
-        self.script_path = f"{self.work_dir}/{script_path}"
+        self.script_dir = f"{self.work_dir}/{script_dir}"
         self.logger = logging.getLogger('Ghidra')
         stream_handler = logging.StreamHandler(sys.stdout)
         self.logger.addHandler(stream_handler)
         self.logger.setLevel(logging.INFO)
         #self.logger.setLevel(logging.WARN)
+        self.project_dir = project_dir
 
     def import_binary(self, binary_path, pre_script='', post_script='',
                       script_args='', processor='RISCV:LE:64:RV64IC'):
@@ -39,9 +42,9 @@ class Ghidra():
         """
         command = [Ghidra.GHIDRA_RUN,
                    os.path.dirname(self.work_dir),
-                   'riscv64/exemplars',
+                   self.project_dir,
                    '-processor', processor,
-                   '-scriptPath', self.script_path,
+                   '-scriptPath', self.script_dir,
                    '-overwrite',
                    '-import', f"{self.work_dir}/{binary_path}"
                    ]
@@ -63,7 +66,7 @@ class T0RiscvImports(unittest.TestCase):
     Import external and internal RISCV exemplars
     """
     workdir = os.getcwd() + '/riscv64'
-    ghidra = Ghidra(workdir, 'java')
+    ghidra = Ghidra(workdir, project_dir='riscv64/exemplars', script_dir='java')
     test_results_dir = os.getcwd() + '/testResults'
 
     # kernel ans system map
@@ -73,13 +76,13 @@ class T0RiscvImports(unittest.TestCase):
     sysmap_file = 'kernel/System.map-6.5.4-300.0.riscv64.fc39.riscv64'
     sysmap_path = workdir + '/' + sysmap_file
     kernel_preanalysis_script = 'KernelImport.java'
-    kernel_preanalysis_script_path = ghidra.script_path +  '/' + kernel_preanalysis_script
+    kernel_preanalysis_script_path = ghidra.script_dir +  '/' + kernel_preanalysis_script
 
     kernel_module_file = 'kernel_mod/igc.ko'
     kernel_module_path = workdir + '/' + kernel_module_file
     kernel_module_log_path = kernel_module_path + '.log'
     kernel_module_postanalysis_script = 'IgcTests.java'
-    kernel_module_postanalysis_script_path = ghidra.script_path + \
+    kernel_module_postanalysis_script_path = ghidra.script_dir + \
         '/' + kernel_module_postanalysis_script
 
     def test_00_no_current_lock(self):
@@ -188,6 +191,64 @@ class T0RiscvImports(unittest.TestCase):
             if log_mod_time < os.path.getmtime(path_abs):
                 self.ghidra.logger.info('Executable import %s needs to be refreshed', path_abs)
                 result = self.ghidra.import_binary(path_relative)
+                with open(log_path_abs,'w', encoding='utf-8') as f:
+                    f.write(result.stdout)
+            else:
+                self.ghidra.logger.info('Current executable %s import log file found - skipping import', app)
+
+    def test_05_generated_imports(self):
+        """
+        Import all object files and libraries found in the riscv64/exemplars directory
+        """
+        obj_dir = 'riscv64/exemplars/'
+        import_path = pathlib.Path(obj_dir)
+
+        importables = chain(import_path.glob('*.o'),import_path.glob('*.so'))
+        for imp in importables:
+            base_file = str(imp).removeprefix(obj_dir)
+            self.ghidra.logger.info('Examining %s import file', base_file)
+            path_relative = 'exemplars/' + base_file
+            path_abs = self.workdir + '/' + path_relative
+            self.assertTrue(os.path.exists(path_abs), f"missing object importable {path_abs}")
+            log_path_relative = 'exemplars/' + base_file.split('.', maxsplit=1)[0] + '.log'
+            log_path_abs = self.workdir + '/' + log_path_relative
+            log_mod_time = os.path.getmtime(log_path_abs) \
+                if os.path.exists(log_path_abs) else 0.0
+            if log_mod_time < os.path.getmtime(path_abs):
+                self.ghidra.logger.info('Object import %s needs to be refreshed', path_abs)
+                result = self.ghidra.import_binary(path_relative)
+                with open(log_path_abs,'w', encoding='utf-8') as f:
+                    f.write(result.stdout)
+            else:
+                self.ghidra.logger.info('Current object file %s import log found - skipping import', base_file)
+
+class T1x8664Imports(unittest.TestCase):
+    """
+    X86_64 exemplars are included to understand how general an issue found in RISCV-64 exemplars may be.
+    """
+    workdir = os.getcwd() + '/x86_64'
+    ghidra = Ghidra(workdir, project_dir='x86_64/exemplars')
+
+    def test_04_system_executable_imports(self):
+        """
+        These exemplars tend to be fully linked applications built with various architecture profiles
+        """
+
+        apps = ('index_x86-64-v2', 'index_x86-64-v3', 'index_x86-64-v4', 'memcpy_x86-64-v2',
+                'memcpy_x86-64-v3', 'memcpy_x86-64-v4', 'narrowing_loop_x86-64-v2',
+                'narrowing_loop_x86-64-v3', 'narrowing_loop_x86-64-v4')
+        
+        for app in apps:
+            path_relative = 'exemplars/' + app
+            path_abs = self.workdir + '/' + path_relative
+            self.assertTrue(os.path.exists(path_abs), f"missing system executable {path_abs}")
+            log_path_relative = 'exemplars/' + app.split('.', maxsplit=1)[0] + '.log'
+            log_path_abs = self.workdir + '/' + log_path_relative
+            log_mod_time = os.path.getmtime(log_path_abs) \
+                if os.path.exists(log_path_abs) else 0.0
+            if log_mod_time < os.path.getmtime(path_abs):
+                self.ghidra.logger.info('Executable import %s needs to be refreshed', path_abs)
+                result = self.ghidra.import_binary(path_relative, processor='x86:LE:64:default')
                 with open(log_path_abs,'w', encoding='utf-8') as f:
                     f.write(result.stdout)
             else:

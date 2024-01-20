@@ -1,9 +1,7 @@
 # Ghidra binary import tests
 
->Warning: The primary documentation is now in a Hugo + Docsy static web site.  The material below
->         will eventually be merged into that directory.
-
-Generate the documentation website with `hugo serve` in this directory, then open a browser at http://localhost:1313/ghidra_import_tests/.
+>Warning: The primary documentation is deployed to https://thixotropist.github.io/ghidra_import_tests/
+>         Generate the current documentation website with `hugo serve` in this directory, then open a browser at http://localhost:1313/ghidra_import_tests/.
 
 ## Summary
 

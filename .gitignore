@@ -22,6 +22,5 @@ riscv64/exemplars/logs
 .hugo_build.lock
 resources/_gen/*
 node_modules/*
-public/*
 package.json
 package-lock.json

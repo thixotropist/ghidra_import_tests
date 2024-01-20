@@ -1,0 +1,626 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+
+
+<link rel="shortcut icon" href="/ghidra_import_tests/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/ghidra_import_tests/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-192x192.png" sizes="192x192">
+
+<title>adding toolchains | Ghidra Import Testing</title>
+<meta name="description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
+Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
+We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain.">
+<meta property="og:title" content="adding toolchains" />
+<meta property="og:description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
+Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
+We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/adding_toolchains/" /><meta property="article:section" content="docs" />
+
+
+
+<meta itemprop="name" content="adding toolchains">
+<meta itemprop="description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
+Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
+We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain.">
+
+<meta itemprop="wordCount" content="2352">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="adding toolchains"/>
+<meta name="twitter:description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
+Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
+We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain."/>
+
+
+
+
+<link rel="preload" href="/ghidra_import_tests/scss/main.min.32eaa2fda0f7c82e78980a4fdfc08c5d0d69e751112d336c36776a89ea96acec.css" as="style">
+<link href="/ghidra_import_tests/scss/main.min.32eaa2fda0f7c82e78980a4fdfc08c5d0d69e751112d336c36776a89ea96acec.css" rel="stylesheet" integrity="">
+
+<script
+  src="https://code.jquery.com/jquery-3.6.3.min.js"
+  integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+  crossorigin="anonymous"></script>
+
+  </head>
+  <body class="td-page">
+    <header>
+      <nav class="td-navbar navbar-dark js-navbar-scroll">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/ghidra_import_tests/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">Ghidra Import Testing</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/overview/"><span>Overview</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/exemplars/"><span>Exemplars</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/instruction_patterns/"><span>Instruction Patterns</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/"><span>ISA Extensions</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/issues/"><span>Issues</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/"><span>Platforms and Toolchains</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/ghidra_import_tests/docs/testbed_internals/"><span>Testbed Internals</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/notes/"><span>Notes</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/overview/glossary/"><span>Glossary</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  <nav class="td-sidebar-nav collapse" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-ghidra_import_testsdocs-li">
+  <a href="/ghidra_import_tests/docs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-ghidra_import_testsdocs"><span class="">Docs</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsoverview-li">
+  <a href="/ghidra_import_tests/docs/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsoverview"><span class="">Overview</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsoverviewglossary-li">
+  <a href="/ghidra_import_tests/docs/overview/glossary/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsoverviewglossary"><span class="">Glossary</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplars-li">
+  <a href="/ghidra_import_tests/docs/exemplars/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsexemplars"><span class="">Exemplars</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsinstruction_patterns"><span class="">Instruction Patterns</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
+  <a href="/ghidra_import_tests/docs/issues/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsissues"><span class="">Issues</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesautovectorization-li">
+  <a href="/ghidra_import_tests/docs/issues/autovectorization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesautovectorization"><span class="">autovectorization</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns-li">
+  <a href="/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns"><span class="">inferring semantics from code patterns</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesvector_intrinsics-li">
+  <a href="/ghidra_import_tests/docs/issues/vector_intrinsics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesvector_intrinsics"><span class="">vector intrinsics</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsplatforms_and_toolchains-li">
+  <a href="/ghidra_import_tests/docs/platforms_and_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsplatforms_and_toolchains"><span class="">Platforms and Toolchains</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsplatforms_and_toolchainsisa_extensions-li">
+  <a href="/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsplatforms_and_toolchainsisa_extensions"><span class="">ISA Extensions</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-ghidra_import_testsdocstestbed_internals-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocstestbed_internals"><span class="">Testbed Internals</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/adding_toolchains/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains"><span class="td-sidebar-nav-active-item">adding toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains"><span class="">debugging toolchains</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotes-li">
+  <a href="/ghidra_import_tests/docs/notes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsnotes"><span class="">Notes</span></a>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            
+<div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+
+</div>
+
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#binutils-and-the-first-gcc-pass">binutils and the first gcc pass</a></li>
+    <li><a href="#glibc">glibc</a></li>
+    <li><a href="#gcc-finish">gcc finish</a></li>
+    <li><a href="#testing-the-local-toolchain">testing the local toolchain</a></li>
+    <li><a href="#packaging-the-toolchain">packaging the toolchain</a></li>
+    <li><a href="#installing-the-toolchain">installing the toolchain</a></li>
+    <li><a href="#finding-the-hidden-toolchain-dependencies">finding the hidden toolchain dependencies</a></li>
+    <li><a href="#using-the-toolchain">using the toolchain</a></li>
+    <li><a href="#cleanup">cleanup</a></li>
+    <li><a href="#toolchain-directories">toolchain directories</a>
+      <ul>
+        <li><a href="#optgcc14">/opt/gcc14</a></li>
+        <li><a href="#tmpexport">/tmp/export</a></li>
+        <li><a href="#optbazelx86_64_linux_gnu-14tarxz">/opt/bazel/x86_64_linux_gnu-14.tar.xz</a></li>
+        <li><a href="#runuser1000bazelexecroot_mainexternalx86_64_linux_gnu-14">/run/user/1000/bazel/execroot/_main/external/x86_64_linux_gnu-14</a></li>
+        <li><a href="#runuser1000bazelsandboxlinux-sandbox2execroot_mainexternalx86_64_linux_gnu-14">/run/user/1000/bazel/sandbox/linux-sandbox/2/execroot/_main/external/x86_64_linux_gnu-14</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+    
+            
+
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/ghidra_import_tests/docs/">Docs</a></li>
+  <li class="breadcrumb-item">
+    <a href="/ghidra_import_tests/docs/testbed_internals/">Testbed Internals</a></li>
+  <li class="breadcrumb-item active" aria-current="page">
+    adding toolchains</li>
+  </ol>
+</nav>
+            
+<div class="td-content">
+	<h1>adding toolchains</h1>
+	
+	<header class="article-meta">
+		
+</header>
+	
+
+<div class="pageinfo pageinfo-primary">
+<p>Adding a new toolchain takes lots of little steps, and some trial and error.</p>
+
+</div>
+
+<h2 id="overview">Overview</h2>
+<p>We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc++ as
+we use for RISCV exemplars.  This will give us some hints about how common new issues may
+be and how global new solutions may need to be.</p>
+<p>We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain.</p>
+<p>This example uses the latest released version of binutils and the development head of gcc and glibc.</p>
+<p>If we were building a toolchain for an actual product we would start by configuring and building
+a specialized kernel, which would prepopulate the system root.  We aren&rsquo;t doing that here, so
+we will use placeholders from the Fedora 39 x86_64 kernel.</p>
+<h2 id="binutils-and-the-first-gcc-pass">binutils and the first gcc pass</h2>
+<p>We want binutils installed first.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#204a87">cd</span> /home2/vendor/binutils-gdb
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> git log
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">commit 2c73aeb8d2e02de7b69cbcb13361cfbca9d76a4e (HEAD, tag: binutils-2_41)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Author: Nick Clifton &lt;nickc@redhat.com&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Date:   Sun Jul 30 14:55:52 2023 +0100
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    The 2.41 release!
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> <span style="color:#204a87">cd</span> /home2/build_x86/binutils
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.../vendor/binutils-gdb/configure --prefix=/opt/gcc14 --disable-multilib --enable-languages=c,c++,rust,lto
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> make
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make install
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span></code></pre></div><p>The gcc suite and the glibc standard library have a circular dependency.  We build and install
+the basic gcc capability first, then glibc, and then finish with the rest of gcc.  During this process
+we likely need to add system files to the new sysroot directory.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#204a87">cd</span> /home2/vendor/gcc
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> git log
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">commit ac9c81dd76cfc34ed53402049021689a61c6d6e7 (HEAD -&gt; master, origin/trunk, origin/master, origin/HEAD)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Author: Pan Li &lt;pan2.li@intel.com&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Date:   Mon Dec 18 21:40:00 2023 +0800
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    RISC-V: Rename the rvv test case.
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> <span style="color:#204a87">cd</span> /home2/build_x86/gcc
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/home2/vendor/gcc/configure --prefix=/opt/gcc14 --disable-multilib --enable-languages=c,c++,rust,lto
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> make
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> make install
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span></code></pre></div><p>The <code>make</code> and <code>make install</code> may throw errors after completing the basic compiler.  If so, we can
+complete the build after we get glibc installed.</p>
+<h2 id="glibc">glibc</h2>
+<p>We should have enough of gcc-14 built to configure and build the 64 bit glibc package.  This pending release of glibc
+has lots of changes, so we can expect some tinkering to get it to work for us.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">$</span> <span style="color:#204a87">cd</span> /home2/vendor/glibc
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> git log
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">commit e957308723ac2e55dad360d602298632980bbd38 (HEAD -&gt; master, origin/master, origin/HEAD)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Author: Matthew Sterrett &lt;matthew.sterrett@intel.com&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Date:   Fri Dec 15 12:04:05 2023 -0800
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    x86: Unifies &#39;strlen-evex&#39; and &#39;strlen-evex512&#39; implementations.
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> mkdir -p /home2/build_x86/glibc
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#204a87">cd</span> /home2/build_x86/glibc
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> /home2/vendor/glibc/configure <span style="color:#000">CC</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;/opt/gcc14/bin/gcc&#34;</span> --prefix<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;/usr&#34;</span> <span style="color:#000">install_root</span><span style="color:#ce5c00;font-weight:bold">=</span>/opt/gcc14/sysroot --disable-werror --enable-shared --disable-multilib
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make <span style="color:#000">install_root</span><span style="color:#ce5c00;font-weight:bold">=</span>/opt/gcc14/sysroot install
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> du -hs /opt/gcc14/sysroot
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">105M	/opt/gcc14/sysroot
+</span></span></span></code></pre></div><h2 id="gcc-finish">gcc finish</h2>
+<p>If the <code>gcc</code> installation errored out before completion, try it again after glibc is installed.  This time it should complete without error.</p>
+<h2 id="testing-the-local-toolchain">testing the local toolchain</h2>
+<p>Next we want to exercise the toolchain by compiling a very simple C program:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#include</span> <span style="color:#8f5902;font-style:italic">&lt;stdio.h&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">main</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">argc</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">char</span><span style="color:#ce5c00;font-weight:bold">**</span> <span style="color:#000">argv</span><span style="color:#000;font-weight:bold">){</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">N</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">1320</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">char</span> <span style="color:#000">s</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">N</span><span style="color:#000;font-weight:bold">];</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">&lt;</span> <span style="color:#000">N</span> <span style="color:#ce5c00;font-weight:bold">-</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#ce5c00;font-weight:bold">++</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">s</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">s</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">N</span> <span style="color:#ce5c00;font-weight:bold">-</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#39;\0&#39;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">printf</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">s</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>We&rsquo;ll build it with three sets of options and import all three into Ghidra 11</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">/opt/gcc14/bin/gcc gcc_vectorization/helloworld_challenge.c -o a_unoptimized.out
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/opt/gcc14/bin/gcc -O3 gcc_vectorization/helloworld_challenge.c -o a_host_optimized.out
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/opt/gcc14/bin/gcc -march=rocketlake -O3 gcc_vectorization/helloworld_challenge.c -o a_rocketlake_optimized.out
+</span></span></span></code></pre></div><blockquote>
+<p>Note: Rocket Lake is Intel&rsquo;s codename for its 11th generation Core microprocessors</p>
+</blockquote>
+<p>Ghidra 11 gives us:</p>
+<ul>
+<li><code>a_unoptimized.out</code> imports and decompiles cleanly, with recognizable disassembly and decompiler output of 5 lines of code.</li>
+<li><code>a_host_optimized.out</code> imports cleanly and decompiles into about 150 lines of hard-to-interpret C code.  The loop has been
+autovectorized using instructions like <code>PUNPCKHWD</code>, <code>PUNPCKLWD</code>, and <code>PADDD</code>.  These appear to be AVX-512 vector extensions.</li>
+<li><code>a_rocketlake_optimized.out</code> fails to disassemble <em>or</em> decompile when it hits AVX2 instructions like <code>vpbroadcastd</code>.
+Binutils 2.41&rsquo;s <code>objdump</code> appears to recognize these instructions.</li>
+</ul>
+<p>As a stretch goal, what does the gcc-14 Rust compiler give us?</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">/opt/gcc14/bin/gccrs -frust-incomplete-and-experimental-compiler-do-not-use src/main.rs
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">src/main.rs:25:5: error: unknown macro: [log::info]
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">   25 |     log::info!(
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">      |     ^~~
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">src/main.rs:29:5: error: unknown macro: [log::info]
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">   29 |     log::info!(
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">      |     ^~~
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span></code></pre></div><p>If gccrs can&rsquo;t handle basic rust macros, it isn&rsquo;t very useful for generating exemplars.  We won&rsquo;t include it in our portable toolchain.</p>
+<h2 id="packaging-the-toolchain">packaging the toolchain</h2>
+<p>Now we need to make the toolchain hermetic, portable, and ready for Bazel workspaces.</p>
+<p>Hermeticity means that nothing under <code>/opt/gcc14</code> makes a hidden reference to local host files under <code>/usr</code>.  Any such reference needs to
+be changed into a relative reference.  These are common in short sharable object files that link to one or more true sharable object libraries.</p>
+<p>You can often identify possible troublemakers by searching for smallish regular files with a <code>.so</code> extension.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> find /opt/gcc14 -name <span style="color:#4e9a06">\*</span>.so -type f -size -1000c -ls
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/opt/gcc14$ find /opt/gcc14 -name \*.so -type f -size -1000c -ls
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">... 273 Dec 27 12:41 /opt/gcc14/lib/libc.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">... 126 Dec 27 12:42 /opt/gcc14/lib/libm.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">... 132 Dec 27 11:42 /opt/gcc14/lib64/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">$</span> cat /opt/gcc14/lib/libc.so
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/* GNU ld script
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">   Use the shared library, but some functions are only in
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">   the static library, so try that secondarily.  */
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">OUTPUT_FORMAT(elf64-x86-64)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GROUP ( /opt/gcc14/lib/libc.so.6 /opt/gcc14/lib/libc_nonshared.a  AS_NEEDED ( /opt/gcc14/lib/ld-linux-x86-64.so.2 ) )
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">$</span> cat /opt/gcc14/lib/libm.so
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/* GNU ld script
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">*/
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">OUTPUT_FORMAT(elf64-x86-64)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GROUP ( /opt/gcc14/lib/libm.so.6  AS_NEEDED ( /opt/gcc14/lib/libmvec.so.1 ) )
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">$</span> cat /opt/gcc14/lib/libm.so
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/* GNU ld script
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">*/
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">OUTPUT_FORMAT(elf64-x86-64)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GROUP ( /opt/gcc14/lib/libm.so.6  AS_NEEDED ( /opt/gcc14/lib/libmvec.so.1 ) )
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">thixotropist@mini:/opt/gcc14$ cat /opt/gcc14/lib64/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/* GNU ld script
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">   Use the shared library, but some functions are only in
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">   the static library.  */
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GROUP ( libgcc_s.so.1 -lgcc )
+</span></span></span></code></pre></div><p>So two of the three files need patching: replacing <code>/opt/gcc14/lib</code> with <code>.</code>.  Any text editor will do.</p>
+<p>Next we need to identify all dynamic host dependencies of binaries under <code>/opt/gcc14</code>.
+The <code>ldd</code> command will identify these local system files,
+which should be collected into a separate tarball.  This tarball can be shared with other cross-compilers
+built at the same time, and is generally portable across similar linux kernels and distributions.</p>
+<p>At this point we can <code>strip</code> the executable files within the toolchain and identify the ones we want to keep in the portable toolchain tarball.
+Scripts under <code>toolchain/toolchains/gcc-14-*/scripts</code> will help with that.</p>
+<p><code>generate.sh</code> uses rsync to copy selected files from <code>/opt/gcc14</code> into <code>/tmp/export</code>, stripping the known binaries, and creating the portable tarball.
+It then collects relevant dynamic libraries from the host and creates a second portable tarball.</p>
+<p>These two tarballs can then be copied to other computers and imported into a project by adding stanzas to the project WORKSPACE file.</p>
+<h2 id="installing-the-toolchain">installing the toolchain</h2>
+<p>The toolchain tarball is currently in <code>/opt/bazel``.  We need its full path and sha256sum to make it accessible within our workspace. Edit </code>WORKSPACE` to include:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000">load</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;@bazel_tools//tools/build_defs/repo:http.bzl&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;http_archive&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># gcc-14 x86_64 toolchain from snapshot gcc-14 and glibc development heads</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">http_archive</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64-toolchains&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">urls</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;file:///opt/bazel/x86_64_linux_gnu-14.tar.xz&#34;</span><span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">build_file</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;//:gcc-14-x86_64-toolchains.BUILD&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">sha256</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;40cc4664a11b8da56478393c7c8b823b54f250192bdc1e1181c9e4f8ac15e3be&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># system libraries used by toolchain build system</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># We built the custom toolchain on a fedora x86_64 platform, so we need some</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># fedora x86_64 sharable system libraries to execute.</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">http_archive</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;fedora39-system-libs&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">urls</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;file:///opt/bazel/fedora39_system_libs.tar.xz&#34;</span><span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">build_file</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;//:fedora39-system-libs.BUILD&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">sha256</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;fe91415b05bb902964f05f7986683b84c70338bf484f23d05f7e8d4096949d1b&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div><p>Bazel will unpack this tarball into an external project directory, something like <code>/run/user/1000/bazel/execroot/_main/external/gcc-14-x86_64-toolchains/</code>.
+Individual files and filegroups within that directory are defined in <code>x86_64/toolchain/gcc-14-x86_64-toolchains.BUILD</code>.
+The filegroup <code>compiler_files</code> is probably the most important, as it collects everything that might be used in anything launched from gcc or g++.
+The full Bazel name for this filegroup is <code>@gcc-14-x86_64-toolchains//:compiler_files</code>.</p>
+<p>Each custom toolchain is defined within the <code>x86_64/toolchain/toolchains/BUILD</code> file.  This associates filegroups from a (possibly shared) toolchain tarball like
+<code>gcc-14-x86_64-toolchains</code> with a set of default compiler and linker options and standard libraries.  We might want multiple gcc-14 toolchains, for building kernels,
+kernel modules, and userspace applications respectively.</p>
+<p>Most of the configuration exists within stanzas like this:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000">toolchain</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;x86_64_default&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">target_compatible_with</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;:x86_64&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">toolchain</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:x86_64-default-gcc&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">toolchain_type</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;@bazel_tools//tools/cpp:toolchain_type&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">cc_toolchain</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;x86_64-default-gcc&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">all_files</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:all_files&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">ar_files</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:gcc_14_compiler_files&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">as_files</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">compiler_files</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:gcc_14_compiler_files&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">dwp_files</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">linker_files</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:gcc_14_compiler_files&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">objcopy_files</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">strip_files</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">supports_param_files</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">toolchain_config</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:x86_64-default-gcc-config&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">toolchain_identifier</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;x86_64-default-gcc&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">cc_toolchain_config</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;x86_64-default-gcc-config&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">abi_libc_version</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">abi_version</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic"># take the isystem ordering from the output of gcc -xc++ -E -v -</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;--sysroot&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;external/gcc-14-x86_64-toolchains/sysroot/&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-Wall&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">compiler</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;gcc&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">coverage_compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;--coverage&#34;</span><span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">coverage_link_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;--coverage&#34;</span><span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">cpu</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;x86_64&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic"># we really want the following to be constructed from $(output_base) or $(location ...)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">cxx_builtin_include_directories</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/sysroot/usr/include&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/x86_64-pc-linux-gnu/include/c++/14.0.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include-fixed&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">cxx_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-std=c++20&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-fno-rtti&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">dbg_compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;-g&#34;</span><span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">host_system_name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">link_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;--sysroot&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;external/gcc-14-x86_64-toolchains/sysroot/&#34;</span><span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">link_libs</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;-lstdc++&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;-lm&#34;</span><span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">opt_compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-g0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-Os&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-DNDEBUG&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-ffunction-sections&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-fdata-sections&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">opt_link_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;-Wl,--gc-sections&#34;</span><span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">supports_start_end_lib</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">False</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">target_libc</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">target_system_name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">tool_paths</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;ar&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64/imported/ar&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;ld&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64/imported/ld&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;cpp&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64/imported/cpp&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;gcc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64/imported/gcc&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;dwp&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;gcov&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;nm&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64/imported/nm&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;objcopy&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64/imported/objcopy&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;objdump&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64/imported/objdump&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;strip&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64/imported/strip&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">toolchain_identifier</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">unfiltered_compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-fno-canonical-system-headers&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-Wno-builtin-macro-redefined&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-D__DATE__=</span><span style="color:#4e9a06">\&#34;</span><span style="color:#4e9a06">redacted</span><span style="color:#4e9a06">\&#34;</span><span style="color:#4e9a06">&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-D__TIMESTAMP__=</span><span style="color:#4e9a06">\&#34;</span><span style="color:#4e9a06">redacted</span><span style="color:#4e9a06">\&#34;</span><span style="color:#4e9a06">&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-D__TIME__=</span><span style="color:#4e9a06">\&#34;</span><span style="color:#4e9a06">redacted</span><span style="color:#4e9a06">\&#34;</span><span style="color:#4e9a06">&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div><p>The <code>tool_paths</code> element points to small bash scripts needed to launch compiler components like <code>gcc</code> and <code>ar</code> and <code>strip</code>.
+These give us the chance to use imported system sharable object libraries rather than the host&rsquo;s sharable object libraries.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87">set</span> -euo pipefail
+</span></span><span style="display:flex;"><span><span style="color:#000">PATH</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">`</span><span style="color:#204a87">pwd</span><span style="color:#4e9a06">`</span>/toolchains/gcc-14-x86_64/imported <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span><span style="color:#000">LD_LIBRARY_PATH</span><span style="color:#ce5c00;font-weight:bold">=</span>external/fedora39-system-libs <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>  external/gcc-14-x86_64-toolchains/bin/gcc <span style="color:#4e9a06">&#34;</span><span style="color:#000">$@</span><span style="color:#4e9a06">&#34;</span>
+</span></span></code></pre></div><h2 id="finding-the-hidden-toolchain-dependencies">finding the hidden toolchain dependencies</h2>
+<p>Compiling and linking source files takes many dependent files from <code>/opt/gcc14</code>.  The next step is tedious and iterative - we need to prove
+that the portable toolchain tarball derived from <code>/opt/gcc14</code> never references any file in that directory, or any local host file under <code>/usr</code>.
+Bazel can do that for us, at the cost of identifying every file or file &lsquo;glob&rsquo; that may be called for each of the toolchain primitives.
+It runs the toolchain in a sandbox, forcing an exception on all references not previously declared as dependencies.</p>
+<p>This kind of exception looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/toolchain/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule &#39;//userSpaceSamples:helloworld&#39;:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">the source file &#39;userSpaceSamples/helloworld.c&#39; includes the following non-builtin files with absolute paths (if these are builtin files, make sure these paths are in your toolchain):
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  &#39;/usr/include/stdc-predef.h&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  &#39;/usr/include/stdio.h&#39;
+</span></span></span></code></pre></div><p>If you see this check:</p>
+<ul>
+<li>whether <code>stdio.h</code> was installed in the right directory under <code>/opt/gcc14</code>.</li>
+<li>whether <code>stdio.h</code> was copied into <code>/tmp/export</code> when building the tarball</li>
+<li>whether the instances of <code>stdio.h</code> appeared in the appropriate compiler file groups defined in <code>gcc-14-x86_64-toolchains.BUILD</code></li>
+<li>whether those filegroups were properly imported into the Bazel sandbox for your build</li>
+<li>whether the compile_flags for your toolchain tell gcc-14 to search the sandbox for the directories containing <code>stdio.h</code>
+<pre tabindex="0"><code>&#34;-isystem&#34;, &#34;external/gcc-14-x86_64-toolchains/sysroot/usr/include&#34;,
+</code></pre></li>
+<li>whether the link_flags for your toolchain tell gcc-14 to search the sandbox for the directories containing <code>crt1.o</code> and <code>crti.o</code></li>
+</ul>
+<h2 id="using-the-toolchain">using the toolchain</h2>
+<p>We can test our new toolchain with a build of <code>helloworld</code>.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/toolchain$ bazel clean
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Starting clean (this may take a while). Consider using --async if the clean takes more than several minutes.
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/toolchain$ bazel run -s --platforms=//platforms:x86_64_default userSpaceSamples:helloworld
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Analyzed target //userSpaceSamples:helloworld (69 packages loaded, 1538 targets configured).
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">SUBCOMMAND: # //userSpaceSamples:helloworld [action &#39;Compiling userSpaceSamples/helloworld.c&#39;, configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b, execution platform: @@local_config_platform//:host, mnemonic: CppCompile]
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">(cd /run/user/1000/bazel/execroot/_main &amp;&amp; \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  exec env - \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PATH=/home/thixotropist/.local/bin:/home/thixotropist/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin:/home/thixotropist/.local/bin:/home/thixotropist/bin:/opt/ghidra_10.3.2_PUBLIC/:/home/thixotropist/.cargo/bin::/usr/lib/jvm/jdk-17-oracle-x64/bin:/opt/gradle-7.6.2/bin \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PWD=/proc/self/cwd \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  toolchains/gcc-14-x86_64/imported/gcc -U_FORTIFY_SOURCE --sysroot external/gcc-14-x86_64-toolchains/sysroot/ -Wall -MD -MF bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.d &#39;-frandom-seed=bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o&#39; -fPIC -iquote . -iquote bazel-out/k8-fastbuild/bin -iquote external/bazel_tools -iquote bazel-out/k8-fastbuild/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined &#39;-D__DATE__=&#34;redacted&#34;&#39; &#39;-D__TIMESTAMP__=&#34;redacted&#34;&#39; &#39;-D__TIME__=&#34;redacted&#34;&#39; -c userSpaceSamples/helloworld.c -o bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">#</span> Configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">#</span> Execution platform: @@local_config_platform//:host
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">SUBCOMMAND: # //userSpaceSamples:helloworld [action &#39;Linking userSpaceSamples/helloworld&#39;, configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b, execution platform: @@local_config_platform//:host, mnemonic: CppLink]
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">(cd /run/user/1000/bazel/execroot/_main &amp;&amp; \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  exec env - \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PATH=/home/thixotropist/.local/bin:/home/thixotropist/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin:/home/thixotropist/.local/bin:/home/thixotropist/bin:/opt/ghidra_10.3.2_PUBLIC/:/home/thixotropist/.cargo/bin::/usr/lib/jvm/jdk-17-oracle-x64/bin:/opt/gradle-7.6.2/bin \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PWD=/proc/self/cwd \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  toolchains/gcc-14-x86_64/imported/gcc -o bazel-out/k8-fastbuild/bin/userSpaceSamples/helloworld -Wl,-S --sysroot external/gcc-14-x86_64-toolchains/sysroot/ bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o -lstdc++ -lm)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">#</span> Configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">#</span> Execution platform: @@local_config_platform//:host
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Found 1 target...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Target //userSpaceSamples:helloworld up-to-date:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  bazel-bin/userSpaceSamples/helloworld
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Elapsed time: 0.289s, Critical Path: 0.10s
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: 6 processes: 4 internal, 2 linux-sandbox.
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Build completed successfully, 6 total actions
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Running command line: bazel-bin/userSpaceSamples/helloworld
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Hello World!
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> strings bazel-bin/userSpaceSamples/helloworld<span style="color:#000;font-weight:bold">|</span>grep -i gcc
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GCC: (GNU) 14.0.0 20231218 (experimental)
+</span></span></span></code></pre></div><p>Things to note:</p>
+<ul>
+<li>The command line includes <code>--platforms=//platforms:x86_64_default</code> to show we are <em>not</em> building for the local host</li>
+<li><code>toolchains/gcc-14-x86_64/imported/gcc</code> is invoked twice, once to compile and once to link</li>
+<li><code>--sysroot external/gcc-14-x86_64-toolchains/sysroot</code> is used twice, to avoid including host files under <code>/usr</code></li>
+<li>The <code>helloworld</code> executable happens to execute on the host machine.</li>
+<li>The <code>helloworld</code> executable contains no references to gcc-13, the native toolchain on the host machine.</li>
+</ul>
+<p>Now try a C++ build:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel run -s --platforms<span style="color:#ce5c00;font-weight:bold">=</span>//platforms:x86_64_default userSpaceSamples:helloworld++
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Target //userSpaceSamples:helloworld++ up-to-date:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  bazel-bin/userSpaceSamples/helloworld++
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Elapsed time: 0.589s, Critical Path: 0.51s
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: 3 processes: 1 internal, 2 linux-sandbox.
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Build completed successfully, 3 total actions
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Running command line: bazel-bin/userSpaceSamples/helloworld++
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Hello World!
+</span></span></span></code></pre></div><h2 id="cleanup">cleanup</h2>
+<p>We&rsquo;ve got a working toolchain, but with many dangling links, duplicate files, and unused definitions.
+The toolchain files normally provided by a kernel were copied in as needed from the host, with the understanding that we never
+really needed runnable applications.</p>
+<p>If this were a production environment we would be a lot more careful.  It&rsquo;s not, so we will just summarize some of the areas
+that might benefit from such a cleanup.</p>
+<h2 id="toolchain-directories">toolchain directories</h2>
+<p>Adding and testing a toolchain involves lots of similar-looking directories.</p>
+<h3 id="optgcc14">/opt/gcc14</h3>
+<p>This directory is the install target for our binutils, gcc, and glibc builds.  It is not itself used by the Bazel build
+framework, and need not be present on any host machine running the toolchain.</p>
+<ul>
+<li>The overall size is reported as 3.1 GB, inflated somewhat by multiple hardlinks</li>
+<li><code>fdupes</code> reports 2446 duplicate files (in 2136 sets), occupying 200.2 megabytes</li>
+<li>There are six files over 150 MB in size</li>
+</ul>
+<h3 id="tmpexport">/tmp/export</h3>
+<p>This directory holds a subset of <code>/opt/gcc14</code>, with many binaries stripped.  The hard links
+of `/opt/gcc14`` are lost.  It may be discarded after the portable tarball is generated.</p>
+<ul>
+<li>the overall size is 731 MB</li>
+<li><code>fdupes</code> reports 1010 duplicate files (in 983 sets), occupying 69.0 megabytes</li>
+<li>There are 16 files over 10 MB in size</li>
+</ul>
+<h3 id="optbazelx86_64_linux_gnu-14tarxz">/opt/bazel/x86_64_linux_gnu-14.tar.xz</h3>
+<p>The compressed portable tarball size is 171M.  It expands into a locally cached equivalent of <code>/tmp/export</code>.
+This file must be accessible to Bazel during a crosscompilation, either as a file reference or as a remote http or
+https URL.</p>
+<h3 id="runuser1000bazelexecroot_mainexternalx86_64_linux_gnu-14">/run/user/1000/bazel/execroot/_main/external/x86_64_linux_gnu-14</h3>
+<p>Bazel agents will decompress the tarball if and when needed into a local cache directory.  In this case, it is unpacked
+into a RAM file system for speed.</p>
+<h3 id="runuser1000bazelsandboxlinux-sandbox2execroot_mainexternalx86_64_linux_gnu-14">/run/user/1000/bazel/sandbox/linux-sandbox/2/execroot/_main/external/x86_64_linux_gnu-14</h3>
+<p>Temporary sandboxes like this are created when individual compiler and linker steps are executed.  They implement whatever subset of the
+cached toolchain tarball are explicitly named as dependencies for that step.  Toolchain references outside of the sandbox are often flagged
+as hermeticity errors and abort the build.</p>
+
+	
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+      </div>
+      <div class="col-6 col-sm-4 text-end text-xs-center order-sm-3">
+        
+      </div>
+      <div class="td-footer__copyright-etc col-12 col-sm-4 text-center py-2 order-sm-2">
+        
+        
+        
+      </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <script src="/ghidra_import_tests/js/main.min.ef0a24942ffc834b9dd443cf3958c44f0167ea9e969b5acb60ce8badad7c7f3f.js" integrity="sha256-7woklC/8g0ud1EPPOVjETwFn6p6Wm1rLYM6Lra18fz8=" crossorigin="anonymous"></script>
+<script defer src="/ghidra_import_tests/js/click-to-copy.min.f724d3de49218995223b7316aa2e53e2b34bf42026bf399ebb21bb02212402d1.js" integrity="sha256-9yTT3kkhiZUiO3MWqi5T4rNL9CAmvzmeuyG7AiEkAtE=" crossorigin="anonymous"></script>
+<script src='/ghidra_import_tests/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

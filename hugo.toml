@@ -1,4 +1,4 @@
-baseURL = 'https://thixotropist.github.io/ghidra_import_tests'
+baseURL = 'https://thixotropist.github.io/ghidra_import_tests/'
 languageCode = 'en-us'
 title = 'Ghidra Import Testing'
 

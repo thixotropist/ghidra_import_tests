@@ -4,8 +4,8 @@ Generate small exemplars from source code and imported toolchains
 """
 import unittest
 import subprocess
-import sys
 import os
+import sys
 import logging
 
 class Bazel():
@@ -257,7 +257,8 @@ class T1IsaExemplars(unittest.TestCase):
         """
         exemplar_tarball = f"{self.bazel.workspace_dir}/bazel-out/k8-fastbuild/bin/assemblySamples/archive.tar"
         self.assertTrue(os.path.exists(exemplar_tarball), "assembly language tarball is missing")
-        command = f'cd riscv64/exemplars && tar --strip-components=4 -xf {exemplar_tarball}' + ' && chmod a-x *.{o,objdump,list}'
+        command = f'cd riscv64/exemplars && tar --strip-components=4 -xf {exemplar_tarball}' + \
+            ' && chmod a-x *.{o,objdump,list}'
         result = subprocess.run(command,
             check=False, capture_output=True, encoding='utf8', shell=True,)
         if result.returncode != 0:

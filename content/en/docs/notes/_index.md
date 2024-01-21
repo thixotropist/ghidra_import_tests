@@ -15,12 +15,13 @@ Put unstructured comments here until we know what to do with them.
   including material that might help in creating a formal Ghidra issue
   or triaging future research and development initiatives.
 * Update the `isa_ext` Ghidra branch to expand `vsetvli` arguments
-* Determine why the `isa_ext` fails to disassemble the `bext` instruction in `b-ext-64.o` and `b-ext.o`
-* Import THead objects through the THead language processor, not the default RISCV64.
+* Determine why the `isa_ext` Ghidra branch fails to disassemble the `bext` instruction in `b-ext-64.o` and `b-ext.o`
+* ~~Import THead objects through the THead language processor, not the default RISCV64.~~
 * Determine why `semantics.o` won't disassemble
 * Determine why `zvbc.o` won't disassemble
 * Determine why `unknown.o` won't disassemble or reference where we found these instructions
-
+* Normalize logger initialization to prevent duplicate logger messaging
+* Clarify python scripts to show more of the directory context
 
 ## Existing scattered documentation to be consolidated here
 
@@ -45,3 +46,6 @@ Add some C++ code to exercise libstdc++ ordered maps (based on red-black trees?)
 
 There are a few places where THead customized instructions are used.  The Murmur hash function uses vector load and store instructions to implement 8 byute unaligned
 reads.  Bit manipulation extension instructions are not yet used.
+
+Initial results suggest the largest complexity impact will be gcc rewriting of memory and structure copies with vector code.  This may be
+especially true for hardware requiring aligned integers where alignment can not be guaranteed.

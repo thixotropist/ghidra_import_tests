@@ -4,7 +4,6 @@ Import exemplars into Ghidra
 """
 import unittest
 import subprocess
-import sys
 import os
 import logging
 import pathlib
@@ -27,11 +26,8 @@ class Ghidra():
 
         self.work_dir = work_dir
         self.script_dir = f"{self.work_dir}/{script_dir}"
-        self.logger = logging.getLogger('Ghidra')
-        stream_handler = logging.StreamHandler(sys.stdout)
-        self.logger.addHandler(stream_handler)
-        self.logger.setLevel(logging.INFO)
-        #self.logger.setLevel(logging.WARN)
+        logging.basicConfig(level=logging.INFO)
+        self.logger = logging
         self.project_dir = project_dir
 
     def import_binary(self, binary_path, pre_script='', post_script='',
@@ -204,8 +200,11 @@ class T0RiscvImports(unittest.TestCase):
         import_path = pathlib.Path(obj_dir)
 
         importables = chain(import_path.glob('*.o'),import_path.glob('*.so'))
+
         for imp in importables:
             base_file = str(imp).removeprefix(obj_dir)
+            # switch processors if we know the exemplar uses a vendor-specific ISA
+            processor = 'RISCV:LE:64:thead' if 'thead' in base_file else 'RISCV:LE:64:RV64IC'
             self.ghidra.logger.info('Examining %s import file', base_file)
             path_relative = 'exemplars/' + base_file
             path_abs = self.workdir + '/' + path_relative
@@ -216,7 +215,7 @@ class T0RiscvImports(unittest.TestCase):
                 if os.path.exists(log_path_abs) else 0.0
             if log_mod_time < os.path.getmtime(path_abs):
                 self.ghidra.logger.info('Object import %s needs to be refreshed', path_abs)
-                result = self.ghidra.import_binary(path_relative)
+                result = self.ghidra.import_binary(path_relative, processor=processor)
                 with open(log_path_abs,'w', encoding='utf-8') as f:
                     f.write(result.stdout)
             else:
@@ -237,7 +236,7 @@ class T1x8664Imports(unittest.TestCase):
         apps = ('index_x86-64-v2', 'index_x86-64-v3', 'index_x86-64-v4', 'memcpy_x86-64-v2',
                 'memcpy_x86-64-v3', 'memcpy_x86-64-v4', 'narrowing_loop_x86-64-v2',
                 'narrowing_loop_x86-64-v3', 'narrowing_loop_x86-64-v4')
-        
+
         for app in apps:
             path_relative = 'exemplars/' + app
             path_abs = self.workdir + '/' + path_relative

@@ -31,3 +31,5 @@ node_modules/*
 public/*
 package.json
 package-lock.json
+# ignore python cache
+__pycache__/*

@@ -9,7 +9,6 @@ weight: 20
 What will RISCV-64 cores offer networking? 
 {{% /pageinfo %}}
 
-
 ## will vector instructions be useful in network appliances?
 
 Network kernel code has lots of conditional branches and very few loops.  This suggests RISCV vector instructions won't be

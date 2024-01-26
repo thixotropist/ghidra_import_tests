@@ -9,6 +9,9 @@ import logging
 import pathlib
 from itertools import chain
 
+logging.basicConfig(level=logging.INFO)
+logger = logging
+
 class Ghidra():
     """
     Collect Ghidra headless analyzer commands.  Ghindra imports are
@@ -17,7 +20,8 @@ class Ghidra():
     GHIDRA_HOME = "/opt/ghidra_11.1_DEV"
     GHIDRA_RUN = GHIDRA_HOME + "/support/analyzeHeadless"
 
-    def __init__(self, work_dir, project_dir='riscv64/exemplars', script_dir='scripts'):
+    def __init__(self, work_dir, project_dir='riscv64/exemplars',
+                 logger=logger, script_dir='scripts'):
         """
         Ghidra's analyzeHeadless runs in this directory,
         importing riscv-64 binaries with optional postAnalysis
@@ -26,9 +30,8 @@ class Ghidra():
 
         self.work_dir = work_dir
         self.script_dir = f"{self.work_dir}/{script_dir}"
-        logging.basicConfig(level=logging.INFO)
-        self.logger = logging
         self.project_dir = project_dir
+        self.logger = logger
 
     def import_binary(self, binary_path, pre_script='', post_script='',
                       script_args='', processor='RISCV:LE:64:RV64IC'):
@@ -109,14 +112,14 @@ class T0RiscvImports(unittest.TestCase):
             if os.path.exists(self.kernel_import_log_path) else 0.0
 
         if log_mod_time < max(kernel_mod_time, map_mod_time):
-            self.ghidra.logger.info('Kernel import needs to be refreshed')
+            logger.info('Kernel import needs to be refreshed')
             result = self.ghidra.import_binary(self.kernel_file,
                                     pre_script=self.kernel_preanalysis_script,
                                     script_args=self.sysmap_path)
             with open(self.kernel_import_log_path,'w', encoding='utf-8') as f:
                 f.write(result.stdout)
         else:
-            self.ghidra.logger.info('Current Kernel import log file found - skipping import')
+            logger.info('Current Kernel import log file found - skipping import')
 
     def test_02_kernel_module_import(self):
         """
@@ -139,14 +142,14 @@ class T0RiscvImports(unittest.TestCase):
         log_mod_time = os.path.getmtime(self.kernel_module_log_path) \
             if os.path.exists(self.kernel_module_log_path) else 0.0
         if log_mod_time < max(module_mod_time, test_script_mod_time):
-            self.ghidra.logger.info('Kernel module import needs to be refreshed')
+            logger.info('Kernel module import needs to be refreshed')
             result = self.ghidra.import_binary(self.kernel_module_file,
                                     post_script=self.kernel_module_postanalysis_script,
                                     script_args=self.test_results_dir + '/igc_ko_tests.json')
             with open(self.kernel_module_log_path,'w', encoding='utf-8') as f:
                 f.write(result.stdout)
         else:
-            self.ghidra.logger.info('Current Kernel module import log file found - skipping import')
+            logger.info('Current Kernel module import log file found - skipping import')
 
     def test_03_system_lib_imports(self):
         """
@@ -163,12 +166,12 @@ class T0RiscvImports(unittest.TestCase):
             log_mod_time = os.path.getmtime(log_path_abs) \
                 if os.path.exists(log_path_abs) else 0.0
             if log_mod_time < os.path.getmtime(path_abs):
-                self.ghidra.logger.info('Library import %s needs to be refreshed', path_abs)
+                logger.info('Library import %s needs to be refreshed', path_abs)
                 result = self.ghidra.import_binary(path_relative)
                 with open(log_path_abs,'w', encoding='utf-8') as f:
                     f.write(result.stdout)
             else:
-                self.ghidra.logger.info('Current library %s import log file found - skipping import', lib)
+                logger.info('Current library %s import log file found - skipping import', lib)
 
     def test_04_system_executable_imports(self):
         """
@@ -185,12 +188,12 @@ class T0RiscvImports(unittest.TestCase):
             log_mod_time = os.path.getmtime(log_path_abs) \
                 if os.path.exists(log_path_abs) else 0.0
             if log_mod_time < os.path.getmtime(path_abs):
-                self.ghidra.logger.info('Executable import %s needs to be refreshed', path_abs)
+                logger.info('Executable import %s needs to be refreshed', path_abs)
                 result = self.ghidra.import_binary(path_relative)
                 with open(log_path_abs,'w', encoding='utf-8') as f:
                     f.write(result.stdout)
             else:
-                self.ghidra.logger.info('Current executable %s import log file found - skipping import', app)
+                logger.info('Current executable %s import log file found - skipping import', app)
 
     def test_05_generated_imports(self):
         """
@@ -205,7 +208,7 @@ class T0RiscvImports(unittest.TestCase):
             base_file = str(imp).removeprefix(obj_dir)
             # switch processors if we know the exemplar uses a vendor-specific ISA
             processor = 'RISCV:LE:64:thead' if 'thead' in base_file else 'RISCV:LE:64:RV64IC'
-            self.ghidra.logger.info('Examining %s import file', base_file)
+            logger.info('Examining %s import file', base_file)
             path_relative = 'exemplars/' + base_file
             path_abs = self.workdir + '/' + path_relative
             self.assertTrue(os.path.exists(path_abs), f"missing object importable {path_abs}")
@@ -214,12 +217,12 @@ class T0RiscvImports(unittest.TestCase):
             log_mod_time = os.path.getmtime(log_path_abs) \
                 if os.path.exists(log_path_abs) else 0.0
             if log_mod_time < os.path.getmtime(path_abs):
-                self.ghidra.logger.info('Object import %s needs to be refreshed', path_abs)
+                logger.info('Object import %s needs to be refreshed', path_abs)
                 result = self.ghidra.import_binary(path_relative, processor=processor)
                 with open(log_path_abs,'w', encoding='utf-8') as f:
                     f.write(result.stdout)
             else:
-                self.ghidra.logger.info('Current object file %s import log found - skipping import', base_file)
+                logger.info('Current object file %s import log found - skipping import', base_file)
 
 class T1x8664Imports(unittest.TestCase):
     """
@@ -246,12 +249,12 @@ class T1x8664Imports(unittest.TestCase):
             log_mod_time = os.path.getmtime(log_path_abs) \
                 if os.path.exists(log_path_abs) else 0.0
             if log_mod_time < os.path.getmtime(path_abs):
-                self.ghidra.logger.info('Executable import %s needs to be refreshed', path_abs)
+                logger.info('Executable import %s needs to be refreshed', path_abs)
                 result = self.ghidra.import_binary(path_relative, processor='x86:LE:64:default')
                 with open(log_path_abs,'w', encoding='utf-8') as f:
                     f.write(result.stdout)
             else:
-                self.ghidra.logger.info('Current executable %s import log file found - skipping import', app)
+                logger.info('Current executable %s import log file found - skipping import', app)
 
 if __name__ == '__main__':
     unittest.main()

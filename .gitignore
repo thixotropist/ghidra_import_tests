@@ -3,6 +3,10 @@ riscv64.gpr
 riscv64.rep
 riscv64.lock
 riscv64.lock~
+x86_64.gpr
+x86_64.rep
+x86_64.lock
+x86_64.lock~
 # Ignore imported and extracted binaries
 riscv64/kernel/System.map*
 riscv64/kernel/vmlinux*
@@ -13,14 +17,18 @@ riscv64/kernel_mod/igc.ko.log
 riscv64/system_lib/libc*
 riscv64/system_lib/libssl*
 riscv64/system_executable/ssh*
+riscv64/exemplars/*.log
+x86_64/exemplars/*.log
 # Ignore test results
 testResults/*
 riscv64/exemplars/logs
 # Ignore editor metadata
 .vscode/*
-# ignore generated wesite files
+# ignore generated website files
 .hugo_build.lock
 resources/_gen/*
 node_modules/*
 package.json
 package-lock.json
+# ignore python cache
+__pycache__/*

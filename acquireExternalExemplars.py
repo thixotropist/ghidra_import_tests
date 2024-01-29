@@ -11,8 +11,8 @@ import os
 import logging
 from shutil import copyfile
 
-# change this to 'Loglevel = logging.INFO' for more diagnostics
-LOGLEVEL = logging.WARN
+logging.basicConfig(level=logging.WARN)
+logger = logging
 
 GHIDRA_VERSION = "11.1_DEV"
 FEDORA_RISCV_SITE = "http://fedora.riscv.rocks/kojifiles/work/tasks/6900/1466900"
@@ -31,12 +31,6 @@ class T0SetupDirectories(unittest.TestCase):
     """
     Verify that the directories we need exist or can be created
     """
-    @classmethod
-    def setUpClass(cls):
-        cls.logger = logging.getLogger('T0SetupDirectories')
-        stream_handler = logging.StreamHandler(sys.stdout)
-        cls.logger.addHandler(stream_handler)
-        cls.logger.setLevel(LOGLEVEL)
 
     def is_writable(self, directory):
         """
@@ -72,14 +66,14 @@ class T0SetupDirectories(unittest.TestCase):
         """
         The cache directory holds disk images downloaded from the public Internet
         """
-        self.logger.info("Looking for a writable %s", Cache_Dir)
+        logger.info("Looking for a writable %s", Cache_Dir)
         self.assertTrue(self.is_writable(Cache_Dir))
 
     def test_01_test_results_dir_exists(self):
         """
         The test results directory holds Ghidra import logs we will need later
         """
-        self.logger.info("Looking for a writable %s", TestResults_Dir)
+        logger.info("Looking for a writable %s", TestResults_Dir)
         self.assertTrue(self.is_writable(TestResults_Dir))
 
     def test_02_mount_points_exist(self):
@@ -88,22 +82,16 @@ class T0SetupDirectories(unittest.TestCase):
         These can be created read/write but will be read-only after mounting
         """
         boot_dir = f"{Cache_Dir}/Fedora_boot"
-        self.logger.info("looking for a mount point %s", boot_dir)
+        logger.info("looking for a mount point %s", boot_dir)
         self.is_readable(boot_dir)
         root_dir = f"{Cache_Dir}/Fedora_root"
-        self.logger.info("looking for a mount point %s", root_dir)
+        logger.info("looking for a mount point %s", root_dir)
         self.is_readable(root_dir)
 
 class T1DiskImages(unittest.TestCase):
     """
     Verify that the cache contains any imported disk images we may need
     """
-    @classmethod
-    def setUpClass(cls):
-        cls.logger = logging.getLogger('T1DiskImages')
-        stream_handler = logging.StreamHandler(sys.stdout)
-        cls.logger.addHandler(stream_handler)
-        cls.logger.setLevel(LOGLEVEL)
 
     def test_00_fedora_image_exists(self):
         """
@@ -111,22 +99,22 @@ class T1DiskImages(unittest.TestCase):
         or retrieve the image and decompress it.
         """
         if os.path.exists(f"{Cache_Dir}/{FEDORA_RISCV_IMAGE}"):
-            self.logger.info("Found the required decompressed Fedora disk image")
+            logger.info("Found the required decompressed Fedora disk image")
             return
-        self.logger.info("Downloading Fedora disk image")
+        logger.info("Downloading Fedora disk image")
 
         command = ["wget", "-q", f"{FEDORA_RISCV_SITE}/{FEDORA_RISCV_IMAGE}.xz"]
         result = subprocess.run(command,
                                 cwd=Cache_Dir,
                                 check=False, capture_output=True, encoding='utf8')
         if result.returncode != 0:
-            self.logger.error("Downloading Fedora disk image failed\n %s", result.stderr)
+            logger.error("Downloading Fedora disk image failed\n %s", result.stderr)
         command = ["xz", "-d", f"{FEDORA_RISCV_SITE}/{FEDORA_RISCV_IMAGE}.xz"]
         result = subprocess.run(command,
                                 cwd=Cache_Dir,
                                 check=False, capture_output=True, encoding='utf8')
         if result.returncode != 0:
-            self.logger.error("Decompressing Fedora disk image failed\n %s", result.stderr)
+            logger.error("Decompressing Fedora disk image failed\n %s", result.stderr)
         self.assertTrue(os.path.exists(f"{Cache_Dir}/{FEDORA_RISCV_IMAGE}"),
                         "Unable to download and decompress Fedora disk image")
 
@@ -136,16 +124,16 @@ class T1DiskImages(unittest.TestCase):
         Note that guestmounts can become stale, requiring a manual guestunmount of the mountpoint
         """
         if os.path.exists(f"{Cache_Dir}/Fedora_boot/grub2"):
-            self.logger.info("Fedora boot partition is mounted")
+            logger.info("Fedora boot partition is mounted")
             return
-        self.logger.info("Mounting Fedora boot partition at %s",f"{Cache_Dir}/Fedora_boot" )
+        logger.info("Mounting Fedora boot partition at %s",f"{Cache_Dir}/Fedora_boot" )
         command = ["guestmount", "-a", f"{Cache_Dir}/{FEDORA_RISCV_IMAGE}",
                    "-m", "/dev/sda2", "--ro", f"{Cache_Dir}/Fedora_boot"]
         result = subprocess.run(command,
                                 cwd=Cache_Dir,
                                 check=False, capture_output=True, encoding='utf8')
         if result.returncode != 0:
-            self.logger.error("Mounting Fedora boot partition failed!\n %s", result.stderr)
+            logger.error("Mounting Fedora boot partition failed!\n %s", result.stderr)
 
     def test_02_fedora_root_mounted(self):
         """
@@ -153,28 +141,22 @@ class T1DiskImages(unittest.TestCase):
         Note that guestmounts can become stale, requiring a manual guestunmount of the mountpoint
         """
         if os.path.exists(f"{Cache_Dir}/Fedora_root/usr"):
-            self.logger.info("Fedora root partition is mounted")
+            logger.info("Fedora root partition is mounted")
             return
-        self.logger.info("Mounting Fedora root partition at %s",f"{Cache_Dir}/Fedora_root" )
+        logger.info("Mounting Fedora root partition at %s",f"{Cache_Dir}/Fedora_root" )
         command = ["guestmount", "-a", f"{Cache_Dir}/{FEDORA_RISCV_IMAGE}",
                    "-m", "/dev/sda3:/:subvol=root", "--ro", f"{Cache_Dir}/Fedora_root"]
         result = subprocess.run(command,
                                 cwd=Cache_Dir,
                                 check=False, capture_output=True, encoding='utf8')
         if result.returncode != 0:
-            self.logger.error("Mounting Fedora root partition failed!\n %s", result.stderr)
+            logger.error("Mounting Fedora root partition failed!\n %s", result.stderr)
 
 class T2RiscvImports(unittest.TestCase):
     """
     Extract different types of large binaries from the Fedora RISCV-64 system image
     """
     Extraction_Dir = f"{Current_Dir}/riscv64"
-    @classmethod
-    def setUpClass(cls):
-        cls.logger = logging.getLogger('T2RiscvImports')
-        stream_handler = logging.StreamHandler(sys.stdout)
-        cls.logger.addHandler(stream_handler)
-        cls.logger.setLevel(LOGLEVEL)
 
     def test_00_setup_directories(self):
         """
@@ -186,7 +168,7 @@ class T2RiscvImports(unittest.TestCase):
         system_executable_dir = f"{self.Extraction_Dir}/system_executable"
         for d in (kernel_dir, kernel_mod_dir, syslib_dir, system_executable_dir):
             if os.path.exists(d) and os.access(d, os.W_OK):
-                self.logger.info("Found %s", d)
+                logger.info("Found %s", d)
             else:
                 os.makedirs(d)
 
@@ -196,12 +178,12 @@ class T2RiscvImports(unittest.TestCase):
         """
         kernel_dir = f"{self.Extraction_Dir}/kernel"
         if os.path.exists(f"{kernel_dir}/{FEDORA_KERNEL}"):
-            self.logger.info("Found the compressed kernel image %s", FEDORA_KERNEL)
+            logger.info("Found the compressed kernel image %s", FEDORA_KERNEL)
         else:
-            self.logger.info("Loading the compressed kernel image from the Fedora boot mount point")
+            logger.info("Loading the compressed kernel image from the Fedora boot mount point")
             copyfile(f"{Cache_Dir}/{FEDORA_RISCV_IMAGE}", f"{kernel_dir}/{FEDORA_KERNEL}")
         if os.path.exists(f"{kernel_dir}/{FEDORA_KERNEL_DECOMPRESSED}"):
-            self.logger.info("Found the decompressed kernel image %s", FEDORA_KERNEL_DECOMPRESSED)
+            logger.info("Found the decompressed kernel image %s", FEDORA_KERNEL_DECOMPRESSED)
         else:
             command = ["dd", "ibs=1", f"skip={FEDORA_KERNEL_OFFSET}",
                        f"if={kernel_dir}/{FEDORA_KERNEL}",
@@ -209,7 +191,7 @@ class T2RiscvImports(unittest.TestCase):
             result = subprocess.run(command,
                                 check=False, capture_output=True, encoding='utf8')
             if result.returncode != 0:
-                self.logger.error("Extracting Fedora compressed kernel failed!\n %s", result.stderr)
+                logger.error("Extracting Fedora compressed kernel failed!\n %s", result.stderr)
                 self.fail("Extracting Fedora compressed kernel failed!")
                 return
             command = ["gunzip", "-df", "--quiet", f"{kernel_dir}/{FEDORA_KERNEL_DECOMPRESSED}.gz"]
@@ -217,16 +199,16 @@ class T2RiscvImports(unittest.TestCase):
                                 check=False, capture_output=True, encoding='utf8')
             # ignore warnings about trailing garbage
             if result.returncode == 1:
-                self.logger.error("Decompressing Fedora compressed kernel failed!\n %s",
+                logger.error("Decompressing Fedora compressed kernel failed!\n %s",
                                   result.stderr)
                 self.fail("Decompressing Fedora compressed kernel failed!")
 
         # copy the kernel system map next to the kernel
         # TODO: check to see if the kernel file is newer
         if os.path.exists(f"{kernel_dir}/{FEDORA_SYSMAP}"):
-            self.logger.info("Found Fedora kernel system map")
+            logger.info("Found Fedora kernel system map")
         else:
-            self.logger.info("Copying Fedora kernel system map")
+            logger.info("Copying Fedora kernel system map")
             map_path = f"{Cache_Dir}/Fedora_boot/{FEDORA_SYSMAP}"
             map_exists = os.path.exists(map_path)
             self.assertTrue(map_exists,
@@ -242,14 +224,14 @@ class T2RiscvImports(unittest.TestCase):
         kernel_mod_source = f"{Cache_Dir}/Fedora_root/usr/lib/modules/6.5.4-300.0.riscv64.fc39.riscv64/kernel/drivers/net/ethernet/intel/igc/igc.ko.xz"
         kernel_mod_destination = f"{self.Extraction_Dir}/kernel_mod/igc.ko"
         if os.path.exists(kernel_mod_destination):
-            self.logger.info("Found the compressed kernel module %s", kernel_mod_destination)
+            logger.info("Found the compressed kernel module %s", kernel_mod_destination)
         else:
-            self.logger.info("Copying kernel module")
+            logger.info("Copying kernel module")
             command = f"xzcat {kernel_mod_source} > {kernel_mod_destination}"
             result = subprocess.run(command,
                                 check=False, capture_output=True, encoding='utf8', shell=True)
             if result.returncode != 0:
-                self.logger.error("Decompressing kernel module failed!\n %s", result.stderr)
+                logger.error("Decompressing kernel module failed!\n %s", result.stderr)
                 self.fail("Decompressing kernel module failed!")
 
     def test_03_system_libraries(self):
@@ -259,17 +241,17 @@ class T2RiscvImports(unittest.TestCase):
         source = f"{Cache_Dir}/Fedora_root/usr/lib64/libc.so.6"
         destination = f"{self.Extraction_Dir}/system_lib/libc.so.6"
         if os.path.exists(destination):
-            self.logger.info("Found the libc.so system library")
+            logger.info("Found the libc.so system library")
         else:
-            self.logger.info("Copying system library libc.so")
+            logger.info("Copying system library libc.so")
             copyfile(source, destination)
 
         source = f"{Cache_Dir}/Fedora_root/usr/lib64/libssl.so.3.0.8"
         destination = f"{self.Extraction_Dir}/system_lib/libssl.so.3.0.8"
         if os.path.exists(destination):
-            self.logger.info("Found the libssl.so system library")
+            logger.info("Found the libssl.so system library")
         else:
-            self.logger.info("Copying the libssl.so system library")
+            logger.info("Copying the libssl.so system library")
             copyfile(source, destination)
 
     def test_04_system_executable(self):
@@ -279,9 +261,9 @@ class T2RiscvImports(unittest.TestCase):
         source = f"{Cache_Dir}/Fedora_root/usr/bin/ssh"
         destination = f"{self.Extraction_Dir}/system_executable/ssh"
         if os.path.exists(destination):
-            self.logger.info("Found the ssh system executable")
+            logger.info("Found the ssh system executable")
         else:
-            self.logger.info("Copying ssh system executable")
+            logger.info("Copying ssh system executable")
             copyfile(source, destination)
 
 if __name__ == '__main__':

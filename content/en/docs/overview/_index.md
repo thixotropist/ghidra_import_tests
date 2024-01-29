@@ -46,12 +46,21 @@ the `binutils` main branch.
 
 ## Running integration tests
 
+>Note: These scripts use both `unittest` and `logging` frameworks, where the loglevel is variously set at `INFO` or `WARN`.
+>      The exact output may vary
+
 The first two steps collect binary exemplars for Ghidra to import.  Large binaries are extracted from public disk images,
 such as the latest Fedora RISCV-64 system disk image.  Small binaries are generated locally from minimal C or C++ source
 files and gcc toolchains.
 
 The large binaries are downloaded and extracted using `acquireExternalExemplars.py`.  This script is built on the python `unittest` framework
 to either verify the existence of previously extracted exemplars or regenerate those if missing.
+
+The small binaries are created - if not already present - with the `generateInternalExemplars.py` script
+
+> Warning: GCC-13 and GCC-14 binary toolchains are not included in this project.  Sources should be downloaded, compiled, and
+>          installed to something like `/opt/...` then post-processed by bundled toolchain scripts into portable, hermetic tarballs.
+
 
 ```console
 $ ./acquireExternalExemplars.py 
@@ -60,11 +69,37 @@ $ ./acquireExternalExemplars.py
 Ran 11 tests in 0.003s
 
 OK
+
+$ ./generateInternalExemplars.py 
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 4.092s
 ```
 
->TODO: add the script example for `generateInternalExemplars.py`
+The exemplar binaries can now be imported into two Ghidra projects - one for riscv64 and another for x86_64.
+The import process includes pre- and post-script processing.  Pre-script processing is used for the kernel import
+to fix symbol names and load address.  Post-script processing is used for the kernel module import to gather
+relocation results for later regression testing.  These relocation results are saved in `testresults/*.json`
 
->TODO: add the script example for `importExemplars.py`
+Import processing generates a log file for each binary imported into Ghidra.  If that log file is newer than the
+binary, the import process is skipped.  If you want to rerun an import for foo.o, simply delete the matching log file in
+`.../exemplars/foo.log.`
+
+```console
+OK
+$ ./importExemplars.py
+.INFO:root:Current Kernel import log file found - skipping import
+.INFO:root:Current Kernel module import log file found - skipping import
+...
+.
+----------------------------------------------------------------------
+Ran 7 tests in 0.003s
+
+OK
+```
+
+Test results gathered during binary imports and saved in `testresults/*.json` are now compared with expected
+values in the final script:
 
 ```console
 $ ./integrationTest.py 

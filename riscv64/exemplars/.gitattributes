@@ -1,2 +1,14 @@
 *.o filter=lfs diff=lfs merge=lfs -text
 *.ko filter=lfs diff=lfs merge=lfs -text
+libgcc_expansions_vector.so filter=lfs diff=lfs merge=lfs -text
+libgcc_expansions_vector_vl1024.so filter=lfs diff=lfs merge=lfs -text
+libgcc_expansions_vector_vl128.so filter=lfs diff=lfs merge=lfs -text
+libgcc_expansions_vector_vl512.so filter=lfs diff=lfs merge=lfs -text
+libgcc_expansions_baseline.so filter=lfs diff=lfs merge=lfs -text
+libgcc_expansions_rv64gc_xtheadbb.so filter=lfs diff=lfs merge=lfs -text
+whisper_cpp_vendor_stripped filter=lfs diff=lfs merge=lfs -text
+whisper_cpp_default filter=lfs diff=lfs merge=lfs -text
+whisper_cpp_default_stripped filter=lfs diff=lfs merge=lfs -text
+whisper_cpp_vector filter=lfs diff=lfs merge=lfs -text
+whisper_cpp_vector_stripped filter=lfs diff=lfs merge=lfs -text
+whisper_cpp_vendor filter=lfs diff=lfs merge=lfs -text

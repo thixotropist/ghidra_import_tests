@@ -1,4 +1,13 @@
-# Sidebar studies
+---
+title: Network Appliances
+linkTitle: Network Appliances
+menu: {main: {weight: 20}}
+weight: 20
+---
+
+{{% pageinfo %}}
+What will RISCV-64 cores offer networking? 
+{{% /pageinfo %}}
 
 ## will vector instructions be useful in network appliances?
 
@@ -42,25 +51,3 @@ has a lot of session state to manage if it supports:
 The key point here is that midpoint network appliances may benefit from instruction set extensions that enable faster packet classification, hashing, and cached session lookup.
 An adaptive midpoint network appliance might adjust the packet classification code in realtime, based on the mix of MPLS, VLAN, IPv4, IPv6, and VPN traffic most often seen on
 any given network interface.  ISA extensions supporting gather, hash, vector comparison, and find-first operations are good candidates here.
-
-## role of mixed 32 and 64 bit cores
-
-Consider a midpoint network appliance (router or firewall) sitting near the Provider-Customer demarcation.  What might be an appealing RISCV processor look like?
-This kind of appliance likely handles a mix of link layer protocols with an optimization for low energy dissipation and low latency per packet.  A fast and simple
-serializer/deserializer feeding a RISCV classifier and forwarding engine makes sense here.  You don't want to do network or application layer processing unless the appliance
-has a firewall role.
-
-Link layer processing means a packet mix of stacked MPLS and VLAN tags with IPv4 and IPv6 network layers underneath.  Packet header processing won't need 32 bit addressing,
-but might benefit from the high memory bandwidth of a 64 bit core.  Fast header hashing combined with fast hashmap session lookups (for MPLS, VLAN, and selected IP) or
-fash trie session lookups (for IPv4 and IPv6).  Network stacks can have a lot of branches, creating pipeline stalls, so hyperthreading may make sense.
-
-Denial of Service and overload protections make fast analytics necessary at the session level.  That's where a 64 bit core with vector and other extensions can be useful.
-
-This all suggests we might see more hybrid RISCV designs, with a mix of many lean 32 bit cores supported by one or two 64 bit cores.  The 32 bit cores handle fast link layer processing
-and the 64 bit cores handle background analytics and control.
-
-In the extreme case, the 64 bit analytics engine rewrites link layer code for the 32 bit cores continuously, optimizing code paths depending on what the link layer classifiers
-determine the most common packet types to be for each physical port.  Cache management and branch prediction hints might drive new instruction additions.
-
-Code rewriting could start as simple updates to RISCV hint branch instructions and possibly prefetch instructions, so it isn't necessarily as radical as it sounds.
-

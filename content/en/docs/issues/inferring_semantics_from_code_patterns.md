@@ -252,4 +252,4 @@ f3: { target { { any-opts "-mcmodel=medlow --param=riscv-autovec-preference=fixe
 **        vl(1|2|4)re32\.v\s+v\d+,0\([ta][0-7]\)
 **        vs(1|2|4)r\.v\s+v\d+,0\([ta][0-7]\)
 **        ret
-``````
+```

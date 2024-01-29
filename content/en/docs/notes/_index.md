@@ -11,23 +11,17 @@ Put unstructured comments here until we know what to do with them.
 
 ## TODO
 
-* Collect exemplars that fail Ghidra import into a common directory,
-  including material that might help in creating a formal Ghidra issue
-  or triaging future research and development initiatives.
-* ~~Add toolchain exemplars to generate binaries with Link Time Optimization.~~
-* ~~Add toolchain exemplars where the source uses C++ header modules.~~
-* Update the `isa_ext` Ghidra branch to expand `vsetvli`` arguments 
-* ~~Cleanup and annotate the Bazel toolchain framework.~~
-    * mark stanzas that are believed to be currently unused
-    * minimize variances between the different toolchains - there are a lot of
-      variances that just add confusion, especially involving linking and system root paths.
-
-## Existing scattered documentation to be consolidated here
-
-```text
- 3715 Oct 16 06:27 ./Roadmap.md
- 5252 Nov 20 13:08 ./Sidebars.md
-```
+* [ ] Update the `isa_ext` Ghidra branch to expand `vsetvli` arguments
+    * `vsetvli zero,zero,0xc5` ⇒ `vsetvli	zero,zero,e8,mf8,ta,ma`
+    * `vsetvli zero,zero,0x18` ⇒ `vsetvli	zero,zero,e64,m1,tu,mu`
+* [X] Determine why the `isa_ext` Ghidra branch fails to disassemble the `bext` instruction in `b-ext-64.o` and `b-ext.o`
+    * that regression was do to an accidental typo
+* [x] Determine why `zvbc.o` won't disassemble
+    * These are compressed (16 bit) vector multiply instructions not currently defined in `isa_ext`
+* [X] Determine why `unknown.o` won't disassemble or reference where we found these instructions
+    * These instructions include `sfence``, `hinval_vvma`, `hinval_gvma`, `orc.b`, `cbo.clean`, `cbo.inval`, `cbo.flush`.
+      `orc.b` is handled properly, the others are not implemented.
+* [ ] Clarify python scripts to show more of the directory context
 
 ## Experiments
 
@@ -45,3 +39,6 @@ Add some C++ code to exercise libstdc++ ordered maps (based on red-black trees?)
 
 There are a few places where THead customized instructions are used.  The Murmur hash function uses vector load and store instructions to implement 8 byute unaligned
 reads.  Bit manipulation extension instructions are not yet used.
+
+Initial results suggest the largest complexity impact will be gcc rewriting of memory and structure copies with vector code.  This may be
+especially true for hardware requiring aligned integers where alignment can not be guaranteed.

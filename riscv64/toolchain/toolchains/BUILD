@@ -44,14 +44,14 @@ toolchain(
 )
 cc_toolchain(
     name = "riscv64-default-gcc",
-    all_files = ":all_files",
+    all_files = ":gcc_13_compiler_files",
     ar_files = ":gcc_13_compiler_files",
     as_files = ":empty",
     compiler_files = ":gcc_13_compiler_files",
     dwp_files = ":empty",
     linker_files = ":gcc_13_compiler_files",
     objcopy_files = ":empty",
-    strip_files = ":empty",
+    strip_files = ":gcc_13_compiler_files",
     supports_param_files = 0,
     toolchain_config = ":riscv64-default-gcc-config",
     toolchain_identifier = "riscv64-default-gcc",
@@ -138,14 +138,14 @@ toolchain(
 )
 cc_toolchain(
     name = "riscv64-gcc-14",
-    all_files = ":all_files",
+    all_files = ":gcc_14_compiler_files",
     ar_files = ":gcc_14_compiler_files",
     as_files = ":empty",
     compiler_files = ":gcc_14_compiler_files",
     dwp_files = ":empty",
     linker_files = ":gcc_14_compiler_files",
     objcopy_files = ":empty",
-    strip_files = ":empty",
+    strip_files = ":gcc_14_compiler_files",
     supports_param_files = 0,
     toolchain_config = ":riscv64-gcc-14-config",
     toolchain_identifier = "riscv64-gcc-14",
@@ -226,7 +226,7 @@ toolchain(
 
 cc_toolchain(
     name = "riscv64-custom-gcc",
-    all_files = ":all_files",
+    all_files = ":gcc_14_compiler_files",
     ar_files = ":gcc_14_compiler_files",
     as_files = ":empty",
     compiler_files = ":gcc_14_compiler_files",

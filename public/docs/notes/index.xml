@@ -14,5 +14,115 @@
       
     
     
+    <item>
+      <title>Docs: Hardware Availability</title>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/notes/hardware/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/notes/hardware/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;When will RISCV-64 cores be deployed into systems needing reverse-engineering?&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;general-purpose-systems&#34;&gt;General purpose systems&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.sifive.com/boards/hifive-pro-p550&#34;&gt;https://www.sifive.com/boards/hifive-pro-p550&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/&#34;&gt;https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.cnx-software.com/2022/11/02/sifive-p670-and-p470-risc-v-processors-add-risc-v-vector-extensions/&#34;&gt;https://www.cnx-software.com/2022/11/02/sifive-p670-and-p470-risc-v-processors-add-risc-v-vector-extensions/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.cnx-software.com/2023/08/30/sifive-unveils-p870-high-performance-core-discusses-future-of-risc-v&#34;&gt;https://www.cnx-software.com/2023/08/30/sifive-unveils-p870-high-performance-core-discusses-future-of-risc-v&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc&#34;&gt;https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.scmp.com/tech/tech-trends/article/3232686/chinas-top-chip-designers-form-risc-v-patent-alliance-promote-semiconductor-self-sufficiency&#34;&gt;https://www.scmp.com/tech/tech-trends/article/3232686/chinas-top-chip-designers-form-risc-v-patent-alliance-promote-semiconductor-self-sufficiency&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We might expect to see high performance network appliances in 2026 using chip architectures like the Sifive 670 or 870,
+or from one of the alternative Chinese vendors.  Chips with vector extensions are due soon, with crypto extensions coming shortly after.
+A network appliance development board might have two P670 class sockets and four to eight 10 GbE network interfaces.&lt;/p&gt;
+&lt;p&gt;To manage scope, we won&amp;rsquo;t be worrying about instructions supporting AI or complex virtualization.  Custom instructions that might be used
+in network appliances are definitely in scope, while custom instructions for nested virtualization are not.  Possibly in scope are new instructions
+that help manage or synchronize multi-socket cache memory.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s set a provocative long term goal: How will Ghidra analyze a future network appliance that combines Machine Learning with self-modifying code
+to accelerate network routing and forwarding?  Such a device might generate fast-path code sequences to sessionize incoming packets and deliver them with
+minimal cache flushes or branches taken.&lt;/p&gt;
+&lt;h2 id=&#34;portable-appliances&#34;&gt;Portable appliances&lt;/h2&gt;
+&lt;p&gt;This might include cell phones or voice-recognition apps.  Things that today might use an Arm core set but be implemented with RISC-V cores in the future.&lt;/p&gt;
+&lt;h2 id=&#34;role-of-mixed-32-and-64-bit-cores&#34;&gt;role of mixed 32 and 64 bit cores&lt;/h2&gt;
+&lt;p&gt;Consider a midpoint network appliance (router or firewall) sitting near the Provider-Customer demarcation.  What might be an appealing RISCV processor look like?
+This kind of appliance likely handles a mix of link layer protocols with an optimization for low energy dissipation and low latency per packet.  A fast and simple
+serializer/deserializer feeding a RISCV classifier and forwarding engine makes sense here.  You don&amp;rsquo;t want to do network or application layer processing unless the appliance
+has a firewall role.&lt;/p&gt;
+&lt;p&gt;Link layer processing means a packet mix of stacked MPLS and VLAN tags with IPv4 and IPv6 network layers underneath.  Packet header processing won&amp;rsquo;t need 32 bit addressing,
+but might benefit from the high memory bandwidth of a 64 bit core.  Fast header hashing combined with fast hashmap session lookups (for MPLS, VLAN, and selected IP) or
+fash trie session lookups (for IPv4 and IPv6).  Network stacks can have a lot of branches, creating pipeline stalls, so hyperthreading may make sense.&lt;/p&gt;
+&lt;p&gt;Denial of Service and overload protections make fast analytics necessary at the session level.  That&amp;rsquo;s where a 64 bit core with vector and other extensions can be useful.&lt;/p&gt;
+&lt;p&gt;This all suggests we might see more hybrid RISCV designs, with a mix of many lean 32 bit cores supported by one or two 64 bit cores.  The 32 bit cores handle fast link layer processing
+and the 64 bit cores handle background analytics and control.&lt;/p&gt;
+&lt;p&gt;In the extreme case, the 64 bit analytics engine rewrites link layer code for the 32 bit cores continuously, optimizing code paths depending on what the link layer classifiers
+determine the most common packet types to be for each physical port.  Cache management and branch prediction hints might drive new instruction additions.&lt;/p&gt;
+&lt;p&gt;Code rewriting could start as simple updates to RISCV hint branch instructions and possibly prefetch instructions, so it isn&amp;rsquo;t necessarily as radical as it sounds.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Network Appliances</title>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/notes/network_appliances/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/notes/network_appliances/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;What will RISCV-64 cores offer networking?&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;will-vector-instructions-be-useful-in-network-appliances&#34;&gt;will vector instructions be useful in network appliances?&lt;/h2&gt;
+&lt;p&gt;Network kernel code has lots of conditional branches and very few loops.  This suggests RISCV vector instructions won&amp;rsquo;t be
+found in network appliances anytime soon, other than &lt;code&gt;memmove&lt;/code&gt; or similar simple contexts.  Gather-scatter, bit manipulation, and
+crypto instruction extensions are likely to be useful in networking much sooner.  Ghidra will have a much easier time generating
+pcode for those instructions than the 25K+ RISCV vector instrinsic C functions covering all combinations of vector instructions and
+vector processing modes.&lt;/p&gt;
+&lt;p&gt;What should Ghidra do when faced with a counter-example, say a network appliance that aggressively moves vector analytics into network processing?
+Such an appliance - perhaps a smart edge router or a zero-trust gateway device - might combine the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;64 RISCV cores with no floating point or vector capability, optimized for traditional network ingress processing.  These cores are
+designed to cope with the many branches of network packet processing, possibly including better branch prediction and hyperthreading.&lt;/li&gt;
+&lt;li&gt;2 or more RISCV cores with full floating point and vector capability, optimized for performing analytics on the inbound packet stream.
+These analytics can range from simple statistics generation to heuristic sessionization to self-modifying code generation.
+The self-modifying code may be either eBPF code or native RISCV instructions, depending on how aggressive the designers may be.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In the extreme case, this might be a generative AI subsystem trained on inbound packets and emitting either optimized packet handling code or
+threat-detection indicators.  How would a Ghidra analyst look for malware in such a system?&lt;/p&gt;
+&lt;h3 id=&#34;midpoint-versus-endpoint-network-appliances&#34;&gt;midpoint versus endpoint network appliances&lt;/h3&gt;
+&lt;p&gt;We need to be clearer about what kind of network code we might find in different contexts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;midpoint equipment like network-edge routers and switches, optimized for maximum throughput&lt;/li&gt;
+&lt;li&gt;endpoint equipment like host computers, web servers, and database servers where applications take up the bulk of the CPU cycles&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For each of these contexts we have at least two topology variants:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Inline network code through which packets must transit, generally optimized for low latency and high throughput&lt;/li&gt;
+&lt;li&gt;Tapped network code (e.g., wireshark or port-mirrored accesses) observing copies of packets for session and endpoint analytics.
+Latency is not an issue here.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Midpoint network appliances may need to track session state.  A simple network switch is close to stateless.  A real-world network switch
+has a lot of session state to manage if it supports:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;denial of service overload detection or other flow control&lt;/li&gt;
+&lt;li&gt;link bonding or equal-weight multipath routing&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The key point here is that midpoint network appliances may benefit from instruction set extensions that enable faster packet classification, hashing, and cached session lookup.
+An adaptive midpoint network appliance might adjust the packet classification code in realtime, based on the mix of MPLS, VLAN, IPv4, IPv6, and VPN traffic most often seen on
+any given network interface.  ISA extensions supporting gather, hash, vector comparison, and find-first operations are good candidates here.&lt;/p&gt;
+
+      </description>
+    </item>
+    
   </channel>
 </rss>

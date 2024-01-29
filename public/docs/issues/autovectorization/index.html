@@ -36,8 +36,7 @@ Loop autovectorization What happens when a gcc toolchain optimizes the following
 #include &lt;stdio.h&gt; int main(int argc, char** argv){ const int N = 1320; char s[N]; for (int i = 0; i &lt; N - 1; &#43;&#43;i) s[i] = i &#43; 1; s[N - 1] = &#39;\0&#39;; printf(s); } This involves a simple loop filling a character array with integers.">
 
 <meta itemprop="wordCount" content="1021">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="autovectorization"/>
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="autovectorization"/>
 <meta name="twitter:description" content="If a processor supports vector (aka SIMD) instructions, optimizing compilers will use them. That means Ghidra may need to make sense of the generated code.
 Loop autovectorization What happens when a gcc toolchain optimizes the following code?
 #include &lt;stdio.h&gt; int main(int argc, char** argv){ const int N = 1320; char s[N]; for (int i = 0; i &lt; N - 1; &#43;&#43;i) s[i] = i &#43; 1; s[N - 1] = &#39;\0&#39;; printf(s); } This involves a simple loop filling a character array with integers."/>
@@ -68,6 +67,9 @@ Loop autovectorization What happens when a gcc toolchain optimizes the following
         <a class="nav-link" href="/ghidra_import_tests/docs/exemplars/"><span>Exemplars</span></a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/notes/hardware/"><span>Hardware Availability</span></a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/instruction_patterns/"><span>Instruction Patterns</span></a>
       </li>
       <li class="nav-item">
@@ -75,6 +77,9 @@ Loop autovectorization What happens when a gcc toolchain optimizes the following
       </li>
       <li class="nav-item">
         <a class="nav-link active" href="/ghidra_import_tests/docs/issues/"><span>Issues</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/notes/network_appliances/"><span>Network Appliances</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/"><span>Platforms and Toolchains</span></a>
@@ -118,8 +123,13 @@ Loop autovectorization What happens when a gcc toolchain optimizes the following
   <a href="/ghidra_import_tests/docs/overview/glossary/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsoverviewglossary"><span class="">Glossary</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplars-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsexemplars-li">
   <a href="/ghidra_import_tests/docs/exemplars/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsexemplars"><span class="">Exemplars</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarswhisper_cpp-li">
+  <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
   <a href="/ghidra_import_tests/docs/instruction_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsinstruction_patterns"><span class="">Instruction Patterns</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-ghidra_import_testsdocsissues-li">
@@ -149,8 +159,15 @@ Loop autovectorization What happens when a gcc toolchain optimizes the following
   <a href="/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains"><span class="">debugging toolchains</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsnotes-li">
   <a href="/ghidra_import_tests/docs/notes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsnotes"><span class="">Notes</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnoteshardware-li">
+  <a href="/ghidra_import_tests/docs/notes/hardware/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnoteshardware"><span class="">Hardware Availability</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesnetwork_appliances-li">
+  <a href="/ghidra_import_tests/docs/notes/network_appliances/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesnetwork_appliances"><span class="">Network Appliances</span></a>
+</li>
+  </ul>
 </li>
   </ul>
 </li>
@@ -423,7 +440,7 @@ vector instructions like <code>vmovdqu64</code>, which is unrecognized by Ghidra
 </footer>
     </div>
     
-  <script src="/ghidra_import_tests/js/main.min.ef0a24942ffc834b9dd443cf3958c44f0167ea9e969b5acb60ce8badad7c7f3f.js" integrity="sha256-7woklC/8g0ud1EPPOVjETwFn6p6Wm1rLYM6Lra18fz8=" crossorigin="anonymous"></script>
+  <script src="/ghidra_import_tests/js/main.min.2af786f7daab94bdd6d034b6c4e9b5f5185f680cdfcb60b53f44c6c8f6f9f454.js" integrity="sha256-KveG99qrlL3W0DS2xOm19RhfaAzfy2C1P0TGyPb59FQ=" crossorigin="anonymous"></script>
 <script defer src="/ghidra_import_tests/js/click-to-copy.min.f724d3de49218995223b7316aa2e53e2b34bf42026bf399ebb21bb02212402d1.js" integrity="sha256-9yTT3kkhiZUiO3MWqi5T4rNL9CAmvzmeuyG7AiEkAtE=" crossorigin="anonymous"></script>
 <script src='/ghidra_import_tests/js/tabpane-persist.js'></script>
 

@@ -26,8 +26,7 @@
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/overview/" />
 
 <meta itemprop="name" content="Overview">
-<meta itemprop="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins."><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Overview"/>
+<meta itemprop="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins."><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Overview"/>
 <meta name="twitter:description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins."/>
 
 
@@ -56,6 +55,9 @@
         <a class="nav-link" href="/ghidra_import_tests/docs/exemplars/"><span>Exemplars</span></a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/notes/hardware/"><span>Hardware Availability</span></a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/instruction_patterns/"><span>Instruction Patterns</span></a>
       </li>
       <li class="nav-item">
@@ -63,6 +65,9 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/issues/"><span>Issues</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/notes/network_appliances/"><span>Network Appliances</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/"><span>Platforms and Toolchains</span></a>
@@ -106,8 +111,13 @@
   <a href="/ghidra_import_tests/docs/overview/glossary/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsoverviewglossary"><span class="">Glossary</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplars-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsexemplars-li">
   <a href="/ghidra_import_tests/docs/exemplars/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsexemplars"><span class="">Exemplars</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarswhisper_cpp-li">
+  <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
   <a href="/ghidra_import_tests/docs/instruction_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsinstruction_patterns"><span class="">Instruction Patterns</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
@@ -137,8 +147,15 @@
   <a href="/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains"><span class="">debugging toolchains</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsnotes-li">
   <a href="/ghidra_import_tests/docs/notes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsnotes"><span class="">Notes</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnoteshardware-li">
+  <a href="/ghidra_import_tests/docs/notes/hardware/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnoteshardware"><span class="">Hardware Availability</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesnetwork_appliances-li">
+  <a href="/ghidra_import_tests/docs/notes/network_appliances/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesnetwork_appliances"><span class="">Network Appliances</span></a>
+</li>
+  </ul>
 </li>
   </ul>
 </li>
@@ -224,23 +241,50 @@ newly frozen or ratified instruction set architecture (ISA) changes and compiler
 optimizations.  Some vendor-specific instruction set extensions will be included if they are accepted into
 the <code>binutils</code> main branch.</p>
 <h2 id="running-integration-tests">Running integration tests</h2>
+<blockquote>
+<p>Note: These scripts use both <code>unittest</code> and <code>logging</code> frameworks, where the loglevel is variously set at <code>INFO</code> or <code>WARN</code>.
+The exact output may vary</p>
+</blockquote>
 <p>The first two steps collect binary exemplars for Ghidra to import.  Large binaries are extracted from public disk images,
 such as the latest Fedora RISCV-64 system disk image.  Small binaries are generated locally from minimal C or C++ source
 files and gcc toolchains.</p>
 <p>The large binaries are downloaded and extracted using <code>acquireExternalExemplars.py</code>.  This script is built on the python <code>unittest</code> framework
 to either verify the existence of previously extracted exemplars or regenerate those if missing.</p>
+<p>The small binaries are created - if not already present - with the <code>generateInternalExemplars.py</code> script</p>
+<blockquote>
+<p>Warning: GCC-13 and GCC-14 binary toolchains are not included in this project.  Sources should be downloaded, compiled, and
+installed to something like <code>/opt/...</code> then post-processed by bundled toolchain scripts into portable, hermetic tarballs.</p>
+</blockquote>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> ./acquireExternalExemplars.py 
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...........
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">----------------------------------------------------------------------
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Ran 11 tests in 0.003s
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
 </span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">OK
-</span></span></span></code></pre></div><blockquote>
-<p>TODO: add the script example for <code>generateInternalExemplars.py</code></p>
-</blockquote>
-<blockquote>
-<p>TODO: add the script example for <code>importExemplars.py</code></p>
-</blockquote>
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">$</span> ./generateInternalExemplars.py 
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.......
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">----------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Ran 7 tests in 4.092s
+</span></span></span></code></pre></div><p>The exemplar binaries can now be imported into two Ghidra projects - one for riscv64 and another for x86_64.
+The import process includes pre- and post-script processing.  Pre-script processing is used for the kernel import
+to fix symbol names and load address.  Post-script processing is used for the kernel module import to gather
+relocation results for later regression testing.  These relocation results are saved in <code>testresults/*.json</code></p>
+<p>Import processing generates a log file for each binary imported into Ghidra.  If that log file is newer than the
+binary, the import process is skipped.  If you want to rerun an import for foo.o, simply delete the matching log file in
+<code>.../exemplars/foo.log.</code></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">OK
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> ./importExemplars.py
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.INFO:root:Current Kernel import log file found - skipping import
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.INFO:root:Current Kernel module import log file found - skipping import
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">----------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Ran 7 tests in 0.003s
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">OK
+</span></span></span></code></pre></div><p>Test results gathered during binary imports and saved in <code>testresults/*.json</code> are now compared with expected
+values in the final script:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> ./integrationTest.py 
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">inspecting the R_RISCV_BRANCH relocation test
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">inspecting the R_RISCV_JAL test
@@ -303,7 +347,7 @@ to either verify the existence of previously extracted exemplars or regenerate t
 </footer>
     </div>
     
-  <script src="/ghidra_import_tests/js/main.min.ef0a24942ffc834b9dd443cf3958c44f0167ea9e969b5acb60ce8badad7c7f3f.js" integrity="sha256-7woklC/8g0ud1EPPOVjETwFn6p6Wm1rLYM6Lra18fz8=" crossorigin="anonymous"></script>
+  <script src="/ghidra_import_tests/js/main.min.2af786f7daab94bdd6d034b6c4e9b5f5185f680cdfcb60b53f44c6c8f6f9f454.js" integrity="sha256-KveG99qrlL3W0DS2xOm19RhfaAzfy2C1P0TGyPb59FQ=" crossorigin="anonymous"></script>
 <script defer src="/ghidra_import_tests/js/click-to-copy.min.f724d3de49218995223b7316aa2e53e2b34bf42026bf399ebb21bb02212402d1.js" integrity="sha256-9yTT3kkhiZUiO3MWqi5T4rNL9CAmvzmeuyG7AiEkAtE=" crossorigin="anonymous"></script>
 <script src='/ghidra_import_tests/js/tabpane-persist.js'></script>
 

@@ -35,7 +35,7 @@ There are two key goals here:
    it.  Example: pass the RISCV instruction set extension testsuite from `binutils/gas` into Ghidra to test whether Ghidra can
    recognize all of the new instructions `gas` can generate.
 
-The initial scope focuses on RISCV 64 bit processors capable of running a full linux network stack, likely implementing
+The initial scope focuses on RISCV 64 bit processors capable of running a full Linux network stack, likely implementing
 the [2023 standard profile](https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc).
 
 We want to track recent additions to standard RISCV-64 toolchains (like `binutils` and `gcc`) to
@@ -76,7 +76,7 @@ $ ./generateInternalExemplars.py
 Ran 7 tests in 4.092s
 ```
 
-The exemplar binaries can now be imported into two Ghidra projects - one for riscv64 and another for x86_64.
+The exemplar binaries can now be imported into two Ghidra projects - one for RISCV64 and another for x86_64.
 The import process includes pre- and post-script processing.  Pre-script processing is used for the kernel import
 to fix symbol names and load address.  Post-script processing is used for the kernel module import to gather
 relocation results for later regression testing.  These relocation results are saved in `testresults/*.json`

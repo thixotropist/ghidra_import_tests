@@ -14,7 +14,7 @@ What will RISCV-64 cores offer networking?
 Network kernel code has lots of conditional branches and very few loops.  This suggests RISCV vector instructions won't be
 found in network appliances anytime soon, other than `memmove` or similar simple contexts.  Gather-scatter, bit manipulation, and
 crypto instruction extensions are likely to be useful in networking much sooner.  Ghidra will have a much easier time generating
-pcode for those instructions than the 25K+ RISCV vector instrinsic C functions covering all combinations of vector instructions and
+pcode for those instructions than the 25K+ RISCV vector intrinsic C functions covering all combinations of vector instructions and
 vector processing modes.
 
 What should Ghidra do when faced with a counter-example, say a network appliance that aggressively moves vector analytics into network processing?
@@ -49,5 +49,5 @@ has a lot of session state to manage if it supports:
 * link bonding or equal-weight multipath routing
 
 The key point here is that midpoint network appliances may benefit from instruction set extensions that enable faster packet classification, hashing, and cached session lookup.
-An adaptive midpoint network appliance might adjust the packet classification code in realtime, based on the mix of MPLS, VLAN, IPv4, IPv6, and VPN traffic most often seen on
+An adaptive midpoint network appliance might adjust the packet classification code in real-time, based on the mix of MPLS, VLAN, IPv4, IPv6, and VPN traffic most often seen on
 any given network interface.  ISA extensions supporting gather, hash, vector comparison, and find-first operations are good candidates here.

@@ -13,7 +13,7 @@ We want x86_64 exemplars built with the same next generation of gcc, libc, and l
 we use for RISCV exemplars.  This will give us some hints about how common new issues may
 be and how global new solutions may need to be.
 
-We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain.
+We will generate this x86_64 gcc-14 toolchain about the same way as our existing RISCV-64 gcc-14 toolchain.
 
 This example uses the latest released version of binutils and the development head of gcc and glibc.
 
@@ -148,7 +148,7 @@ If gccrs can't handle basic rust macros, it isn't very useful for generating exe
 Now we need to make the toolchain hermetic, portable, and ready for Bazel workspaces.
 
 Hermeticity means that nothing under `/opt/gcc14` makes a hidden reference to local host files under `/usr`.  Any such reference needs to
-be changed into a relative reference.  These are common in short sharable object files that link to one or more true sharable object libraries.
+be changed into a relative reference.  These are common in short shareable object files that link to one or more true shareable object libraries.
 
 You can often identify possible troublemakers by searching for smallish regular files with a `.so` extension.  
 
@@ -190,7 +190,7 @@ So two of the three files need patching: replacing `/opt/gcc14/lib` with `.`.  A
 Next we need to identify all dynamic host dependencies of binaries under `/opt/gcc14`.
 The `ldd` command will identify these local system files,
 which should be collected into a separate tarball.  This tarball can be shared with other cross-compilers
-built at the same time, and is generally portable across similar linux kernels and distributions.
+built at the same time, and is generally portable across similar Linux kernels and distributions.
 
 At this point we can `strip` the executable files within the toolchain and identify the ones we want to keep in the portable toolchain tarball.
 Scripts under `toolchain/toolchains/gcc-14-*/scripts` will help with that.
@@ -324,7 +324,7 @@ cc_toolchain_config(
 ```
 
 The `tool_paths` element points to small bash scripts needed to launch compiler components like `gcc` and `ar` and `strip`.
-These give us the chance to use imported system sharable object libraries rather than the host's sharable object libraries.
+These give us the chance to use imported system shareable object libraries rather than the host's shareable object libraries.
 
 ```bash
 #!/bin/bash
@@ -423,7 +423,7 @@ Hello World!
 
 We've got a working toolchain, but with many dangling links, duplicate files, and unused definitions.
 The toolchain files normally provided by a kernel were copied in as needed from the host, with the understanding that we never
-really needed runnable applications.
+really needed unable applications.
 
 If this were a production environment we would be a lot more careful.  It's not, so we will just summarize some of the areas
 that might benefit from such a cleanup.
@@ -437,7 +437,7 @@ Adding and testing a toolchain involves lots of similar-looking directories.
 This directory is the install target for our binutils, gcc, and glibc builds.  It is not itself used by the Bazel build
 framework, and need not be present on any host machine running the toolchain.
 
-* The overall size is reported as 3.1 GB, inflated somewhat by multiple hardlinks
+* The overall size is reported as 3.1 GB, inflated somewhat by multiple hard links
 * `fdupes` reports 2446 duplicate files (in 2136 sets), occupying 200.2 megabytes
 * There are six files over 150 MB in size
 
@@ -453,7 +453,7 @@ of `/opt/gcc14`` are lost.  It may be discarded after the portable tarball is ge
 ### /opt/bazel/x86_64_linux_gnu-14.tar.xz
 
 The compressed portable tarball size is 171M.  It expands into a locally cached equivalent of `/tmp/export`.
-This file must be accessible to Bazel during a crosscompilation, either as a file reference or as a remote http or
+This file must be accessible to Bazel during a cross-compilation, either as a file reference or as a remote http or
 https URL.
 
 ### /run/user/1000/bazel/execroot/_main/external/x86_64_linux_gnu-14

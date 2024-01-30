@@ -24,7 +24,7 @@ https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc
 
 https://www.scmp.com/tech/tech-trends/article/3232686/chinas-top-chip-designers-form-risc-v-patent-alliance-promote-semiconductor-self-sufficiency
 
-We might expect to see high performance network appliances in 2026 using chip architectures like the Sifive 670 or 870,
+We might expect to see high performance network appliances in 2026 using chip architectures like the SiFive 670 or 870,
 or from one of the alternative Chinese vendors.  Chips with vector extensions are due soon, with crypto extensions coming shortly after.
 A network appliance development board might have two P670 class sockets and four to eight 10 GbE network interfaces.
 
@@ -49,7 +49,7 @@ has a firewall role.
 
 Link layer processing means a packet mix of stacked MPLS and VLAN tags with IPv4 and IPv6 network layers underneath.  Packet header processing won't need 32 bit addressing,
 but might benefit from the high memory bandwidth of a 64 bit core.  Fast header hashing combined with fast hashmap session lookups (for MPLS, VLAN, and selected IP) or
-fash trie session lookups (for IPv4 and IPv6).  Network stacks can have a lot of branches, creating pipeline stalls, so hyperthreading may make sense.
+fast trie session lookups (for IPv4 and IPv6).  Network stacks can have a lot of branches, creating pipeline stalls, so hyperthreading may make sense.
 
 Denial of Service and overload protections make fast analytics necessary at the session level.  That's where a 64 bit core with vector and other extensions can be useful.
 

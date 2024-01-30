@@ -23,7 +23,7 @@ byte in a string.
 
 Gcc semantics recognizes memory copy operations via the operation `cpymem`.  Calls to
 the standard library `memcpy` and various kinds of struct copies are translated into this RTL (Register Transfer Logic)
-`cpymem` token.  The processor-specific gcc backend then expands `cpymem` into a half-dozen or so instruction patterns,
+`cpymem` token.  The processor-specific gcc back-end then expands `cpymem` into a half-dozen or so instruction patterns,
 depending on size, alignment, and instruction set extensions of the target processor.
 
 In the ideal world, Ghidra would recognize all of those RTL operations as pcode operations, and further recognize
@@ -131,7 +131,7 @@ expand_block_move (rtx dst_in, rtx src_in, rtx length_in)
 }
 ```
 
-Note that the riscv assembly instructions in the comment are just an example, and that the C++ implementation
+Note that the RISCV assembly instructions in the comment are just an example, and that the C++ implementation
 handles many different variants.  The `ret` instruction is not part of the expansion, just copied into the source
 code from the testsuite.
 

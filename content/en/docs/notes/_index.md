@@ -37,7 +37,7 @@ we'll use that as a reference.  The architecture name will be something like
 
 Add some C++ code to exercise libstdc++ ordered maps (based on red-black trees?), unordered maps (hash table based), and the Murmur hash function.
 
-There are a few places where THead customized instructions are used.  The Murmur hash function uses vector load and store instructions to implement 8 byute unaligned
+There are a few places where THead customized instructions are used.  The Murmur hash function uses vector load and store instructions to implement 8 byte unaligned
 reads.  Bit manipulation extension instructions are not yet used.
 
 Initial results suggest the largest complexity impact will be gcc rewriting of memory and structure copies with vector code.  This may be

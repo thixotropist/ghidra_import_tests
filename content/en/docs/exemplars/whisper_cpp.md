@@ -7,7 +7,7 @@ weight: 10
 Explore analysis of a machine learning application built with large language model techniques.  What Ghidra gaps does such an analysis reveal?
 {{% /pageinfo %}}
 
-How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speach recognition library [whisper.cpp](https://github.com/ggerganov/whisper.cpp).  Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines?  What might be added to Ghidra to help the human analyst in this kind of inspection?
+How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speech recognition library [whisper.cpp](https://github.com/ggerganov/whisper.cpp).  Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines?  What might be added to Ghidra to help the human analyst in this kind of inspection?
 
 Components for this exercise:
 
@@ -95,7 +95,7 @@ This leads to some tentative next steps:
 
 At the highest level, what features of `whisper.cpp` generate vector instructions?
 
-* There are about 400 invocations of riscv vector instrinsics within `ggml-quants.c`.  In these cases the developer
+* There are about 400 invocations of RISCV vector intrinsic within `ggml-quants.c`.  In these cases the developer
   has explicitly managed the vectorization.
 * There are an unknown number of automatic loop vectorizations, where gcc-14 has replaced simple scalar loops with
   vector-based loops.  This vectorization will generally reduce the number of loop iterations, but may not always reduce
@@ -103,12 +103,12 @@ At the highest level, what features of `whisper.cpp` generate vector instruction
 * Gcc expansions of `memcpy` or structure copies into vector load-store loops.
 
 Much of `whisper.cpp` involves vector, matrix, or tensor math using `ggml` math functions.  This is also where most
-of the explicit riscv vector instrinsic C functions appear, and likely the code the developer believes is most in need
+of the explicit RISCV vector intrinsic C functions appear, and likely the code the developer believes is most in need
 of vector performance enhancements.
 
 ### Example: dot product
 
-`ggml_vec_dot_f32(n, sum, x, y)` genereates the vector dot product of two vectors x and y of length n with the result
+`ggml_vec_dot_f32(n, sum, x, y)` generates the vector dot product of two vectors x and y of length n with the result
 stored to *s.  In the absence of vector or SIMD support the source code is:
 
 ```c
@@ -164,7 +164,7 @@ Inspecting this disassembly and decompilation suggests several top down issues:
 * The semantics for `shadd2` are simple and should be explicit `sh2add(a, b) = a>>2 + b`
     * This is now implemented in Ghidra 11.1-DEV isa_ext.
 * The `vsetvli(n,0x97)` instruction should be expanded to show semantics as `vsetvli_e32m2ftuma`
-    * Running the binary through a riscv objdump program gives us this formal expansion.  This instruction
+    * Running the binary through a RISCV objdump program gives us this formal expansion.  This instruction
       says that the selected element width is 32 bits with a LMUL multiplication factor of 1/2.  This means that only
       half of the vector register is used to allow for 64 bit arithmetic output.
     * This is now implemented in Ghidra 11.1-DEV isa_ext.
@@ -255,14 +255,14 @@ This particular loop vectorization is likely to change a lot in future releases.
 look at code like this and decide to ignore the ndims>3 case along with *all* of the vector instructions used within it.  Alternatively, we could
 look at the gcc vectorization code handling the general vector reduction meta operation, then see if this pattern is a macro of some sort within it.
 
-Take a step back and look at the gcc riscv autovectorization code.  It's changing quite frequently, so it's probably premature to try and abstract out
+Take a step back and look at the gcc RISCV autovectorization code.  It's changing quite frequently, so it's probably premature to try and abstract out
 loop reduction models that we can get Ghidra to recognize.  When that happens we might draw source exemplars from
 `gcc/gcc/testsuite/gcc.target/riscv/rvv/autovec` and build a catalog of source pattern to instruction pattern expansions.
 
-### Example: source code use of riscv vector intrinsics
+### Example: source code use of RISCV vector intrinsics
 
 The previous example showed an overly aggressive autovectorization of a simple loop.  Here we look at source code that the developer has decided is important enough
-to directly code in riscv intrinsic C functions.  The function `ggml_vec_dot_q5_0_q8_0` is one such function, with separate implementations for `ARM_NEON`, `wasm_simd128`,
+to directly code in RISCV intrinsic C functions.  The function `ggml_vec_dot_q5_0_q8_0` is one such function, with separate implementations for `ARM_NEON`, `wasm_simd128`,
 `AVX2`, `AVX`, and `riscv_v_intrinsic`.  If none of those accelerators are available a scalar implementation is used instead:
 
 ```c
@@ -302,7 +302,7 @@ void ggml_vec_dot_q5_0_q8_0(const int n, float * restrict s, const void * restri
 }
 ```
 
-The riscv instrinsic source is:
+The RISCV intrinsic source is:
 
 >Note: added comments are flagged with `///`
 
@@ -520,4 +520,4 @@ We'll leave the differential analysis of link time optimization for another day.
   `ggml_new_tensor_impl.constprop.0`, `ggml_new_tensor_impl.constprop.2`, and `ggml_new_tensor_impl.constprop.3`.
   This suggests BSIM could get confused with intermediate functions if trying to connect binaries built with and without LTO.
 * *None* of the hermetic toolchains appear to work when link time optimization is requested.  There appears to be at least one missing
-  lto plugin from the gcc-14 toolchain packaging.  We'll try and find such for the next snapshot of gcc-14.
+  LTO plugin from the gcc-14 toolchain packaging.  We'll try and find such for the next snapshot of gcc-14.

@@ -16,11 +16,11 @@ are all versioned and importable, so build results are the same no matter where 
 
 ## Example of RISCV-64 platforms and toolchains
 
-The directory riscv64/toolchain defines these platforms:
+The directory RISCV64/toolchain defines these platforms:
 
-* `//platforms:riscv_userspace` for a generic RISCV-64 linux appliance with the usual libc and libstdio APIs
-* `//platforms:riscv_vector` for a more specialized RISCV-64 linux appliance with vector extensions supported
-* `//platforms:riscv_custom` for a highly specialized RISCV-64 linux appliance with vector and vendor-specific extensions supported
+* `//platforms:riscv_userspace` for a generic RISCV-64 Linux appliance with the usual libc and libstdio APIs
+* `//platforms:riscv_vector` for a more specialized RISCV-64 Linux appliance with vector extensions supported
+* `//platforms:riscv_custom` for a highly specialized RISCV-64 Linux appliance with vector and vendor-specific extensions supported
 
 >Note: The current binutils and gcc show more vendor-specific instruction set extensions from THead, so we will arbitrarily use that
 >      as an exemplar platform.
@@ -48,7 +48,7 @@ Toolchains generally include several components that can affect the generated bi
 
 * the gcc compiler, built from source and configured for a specific target architecture and language set
 * binutils utilities, including a `gas` assembler with support for various instruction set extensions
-  and dissassembler tools like `objdump` that provide reference handling of newer instructions.
+  and disassembler tools like `objdump` that provide reference handling of newer instructions.
 * linker and linker scripts
 * a `sysroot` holding files the above subsystems would normally expect to find under `/usr`, for instance
     `/usr/include` files supplied by the kernel and standard libraries

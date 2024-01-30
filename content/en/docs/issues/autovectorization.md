@@ -180,7 +180,7 @@ int main() {
 }
 ```
 
-### riscv-64 builds
+### RISCV-64 builds
 
 Build with:
 
@@ -243,7 +243,7 @@ What would we like the decompiler to show instead?  The `memcpy` pattern should 
 ```
 
 More generally, we want a precomment showing the memcpy in vector terms immediately before
-the loop.  The type definition of `dest` is a red herring to be dealth with.
+the loop.  The type definition of `dest` is a red herring to be dealt with.
 
 ### x86-64 builds
 

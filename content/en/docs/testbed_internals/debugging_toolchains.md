@@ -8,7 +8,7 @@ Debugging toolchains can be tedious
 {{% /pageinfo %}}
 
 Suppose you wanted to build a gcc-14 toolchain with the latest glibc standard libraries, and you were using a Linux host with gcc-13 and reasonably
-current glibc standard libraries.  How would you gurantee that none of your older host files were accidentally used where you expected
+current glibc standard libraries.  How would you guarantee that none of your older host files were accidentally used where you expected
 the newer gcc and glibc files to be used?
 
 Bazel enforces this *hermeticity* by running all toolchain steps in a sandbox, where only declared dependencies of the toolchain components

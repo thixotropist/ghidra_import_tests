@@ -48,7 +48,7 @@
             file + ".c",
         ],
         copts = [
-            "-O3",
+            "-O2",
             "-march=rv64gcv",
             "-flto",
         ],

@@ -11,9 +11,9 @@ http_archive(
 # developmental (unreleased) gcc-14 risc-v 64 bit toolchain
 http_archive(
     name = "gcc-14-riscv64-toolchains",
-    urls = ["file:///opt/bazel/risc64_linux_gnu-14.tar.xz"],
+    urls = ["file:///opt/bazel/risc64_linux_gcc-14.0.1.tar.xz"],
     build_file = "//:gcc-14-riscv64-toolchains.BUILD",
-    sha256 = "703f4e7e2ac9b0fdbab95d2ac99992e5a9692f5486de7c4cf97d76f21b81de80",
+    sha256 = "b5831f2bd837d6f8e3f9cd04b55695ca3e89ecf2387d6b448215a84ba4708508",
 )
 
 # system libraries used by toolchain build system
@@ -41,5 +41,7 @@ register_toolchains(
     # a toolchain based on a snapshot of gcc-14-riscv64-toolchains
     "//toolchains:riscv64-next",
     # a toolchain loaded with supported customizations
-    "//toolchains:riscv64-custom"
+    "//toolchains:riscv64-custom",
+    # a non-hermetic local toolchain used in debugging the Bazel sandbox
+    "//toolchains:riscv64-local",
 )

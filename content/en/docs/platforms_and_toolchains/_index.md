@@ -21,17 +21,20 @@ The directory RISCV64/toolchain defines these platforms:
 * `//platforms:riscv_userspace` for a generic RISCV-64 Linux appliance with the usual libc and libstdio APIs
 * `//platforms:riscv_vector` for a more specialized RISCV-64 Linux appliance with vector extensions supported
 * `//platforms:riscv_custom` for a highly specialized RISCV-64 Linux appliance with vector and vendor-specific extensions supported
+* `//platforms:riscv_local` for toolchain debugging, using a local file system toolchain under `/opt/riscvx`
 
 >Note: The current binutils and gcc show more vendor-specific instruction set extensions from THead, so we will arbitrarily use that
->      as an exemplar platform.
+>      as the exemplar custom platform.
 
 This directory defines these toolchains:
 
 * `//toolchains:riscv64-default` - a gcc-13 stable RISCV compiler, linker, loader, and sysroot of related include files and libraries
 * `//toolchains:riscv64-next` - a gcc-14 unreleased but feature-frozen RISCV compiler, linker, loader, and sysroot of related include files
   and libraries
-* `//toolchains:riscv64-custom` a variant of  `//toolchains:riscv64-next` with multiple standard and vendor-specific ISA extensions enabled
+* `//toolchains:riscv64-custom` - a variant of  `//toolchains:riscv64-next` with multiple standard and vendor-specific ISA extensions enabled
   by default
+* `//toolchains:riscv64-local` - a toolchain executing out of `/opt/riscvx` instead of a portable tarball.  Generally useful only when
+  debugging the generation of a fully portable and hermetic toolchain tarball.
 
 Exemplars are built by naming the platform for each build.  Bazel then finds a compatible toolchain to complete the build.
 

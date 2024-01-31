@@ -9,7 +9,7 @@ filegroup(
 
 filegroup(
     name = "riscv64_libexec",
-    srcs = glob(["libexec/gcc/riscv64-unknown-linux-gnu/14.0.0/**"]),
+    srcs = glob(["libexec/gcc/riscv64-unknown-linux-gnu/14.0.1/**"]),
 )
 
 filegroup(
@@ -20,7 +20,7 @@ filegroup(
 
 filegroup(
     name = "c++_std_includes",
-    srcs = glob(["riscv64-unknown-linux-gnu/include/c++/14.0.0/*"])
+    srcs = glob(["riscv64-unknown-linux-gnu/include/c++/14.0.1/*"])
 )
 
 filegroup(

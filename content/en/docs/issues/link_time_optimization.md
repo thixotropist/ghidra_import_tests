@@ -60,5 +60,5 @@ lto-wrapper: fatal error: external/gcc-14-riscv64-toolchains/bin/riscv64-unknown
 compilation terminated.
 ```
 
-So it looks like LTO has problems with riscv vector instructions.  We'll keep testing this as more gcc 14 snapshots become available.
-We *think* that LTO may work with x86_64 vector builds.
+So it looks like LTO has problems with riscv vector instructions.  We'll keep testing this as more gcc 14 snapshots become available,
+but as a lower priority exercise.  LTO does not seem like a popular optimization.

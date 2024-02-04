@@ -1,7 +1,6 @@
 ---
 title: ISA Extensions
 linkTitle: ISA Extensions
-menu: {main: {weight: 10}}
 weight: 10
 ---
 

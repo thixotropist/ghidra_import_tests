@@ -23,6 +23,10 @@ it will likely show lots of new features early.  Not all of these new features w
 make it into common use or arenas in which Ghidra is necessary, so we don't really
 know how much effort is worth spending on any given feature.
 
+The RISCV processor family being relatively new, we can expect compiler and toolchain support to be evolving more rapidly than
+more established families like x86_64.  That means RISCV appliances may be more likely to be built with newer compiler
+toolchains than x86_64 appliances.
+
 There are two key goals here:
 
 1. Experiment with Ghidra import integration tests that can detect Ghidra regressions.  This involves collecting
@@ -119,3 +123,44 @@ inspecting the R_RISCV_RVC_JUMP test
 ----------------------------------------------------------------------
 Ran 1 test in 0.000s
 ```
+
+## Ghidra gap analysis
+
+We are looking for processor features that may soon be commonplace but that current Ghidra releases do not support well.
+One such feature involves RISCV extensions to the instruction set architecture, especially vector and bit manipulation
+extensions.  For each such feature we might consider the following questions:
+
+1. What is a current example of this feature, especially examples that support analysis or pathologies of those features.
+2. How and when might this feature impact a significant number of Ghidra analysts?
+3. How much effort might it take Ghidra developers to fill the implied feature gap?
+4. Is this feature specific to RISCV systems or more broadly applicable to other processor families?  Would support for that
+   feature be common to many processor families or vary widely by processor?
+5. What are the existing frameworks within Ghidra that might most credibly be extended to support that feature?
+
+Thread Local Storage (TLS) is a fairly simple feature we can use as an example.  Addressing each of the five questions in turn
+we might find:
+
+1. TLS relocation codes appear occasionally in multithreaded applications across most processor families.  They might appear a few times
+   within `libc`.  Ghidra often doesn't recognize these codes.  Existing analytics like `objdump` and `readelf` certainly do recognize
+   TLS codes, but do not pretend to provide semantic aid in interpreting those codes.  TLS codes have well documented C source contexts in
+   the form of compiler `attributes`.
+2. The TLS handling gap is unlikely to affect many Ghidra users anytime soon, mostly because they appear only rarely and mostly apply
+   to local variables where the decompiler can provide context.
+3. Experienced Ghidra developers *might* be able to implement the general TLS case easily, but would then have to add supporting
+   ELF import code to a broader range of processor definitions.
+4. The TLS feature is common across most processor families supporting multithreading.
+5. Support within Ghidra might grow out of existing memory space models and existing processor-specific ELF importers.
+
+The general design questions boil down to:
+
+* how long can we defer working on this gap?
+* how long would it take to fill that gap after we got started?
+* where would we likely want to start
+
+The Ghidra design team might assign TLS support a relatively low priority, since the gap doesn't currently have a large impact.
+If the incidence and complexity of TLS suddenly increased, the extension of existing Ghidra support could likely increase just as
+rapidly.
+
+Extensions to Instruction Set Architectures make up a much more complicated example.  Standardized instructions for cache management
+and cryptography are likely easy enough to fold into Ghidra's framework, but vector instruction extensions will hit harder and sooner,
+without a clear path forward for Ghidra.

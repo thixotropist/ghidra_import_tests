@@ -45,6 +45,25 @@ bazel build -s --platforms=//platforms:riscv_userspace gcc_vectorization:hellowo
 bazel build -s --platforms=//platforms:riscv_vector gcc_vectorization:helloworld_challenge
 ```
 
+This table shows relationships between platforms, constraints, toolchains, and default options:
+
+| platform                    | cpu constraint         | toolchain                    | default options              | added optimized options |
+| --------------------------- | ---------------------- | ---------------------------- | ---------------------------- | ----------------------- |
+| //platforms:riscv_userspace | //toolchains:riscv64   | //toolchains:riscv64-default |                              | -O3                     |
+| //platforms:riscv_vector    | //toolchains:riscv64-v | //toolchains:riscv64-next    | -march=rv64gcv               | -O3                     |
+| //platforms:riscv_custom    | //toolchains:riscv64-c | //toolchains:riscv64-custom  | -march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbc_xtheadba_xtheadbb_xtheadbs_xtheadcmo_xtheadcondmov_xtheadmac_xtheadfmemidx_xtheadmempair_xtheadsync | -O3 |
+| //platforms:riscv_local     | //toolchains:riscv64-l | //toolchains:riscv64-local   |                              | -O3                      |
+
+Notes:
+ * The `-O3` option is likely too aggressive. The `-O2` option would be more common in broadly released software.
+ * `//toolchains:riscv64-default` currently uses a gcc-13 toolchain suite
+ * the other toolchains use various developmental snapshots of the gcc-14 toolchain suite
+ * vector extensions version 1.0 are default on `//toolchains:riscv64-next` and `//toolchains:riscv64-custom`
+ * `//toolchains:riscv64-custom` adds bit manipulation and many of the THead extensions supported by binutils.
+
+ >Warning: C options can be added by the toolchain, within a BUILD file, and on the command line.  For options like `-O` and `-march`, only
+ >         the last instance of the option affects the build.  
+
 ## Toolchain details
 
 Toolchains generally include several components that can affect the generated binaries:

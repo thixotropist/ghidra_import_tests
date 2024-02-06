@@ -2,18 +2,18 @@ load(":cc_toolchain_config.bzl", "cc_toolchain_config")
 load("//:variables.bzl", "OUTPUT_BASE")
 package(default_visibility = ["//visibility:public"])
 
-# a generic RISCV 64 hart supporting march=rv64g
+# a generic RISCV 64 hart supporting march=rv64gc
 constraint_value(
     name = "riscv64",
     constraint_setting = "@platforms//cpu",
 )
-# a vector RISCV 64 hart supporting march=rv64gv
+# a vector RISCV 64 hart supporting march=rv64gcv
 constraint_value(
     name = "riscv64-v",
     constraint_setting = "@platforms//cpu",
 )
 
-# a customized RISCV 64 hart supporting march=rv64gv plus other extensions supported by binutils
+# a customized RISCV 64 hart supporting march=rv64gcv plus other extensions supported by binutils
 constraint_value(
     name = "riscv64-c",
     constraint_setting = "@platforms//cpu",
@@ -165,6 +165,7 @@ cc_toolchain_config(
         # take the isystem ordering from the output of gcc -xc++ -E -v -
         "--sysroot=external/gcc-14-riscv64-toolchains/sysroot",
         "-Wall",
+        "-march=rv64gcv",
     ],
     compiler = "gcc",
     coverage_compile_flags = ["--coverage"],
@@ -253,8 +254,7 @@ cc_toolchain_config(
         # take the isystem ordering from the output of gcc -xc++ -E -v -
         "--sysroot=external/gcc-14-riscv64-toolchains/sysroot",
         "-Wall",
-        "-march=rv64gv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbc_xtheadba_xtheadbb_xtheadbs_xtheadcmo_xtheadcondmov_xtheadmac_xtheadfmemidx_xtheadmempair_xtheadsync",
-#        "-flto",
+        "-march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbc_xtheadba_xtheadbb_xtheadbs_xtheadcmo_xtheadcondmov_xtheadmac_xtheadfmemidx_xtheadmempair_xtheadsync",
     ],
     compiler = "gcc",
     coverage_compile_flags = ["--coverage"],
@@ -275,7 +275,6 @@ cc_toolchain_config(
     host_system_name = ":empty",
     link_flags = [
         "-Wl,--library-path=external/gcc-14-riscv64-toolchains/sysroot/lib",
-#        "-Wl,-flto"
     ],
     link_libs = ["-lstdc++", "-lm"],
     opt_compile_flags = [

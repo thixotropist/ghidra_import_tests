@@ -28,7 +28,7 @@ cc_library(
          "-ffast-math"
     ]
 )
-# native copts include -mavx -mavx2 -mfma -mf16c -msse3 -mssse3
+
 cc_binary(
     name = 'main',
     srcs = [

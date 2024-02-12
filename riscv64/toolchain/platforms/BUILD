@@ -24,6 +24,14 @@ platform(
     ],
 )
 
+# riscv platform for toolchain debugging, using a local file system toolchain
+platform(
+    name = "riscv_local",
+    constraint_values = [
+        "//toolchains:riscv64-l",
+    ],
+)
+
 # x86_64 on the local development computer
 platform(
     name = "x86_64_userspace",

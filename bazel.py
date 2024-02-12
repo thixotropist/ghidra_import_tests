@@ -59,7 +59,7 @@ class Bazel():
         self.logger = logger
         self.workspace_dir = f"{os.getcwd()}/{workspace_subdir}"
 
-    def execute(self, platform, target, operation='build', mode='fastbuild'):
+    def execute(self, platform, target, operation='build', mode=None, copt=None):
         """
         Build a target with the given platform using toolchain resolution.
         the target parameter may either be a single string or a list of strings
@@ -68,17 +68,21 @@ class Bazel():
                     Bazel.options['no_bazelrc'],            #   ignoring .bazelrc
                     Bazel.options['output_base'],           #   with output redirected
                     operation,                              # request a build or a test
+                    '-s',                                   #   showing the compiler arguments
                     Bazel.options['distdir'],               #   into a local distribution cache
                     Bazel.options['toolchain_resolution'],  #   enabling platform resolution
                     Bazel.options['bzlmod'],                #     and bzlmod imports
                     Bazel.options['hack'],                  #   hack to permit builds in a tmpfs
-                    f'--compilation_mode={mode}',           #   choosing debug or optimized
                     Bazel.options['save_temps'],            #   keeping intermediate files
-                    f'--platforms={platform}',              #   naming the target platform
+                    f'--platforms={platform}'               #   specifying the platform
                     ]
+        if copt != None:
+            command.append(f'--copt="{copt}"')
+        if mode != None:
+            command.append(f'--compilation_mode={mode}') 
         if isinstance(target, str):
             command.append(target)
-        else:
+        else:   # concatenate a list of targets
             command.extend(target)
         self.logger.info("Running: %s", ' '.join(command))
         result = subprocess.run(command, cwd=self.workspace_dir,

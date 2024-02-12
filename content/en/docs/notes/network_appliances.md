@@ -1,7 +1,6 @@
 ---
 title: Network Appliances
 linkTitle: Network Appliances
-menu: {main: {weight: 20}}
 weight: 20
 ---
 

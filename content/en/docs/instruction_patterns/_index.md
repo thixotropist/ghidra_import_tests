@@ -160,7 +160,7 @@ void cpymem_3(undefined8 param_1,undefined8 param_2)
 void cpymem_4(undefined8 param_1,undefined8 param_2)
 {
   undefined auVar1 [256];                // li      a5,32
-  vsetvli_e8m8tama(0x20);                // vsetivli        zero,a5,e8,m8,ta,ma
+  vsetvli_e8m8tama(0x20);                // vsetvli        zero,a5,e8,m8,ta,ma
   auVar1 = vle8_v(param_2);              // vle8.v  v8,(a1)
   vse8_v(auVar1,param_1);                // vse8.v  v8,(a0)
   return;
@@ -179,4 +179,3 @@ The variation in the `vset*` instructions is a bit puzzling.  This *may* be due 
 alignment issues - trying to copy a `short int` into a misaligned odd address generates
 an exception at the store instruction, so perhaps the vector optimization is supposed
 to throw an exception there too.
-

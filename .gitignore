@@ -24,6 +24,7 @@ testResults/*
 riscv64/exemplars/logs
 # Ignore editor metadata
 .vscode/*
+riscv64/toolchain/.vscode/*
 # ignore generated website files
 .hugo_build.lock
 resources/_gen/*

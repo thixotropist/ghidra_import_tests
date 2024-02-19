@@ -159,7 +159,7 @@ This sequence from `main` affects initialization and obscures a possible exploit
   vsetivli_e8m8tama(0xf);
   vse8_v(auVar26,puStack_f0);
   puStack_d0 = &uStack_c0;
-  vsetivli_e64m1tama(2);          // memset(lStack_b0, 0, 16)
+  vsetivli_e64m1tama(2);           // memset(lStack_b0, 0, 16)
   vmv_v_i(auVar25,0);
   vse64_v(auVar25,&lStack_b0);
   *(char *)((long)puStack_110 + 0x17) = '\0';
@@ -169,3 +169,137 @@ This sequence from `main` affects initialization and obscures a possible exploit
   memory reference within `vle8_v(0xa6650)` would be a good place to do it.  Note that the compiler has interleaved instructions
   generated from the two memcpy expansions, at the cost of two extra `vsetivli` instructions.  This allows more time for the
   vector load instructions to complete.
+
+  ## Focus on `output_txt`
+
+  Some browsing in Ghidra suggests that the following section of `main` is close to where we need to focus.
+
+  ```c
+      lVar11 = whisper_full_parallel
+                        (ctx,(long)pFVar18,(ulong)pvStack_348,
+                        (long)(int)(lStack_340 - (long)pvStack_348 >> 2),
+                        (long)pvVar20);
+    if (lVar11 == 0) {
+      putchar(10,pFVar18);
+      if (params.do_output_txt != false) {
+    /* try { // try from 0001dce8 to 0001dceb has its CatchHandler @ 0001e252 */
+        std::operator+(&full_params,(undefined8 *)pFStack_2e0,
+                        (undefined8 *)pFStack_2d8,(undefined8 *)".txt",
+                        (char *)pvVar20);
+        uVar13 = full_params._0_8_;
+    /* try { // try from 0001dcfc to 0001dcfd has its CatchHandler @ 0001e2ec */
+        std::vector<>::vector(unaff_s3,(vector<> *)unaff_s5);
+    /* try { // try from 0001dd06 to 0001dd09 has its CatchHandler @ 0001e2f0 */
+        output_txt(ctx,(char *)uVar13,&params,(vector *)unaff_s3);
+        std::vector<>::~vector(unaff_s3);
+        std::__cxx11::basic_string<>::_M_dispose((basic_string<> *)&full_params);
+      }
+      ...
+    }
+```
+
+Looking into `output_txt` Ghidra gives us:
+
+```c
+long output_txt(whisper_context *ctx,char *output_file_path,whisper_params *param_3,vector *param_4)
+
+{
+    fprintf(_stderr,"%s: saving output to \'%s\'\n","output_txt",output_file_path);
+    max_index = whisper_full_n_segments(ctx);
+    index = 0;
+    if (0 < max_index) {
+      do {
+        __s = (char *)whisper_full_get_segment_text(ctx,index);
+    ...
+        sVar8 = strlen(__s);
+        std::__ostream_insert<>((basic_ostream *)plVar7,__s,sVar8);
+    ...
+        index = (long)((int)index + 1);
+      } while (max_index != index);
+    ...
+    }
+...
+}
+```
+
+Finally, `whisper_full_get_segment_text` is decompiled into:
+
+```c
+undefined8 whisper_full_get_segment_text(whisper_context *ctx,long index)
+{
+  gp = &__global_pointer$;
+  return *(undefined8 *)(index * 0x50 + *(long *)(ctx->state + 0xa5f8) + 0x10);
+}
+```
+
+Now the adversary has enough information to try rewriting the generated text from an arbitrary segment of speech.
+The text is found in an array linked into the `ctx` context variable, probably during the call to `whisper_full_parallel`.
+
+## added complexity of vectorization
+
+Our key goal is to understand how much effort to put into Ghidra's decompiler processing of RISCV-64 vector instructions.
+The metric for measuring that effort is relative to the effort needed to understand the other instructions produced by a C++
+optimizing compiler implementing libstdc++ containers like vectors.
+
+Take a closer look at the call to `output_txt`:
+
+```c
+std::vector<>::vector(unaff_s3,(vector<> *)unaff_s5);
+output_txt(ctx,(char *)uVar13,&params,(vector *)unaff_s3);
+std::vector<>::~vector(unaff_s3);
+```
+
+The `unaff_s3` parameter to `output_txt` might be important.  Maybe we should examine the constructor and destructor for
+this object to probe its internal structure.
+
+In fact `unaff_s3` is only used when passing stereo audio into `output_txt`, so it is more of a red herring
+slowing down the analysis than a true roadblock.  Its internal structure is a C++ standard vector of C++ standard vectors
+of float, so it's a decent example of what happens when RISCV-64 vector instructions are used implementing vectors
+(and two dimensional matrices) at a higher abstraction level.
+
+A little analysis shows us that `std::vector<>::vector` is actually a copy constructor for a class generated from
+a vector template.  The true type of `unaff_s3` and `unaff_s5` is roughly `std::vector<std::vector<float>>`.
+
+>Comment: the copy constructor and the associated destructor are likely present only because the programmer didn't mark
+>         the parameter as a `const` reference.
+
+The destructor `std::vector<>::~vector(unaff_s3)` listing shows no vector instructions are used.  The inner vectors
+are deleted and their memory reclaimed, then the outer containing vector is deleted.
+
+The constructor `std::vector<>::vector` is different.  Vector instructions are used often, but in very simple contexts.
+
+* The only `vset` mode used is `vsetivli_e64m1tama(2)`, asking for no more than two 64 bit elements in a vector register
+* The most common vector pattern stores 0 into two adjacent 64 bit pointers
+* In one case a 64 bit value is stored into two adjacent 64 bit pointers.
+
+## Summary
+
+If whisper.cpp is representative of a broader class of ML programs compiled for RISCV-64 vector-enabled hardware, then:
+
+1. Ghidra's sleigh subsystem needs to recognize at least those vector instrucions found in the rvv 1.0 release.
+2. The decompiler view should have access to pcodeops for all of those vector instructions.
+3. The 20 to 50 most common `vset*` configurations (e.g., `e64m1tama`) should be explicitly recognized at the pcodeop layer
+   and displayed in the decompiler view.
+4. Ghidra users should have documentation on common RISCV-64 vector instruction patterns generated during compilation.
+   These patterns should include common loop patterns and builtin expansions for `memcpy` and `memset`, plus examples showing
+   the common source code patterns resulting in vector reduction, width conversion, slideup/down, and gather/scatter instructions.
+
+Other Ghidra extensions would be nice to have but likely deliver diminishing bang-for-the-buck relative to multiplatform
+C++ analytics:
+
+1. Extend sleigh `*.sinc` file syntax to convey comments or hints to be visible in the decompiler view, either as pop-ups,
+   instruction info, or comment blocks.
+2. Take advantage of the open source nature of RISCV ISA to display links to open source documents on vector instructions
+   when clicking on a given instruction.
+3. Treat pcodeops as function calls within the decompiler view, enabling signature overrides and type assignment to the
+   arguments.
+4. Create a decompiler plugin framework that can scan the decompiled source and translate vector instruction patterns back
+   into calls to `__builtin_memcpy(...)` calls.
+5. Create a decompiler plugin framework that can scan the decompiled source and generate inline comments in a sensible
+   vector notation.
+
+The toughest challenges might be:
+
+1. Find a Ghidra micro-architecture-independent approach to untangling vector instruction generation.
+2. Use ML translation techniques to match C, C++, and Rust source patterns to generated vector instruction sequences
+   for known architectures, compilers, and compiler optimization settings.

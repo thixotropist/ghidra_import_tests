@@ -32,9 +32,9 @@ platform(
     ],
 )
 
-# x86_64 on the local development computer
+# x86_64 variant of "riscv_vector"
 platform(
-    name = "x86_64_userspace",
+    name = "x86_64",
     constraint_values = [
         "//toolchains:x86_64",
     ],

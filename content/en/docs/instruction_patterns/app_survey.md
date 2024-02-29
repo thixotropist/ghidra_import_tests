@@ -69,7 +69,8 @@ For example, this Ghidra listing snippet looks like a good candidate for `memcpy
 00090be4 27 f4 07 02     vse64.v                        v8,(a5)
 ```
 
-A pcode equivalent might be `__builtin_memcpy(dest=(a5), src=(a4), 8 * 15)` with a possible context note that v8 through v16 are changed.
+A pcode equivalent might be `__builtin_memcpy(dest=(a5), src=(a4), 8 * 15)` with a possible context note that
+vector registers v8 through v16 are changed.
 
 A longer example might be a good candidate for `memset`:
 

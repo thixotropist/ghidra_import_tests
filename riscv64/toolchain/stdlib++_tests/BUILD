@@ -19,9 +19,20 @@ cc_binary(
     copts = ["-O2"],
 )
 
-# extract code used to generate the Murmur hash used in stdlib++
+# exercise vector containers
+cc_binary(
+    name = "vector",
+    srcs = [
+        "vector.cpp",
+    ],
+    copts = ["-O2"],
+)
+
+# collect code fragments to mimic components used in larger exemplars
 cc_library(
     name = "stdlib",
-    srcs = ["hash.cc"],
+    srcs = [
+        "hash.cc",
+        "vectors_in_vectors.cc"],
     copts = ["-O2",]
 )

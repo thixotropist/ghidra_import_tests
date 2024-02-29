@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+PATH=`pwd`/toolchains/gcc-14-x86_64/imported \
+LD_LIBRARY_PATH=external/fedora39-system-libs \
+  external/gcc-14-x86_-toolchains/bin/obdump "$@"

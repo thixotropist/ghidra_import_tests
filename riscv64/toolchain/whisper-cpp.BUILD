@@ -1,4 +1,5 @@
 package(default_visibility = ["//visibility:public"])
+
 cc_library(
     name = 'whisper',
     hdrs = [
@@ -25,7 +26,7 @@ cc_library(
     copts = [
         '-pthread',
          '-O3',
-         "-ffast-math"
+         "-ffast-math",
     ]
 )
 
@@ -49,6 +50,7 @@ cc_binary(
         'NDEBUG',
         '_XOPEN_SOURCE=600',
         '_GNU_SOURCE',
+        '__riscv_v_intrinsic'
     ],
     copts = [
         '-pthread',

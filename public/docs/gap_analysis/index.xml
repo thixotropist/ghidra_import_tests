@@ -1,0 +1,250 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ghidra Import Testing – Gap Analysis Example</title>
+    <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/</link>
+    <description>Recent content in Gap Analysis Example on Ghidra Import Testing</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	  <atom:link href="https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Examples</title>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/examples/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/examples/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;Where does this gap appear?&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;memory-copy&#34;&gt;memory copy&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;alignment issues&lt;/li&gt;
+&lt;li&gt;obfuscated memcpy and strcpy inline code&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;other-pcode-or-rtl-expansions&#34;&gt;other pcode or RTL expansions&lt;/h2&gt;
+&lt;h2 id=&#34;loop-optimization&#34;&gt;loop optimization&lt;/h2&gt;
+&lt;h2 id=&#34;vector-intrinsics&#34;&gt;vector intrinsics&lt;/h2&gt;
+&lt;h2 id=&#34;ml-and-ai-subsystems&#34;&gt;ML and AI subsystems&lt;/h2&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Impact</title>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/impact/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/impact/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;What is the impact of this gap?&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;how&#34;&gt;How&lt;/h2&gt;
+&lt;p&gt;Ghidra&amp;rsquo;s current limits in handling RISCV-64 vector instructions will impact users in phases, where the initial impacts are modest and fairly easy to deal
+with while later impacts will take significant design work to address.&lt;/p&gt;
+&lt;p&gt;The most immediate impact involves Ghidra disassembly and decompilation failure when encountering unrecognized instructions.  The Fedora 39 exemplar kernel
+contains several extension instructions that Ghidra 11 can&amp;rsquo;t recognize.  These are limited in number and don&amp;rsquo;t have a material impact on someone examining
+RISCV kernel code.  The voice-to-text app whisper.cpp shows more serious limits - roughly one third of the app&amp;rsquo;s instructions are unprocessed by Ghidra 11
+because of vector and other extension instructions.&lt;/p&gt;
+&lt;p&gt;That impact can be addressed by simply defining the missing instructions, as in Ghidra&amp;rsquo;s &lt;code&gt;isa_ext&lt;/code&gt; experimental branch.  This will allow the disassembler and
+decompiler to process all instructions in the app.  This is necessary but not sufficient, since many or most of the vector extension instructions do not have
+a clean pcode representation.  Obvious calls to &lt;code&gt;memcpy&lt;/code&gt; will be replaced with one of a half-dozen inline vector instruction sequences.  Simple or nested
+loops will be &amp;lsquo;vectorized&amp;rsquo; with fewer iterations but much more complex instruction opcode sequences.  Optimizing compilers can handle those complexities, while
+Ghidra users searching for malware will have a harder time of it.&lt;/p&gt;
+&lt;p&gt;The general challenge for Ghidra is that of reconstructing the context from sequences of vector extension instructions.&lt;/p&gt;
+&lt;h2 id=&#34;when&#34;&gt;When&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: Some material comes as-is from &lt;a href=&#34;https://www.reddit.com/r/RISCV&#34;&gt;https://www.reddit.com/r/RISCV&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The first generally available 64 bit RISCV vector systems development kit has just become available (January 2024), based on the relatively modest
+THead C908 core.  This SDK appears tuned for video processing, perhaps video surveilance applications aggregating multiple cameras into a common video feed.
+We are probably several years from seeing server-class systems built on SiFive P870 cores, and fabricated on the fastest available fab lines.  Memory bandwidth
+is poor at present, while energy efficiency is potentially better than x86_64 designs.&lt;/p&gt;
+&lt;p&gt;Judging from internet hype, we can expect to see RISCV vector code appearing in replacements of ARM systems (automotive and possibly cell phone) and as the extensible
+basis of AI applications.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cores announced
+&lt;ul&gt;
+&lt;li&gt;SiFive
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.sifive.com/cores/performance-p650-670&#34;&gt;P670&lt;/a&gt; 2 x 128 bit vector units, up to 16 cores&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.sifive.com/cores/performance-p870-p870a&#34;&gt;P870&lt;/a&gt; 2 x 128 bit vector units, vector crypto, up to 16 cores&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Alibaba XuanTie THead
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://riscv.org/blog/2022/11/xuantie-c908-high-performance-risc-v-processor-catered-to-aiot-industry-chang-liu-alibaba-cloud/&#34;&gt;C908&lt;/a&gt;
+with RVV 1.0 support, 128 bit VLEN; announced 2022&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;StarFive
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.starfivetech.com/en/site/riscv-core-ip&#34;&gt;Starfive&lt;/a&gt; does not appear to offer a vector RISCV core&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SDKs available
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youyeetoo.com/products/canmv-k230-kendryte-k230-risc-v64-board?VariantsId=11596&#34;&gt;CanMV-K230&lt;/a&gt;,
+dual C908 cores, triple video camera inputs, $40; one core supports RVV 1.0 at 1.6 GHz; 512 MB RAM; announced 2023&lt;/li&gt;
+&lt;li&gt;Sophgo &lt;a href=&#34;https://forum.sophgo.com/t/about-the-sg2380-oasis-category/359&#34;&gt;SG2380&lt;/a&gt; due Q3 2024 with 16 core SiFive P670
+and 8 core SiFiveX280&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;who-is-working-this&#34;&gt;Who is working this&lt;/h2&gt;
+&lt;p&gt;January 2024 saw a flurry of open source toolchain and framework contributions from several sources.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;binutils contributors
+&lt;ul&gt;
+&lt;li&gt;multiple recent contributors from Alibaba, mostly in support of THead extensions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;gcc contributors
+&lt;ul&gt;
+&lt;li&gt;intel, alibaba, rivai (ref XCVsimd extension), embecosm, sifive, eswincomputing, ventanamicro, andestech all contributed to the riscv testsuite in the last two weeks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;glibc contributions
+&lt;ul&gt;
+&lt;li&gt;some references to Alibaba riscv extensions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ML framework contributors
+&lt;ul&gt;
+&lt;li&gt;riscv intrinsics appeared in whisper.cpp in November 2023, sync&amp;rsquo;d from &lt;a href=&#34;https://github.com/ggerganov/llama.cpp/commit/79f34abddb72ac5ddbf118f3d87520b611a10a7d&#34;&gt;llama&lt;/a&gt;,
+originally contributed by &lt;a href=&#34;https://pk.linkedin.com/in/ahmad-tameem&#34;&gt;https://pk.linkedin.com/in/ahmad-tameem&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Effort</title>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/effort/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/effort/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;How much effort might it take to fill the gap?&lt;/p&gt;
+
+&lt;/div&gt;
+
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Scope</title>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/scope/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/scope/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;Does the scope of this gap extend to other processors?&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;x86_64 comparison&lt;/li&gt;
+&lt;li&gt;alignment&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Existing Frameworks</title>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/existing_frameworks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/existing_frameworks/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;Which Ghidra frameworks might be extended to fill the gap?&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;outline&#34;&gt;Outline&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;What can we add to sleigh &lt;code&gt;.sinc&lt;/code&gt; files?
+&lt;ul&gt;
+&lt;li&gt;add all extension instructions&lt;/li&gt;
+&lt;li&gt;add translation of Elf file attributes into vendor-specific processor selection&lt;/li&gt;
+&lt;li&gt;flesh out extension mnemonics to convey vector context, especially &lt;code&gt;vset*&lt;/code&gt; instructions&lt;/li&gt;
+&lt;li&gt;add comments or metadata that is accessible to the decompiler&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;What can we add to pcode semantics?
+&lt;ul&gt;
+&lt;li&gt;gcc builtins like __builtin_memcpy or popcount&lt;/li&gt;
+&lt;li&gt;cross platform vector notation&lt;/li&gt;
+&lt;li&gt;processor dependent decompiler plugins&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;What can we add to disassembler
+&lt;ul&gt;
+&lt;li&gt;generalized instruction information on common use patterns&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;What can we add to decompiler
+&lt;ul&gt;
+&lt;li&gt;reconstruct gcc RTL builtins&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;What plugins can we add?
+&lt;ul&gt;
+&lt;li&gt;reconstruct gcc RTL builtins&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;What external tools can we leverage?
+&lt;ul&gt;
+&lt;li&gt;generate .sinc updates based on objdump mnemonics&lt;/li&gt;
+&lt;li&gt;known source exemplar builds to correlate RTL expressions with instruction sequences&lt;/li&gt;
+&lt;li&gt;apply general ML translation to undo pcode expansion into vector instructions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

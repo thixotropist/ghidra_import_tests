@@ -19,10 +19,10 @@
 
 <title>Whisper_cpp | Ghidra Import Testing</title>
 <meta name="description" content="Explore analysis of a machine learning application built with large language model techniques. What Ghidra gaps does such an analysis reveal?
-How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speach recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?">
+How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speech recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?">
 <meta property="og:title" content="Whisper_cpp" />
 <meta property="og:description" content="Explore analysis of a machine learning application built with large language model techniques. What Ghidra gaps does such an analysis reveal?
-How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speach recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?" />
+How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speech recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/whisper_cpp/" /><meta property="article:section" content="docs" />
 
@@ -30,12 +30,12 @@ How might we inspect a machine-learning application for malware? For example, su
 
 <meta itemprop="name" content="Whisper_cpp">
 <meta itemprop="description" content="Explore analysis of a machine learning application built with large language model techniques. What Ghidra gaps does such an analysis reveal?
-How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speach recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?">
+How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speech recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?">
 
 <meta itemprop="wordCount" content="2803">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Whisper_cpp"/>
 <meta name="twitter:description" content="Explore analysis of a machine learning application built with large language model techniques. What Ghidra gaps does such an analysis reveal?
-How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speach recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?"/>
+How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speech recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?"/>
 
 
 
@@ -63,25 +63,19 @@ How might we inspect a machine-learning application for malware? For example, su
         <a class="nav-link active" href="/ghidra_import_tests/docs/exemplars/"><span>Exemplars</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/notes/hardware/"><span>Hardware Availability</span></a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/instruction_patterns/"><span>Instruction Patterns</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/"><span>ISA Extensions</span></a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/issues/"><span>Issues</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/notes/network_appliances/"><span>Network Appliances</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/"><span>Platforms and Toolchains</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/testbed_internals/"><span>Testbed Internals</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/gap_analysis/"><span>Gap Analysis Example</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/notes/"><span>Notes</span></a>
@@ -126,8 +120,15 @@ How might we inspect a machine-learning application for malware? For example, su
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="td-sidebar-nav-active-item">Whisper_cpp</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
   <a href="/ghidra_import_tests/docs/instruction_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsinstruction_patterns"><span class="">Instruction Patterns</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/app_survey/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey"><span class="">Application Survey</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/" title="Application Top Down Analysis" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation"><span class="">Application Analysis</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
   <a href="/ghidra_import_tests/docs/issues/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsissues"><span class="">Issues</span></a>
   <ul class="ul-2 foldable">
@@ -135,6 +136,8 @@ How might we inspect a machine-learning application for malware? For example, su
   <a href="/ghidra_import_tests/docs/issues/autovectorization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesautovectorization"><span class="">autovectorization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns-li">
   <a href="/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns"><span class="">inferring semantics from code patterns</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissueslink_time_optimization-li">
+  <a href="/ghidra_import_tests/docs/issues/link_time_optimization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissueslink_time_optimization"><span class="">link time optimization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesvector_intrinsics-li">
   <a href="/ghidra_import_tests/docs/issues/vector_intrinsics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesvector_intrinsics"><span class="">vector intrinsics</span></a>
 </li>
@@ -153,6 +156,23 @@ How might we inspect a machine-learning application for malware? For example, su
   <a href="/ghidra_import_tests/docs/testbed_internals/adding_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains"><span class="">adding toolchains</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains-li">
   <a href="/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains"><span class="">debugging toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains"><span class="">refreshing toolchains</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsgap_analysis-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsgap_analysis"><span class="">Gap Analysis Example</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisexamples-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisexamples"><span class="">Examples</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisimpact-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/impact/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisimpact"><span class="">Impact</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysiseffort-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/effort/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysiseffort"><span class="">Effort</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisscope-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/scope/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisscope"><span class="">Scope</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisexisting_frameworks-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/existing_frameworks/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisexisting_frameworks"><span class="">Existing Frameworks</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsnotes-li">
@@ -162,6 +182,8 @@ How might we inspect a machine-learning application for malware? For example, su
   <a href="/ghidra_import_tests/docs/notes/hardware/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnoteshardware"><span class="">Hardware Availability</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesnetwork_appliances-li">
   <a href="/ghidra_import_tests/docs/notes/network_appliances/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesnetwork_appliances"><span class="">Network Appliances</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesvectorization_case_study-li">
+  <a href="/ghidra_import_tests/docs/notes/vectorization_case_study/" title="A vectorization case study" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesvectorization_case_study"><span class="">Vectorization case study</span></a>
 </li>
   </ul>
 </li>
@@ -186,7 +208,7 @@ How might we inspect a machine-learning application for malware? For example, su
       <ul>
         <li><a href="#example-dot-product">Example: dot product</a></li>
         <li><a href="#example-auto-vectorization-makes-the-simple-complicated">Example: auto-vectorization makes the simple complicated</a></li>
-        <li><a href="#example-source-code-use-of-riscv-vector-intrinsics">Example: source code use of riscv vector intrinsics</a></li>
+        <li><a href="#example-source-code-use-of-riscv-vector-intrinsics">Example: source code use of RISCV vector intrinsics</a></li>
         <li><a href="#x86_64-whisper">x86_64 whisper</a></li>
       </ul>
     </li>
@@ -225,7 +247,7 @@ How might we inspect a machine-learning application for malware? For example, su
 
 </div>
 
-<p>How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speach recognition library <a href="https://github.com/ggerganov/whisper.cpp">whisper.cpp</a>.  Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines?  What might be added to Ghidra to help the human analyst in this kind of inspection?</p>
+<p>How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speech recognition library <a href="https://github.com/ggerganov/whisper.cpp">whisper.cpp</a>.  Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines?  What might be added to Ghidra to help the human analyst in this kind of inspection?</p>
 <p>Components for this exercise:</p>
 <ul>
 <li>A Linux x86_64 Fedora 39 base system</li>
@@ -355,7 +377,7 @@ clearing the <code>bad instruction errors</code>.</p>
 <h2 id="phase-1---a-top-down-assessment">Phase 1 - a top-down assessment</h2>
 <p>At the highest level, what features of <code>whisper.cpp</code> generate vector instructions?</p>
 <ul>
-<li>There are about 400 invocations of riscv vector instrinsics within <code>ggml-quants.c</code>.  In these cases the developer
+<li>There are about 400 invocations of RISCV vector intrinsic within <code>ggml-quants.c</code>.  In these cases the developer
 has explicitly managed the vectorization.</li>
 <li>There are an unknown number of automatic loop vectorizations, where gcc-14 has replaced simple scalar loops with
 vector-based loops.  This vectorization will generally reduce the number of loop iterations, but may not always reduce
@@ -363,10 +385,10 @@ the number of instructions executed.</li>
 <li>Gcc expansions of <code>memcpy</code> or structure copies into vector load-store loops.</li>
 </ul>
 <p>Much of <code>whisper.cpp</code> involves vector, matrix, or tensor math using <code>ggml</code> math functions.  This is also where most
-of the explicit riscv vector instrinsic C functions appear, and likely the code the developer believes is most in need
+of the explicit RISCV vector intrinsic C functions appear, and likely the code the developer believes is most in need
 of vector performance enhancements.</p>
 <h3 id="example-dot-product">Example: dot product</h3>
-<p><code>ggml_vec_dot_f32(n, sum, x, y)</code> genereates the vector dot product of two vectors x and y of length n with the result
+<p><code>ggml_vec_dot_f32(n, sum, x, y)</code> generates the vector dot product of two vectors x and y of length n with the result
 stored to *s.  In the absence of vector or SIMD support the source code is:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// scalar
 </span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#204a87;font-weight:bold">float</span> <span style="color:#000">s</span><span style="color:#000;font-weight:bold">;</span>
@@ -418,7 +440,7 @@ stored to *s.  In the absence of vector or SIMD support the source code is:</p>
 </li>
 <li>The <code>vsetvli(n,0x97)</code> instruction should be expanded to show semantics as <code>vsetvli_e32m2ftuma</code>
 <ul>
-<li>Running the binary through a riscv objdump program gives us this formal expansion.  This instruction
+<li>Running the binary through a RISCV objdump program gives us this formal expansion.  This instruction
 says that the selected element width is 32 bits with a LMUL multiplication factor of 1/2.  This means that only
 half of the vector register is used to allow for 64 bit arithmetic output.</li>
 <li>This is now implemented in Ghidra 11.1-DEV isa_ext.</li>
@@ -498,12 +520,12 @@ element slot of vector v4.</p>
 <p>This particular loop vectorization is likely to change a lot in future releases.  The performance is negligible either way.  The analyst may
 look at code like this and decide to ignore the ndims&gt;3 case along with <em>all</em> of the vector instructions used within it.  Alternatively, we could
 look at the gcc vectorization code handling the general vector reduction meta operation, then see if this pattern is a macro of some sort within it.</p>
-<p>Take a step back and look at the gcc riscv autovectorization code.  It&rsquo;s changing quite frequently, so it&rsquo;s probably premature to try and abstract out
+<p>Take a step back and look at the gcc RISCV autovectorization code.  It&rsquo;s changing quite frequently, so it&rsquo;s probably premature to try and abstract out
 loop reduction models that we can get Ghidra to recognize.  When that happens we might draw source exemplars from
 <code>gcc/gcc/testsuite/gcc.target/riscv/rvv/autovec</code> and build a catalog of source pattern to instruction pattern expansions.</p>
-<h3 id="example-source-code-use-of-riscv-vector-intrinsics">Example: source code use of riscv vector intrinsics</h3>
+<h3 id="example-source-code-use-of-riscv-vector-intrinsics">Example: source code use of RISCV vector intrinsics</h3>
 <p>The previous example showed an overly aggressive autovectorization of a simple loop.  Here we look at source code that the developer has decided is important enough
-to directly code in riscv intrinsic C functions.  The function <code>ggml_vec_dot_q5_0_q8_0</code> is one such function, with separate implementations for <code>ARM_NEON</code>, <code>wasm_simd128</code>,
+to directly code in RISCV intrinsic C functions.  The function <code>ggml_vec_dot_q5_0_q8_0</code> is one such function, with separate implementations for <code>ARM_NEON</code>, <code>wasm_simd128</code>,
 <code>AVX2</code>, <code>AVX</code>, and <code>riscv_v_intrinsic</code>.  If none of those accelerators are available a scalar implementation is used instead:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">void</span> <span style="color:#000">ggml_vec_dot_q5_0_q8_0</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">n</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">float</span> <span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#204a87;font-weight:bold">restrict</span> <span style="color:#000">s</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">void</span> <span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#204a87;font-weight:bold">restrict</span> <span style="color:#000">vx</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">void</span> <span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#204a87;font-weight:bold">restrict</span> <span style="color:#000">vy</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">qk</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">QK8_0</span><span style="color:#000;font-weight:bold">;</span>
@@ -539,7 +561,7 @@ to directly code in riscv intrinsic C functions.  The function <code>ggml_vec_do
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">s</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">sumf</span><span style="color:#000;font-weight:bold">;</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div><p>The riscv instrinsic source is:</p>
+</span></span></code></pre></div><p>The RISCV intrinsic source is:</p>
 <blockquote>
 <p>Note: added comments are flagged with <code>///</code></p>
 </blockquote>
@@ -739,7 +761,7 @@ and Ghidra doesn&rsquo;t recognize it.  The <code>x86-64-v3</code> build looks a
 <code>ggml_new_tensor_impl.constprop.0</code>, <code>ggml_new_tensor_impl.constprop.2</code>, and <code>ggml_new_tensor_impl.constprop.3</code>.
 This suggests BSIM could get confused with intermediate functions if trying to connect binaries built with and without LTO.</li>
 <li><em>None</em> of the hermetic toolchains appear to work when link time optimization is requested.  There appears to be at least one missing
-lto plugin from the gcc-14 toolchain packaging.  We&rsquo;ll try and find such for the next snapshot of gcc-14.</li>
+LTO plugin from the gcc-14 toolchain packaging.  We&rsquo;ll try and find such for the next snapshot of gcc-14.</li>
 </ul>
 
 	

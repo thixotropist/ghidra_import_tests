@@ -137,7 +137,7 @@ in servers specialized for numerical analysis or possibly ML applications.&lt;/p
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// prevent optimization from removing result
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#000&#34;&gt;printf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;%f&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;copy&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;N&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;riscv-64-builds&#34;&gt;riscv-64 builds&lt;/h3&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;riscv-64-builds&#34;&gt;RISCV-64 builds&lt;/h3&gt;
 &lt;p&gt;Build with:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build --platforms&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;//platforms:riscv_vector --copt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-O3&amp;#34;&lt;/span&gt; gcc_vectorization:memcpy_vector
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ghidra 11 gives:&lt;/p&gt;
@@ -188,7 +188,7 @@ in servers specialized for numerical analysis or possibly ML applications.&lt;/p
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#000&#34;&gt;dest&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;undefined&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;64&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;])(&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;dest&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;lVar2&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;More generally, we want a precomment showing the memcpy in vector terms immediately before
-the loop.  The type definition of &lt;code&gt;dest&lt;/code&gt; is a red herring to be dealth with.&lt;/p&gt;
+the loop.  The type definition of &lt;code&gt;dest&lt;/code&gt; is a red herring to be dealt with.&lt;/p&gt;
 &lt;h3 id=&#34;x86-64-builds&#34;&gt;x86-64 builds&lt;/h3&gt;
 &lt;p&gt;Build with:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build -s --platforms&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;//platforms:x86_64_default --copt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-O3&amp;#34;&lt;/span&gt; --copt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-march=sapphirerapids&amp;#34;&lt;/span&gt; gcc_vectorization:memcpy_sapphirerapids
@@ -240,7 +240,7 @@ those sequences into the higher level semantics of memory movement or finding th
 byte in a string.&lt;/p&gt;
 &lt;p&gt;Gcc semantics recognizes memory copy operations via the operation &lt;code&gt;cpymem&lt;/code&gt;.  Calls to
 the standard library &lt;code&gt;memcpy&lt;/code&gt; and various kinds of struct copies are translated into this RTL (Register Transfer Logic)
-&lt;code&gt;cpymem&lt;/code&gt; token.  The processor-specific gcc backend then expands &lt;code&gt;cpymem&lt;/code&gt; into a half-dozen or so instruction patterns,
+&lt;code&gt;cpymem&lt;/code&gt; token.  The processor-specific gcc back-end then expands &lt;code&gt;cpymem&lt;/code&gt; into a half-dozen or so instruction patterns,
 depending on size, alignment, and instruction set extensions of the target processor.&lt;/p&gt;
 &lt;p&gt;In the ideal world, Ghidra would recognize all of those RTL operations as pcode operations, and further recognize
 all of the common back end expansions for all processor variants.  It might rewrite the decompiler window or simply
@@ -335,7 +335,7 @@ are described in &lt;code&gt;gcc/doc/md.texi&lt;/code&gt;.  These include:&lt;/p
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt; */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that the riscv assembly instructions in the comment are just an example, and that the C++ implementation
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that the RISCV assembly instructions in the comment are just an example, and that the C++ implementation
 handles many different variants.  The &lt;code&gt;ret&lt;/code&gt; instruction is not part of the expansion, just copied into the source
 code from the testsuite.&lt;/p&gt;
 &lt;p&gt;The testsuite (&lt;code&gt;gcc/testsuite/gcc.target/riscv&lt;/code&gt;) shows which variants are common enough to test against.&lt;/p&gt;
@@ -436,6 +436,70 @@ code from the testsuite.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: link time optimization</title>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/link_time_optimization/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/issues/link_time_optimization/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;Link Time Optimization&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;Link Time Optimization (LTO) is a relatively new form of toolchain optimization that can produce
+smaller and faster binaries.  It can also mutate control flows in those binaries making
+Ghidra analysis trickier, especially if one is using BSIM to look for control flow
+similarities.&lt;/p&gt;
+&lt;p&gt;Can we generate importable exemplars using LTO to show what such optimization steps look like in Ghidra?&lt;/p&gt;
+&lt;p&gt;LTO needs a command line parameter added for both compilation and linking.  With bazel, that means
+&lt;code&gt;--copt=&amp;quot;-flto&amp;quot; --linkopt=&amp;quot;-Wl,-flto&amp;quot;&lt;/code&gt; is enough to request LTO optimization on a build.  These &lt;code&gt;lto&lt;/code&gt; flags
+can also be defaulted into the toolchain definition or individual build files.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s try this with a progressively more complicated series of exemplars&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;#&lt;/span&gt; Build helloworld without LTO as a control
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build -s --copt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-O2&amp;#34;&lt;/span&gt; --platforms&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;//platforms:riscv_vector userSpaceSamples:helloworld
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; ls -l bazel-bin/userSpaceSamples/helloworld
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;-r-xr-xr-x. 1 --- --- 8624 Jan 31 10:44 bazel-bin/userSpaceSamples/helloworld
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;#&lt;/span&gt; The helloworld exemplar doesn&lt;span style=&#34;color:#a40000&#34;&gt;&amp;#39;&lt;/span&gt;t benefit much from link &lt;span style=&#34;color:#204a87&#34;&gt;time&lt;/span&gt; optimization
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build -s  --copt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-O2&amp;#34;&lt;/span&gt;  --copt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-flto&amp;#34;&lt;/span&gt; --linkopt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-Wl,-flto&amp;#34;&lt;/span&gt; --platforms&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;//platforms:riscv_vector userSpaceSamples:helloworld
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; ls -l bazel-bin/userSpaceSamples/helloworld
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;-r-xr-xr-x. 1 --- --- 8608 Jan 31 10:46 bazel-bin/userSpaceSamples/helloworld
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;memcpy&lt;/code&gt; source exemplar can be built three ways:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;without vector extensions and without LTO - build target &lt;code&gt;gcc_vectorization:memcpy&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;with vector extensions and without LTO - build target &lt;code&gt;gcc_vectorization:memcpy_vector&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;with vector extensions and with LTO - build target &lt;code&gt;gcc_vectorization:memcpy_lto&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In this case the LTO options are configured into &lt;code&gt;gcc_vectorization/BUILD&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build -s --platforms&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;//platforms:riscv_vector gcc_vectorization:memcpy
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;INFO: Build completed successfully ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; ls -l bazel-bin/gcc_vectorization/memcpy
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;-r-xr-xr-x. 1 --- --- 13488 Jan 31 11:16 bazel-bin/gcc_vectorization/memcpy
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build -s  --platforms&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;//platforms:riscv_vector gcc_vectorization:memcpy_vector
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;INFO: Build completed successfully ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; ls -l bazel-bin/gcc_vectorization/memcpy_vector
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;-r-xr-xr-x. 1 --- --- 13728 Jan 31 11:18 bazel-bin/gcc_vectorization/memcpy_vector
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build -s  --platforms&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;//platforms:riscv_vector gcc_vectorization:memcpy_lto
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;ERROR: ...: Linking gcc_vectorization/memcpy_lto failed: (Exit 1): gcc failed: error executing CppLink command (from target //gcc_vectorization:memcpy_lto) ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;lto1: internal compiler error: in riscv_hard_regno_nregs, at config/riscv/riscv.cc:8058
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;Please submit a full bug report, with preprocessed source (by using -freport-bug).
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;See &amp;lt;https://gcc.gnu.org/bugs/&amp;gt; for instructions.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;lto-wrapper: fatal error: external/gcc-14-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc returned 1 exit status
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;compilation terminated.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So it looks like LTO has problems with riscv vector instructions.  We&amp;rsquo;ll keep testing this as more gcc 14 snapshots become available,
+but as a lower priority exercise.  LTO does not seem like a popular optimization.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: vector intrinsics</title>
       <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/vector_intrinsics/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -490,7 +554,7 @@ code from the testsuite.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Normally you would expect to see functions like &lt;code&gt;__riscv_vfabs_v_f32m4&lt;/code&gt; defined in the include file &lt;code&gt;riscv_vector.h&lt;/code&gt;, where Ghidra could process it and help identify calls to
 these intrinsics.  The vector intrinsic functions are instead autogenerated directly into GCC&amp;rsquo;s internal compiled header format when the compiler is built - there are just too many variants
-to cope with.  The pdf listing of all intrinsic functions is currently over 4000 pages long.  For example, the signature for &lt;code&gt;__riscv_vfredmax_vs_f32m4_f32m1&lt;/code&gt; is given on page 734 under
+to cope with.  The PDF listing of all intrinsic functions is currently over 4000 pages long.  For example, the signature for &lt;code&gt;__riscv_vfredmax_vs_f32m4_f32m1&lt;/code&gt; is given on page 734 under
 &lt;code&gt;Vector Reduction Operations&lt;/code&gt; as&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;vfloat32m1_t&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;__riscv_vfredmax_vs_f32m4_f32m1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;vfloat32m4_t&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;vs2&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;vfloat32m1_t&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;vs1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;size_t&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;vl&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There aren&amp;rsquo;t all that many vector instruction genotypes, but there are an enormous number of contextual variations the compiler and assembler know about.&lt;/p&gt;

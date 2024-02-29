@@ -32,7 +32,7 @@ The RISCV community has a rich set of extensions to the base Instruction Set Arc
 <meta itemprop="description" content="Extensions to a processor family&rsquo;s Instruction Set Architecture add capability and complexity.
 The RISCV community has a rich set of extensions to the base Instruction Set Architecture. That means a diverse set of new binary import targets to test against. This work-in-progress is collected in the riscv64/toolchain/assemblySamples directory. The basic idea is to compare current Ghidra disassembly with current binutils objdump disassembly, using object files assembled from the binutils gas testsuite.">
 
-<meta itemprop="wordCount" content="389">
+<meta itemprop="wordCount" content="485">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="ISA Extensions"/>
 <meta name="twitter:description" content="Extensions to a processor family&rsquo;s Instruction Set Architecture add capability and complexity.
 The RISCV community has a rich set of extensions to the base Instruction Set Architecture. That means a diverse set of new binary import targets to test against. This work-in-progress is collected in the riscv64/toolchain/assemblySamples directory. The basic idea is to compare current Ghidra disassembly with current binutils objdump disassembly, using object files assembled from the binutils gas testsuite."/>
@@ -63,25 +63,19 @@ The RISCV community has a rich set of extensions to the base Instruction Set Arc
         <a class="nav-link" href="/ghidra_import_tests/docs/exemplars/"><span>Exemplars</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/notes/hardware/"><span>Hardware Availability</span></a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/instruction_patterns/"><span>Instruction Patterns</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/"><span>ISA Extensions</span></a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/issues/"><span>Issues</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/notes/network_appliances/"><span>Network Appliances</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link active" href="/ghidra_import_tests/docs/platforms_and_toolchains/"><span>Platforms and Toolchains</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/testbed_internals/"><span>Testbed Internals</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/gap_analysis/"><span>Gap Analysis Example</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/notes/"><span>Notes</span></a>
@@ -126,8 +120,15 @@ The RISCV community has a rich set of extensions to the base Instruction Set Arc
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
   <a href="/ghidra_import_tests/docs/instruction_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsinstruction_patterns"><span class="">Instruction Patterns</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/app_survey/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey"><span class="">Application Survey</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/" title="Application Top Down Analysis" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation"><span class="">Application Analysis</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
   <a href="/ghidra_import_tests/docs/issues/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsissues"><span class="">Issues</span></a>
   <ul class="ul-2 foldable">
@@ -135,6 +136,8 @@ The RISCV community has a rich set of extensions to the base Instruction Set Arc
   <a href="/ghidra_import_tests/docs/issues/autovectorization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesautovectorization"><span class="">autovectorization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns-li">
   <a href="/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns"><span class="">inferring semantics from code patterns</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissueslink_time_optimization-li">
+  <a href="/ghidra_import_tests/docs/issues/link_time_optimization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissueslink_time_optimization"><span class="">link time optimization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesvector_intrinsics-li">
   <a href="/ghidra_import_tests/docs/issues/vector_intrinsics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesvector_intrinsics"><span class="">vector intrinsics</span></a>
 </li>
@@ -153,6 +156,23 @@ The RISCV community has a rich set of extensions to the base Instruction Set Arc
   <a href="/ghidra_import_tests/docs/testbed_internals/adding_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains"><span class="">adding toolchains</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains-li">
   <a href="/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains"><span class="">debugging toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains"><span class="">refreshing toolchains</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsgap_analysis-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsgap_analysis"><span class="">Gap Analysis Example</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisexamples-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisexamples"><span class="">Examples</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisimpact-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/impact/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisimpact"><span class="">Impact</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysiseffort-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/effort/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysiseffort"><span class="">Effort</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisscope-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/scope/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisscope"><span class="">Scope</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisexisting_frameworks-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/existing_frameworks/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisexisting_frameworks"><span class="">Existing Frameworks</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsnotes-li">
@@ -162,6 +182,8 @@ The RISCV community has a rich set of extensions to the base Instruction Set Arc
   <a href="/ghidra_import_tests/docs/notes/hardware/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnoteshardware"><span class="">Hardware Availability</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesnetwork_appliances-li">
   <a href="/ghidra_import_tests/docs/notes/network_appliances/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesnetwork_appliances"><span class="">Network Appliances</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesvectorization_case_study-li">
+  <a href="/ghidra_import_tests/docs/notes/vectorization_case_study/" title="A vectorization case study" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesvectorization_case_study"><span class="">Vectorization case study</span></a>
 </li>
   </ul>
 </li>
@@ -178,7 +200,14 @@ The RISCV community has a rich set of extensions to the base Instruction Set Arc
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#determining-the-isa-extensions-required-by-a-binary">Determining the ISA extensions required by a binary</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
           </aside>
@@ -237,6 +266,30 @@ place to find early use of vector instructions.</p>
 On the other hand, the encoding rules published with those T-Head extensions look like a good example to follow.</p>
 <p>The Fedora 39 kernel includes virtual machine cache management instructions that are not necessarily supported by binutils - they are &lsquo;assembled&rsquo; with gcc macros
 before reaching the binutils assembler.  We will ignore those instruction extensions for now, and only consider instruction extensions supported by binutils.</p>
+<h2 id="determining-the-isa-extensions-required-by-a-binary">Determining the ISA extensions required by a binary</h2>
+<p>Some newer compilers annotate executable binaries by adding the ISA extensions used during the build.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> /opt/riscvx/bin/riscv64-unknown-linux-gnu-readelf -A riscv64/exemplars/whisper_cpp_default
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Attribute Section: riscv
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">File Attributes
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_stack_align: 16-bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_arch: &#34;rv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zmmul1p0&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">$</span> /opt/riscvx/bin/riscv64-unknown-linux-gnu-readelf -A riscv64/exemplars/whisper_cpp_vector
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Attribute Section: riscv
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">File Attributes
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_stack_align: 16-bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_arch: &#34;rv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_priv_spec: 1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_priv_spec_minor: 11
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">$</span> /opt/riscvx/bin/riscv64-unknown-linux-gnu-readelf -A riscv64/exemplars/whisper_cpp_vendor
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Attribute Section: riscv
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">File Attributes
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_stack_align: 16-bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_arch: &#34;rv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zba1p0_zbb1p0_zbc1p0_zbkb1p0_zbkc1p0_zbkx1p0_zvbc1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_xtheadba1p0_xtheadbb1p0_xtheadbs1p0_xtheadcmo1p0_xtheadcondmov1p0_xtheadfmemidx1p0_xtheadmac1p0_xtheadmempair1p0_xtheadsync1p0&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_priv_spec: 1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_priv_spec_minor: 11
+</span></span></span></code></pre></div><p>If <code>Tag_RISCV_arch</code> contains the substring <code>v1p0</code>, then the associated binary was built assuming RV Vector 1.0 extension instructions are present on the executing CPU hardware thread.</p>
 
 	
 </div>

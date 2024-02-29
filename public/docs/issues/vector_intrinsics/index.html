@@ -71,25 +71,19 @@ void *memcpy_vec(void *restrict destination, const void *restrict source, size_t
         <a class="nav-link" href="/ghidra_import_tests/docs/exemplars/"><span>Exemplars</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/notes/hardware/"><span>Hardware Availability</span></a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/instruction_patterns/"><span>Instruction Patterns</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/"><span>ISA Extensions</span></a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link active" href="/ghidra_import_tests/docs/issues/"><span>Issues</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/notes/network_appliances/"><span>Network Appliances</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/"><span>Platforms and Toolchains</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/testbed_internals/"><span>Testbed Internals</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/gap_analysis/"><span>Gap Analysis Example</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/notes/"><span>Notes</span></a>
@@ -134,8 +128,15 @@ void *memcpy_vec(void *restrict destination, const void *restrict source, size_t
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
   <a href="/ghidra_import_tests/docs/instruction_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsinstruction_patterns"><span class="">Instruction Patterns</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/app_survey/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey"><span class="">Application Survey</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/" title="Application Top Down Analysis" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation"><span class="">Application Analysis</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-ghidra_import_testsdocsissues-li">
   <a href="/ghidra_import_tests/docs/issues/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsissues"><span class="">Issues</span></a>
   <ul class="ul-2 foldable">
@@ -143,6 +144,8 @@ void *memcpy_vec(void *restrict destination, const void *restrict source, size_t
   <a href="/ghidra_import_tests/docs/issues/autovectorization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesautovectorization"><span class="">autovectorization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns-li">
   <a href="/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns"><span class="">inferring semantics from code patterns</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissueslink_time_optimization-li">
+  <a href="/ghidra_import_tests/docs/issues/link_time_optimization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissueslink_time_optimization"><span class="">link time optimization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-ghidra_import_testsdocsissuesvector_intrinsics-li">
   <a href="/ghidra_import_tests/docs/issues/vector_intrinsics/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesvector_intrinsics"><span class="td-sidebar-nav-active-item">vector intrinsics</span></a>
 </li>
@@ -161,6 +164,23 @@ void *memcpy_vec(void *restrict destination, const void *restrict source, size_t
   <a href="/ghidra_import_tests/docs/testbed_internals/adding_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains"><span class="">adding toolchains</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains-li">
   <a href="/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains"><span class="">debugging toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains"><span class="">refreshing toolchains</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsgap_analysis-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsgap_analysis"><span class="">Gap Analysis Example</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisexamples-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisexamples"><span class="">Examples</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisimpact-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/impact/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisimpact"><span class="">Impact</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysiseffort-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/effort/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysiseffort"><span class="">Effort</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisscope-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/scope/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisscope"><span class="">Scope</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisexisting_frameworks-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/existing_frameworks/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisexisting_frameworks"><span class="">Existing Frameworks</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsnotes-li">
@@ -170,6 +190,8 @@ void *memcpy_vec(void *restrict destination, const void *restrict source, size_t
   <a href="/ghidra_import_tests/docs/notes/hardware/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnoteshardware"><span class="">Hardware Availability</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesnetwork_appliances-li">
   <a href="/ghidra_import_tests/docs/notes/network_appliances/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesnetwork_appliances"><span class="">Network Appliances</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesvectorization_case_study-li">
+  <a href="/ghidra_import_tests/docs/notes/vectorization_case_study/" title="A vectorization case study" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesvectorization_case_study"><span class="">Vectorization case study</span></a>
 </li>
   </ul>
 </li>
@@ -257,7 +279,7 @@ void *memcpy_vec(void *restrict destination, const void *restrict source, size_t
 </span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
 </span></span></code></pre></div><p>Normally you would expect to see functions like <code>__riscv_vfabs_v_f32m4</code> defined in the include file <code>riscv_vector.h</code>, where Ghidra could process it and help identify calls to
 these intrinsics.  The vector intrinsic functions are instead autogenerated directly into GCC&rsquo;s internal compiled header format when the compiler is built - there are just too many variants
-to cope with.  The pdf listing of all intrinsic functions is currently over 4000 pages long.  For example, the signature for <code>__riscv_vfredmax_vs_f32m4_f32m1</code> is given on page 734 under
+to cope with.  The PDF listing of all intrinsic functions is currently over 4000 pages long.  For example, the signature for <code>__riscv_vfredmax_vs_f32m4_f32m1</code> is given on page 734 under
 <code>Vector Reduction Operations</code> as</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">vfloat32m1_t</span> <span style="color:#000">__riscv_vfredmax_vs_f32m4_f32m1</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">vfloat32m4_t</span> <span style="color:#000">vs2</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">vfloat32m1_t</span> <span style="color:#000">vs1</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">size_t</span> <span style="color:#000">vl</span><span style="color:#000;font-weight:bold">);</span>
 </span></span></code></pre></div><p>There aren&rsquo;t all that many vector instruction genotypes, but there are an enormous number of contextual variations the compiler and assembler know about.</p>

@@ -20,11 +20,11 @@
 <title>adding toolchains | Ghidra Import Testing</title>
 <meta name="description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
 Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
-We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain.">
+We will generate this x86_64 gcc-14 toolchain about the same way as our existing RISCV-64 gcc-14 toolchain.">
 <meta property="og:title" content="adding toolchains" />
 <meta property="og:description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
 Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
-We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain." />
+We will generate this x86_64 gcc-14 toolchain about the same way as our existing RISCV-64 gcc-14 toolchain." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/adding_toolchains/" /><meta property="article:section" content="docs" />
 
@@ -33,13 +33,13 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
 <meta itemprop="name" content="adding toolchains">
 <meta itemprop="description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
 Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
-We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain.">
+We will generate this x86_64 gcc-14 toolchain about the same way as our existing RISCV-64 gcc-14 toolchain.">
 
-<meta itemprop="wordCount" content="2352">
+<meta itemprop="wordCount" content="2353">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="adding toolchains"/>
 <meta name="twitter:description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
 Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
-We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain."/>
+We will generate this x86_64 gcc-14 toolchain about the same way as our existing RISCV-64 gcc-14 toolchain."/>
 
 
 
@@ -67,25 +67,19 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
         <a class="nav-link" href="/ghidra_import_tests/docs/exemplars/"><span>Exemplars</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/notes/hardware/"><span>Hardware Availability</span></a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/instruction_patterns/"><span>Instruction Patterns</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/"><span>ISA Extensions</span></a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/issues/"><span>Issues</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/notes/network_appliances/"><span>Network Appliances</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/"><span>Platforms and Toolchains</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link active" href="/ghidra_import_tests/docs/testbed_internals/"><span>Testbed Internals</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ghidra_import_tests/docs/gap_analysis/"><span>Gap Analysis Example</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/notes/"><span>Notes</span></a>
@@ -130,8 +124,15 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
   <a href="/ghidra_import_tests/docs/instruction_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsinstruction_patterns"><span class="">Instruction Patterns</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/app_survey/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey"><span class="">Application Survey</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/" title="Application Top Down Analysis" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation"><span class="">Application Analysis</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
   <a href="/ghidra_import_tests/docs/issues/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsissues"><span class="">Issues</span></a>
   <ul class="ul-2 foldable">
@@ -139,6 +140,8 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
   <a href="/ghidra_import_tests/docs/issues/autovectorization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesautovectorization"><span class="">autovectorization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns-li">
   <a href="/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns"><span class="">inferring semantics from code patterns</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissueslink_time_optimization-li">
+  <a href="/ghidra_import_tests/docs/issues/link_time_optimization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissueslink_time_optimization"><span class="">link time optimization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesvector_intrinsics-li">
   <a href="/ghidra_import_tests/docs/issues/vector_intrinsics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesvector_intrinsics"><span class="">vector intrinsics</span></a>
 </li>
@@ -157,6 +160,23 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
   <a href="/ghidra_import_tests/docs/testbed_internals/adding_toolchains/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains"><span class="td-sidebar-nav-active-item">adding toolchains</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains-li">
   <a href="/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains"><span class="">debugging toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains"><span class="">refreshing toolchains</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsgap_analysis-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsgap_analysis"><span class="">Gap Analysis Example</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisexamples-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisexamples"><span class="">Examples</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisimpact-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/impact/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisimpact"><span class="">Impact</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysiseffort-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/effort/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysiseffort"><span class="">Effort</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisscope-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/scope/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisscope"><span class="">Scope</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsgap_analysisexisting_frameworks-li">
+  <a href="/ghidra_import_tests/docs/gap_analysis/existing_frameworks/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisexisting_frameworks"><span class="">Existing Frameworks</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsnotes-li">
@@ -166,6 +186,8 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
   <a href="/ghidra_import_tests/docs/notes/hardware/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnoteshardware"><span class="">Hardware Availability</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesnetwork_appliances-li">
   <a href="/ghidra_import_tests/docs/notes/network_appliances/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesnetwork_appliances"><span class="">Network Appliances</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesvectorization_case_study-li">
+  <a href="/ghidra_import_tests/docs/notes/vectorization_case_study/" title="A vectorization case study" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesvectorization_case_study"><span class="">Vectorization case study</span></a>
 </li>
   </ul>
 </li>
@@ -243,7 +265,7 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
 <p>We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc++ as
 we use for RISCV exemplars.  This will give us some hints about how common new issues may
 be and how global new solutions may need to be.</p>
-<p>We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain.</p>
+<p>We will generate this x86_64 gcc-14 toolchain about the same way as our existing RISCV-64 gcc-14 toolchain.</p>
 <p>This example uses the latest released version of binutils and the development head of gcc and glibc.</p>
 <p>If we were building a toolchain for an actual product we would start by configuring and building
 a specialized kernel, which would prepopulate the system root.  We aren&rsquo;t doing that here, so
@@ -343,7 +365,7 @@ Binutils 2.41&rsquo;s <code>objdump</code> appears to recognize these instructio
 <h2 id="packaging-the-toolchain">packaging the toolchain</h2>
 <p>Now we need to make the toolchain hermetic, portable, and ready for Bazel workspaces.</p>
 <p>Hermeticity means that nothing under <code>/opt/gcc14</code> makes a hidden reference to local host files under <code>/usr</code>.  Any such reference needs to
-be changed into a relative reference.  These are common in short sharable object files that link to one or more true sharable object libraries.</p>
+be changed into a relative reference.  These are common in short shareable object files that link to one or more true shareable object libraries.</p>
 <p>You can often identify possible troublemakers by searching for smallish regular files with a <code>.so</code> extension.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> find /opt/gcc14 -name <span style="color:#4e9a06">\*</span>.so -type f -size -1000c -ls
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/opt/gcc14$ find /opt/gcc14 -name \*.so -type f -size -1000c -ls
@@ -378,7 +400,7 @@ be changed into a relative reference.  These are common in short sharable object
 <p>Next we need to identify all dynamic host dependencies of binaries under <code>/opt/gcc14</code>.
 The <code>ldd</code> command will identify these local system files,
 which should be collected into a separate tarball.  This tarball can be shared with other cross-compilers
-built at the same time, and is generally portable across similar linux kernels and distributions.</p>
+built at the same time, and is generally portable across similar Linux kernels and distributions.</p>
 <p>At this point we can <code>strip</code> the executable files within the toolchain and identify the ones we want to keep in the portable toolchain tarball.
 Scripts under <code>toolchain/toolchains/gcc-14-*/scripts</code> will help with that.</p>
 <p><code>generate.sh</code> uses rsync to copy selected files from <code>/opt/gcc14</code> into <code>/tmp/export</code>, stripping the known binaries, and creating the portable tarball.
@@ -496,7 +518,7 @@ kernel modules, and userspace applications respectively.</p>
 </span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
 </span></span></code></pre></div><p>The <code>tool_paths</code> element points to small bash scripts needed to launch compiler components like <code>gcc</code> and <code>ar</code> and <code>strip</code>.
-These give us the chance to use imported system sharable object libraries rather than the host&rsquo;s sharable object libraries.</p>
+These give us the chance to use imported system shareable object libraries rather than the host&rsquo;s shareable object libraries.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#!/bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87">set</span> -euo pipefail
 </span></span><span style="display:flex;"><span><span style="color:#000">PATH</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">`</span><span style="color:#204a87">pwd</span><span style="color:#4e9a06">`</span>/toolchains/gcc-14-x86_64/imported <span style="color:#4e9a06">\
@@ -576,7 +598,7 @@ It runs the toolchain in a sandbox, forcing an exception on all references not p
 </span></span></span></code></pre></div><h2 id="cleanup">cleanup</h2>
 <p>We&rsquo;ve got a working toolchain, but with many dangling links, duplicate files, and unused definitions.
 The toolchain files normally provided by a kernel were copied in as needed from the host, with the understanding that we never
-really needed runnable applications.</p>
+really needed unable applications.</p>
 <p>If this were a production environment we would be a lot more careful.  It&rsquo;s not, so we will just summarize some of the areas
 that might benefit from such a cleanup.</p>
 <h2 id="toolchain-directories">toolchain directories</h2>
@@ -585,7 +607,7 @@ that might benefit from such a cleanup.</p>
 <p>This directory is the install target for our binutils, gcc, and glibc builds.  It is not itself used by the Bazel build
 framework, and need not be present on any host machine running the toolchain.</p>
 <ul>
-<li>The overall size is reported as 3.1 GB, inflated somewhat by multiple hardlinks</li>
+<li>The overall size is reported as 3.1 GB, inflated somewhat by multiple hard links</li>
 <li><code>fdupes</code> reports 2446 duplicate files (in 2136 sets), occupying 200.2 megabytes</li>
 <li>There are six files over 150 MB in size</li>
 </ul>
@@ -599,7 +621,7 @@ of `/opt/gcc14`` are lost.  It may be discarded after the portable tarball is ge
 </ul>
 <h3 id="optbazelx86_64_linux_gnu-14tarxz">/opt/bazel/x86_64_linux_gnu-14.tar.xz</h3>
 <p>The compressed portable tarball size is 171M.  It expands into a locally cached equivalent of <code>/tmp/export</code>.
-This file must be accessible to Bazel during a crosscompilation, either as a file reference or as a remote http or
+This file must be accessible to Bazel during a cross-compilation, either as a file reference or as a remote http or
 https URL.</p>
 <h3 id="runuser1000bazelexecroot_mainexternalx86_64_linux_gnu-14">/run/user/1000/bazel/execroot/_main/external/x86_64_linux_gnu-14</h3>
 <p>Bazel agents will decompress the tarball if and when needed into a local cache directory.  In this case, it is unpacked

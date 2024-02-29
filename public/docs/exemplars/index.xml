@@ -30,7 +30,7 @@
 
 &lt;/div&gt;
 
-&lt;p&gt;How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speach recognition library &lt;a href=&#34;https://github.com/ggerganov/whisper.cpp&#34;&gt;whisper.cpp&lt;/a&gt;.  Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines?  What might be added to Ghidra to help the human analyst in this kind of inspection?&lt;/p&gt;
+&lt;p&gt;How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speech recognition library &lt;a href=&#34;https://github.com/ggerganov/whisper.cpp&#34;&gt;whisper.cpp&lt;/a&gt;.  Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines?  What might be added to Ghidra to help the human analyst in this kind of inspection?&lt;/p&gt;
 &lt;p&gt;Components for this exercise:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A Linux x86_64 Fedora 39 base system&lt;/li&gt;
@@ -160,7 +160,7 @@ clearing the &lt;code&gt;bad instruction errors&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;phase-1---a-top-down-assessment&#34;&gt;Phase 1 - a top-down assessment&lt;/h2&gt;
 &lt;p&gt;At the highest level, what features of &lt;code&gt;whisper.cpp&lt;/code&gt; generate vector instructions?&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;There are about 400 invocations of riscv vector instrinsics within &lt;code&gt;ggml-quants.c&lt;/code&gt;.  In these cases the developer
+&lt;li&gt;There are about 400 invocations of RISCV vector intrinsic within &lt;code&gt;ggml-quants.c&lt;/code&gt;.  In these cases the developer
 has explicitly managed the vectorization.&lt;/li&gt;
 &lt;li&gt;There are an unknown number of automatic loop vectorizations, where gcc-14 has replaced simple scalar loops with
 vector-based loops.  This vectorization will generally reduce the number of loop iterations, but may not always reduce
@@ -168,10 +168,10 @@ the number of instructions executed.&lt;/li&gt;
 &lt;li&gt;Gcc expansions of &lt;code&gt;memcpy&lt;/code&gt; or structure copies into vector load-store loops.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Much of &lt;code&gt;whisper.cpp&lt;/code&gt; involves vector, matrix, or tensor math using &lt;code&gt;ggml&lt;/code&gt; math functions.  This is also where most
-of the explicit riscv vector instrinsic C functions appear, and likely the code the developer believes is most in need
+of the explicit RISCV vector intrinsic C functions appear, and likely the code the developer believes is most in need
 of vector performance enhancements.&lt;/p&gt;
 &lt;h3 id=&#34;example-dot-product&#34;&gt;Example: dot product&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;ggml_vec_dot_f32(n, sum, x, y)&lt;/code&gt; genereates the vector dot product of two vectors x and y of length n with the result
+&lt;p&gt;&lt;code&gt;ggml_vec_dot_f32(n, sum, x, y)&lt;/code&gt; generates the vector dot product of two vectors x and y of length n with the result
 stored to *s.  In the absence of vector or SIMD support the source code is:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// scalar
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;float&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;s&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
@@ -223,7 +223,7 @@ stored to *s.  In the absence of vector or SIMD support the source code is:&lt;/
 &lt;/li&gt;
 &lt;li&gt;The &lt;code&gt;vsetvli(n,0x97)&lt;/code&gt; instruction should be expanded to show semantics as &lt;code&gt;vsetvli_e32m2ftuma&lt;/code&gt;
 &lt;ul&gt;
-&lt;li&gt;Running the binary through a riscv objdump program gives us this formal expansion.  This instruction
+&lt;li&gt;Running the binary through a RISCV objdump program gives us this formal expansion.  This instruction
 says that the selected element width is 32 bits with a LMUL multiplication factor of 1/2.  This means that only
 half of the vector register is used to allow for 64 bit arithmetic output.&lt;/li&gt;
 &lt;li&gt;This is now implemented in Ghidra 11.1-DEV isa_ext.&lt;/li&gt;
@@ -303,12 +303,12 @@ element slot of vector v4.&lt;/p&gt;
 &lt;p&gt;This particular loop vectorization is likely to change a lot in future releases.  The performance is negligible either way.  The analyst may
 look at code like this and decide to ignore the ndims&amp;gt;3 case along with &lt;em&gt;all&lt;/em&gt; of the vector instructions used within it.  Alternatively, we could
 look at the gcc vectorization code handling the general vector reduction meta operation, then see if this pattern is a macro of some sort within it.&lt;/p&gt;
-&lt;p&gt;Take a step back and look at the gcc riscv autovectorization code.  It&amp;rsquo;s changing quite frequently, so it&amp;rsquo;s probably premature to try and abstract out
+&lt;p&gt;Take a step back and look at the gcc RISCV autovectorization code.  It&amp;rsquo;s changing quite frequently, so it&amp;rsquo;s probably premature to try and abstract out
 loop reduction models that we can get Ghidra to recognize.  When that happens we might draw source exemplars from
 &lt;code&gt;gcc/gcc/testsuite/gcc.target/riscv/rvv/autovec&lt;/code&gt; and build a catalog of source pattern to instruction pattern expansions.&lt;/p&gt;
-&lt;h3 id=&#34;example-source-code-use-of-riscv-vector-intrinsics&#34;&gt;Example: source code use of riscv vector intrinsics&lt;/h3&gt;
+&lt;h3 id=&#34;example-source-code-use-of-riscv-vector-intrinsics&#34;&gt;Example: source code use of RISCV vector intrinsics&lt;/h3&gt;
 &lt;p&gt;The previous example showed an overly aggressive autovectorization of a simple loop.  Here we look at source code that the developer has decided is important enough
-to directly code in riscv intrinsic C functions.  The function &lt;code&gt;ggml_vec_dot_q5_0_q8_0&lt;/code&gt; is one such function, with separate implementations for &lt;code&gt;ARM_NEON&lt;/code&gt;, &lt;code&gt;wasm_simd128&lt;/code&gt;,
+to directly code in RISCV intrinsic C functions.  The function &lt;code&gt;ggml_vec_dot_q5_0_q8_0&lt;/code&gt; is one such function, with separate implementations for &lt;code&gt;ARM_NEON&lt;/code&gt;, &lt;code&gt;wasm_simd128&lt;/code&gt;,
 &lt;code&gt;AVX2&lt;/code&gt;, &lt;code&gt;AVX&lt;/code&gt;, and &lt;code&gt;riscv_v_intrinsic&lt;/code&gt;.  If none of those accelerators are available a scalar implementation is used instead:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ggml_vec_dot_q5_0_q8_0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;n&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;float&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;restrict&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;s&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;restrict&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;vx&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;restrict&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;vy&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;qk&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;QK8_0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
@@ -344,7 +344,7 @@ to directly code in riscv intrinsic C functions.  The function &lt;code&gt;ggml_
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;s&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;sumf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The riscv instrinsic source is:&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The RISCV intrinsic source is:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Note: added comments are flagged with &lt;code&gt;///&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -544,7 +544,7 @@ and Ghidra doesn&amp;rsquo;t recognize it.  The &lt;code&gt;x86-64-v3&lt;/code&g
 &lt;code&gt;ggml_new_tensor_impl.constprop.0&lt;/code&gt;, &lt;code&gt;ggml_new_tensor_impl.constprop.2&lt;/code&gt;, and &lt;code&gt;ggml_new_tensor_impl.constprop.3&lt;/code&gt;.
 This suggests BSIM could get confused with intermediate functions if trying to connect binaries built with and without LTO.&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;None&lt;/em&gt; of the hermetic toolchains appear to work when link time optimization is requested.  There appears to be at least one missing
-lto plugin from the gcc-14 toolchain packaging.  We&amp;rsquo;ll try and find such for the next snapshot of gcc-14.&lt;/li&gt;
+LTO plugin from the gcc-14 toolchain packaging.  We&amp;rsquo;ll try and find such for the next snapshot of gcc-14.&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>

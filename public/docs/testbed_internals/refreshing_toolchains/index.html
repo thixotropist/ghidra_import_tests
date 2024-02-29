@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,16 +17,29 @@
 <link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-192x192.png" sizes="192x192">
 
-<title>Platforms and Toolchains | Ghidra Import Testing</title>
-<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
-<meta property="og:title" content="Platforms and Toolchains" />
-<meta property="og:description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/" />
+<title>refreshing toolchains | Ghidra Import Testing</title>
+<meta name="description" content="Refreshing (updating) an existing toolchain is mostly straightforward.
+Warning: This sequence uses unreleased code for binutils, gcc, and glibc. We use this experimental toolchain to get a glimpse of future toolchains and products, not for stable code.
+Update binutils binutils&amp;rsquo; latest release is 2.42. Let&amp;rsquo;s update our RISCV toolchain to use the current binutils head, which is currently very close to the released version. The git log shows relatively little change to the RISCV assembler, other than some corrections to the THead extension encodings.">
+<meta property="og:title" content="refreshing toolchains" />
+<meta property="og:description" content="Refreshing (updating) an existing toolchain is mostly straightforward.
+Warning: This sequence uses unreleased code for binutils, gcc, and glibc. We use this experimental toolchain to get a glimpse of future toolchains and products, not for stable code.
+Update binutils binutils&rsquo; latest release is 2.42. Let&rsquo;s update our RISCV toolchain to use the current binutils head, which is currently very close to the released version. The git log shows relatively little change to the RISCV assembler, other than some corrections to the THead extension encodings." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/" /><meta property="article:section" content="docs" />
 
-<meta itemprop="name" content="Platforms and Toolchains">
-<meta itemprop="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins."><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Platforms and Toolchains"/>
-<meta name="twitter:description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins."/>
+
+
+<meta itemprop="name" content="refreshing toolchains">
+<meta itemprop="description" content="Refreshing (updating) an existing toolchain is mostly straightforward.
+Warning: This sequence uses unreleased code for binutils, gcc, and glibc. We use this experimental toolchain to get a glimpse of future toolchains and products, not for stable code.
+Update binutils binutils&rsquo; latest release is 2.42. Let&rsquo;s update our RISCV toolchain to use the current binutils head, which is currently very close to the released version. The git log shows relatively little change to the RISCV assembler, other than some corrections to the THead extension encodings.">
+
+<meta itemprop="wordCount" content="522">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="refreshing toolchains"/>
+<meta name="twitter:description" content="Refreshing (updating) an existing toolchain is mostly straightforward.
+Warning: This sequence uses unreleased code for binutils, gcc, and glibc. We use this experimental toolchain to get a glimpse of future toolchains and products, not for stable code.
+Update binutils binutils&rsquo; latest release is 2.42. Let&rsquo;s update our RISCV toolchain to use the current binutils head, which is currently very close to the released version. The git log shows relatively little change to the RISCV assembler, other than some corrections to the THead extension encodings."/>
 
 
 
@@ -41,7 +53,7 @@
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       <nav class="td-navbar navbar-dark js-navbar-scroll">
 <div class="container-fluid flex-column flex-md-row">
@@ -61,10 +73,10 @@
         <a class="nav-link" href="/ghidra_import_tests/docs/issues/"><span>Issues</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/ghidra_import_tests/docs/platforms_and_toolchains/"><span>Platforms and Toolchains</span></a>
+        <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/"><span>Platforms and Toolchains</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/testbed_internals/"><span>Testbed Internals</span></a>
+        <a class="nav-link active" href="/ghidra_import_tests/docs/testbed_internals/"><span>Testbed Internals</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/ghidra_import_tests/docs/gap_analysis/"><span>Gap Analysis Example</span></a>
@@ -134,22 +146,22 @@
   <a href="/ghidra_import_tests/docs/issues/vector_intrinsics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesvector_intrinsics"><span class="">vector intrinsics</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-ghidra_import_testsdocsplatforms_and_toolchains-li">
-  <a href="/ghidra_import_tests/docs/platforms_and_toolchains/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsplatforms_and_toolchains"><span class="td-sidebar-nav-active-item">Platforms and Toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsplatforms_and_toolchains-li">
+  <a href="/ghidra_import_tests/docs/platforms_and_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsplatforms_and_toolchains"><span class="">Platforms and Toolchains</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsplatforms_and_toolchainsisa_extensions-li">
   <a href="/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsplatforms_and_toolchainsisa_extensions"><span class="">ISA Extensions</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocstestbed_internals-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-ghidra_import_testsdocstestbed_internals-li">
   <a href="/ghidra_import_tests/docs/testbed_internals/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocstestbed_internals"><span class="">Testbed Internals</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains-li">
   <a href="/ghidra_import_tests/docs/testbed_internals/adding_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains"><span class="">adding toolchains</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains-li">
   <a href="/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains"><span class="">debugging toolchains</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains-li">
-  <a href="/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains"><span class="">refreshing toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains"><span class="td-sidebar-nav-active-item">refreshing toolchains</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsgap_analysis-li">
@@ -195,8 +207,10 @@
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#example-of-riscv-64-platforms-and-toolchains">Example of RISCV-64 platforms and toolchains</a></li>
-    <li><a href="#toolchain-details">Toolchain details</a></li>
+    <li><a href="#update-binutils">Update binutils</a></li>
+    <li><a href="#update-gcc">Update gcc</a></li>
+    <li><a href="#update-glibc">update glibc</a></li>
+    <li><a href="#testing-the-refreshed-toolchain">testing the refreshed toolchain</a></li>
   </ul>
 </nav>
       </div>
@@ -212,147 +226,110 @@
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
     <a href="/ghidra_import_tests/docs/">Docs</a></li>
+  <li class="breadcrumb-item">
+    <a href="/ghidra_import_tests/docs/testbed_internals/">Testbed Internals</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Platforms and Toolchains</li>
+    refreshing toolchains</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Platforms and Toolchains</h1>
-  
+	<h1>refreshing toolchains</h1>
+	
 	<header class="article-meta">
 		
 </header>
 	
 
 <div class="pageinfo pageinfo-primary">
-<p>Code is built by a toolchain (compiler, linker) to run on a platform (e.g., a pixel 7a cellphone).</p>
+<p>Refreshing (updating) an existing toolchain is mostly straightforward.</p>
 
 </div>
 
-<p>This project adopts the Bazel framework for building importable exemplars.  <a href="https://bazel.build/extending/platforms">Platforms</a>
-describe the foundation on which code will run.  <a href="https://bazel.build/extending/toolchains">Toolchains</a> compile and link code for different
-platforms.  Bazel builds are <a href="https://bazel.build/basics/hermeticity">hermetic</a>, which for our purposes means that platforms and toolchains
-are all versioned and importable, so build results are the same no matter where the build host may be.</p>
-<h2 id="example-of-riscv-64-platforms-and-toolchains">Example of RISCV-64 platforms and toolchains</h2>
-<p>The directory RISCV64/toolchain defines these platforms:</p>
-<ul>
-<li><code>//platforms:riscv_userspace</code> for a generic RISCV-64 Linux appliance with the usual libc and libstdio APIs</li>
-<li><code>//platforms:riscv_vector</code> for a more specialized RISCV-64 Linux appliance with vector extensions supported</li>
-<li><code>//platforms:riscv_custom</code> for a highly specialized RISCV-64 Linux appliance with vector and vendor-specific extensions supported</li>
-<li><code>//platforms:riscv_local</code> for toolchain debugging, using a local file system toolchain under <code>/opt/riscvx</code></li>
-</ul>
 <blockquote>
-<p>Note: The current binutils and gcc show more vendor-specific instruction set extensions from THead, so we will arbitrarily use that
-as the exemplar custom platform.</p>
+<p>Warning: This sequence uses unreleased code for binutils, gcc, and glibc.
+We use this experimental toolchain to get a glimpse of future toolchains and products,
+not for stable code.</p>
 </blockquote>
-<p>This directory defines these toolchains:</p>
+<h2 id="update-binutils">Update binutils</h2>
+<p>binutils&rsquo; latest release is 2.42.  Let&rsquo;s update our RISCV toolchain to use the current binutils head,
+which is currently very close to the released version.  The git log shows relatively little change
+to the RISCV assembler, other than some corrections to the THead extension encodings.</p>
 <ul>
-<li><code>//toolchains:riscv64-default</code> - a gcc-13 stable RISCV compiler, linker, loader, and sysroot of related include files and libraries</li>
-<li><code>//toolchains:riscv64-next</code> - a gcc-14 unreleased but feature-frozen RISCV compiler, linker, loader, and sysroot of related include files
-and libraries</li>
-<li><code>//toolchains:riscv64-custom</code> - a variant of  <code>//toolchains:riscv64-next</code> with multiple standard and vendor-specific ISA extensions enabled
-by default</li>
-<li><code>//toolchains:riscv64-local</code> - a toolchain executing out of <code>/opt/riscvx</code> instead of a portable tarball.  Generally useful only when
-debugging the generation of a fully portable and hermetic toolchain tarball.</li>
+<li>Update the source directory to commit a197d5f7eb27e99c27577, January 18 2024.  RISCV updates to
+the previous snapshot have landed from various alibaba contributors.</li>
+<li>switch to the binutils build directory and refresh the configuration, build, and install to <code>/opt/riscvx</code>.</li>
 </ul>
-<p>Exemplars are built by naming the platform for each build.  Bazel then finds a compatible toolchain to complete the build.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">#</span> compile <span style="color:#204a87;font-weight:bold">for</span> the riscv_userspace platform, automatically selecting the riscv64-default toolchain with gcc-13.
-</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">bazel build -s --platforms=//platforms:riscv_userspace gcc_vectorization:helloworld_challenge
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">#</span> compile <span style="color:#204a87;font-weight:bold">for</span> the riscv_vector platform, automatically selecting the riscv64-next toolchain with gcc-14.
-</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">bazel build -s --platforms=//platforms:riscv_vector gcc_vectorization:helloworld_challenge
-</span></span></span></code></pre></div><p>This table shows relationships between platforms, constraints, toolchains, and default options:</p>
-<table>
-<thead>
-<tr>
-<th>platform</th>
-<th>cpu constraint</th>
-<th>toolchain</th>
-<th>default options</th>
-<th>added optimized options</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>//platforms:riscv_userspace</td>
-<td>//toolchains:riscv64</td>
-<td>//toolchains:riscv64-default</td>
-<td></td>
-<td>-O3</td>
-</tr>
-<tr>
-<td>//platforms:riscv_vector</td>
-<td>//toolchains:riscv64-v</td>
-<td>//toolchains:riscv64-next</td>
-<td>-march=rv64gcv</td>
-<td>-O3</td>
-</tr>
-<tr>
-<td>//platforms:riscv_custom</td>
-<td>//toolchains:riscv64-c</td>
-<td>//toolchains:riscv64-custom</td>
-<td>-march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbc_xtheadba_xtheadbb_xtheadbs_xtheadcmo_xtheadcondmov_xtheadmac_xtheadfmemidx_xtheadmempair_xtheadsync</td>
-<td>-O3</td>
-</tr>
-<tr>
-<td>//platforms:riscv_local</td>
-<td>//toolchains:riscv64-l</td>
-<td>//toolchains:riscv64-local</td>
-<td></td>
-<td>-O3</td>
-</tr>
-</tbody>
-</table>
-<p>Notes:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> /home2/vendor/binutils-gdb/configure --prefix<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscvx --target<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make install
+</span></span></code></pre></div><h2 id="update-gcc">Update gcc</h2>
 <ul>
-<li>The <code>-O3</code> option is likely too aggressive. The <code>-O2</code> option would be more common in broadly released software.</li>
-<li><code>//toolchains:riscv64-default</code> currently uses a gcc-13 toolchain suite</li>
-<li>the other toolchains use various developmental snapshots of the gcc-14 toolchain suite</li>
-<li>vector extensions version 1.0 are default on <code>//toolchains:riscv64-next</code> and <code>//toolchains:riscv64-custom</code></li>
-<li><code>//toolchains:riscv64-custom</code> adds bit manipulation and many of the THead extensions supported by binutils.</li>
+<li>Update to the tip of the master branch, glancing at the log to see that alibaba, intel, rivai,
+rivos, and others have contributed recent RISCV updates.</li>
+<li>switch to the existing build directory, clean the old configuration, and repeat the configuration
+used before.</li>
+<li>make and install to <code>/opt/riscvx</code></li>
 </ul>
-<blockquote>
-<p>Warning: C options can be added by the toolchain, within a BUILD file, and on the command line.  For options like <code>-O</code> and <code>-march</code>, only
-the last instance of the option affects the build.</p>
-</blockquote>
-<h2 id="toolchain-details">Toolchain details</h2>
-<p>Toolchains generally include several components that can affect the generated binaries:</p>
-<ul>
-<li>the gcc compiler, built from source and configured for a specific target architecture and language set</li>
-<li>binutils utilities, including a <code>gas</code> assembler with support for various instruction set extensions
-and disassembler tools like <code>objdump</code> that provide reference handling of newer instructions.</li>
-<li>linker and linker scripts</li>
-<li>a <code>sysroot</code> holding files the above subsystems would normally expect to find under <code>/usr</code>, for instance
-<code>/usr/include</code> files supplied by the kernel and standard libraries</li>
-<li>libc, libstdc++, etc.</li>
-<li>default compiler options and include directories</li>
-</ul>
-<p>The toolchain prepared for building a kernel module won&rsquo;t be the same as a toolchain built for userspace programs,
-even if the compilers are identical.</p>
-<p>See <a href="/ghidra_import_tests/docs/testbed_internals/adding_toolchains/">adding toolchains</a> for an example of adding a new toolchain to this project.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> make distclean
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> /home2/vendor/gcc/configure --prefix<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscvx --enable-languages<span style="color:#ce5c00;font-weight:bold">=</span>c,c++,lto --disable-multilib --target<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu --with-sysroot<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscvx/sysroot
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make install
+</span></span></code></pre></div><h2 id="update-glibc">update glibc</h2>
+<p>Update the source directory to the tip of the master branch, refresh the configuration, build,
+and install</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> ../../vendor/glibc/configure <span style="color:#000">CC</span><span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscvx/bin/riscv64-unknown-linux-gnu-gcc  --host<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu --target<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu --prefix<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscvx --disable-werror --enable-shared --disable-multilib
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make install
+</span></span></code></pre></div><h2 id="testing-the-refreshed-toolchain">testing the refreshed toolchain</h2>
+<p>The previous steps generate a new, non-portable toolchain under <code>/opt/riscvx</code>.  Before we can generate the portable tarball
+(e.g., <code>risc64_linux_gcc-14.0.1.tar.xz</code>) we can exercise the newer toolchain.  If we pass <code>--platforms=//platforms:riscv_local</code>
+to bazel it will use a toolchain loaded from local files under <code>/opt/riscvx</code> instead of files extracted from the portable tarball.</p>
+<p>This is mostly useful in debugging the bazel &lsquo;sandbox&rsquo; - recognizing newer files required by the toolchain that have been installed
+locally but not explicitly included in the portable tarball.</p>
+<p>For example, suppose we are refreshing the gcc-14 toolchain from <code>14.0.0</code> to <code>14.0.1</code>.  The following sequence of builds should all succeed:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">#</span> build with an unrelated and fully released toolchain as a control experiment
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel build --platforms<span style="color:#ce5c00;font-weight:bold">=</span>//platforms:riscv_userspace @whisper_cpp//:main
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Target @@whisper_cpp//:main up-to-date:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  bazel-bin/external/whisper_cpp/main        /// build was successful
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> strings bazel-bin/external/whisper_cpp/main<span style="color:#000;font-weight:bold">|</span>grep GCC
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GCC_3.0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GCC: (GNU) 13.2.1 20230901                   /// the released compiler only was used
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GCC: (g3f23fa7e74f) 13.2.1 20230901
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">_Unwind_Resume@GCC_3.0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">#</span> repeat with the <span style="color:#204a87">local</span> toolchain introducing 14.0.1 <span style="color:#204a87;font-weight:bold">for</span> the application build
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel build --platforms<span style="color:#ce5c00;font-weight:bold">=</span>//platforms:riscv_local @whisper_cpp//:main
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Target @@whisper_cpp//:main up-to-date:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  bazel-bin/external/whisper_cpp/main       /// build was successful
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> strings bazel-bin/external/whisper_cpp/main<span style="color:#000;font-weight:bold">|</span>grep GCC
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GCC_3.0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GCC: (GNU) 13.2.1 20230901                  /// some system files were previously compiled
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GCC: (GNU) 14.0.1 20240130 (experimental)   /// the new toolchain was used in part
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">_Unwind_Resume@GCC_3.0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">#</span> repeat with the candidate portable tarball
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel build --platforms<span style="color:#ce5c00;font-weight:bold">=</span>//platforms:riscv_vector @whisper_cpp//:main
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Target @@whisper_cpp//:main up-to-date:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  bazel-bin/external/whisper_cpp/main       /// build was successful
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> strings bazel-bin/external/whisper_cpp/main<span style="color:#000;font-weight:bold">|</span>grep GCC
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GCC_3.0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GCC: (GNU) 13.2.1 20230901
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GCC: (GNU) 14.0.1 20240130 (experimental)   /// the new toolchain was used in part
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">_Unwind_Resume@GCC_3.0
+</span></span></span></code></pre></div><p>Different build options can require different files in the portable tarball, so this kind of test may
+fail for some projects while succeeding in others.  That&rsquo;s easily fixed by updating the <code>generate.sh</code> <code>rsync</code> script
+that builds the portable tarball.</p>
 
-  <div class="section-index">
-    
-    
-    
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/">ISA Extensions</a>
-                </h5>
-                <p></p>
-            </div>
-        
-    
+	
 </div>
-</div>
+
 
           </main>
         </div>

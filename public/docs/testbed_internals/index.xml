@@ -34,7 +34,7 @@
 &lt;p&gt;We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc++ as
 we use for RISCV exemplars.  This will give us some hints about how common new issues may
 be and how global new solutions may need to be.&lt;/p&gt;
-&lt;p&gt;We will generate this x86_64 gcc-14 toolchain about the same way as our existing riscv-64 gcc-14 toolchain.&lt;/p&gt;
+&lt;p&gt;We will generate this x86_64 gcc-14 toolchain about the same way as our existing RISCV-64 gcc-14 toolchain.&lt;/p&gt;
 &lt;p&gt;This example uses the latest released version of binutils and the development head of gcc and glibc.&lt;/p&gt;
 &lt;p&gt;If we were building a toolchain for an actual product we would start by configuring and building
 a specialized kernel, which would prepopulate the system root.  We aren&amp;rsquo;t doing that here, so
@@ -134,7 +134,7 @@ Binutils 2.41&amp;rsquo;s &lt;code&gt;objdump&lt;/code&gt; appears to recognize 
 &lt;h2 id=&#34;packaging-the-toolchain&#34;&gt;packaging the toolchain&lt;/h2&gt;
 &lt;p&gt;Now we need to make the toolchain hermetic, portable, and ready for Bazel workspaces.&lt;/p&gt;
 &lt;p&gt;Hermeticity means that nothing under &lt;code&gt;/opt/gcc14&lt;/code&gt; makes a hidden reference to local host files under &lt;code&gt;/usr&lt;/code&gt;.  Any such reference needs to
-be changed into a relative reference.  These are common in short sharable object files that link to one or more true sharable object libraries.&lt;/p&gt;
+be changed into a relative reference.  These are common in short shareable object files that link to one or more true shareable object libraries.&lt;/p&gt;
 &lt;p&gt;You can often identify possible troublemakers by searching for smallish regular files with a &lt;code&gt;.so&lt;/code&gt; extension.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; find /opt/gcc14 -name &lt;span style=&#34;color:#4e9a06&#34;&gt;\*&lt;/span&gt;.so -type f -size -1000c -ls
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;/opt/gcc14$ find /opt/gcc14 -name \*.so -type f -size -1000c -ls
@@ -169,7 +169,7 @@ be changed into a relative reference.  These are common in short sharable object
 &lt;p&gt;Next we need to identify all dynamic host dependencies of binaries under &lt;code&gt;/opt/gcc14&lt;/code&gt;.
 The &lt;code&gt;ldd&lt;/code&gt; command will identify these local system files,
 which should be collected into a separate tarball.  This tarball can be shared with other cross-compilers
-built at the same time, and is generally portable across similar linux kernels and distributions.&lt;/p&gt;
+built at the same time, and is generally portable across similar Linux kernels and distributions.&lt;/p&gt;
 &lt;p&gt;At this point we can &lt;code&gt;strip&lt;/code&gt; the executable files within the toolchain and identify the ones we want to keep in the portable toolchain tarball.
 Scripts under &lt;code&gt;toolchain/toolchains/gcc-14-*/scripts&lt;/code&gt; will help with that.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;generate.sh&lt;/code&gt; uses rsync to copy selected files from &lt;code&gt;/opt/gcc14&lt;/code&gt; into &lt;code&gt;/tmp/export&lt;/code&gt;, stripping the known binaries, and creating the portable tarball.
@@ -287,7 +287,7 @@ kernel modules, and userspace applications respectively.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;],&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;tool_paths&lt;/code&gt; element points to small bash scripts needed to launch compiler components like &lt;code&gt;gcc&lt;/code&gt; and &lt;code&gt;ar&lt;/code&gt; and &lt;code&gt;strip&lt;/code&gt;.
-These give us the chance to use imported system sharable object libraries rather than the host&amp;rsquo;s sharable object libraries.&lt;/p&gt;
+These give us the chance to use imported system shareable object libraries rather than the host&amp;rsquo;s shareable object libraries.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#!/bin/bash
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;set&lt;/span&gt; -euo pipefail
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;pwd&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;`&lt;/span&gt;/toolchains/gcc-14-x86_64/imported &lt;span style=&#34;color:#4e9a06&#34;&gt;\
@@ -367,7 +367,7 @@ It runs the toolchain in a sandbox, forcing an exception on all references not p
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;cleanup&#34;&gt;cleanup&lt;/h2&gt;
 &lt;p&gt;We&amp;rsquo;ve got a working toolchain, but with many dangling links, duplicate files, and unused definitions.
 The toolchain files normally provided by a kernel were copied in as needed from the host, with the understanding that we never
-really needed runnable applications.&lt;/p&gt;
+really needed unable applications.&lt;/p&gt;
 &lt;p&gt;If this were a production environment we would be a lot more careful.  It&amp;rsquo;s not, so we will just summarize some of the areas
 that might benefit from such a cleanup.&lt;/p&gt;
 &lt;h2 id=&#34;toolchain-directories&#34;&gt;toolchain directories&lt;/h2&gt;
@@ -376,7 +376,7 @@ that might benefit from such a cleanup.&lt;/p&gt;
 &lt;p&gt;This directory is the install target for our binutils, gcc, and glibc builds.  It is not itself used by the Bazel build
 framework, and need not be present on any host machine running the toolchain.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;The overall size is reported as 3.1 GB, inflated somewhat by multiple hardlinks&lt;/li&gt;
+&lt;li&gt;The overall size is reported as 3.1 GB, inflated somewhat by multiple hard links&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;fdupes&lt;/code&gt; reports 2446 duplicate files (in 2136 sets), occupying 200.2 megabytes&lt;/li&gt;
 &lt;li&gt;There are six files over 150 MB in size&lt;/li&gt;
 &lt;/ul&gt;
@@ -390,7 +390,7 @@ of `/opt/gcc14`` are lost.  It may be discarded after the portable tarball is ge
 &lt;/ul&gt;
 &lt;h3 id=&#34;optbazelx86_64_linux_gnu-14tarxz&#34;&gt;/opt/bazel/x86_64_linux_gnu-14.tar.xz&lt;/h3&gt;
 &lt;p&gt;The compressed portable tarball size is 171M.  It expands into a locally cached equivalent of &lt;code&gt;/tmp/export&lt;/code&gt;.
-This file must be accessible to Bazel during a crosscompilation, either as a file reference or as a remote http or
+This file must be accessible to Bazel during a cross-compilation, either as a file reference or as a remote http or
 https URL.&lt;/p&gt;
 &lt;h3 id=&#34;runuser1000bazelexecroot_mainexternalx86_64_linux_gnu-14&#34;&gt;/run/user/1000/bazel/execroot/_main/external/x86_64_linux_gnu-14&lt;/h3&gt;
 &lt;p&gt;Bazel agents will decompress the tarball if and when needed into a local cache directory.  In this case, it is unpacked
@@ -420,7 +420,7 @@ as hermeticity errors and abort the build.&lt;/p&gt;
 &lt;/div&gt;
 
 &lt;p&gt;Suppose you wanted to build a gcc-14 toolchain with the latest glibc standard libraries, and you were using a Linux host with gcc-13 and reasonably
-current glibc standard libraries.  How would you gurantee that none of your older host files were accidentally used where you expected
+current glibc standard libraries.  How would you guarantee that none of your older host files were accidentally used where you expected
 the newer gcc and glibc files to be used?&lt;/p&gt;
 &lt;p&gt;Bazel enforces this &lt;em&gt;hermeticity&lt;/em&gt; by running all toolchain steps in a sandbox, where only declared dependencies of the toolchain components
 are visible.  That means nothing under /usr or $HOME is generally available, and any attempt to access files there will abort the build.&lt;/p&gt;
@@ -430,6 +430,106 @@ are visible.  That means nothing under /usr or $HOME is generally available, and
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;  &amp;#39;/usr/include/stdc-predef.h&amp;#39;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;  &amp;#39;/usr/include/stdio.h&amp;#39;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this example the toolchain tried to load host files, where it should have been loading equivalent files from the toolchain tarball.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: refreshing toolchains</title>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;Refreshing (updating) an existing toolchain is mostly straightforward.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Warning: This sequence uses unreleased code for binutils, gcc, and glibc.
+We use this experimental toolchain to get a glimpse of future toolchains and products,
+not for stable code.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;update-binutils&#34;&gt;Update binutils&lt;/h2&gt;
+&lt;p&gt;binutils&amp;rsquo; latest release is 2.42.  Let&amp;rsquo;s update our RISCV toolchain to use the current binutils head,
+which is currently very close to the released version.  The git log shows relatively little change
+to the RISCV assembler, other than some corrections to the THead extension encodings.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Update the source directory to commit a197d5f7eb27e99c27577, January 18 2024.  RISCV updates to
+the previous snapshot have landed from various alibaba contributors.&lt;/li&gt;
+&lt;li&gt;switch to the binutils build directory and refresh the configuration, build, and install to &lt;code&gt;/opt/riscvx&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; /home2/vendor/binutils-gdb/configure --prefix&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/opt/riscvx --target&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;riscv64-unknown-linux-gnu
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; make
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; make install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;update-gcc&#34;&gt;Update gcc&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Update to the tip of the master branch, glancing at the log to see that alibaba, intel, rivai,
+rivos, and others have contributed recent RISCV updates.&lt;/li&gt;
+&lt;li&gt;switch to the existing build directory, clean the old configuration, and repeat the configuration
+used before.&lt;/li&gt;
+&lt;li&gt;make and install to &lt;code&gt;/opt/riscvx&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; make distclean
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; /home2/vendor/gcc/configure --prefix&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/opt/riscvx --enable-languages&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;c,c++,lto --disable-multilib --target&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;riscv64-unknown-linux-gnu --with-sysroot&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/opt/riscvx/sysroot
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; make
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; make install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;update-glibc&#34;&gt;update glibc&lt;/h2&gt;
+&lt;p&gt;Update the source directory to the tip of the master branch, refresh the configuration, build,
+and install&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; ../../vendor/glibc/configure &lt;span style=&#34;color:#000&#34;&gt;CC&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/opt/riscvx/bin/riscv64-unknown-linux-gnu-gcc  --host&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;riscv64-unknown-linux-gnu --target&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;riscv64-unknown-linux-gnu --prefix&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/opt/riscvx --disable-werror --enable-shared --disable-multilib
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; make
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; make install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;testing-the-refreshed-toolchain&#34;&gt;testing the refreshed toolchain&lt;/h2&gt;
+&lt;p&gt;The previous steps generate a new, non-portable toolchain under &lt;code&gt;/opt/riscvx&lt;/code&gt;.  Before we can generate the portable tarball
+(e.g., &lt;code&gt;risc64_linux_gcc-14.0.1.tar.xz&lt;/code&gt;) we can exercise the newer toolchain.  If we pass &lt;code&gt;--platforms=//platforms:riscv_local&lt;/code&gt;
+to bazel it will use a toolchain loaded from local files under &lt;code&gt;/opt/riscvx&lt;/code&gt; instead of files extracted from the portable tarball.&lt;/p&gt;
+&lt;p&gt;This is mostly useful in debugging the bazel &amp;lsquo;sandbox&amp;rsquo; - recognizing newer files required by the toolchain that have been installed
+locally but not explicitly included in the portable tarball.&lt;/p&gt;
+&lt;p&gt;For example, suppose we are refreshing the gcc-14 toolchain from &lt;code&gt;14.0.0&lt;/code&gt; to &lt;code&gt;14.0.1&lt;/code&gt;.  The following sequence of builds should all succeed:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;#&lt;/span&gt; build with an unrelated and fully released toolchain as a control experiment
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build --platforms&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;//platforms:riscv_userspace @whisper_cpp//:main
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;Target @@whisper_cpp//:main up-to-date:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;  bazel-bin/external/whisper_cpp/main        /// build was successful
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; strings bazel-bin/external/whisper_cpp/main&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt;grep GCC
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;GCC_3.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;GCC: (GNU) 13.2.1 20230901                   /// the released compiler only was used
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;GCC: (g3f23fa7e74f) 13.2.1 20230901
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;_Unwind_Resume@GCC_3.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;#&lt;/span&gt; repeat with the &lt;span style=&#34;color:#204a87&#34;&gt;local&lt;/span&gt; toolchain introducing 14.0.1 &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; the application build
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build --platforms&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;//platforms:riscv_local @whisper_cpp//:main
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;Target @@whisper_cpp//:main up-to-date:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;  bazel-bin/external/whisper_cpp/main       /// build was successful
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; strings bazel-bin/external/whisper_cpp/main&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt;grep GCC
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;GCC_3.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;GCC: (GNU) 13.2.1 20230901                  /// some system files were previously compiled
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;GCC: (GNU) 14.0.1 20240130 (experimental)   /// the new toolchain was used in part
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;_Unwind_Resume@GCC_3.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;#&lt;/span&gt; repeat with the candidate portable tarball
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build --platforms&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;//platforms:riscv_vector @whisper_cpp//:main
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;Target @@whisper_cpp//:main up-to-date:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;  bazel-bin/external/whisper_cpp/main       /// build was successful
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; strings bazel-bin/external/whisper_cpp/main&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt;grep GCC
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;GCC_3.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;GCC: (GNU) 13.2.1 20230901
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;GCC: (GNU) 14.0.1 20240130 (experimental)   /// the new toolchain was used in part
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;_Unwind_Resume@GCC_3.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Different build options can require different files in the portable tarball, so this kind of test may
+fail for some projects while succeeding in others.  That&amp;rsquo;s easily fixed by updating the &lt;code&gt;generate.sh&lt;/code&gt; &lt;code&gt;rsync&lt;/code&gt; script
+that builds the portable tarball.&lt;/p&gt;
 
       </description>
     </item>

@@ -1,7 +1,7 @@
 ---
 title: A vectorization case study
 linkTitle: Vectorization case study
-weight: 20
+weight: 30
 ---
 
 {{% pageinfo %}}

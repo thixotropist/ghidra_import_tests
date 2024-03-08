@@ -1,7 +1,6 @@
 ---
 title: Glossary
 linkTitle: Glossary
-menu: {main: {weight: 100}}
 weight: 100
 ---
 
@@ -20,7 +19,7 @@ the Linux kernel plus system libraries as its platform.  System libraries like l
 
 cross-compiler
 : A compiler capable of generating code for a processor other than the one it is running on.  An x86_64 gcc-13 compiler configured to generate RISCV-64 object files would be a cross-compiler.
-Cross-compilers run on either the local host platform or on a Continuous Integration test server platform, generating object files (*.o)
+Cross-compilers run on either the local host platform or on a Continuous Integration test server platform.
 
 linker
 : A tool that takes one or more object files and resolves those runtime linkages internal to those object files.  Usually `ld` on a Linux system.  Often generates an ELF file
@@ -38,7 +37,7 @@ Cross-compiler toolchains often need to import a sysroot to build for a given ke
 
 toolchain
 : A toolchain is an assembly of cross-compiler, linker, loader, and sysroot, plus a default set of options and switches for each component.  Different toolchains might share a gcc
-crosscompiling but be configured for different platforms - building a kernel image, building `libc.so``, or building an executable application.
+crosscompiler but be configured for different platforms - building a kernel image, building `libc.so`, or building an executable application.
 
 workspace
 : An environment that provides mappings between platforms and toolchains.  If you want to build an executable for a given platform, just name that platform on the command line

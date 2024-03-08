@@ -40,7 +40,7 @@ Import and perform standard analyses to get these statistics:
 * text segment size 0x8678a
 * 12 bad instruction errors, all of which appear to be the `fence.tso` instruction extension
 
-Now examine `whisper_cpp_vendor` with the baseline Ghidra 11.0:
+Now examine `whisper_cpp_vendor` (built with gcc 14 rather than gcc 13) with the baseline Ghidra 11.0:
 
 * 100521 instructions recognized
 * text segment size 0xb93cc
@@ -91,7 +91,7 @@ This leads to some tentative next steps:
 >Note: `fence.tso` is now recognized in the Ghidra 11.1-DEV branch `isa_ext`,
 >      clearing the `bad instruction errors`.
 
-##  Phase 1 - a top-down assessment
+##  A top-down assessment
 
 At the highest level, what features of `whisper.cpp` generate vector instructions?
 
@@ -109,7 +109,7 @@ of vector performance enhancements.
 ### Example: dot product
 
 `ggml_vec_dot_f32(n, sum, x, y)` generates the vector dot product of two vectors x and y of length n with the result
-stored to *s.  In the absence of vector or SIMD support the source code is:
+stored to `*sum`.  In the absence of vector or SIMD support the source code is:
 
 ```c
 // scalar
@@ -121,7 +121,7 @@ stored to *s.  In the absence of vector or SIMD support the source code is:
    *s = sumf;
 ```
 
-GCC will autovectorize this into something Ghidra decompiles like this:
+GCC-14 will autovectorize this into something Ghidra decompiles like this (comments added after `//`):
 
 ```c
 void ggml_vec_dot_f32(long n,float *s,float *x,float *y)
@@ -251,7 +251,7 @@ If it has 4 elements then the first and last one or two are handled with scalar 
 The gather instructions are used together to generate a mask and then multiply the two elements of vector v1, leaving the result in the first
 element slot of vector v4.
 
-This particular loop vectorization is likely to change a lot in future releases.  The performance is negligible either way.  The analyst may
+This particular loop vectorization is likely to change a lot in future releases.  The performance impact is negligible either way.  The analyst may
 look at code like this and decide to ignore the ndims>3 case along with *all* of the vector instructions used within it.  Alternatively, we could
 look at the gcc vectorization code handling the general vector reduction meta operation, then see if this pattern is a macro of some sort within it.
 
@@ -506,7 +506,7 @@ $ cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v4
 Load these into Ghidra 11.1-DEV.  The `x86-64-v4` build is useless in Ghidra, since a different class of x86_64 vector extensions is used in that newer microarchitecture
 and Ghidra doesn't recognize it.  The `x86-64-v3` build looks accessible.
 
-Try an x86_64 build with the local compiler (Fedora 39 default compiler):
+Try an x86_64 build with the local compiler (Fedora 39 default compiler) and LInk Time Optimization enabled:
 
 ```console
 $ bazel build  --copt="-march=x86-64-v3" --copt="-flto"  --linkopt="-Wl,-flto" @whisper_cpp//:main

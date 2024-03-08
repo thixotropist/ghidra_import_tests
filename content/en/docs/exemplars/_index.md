@@ -1,7 +1,6 @@
 ---
 title: Exemplars
 linkTitle: Exemplars
-menu: {main: {weight: 10}}
 weight: 10
 ---
 
@@ -140,8 +139,7 @@ development board, a 64 bit RISCV processor with support for Integer and Compres
 variation on that, say to look ahead at challenges a gcc-14 toolchain might throw our way, we need to build our own exemplars.
 
 Open source test suites can be a good source for feature-focused importable exemplars.  If we want to test Ghidra's ability to import RISCV instruction
-set extensions, we want to import many of the files from `binutils-gdb/gas/testsuite/gas/riscv`
-or https://sourceware.org/git?p=binutils-gdb.git;a=tree;f=gas/testsuite/gas/riscv;hb=HEAD.
+set extensions, we want to import many of the files from [binutils-gdb/gas/testsuite/gas/riscv](https://sourceware.org/git?p=binutils-gdb.git;a=tree;f=gas/testsuite/gas/riscv;hb=HEAD).
 
 For example, most of the ratified set of RISCV vector instructions are used in `vector-insns.s`.
 If we assemble this with a `gas` assembler compatible with the `-march=rv32ifv` architecture

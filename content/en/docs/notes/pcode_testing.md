@@ -23,7 +23,6 @@ vector definition says:
 These instructions have a lot of symmetry, but the current isa_ext branch doesn't render them symmetrically.  Let's build a sample function
 that uses both instructions followed by an assertion of what we expect to see.
 
-
 ```c
 bool test_integer_scalar_vector_move() {
     ///@ exercise integer scalar moves into and out of a vector register
@@ -38,9 +37,9 @@ bool test_integer_scalar_vector_move() {
     return x==y;
 }
 ```
+
 This function should return the boolean value True.  It's defined in the file `failing_tests/pcodeSamples.cpp` and
 compiled into the library `libsamples.so`.  The function is executed within the test harness `failing_tests/pcodeTests.cpp`.
-
 
 Build (with O3 optimization) and execute the test harness with:
 

@@ -26,13 +26,13 @@ How might we inspect a machine-learning application for malware? For example, su
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/whisper_cpp/" /><meta property="article:section" content="docs" />
 
-
+<meta property="article:modified_time" content="2024-01-29T21:36:45-05:00" />
 
 <meta itemprop="name" content="Whisper_cpp">
 <meta itemprop="description" content="Explore analysis of a machine learning application built with large language model techniques. What Ghidra gaps does such an analysis reveal?
 How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speech recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?">
-
-<meta itemprop="wordCount" content="2803">
+<meta itemprop="dateModified" content="2024-01-29T21:36:45-05:00" />
+<meta itemprop="wordCount" content="2818">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Whisper_cpp"/>
 <meta name="twitter:description" content="Explore analysis of a machine learning application built with large language model techniques. What Ghidra gaps does such an analysis reveal?
 How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speech recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?"/>
@@ -40,8 +40,8 @@ How might we inspect a machine-learning application for malware? For example, su
 
 
 
-<link rel="preload" href="/ghidra_import_tests/scss/main.min.32eaa2fda0f7c82e78980a4fdfc08c5d0d69e751112d336c36776a89ea96acec.css" as="style">
-<link href="/ghidra_import_tests/scss/main.min.32eaa2fda0f7c82e78980a4fdfc08c5d0d69e751112d336c36776a89ea96acec.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/ghidra_import_tests/scss/main.min.9d0cbaa1b344b1333f0397e66235629be3ef760469c16413abd609b3ba3dc13f.css" as="style">
+<link href="/ghidra_import_tests/scss/main.min.9d0cbaa1b344b1333f0397e66235629be3ef760469c16413abd609b3ba3dc13f.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.6.3.min.js"
@@ -57,31 +57,10 @@ How might we inspect a machine-learning application for malware? For example, su
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/overview/"><span>Overview</span></a>
+        <a class="nav-link" href="/ghidra_import_tests/about/"><span>About</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/ghidra_import_tests/docs/exemplars/"><span>Exemplars</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/instruction_patterns/"><span>Instruction Patterns</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/issues/"><span>Issues</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/platforms_and_toolchains/"><span>Platforms and Toolchains</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/testbed_internals/"><span>Testbed Internals</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/gap_analysis/"><span>Gap Analysis Example</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/notes/"><span>Notes</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/ghidra_import_tests/docs/overview/glossary/"><span>Glossary</span></a>
+        <a class="nav-link active" href="/ghidra_import_tests/docs/"><span>Docs</span></a>
       </li>
       </ul>
   </div>
@@ -104,7 +83,7 @@ How might we inspect a machine-learning application for malware? For example, su
   <nav class="td-sidebar-nav collapse" id="td-section-nav">
     <ul class="td-sidebar-nav__section pe-md-3 ul-0">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-ghidra_import_testsdocs-li">
-  <a href="/ghidra_import_tests/docs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-ghidra_import_testsdocs"><span class="">Docs</span></a>
+  <a href="/ghidra_import_tests/docs/" title="Documentation" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-ghidra_import_testsdocs"><span class="">Docs</span></a>
   <ul class="ul-1">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsoverview-li">
   <a href="/ghidra_import_tests/docs/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsoverview"><span class="">Overview</span></a>
@@ -120,15 +99,6 @@ How might we inspect a machine-learning application for malware? For example, su
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="td-sidebar-nav-active-item">Whisper_cpp</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
-  <a href="/ghidra_import_tests/docs/instruction_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsinstruction_patterns"><span class="">Instruction Patterns</span></a>
-  <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey-li">
-  <a href="/ghidra_import_tests/docs/instruction_patterns/app_survey/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey"><span class="">Application Survey</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation-li">
-  <a href="/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/" title="Application Top Down Analysis" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation"><span class="">Application Analysis</span></a>
-</li>
-  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
   <a href="/ghidra_import_tests/docs/issues/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsissues"><span class="">Issues</span></a>
   <ul class="ul-2 foldable">
@@ -140,24 +110,6 @@ How might we inspect a machine-learning application for malware? For example, su
   <a href="/ghidra_import_tests/docs/issues/link_time_optimization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissueslink_time_optimization"><span class="">link time optimization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesvector_intrinsics-li">
   <a href="/ghidra_import_tests/docs/issues/vector_intrinsics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesvector_intrinsics"><span class="">vector intrinsics</span></a>
-</li>
-  </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsplatforms_and_toolchains-li">
-  <a href="/ghidra_import_tests/docs/platforms_and_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsplatforms_and_toolchains"><span class="">Platforms and Toolchains</span></a>
-  <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsplatforms_and_toolchainsisa_extensions-li">
-  <a href="/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsplatforms_and_toolchainsisa_extensions"><span class="">ISA Extensions</span></a>
-</li>
-  </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocstestbed_internals-li">
-  <a href="/ghidra_import_tests/docs/testbed_internals/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocstestbed_internals"><span class="">Testbed Internals</span></a>
-  <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains-li">
-  <a href="/ghidra_import_tests/docs/testbed_internals/adding_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains"><span class="">adding toolchains</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains-li">
-  <a href="/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains"><span class="">debugging toolchains</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains-li">
-  <a href="/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains"><span class="">refreshing toolchains</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsgap_analysis-li">
@@ -175,6 +127,33 @@ How might we inspect a machine-learning application for malware? For example, su
   <a href="/ghidra_import_tests/docs/gap_analysis/existing_frameworks/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsgap_analysisexisting_frameworks"><span class="">Existing Frameworks</span></a>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsplatforms_and_toolchains-li">
+  <a href="/ghidra_import_tests/docs/platforms_and_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsplatforms_and_toolchains"><span class="">Platforms and Toolchains</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsplatforms_and_toolchainsisa_extensions-li">
+  <a href="/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsplatforms_and_toolchainsisa_extensions"><span class="">ISA Extensions</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsinstruction_patterns-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsinstruction_patterns"><span class="">Instruction Patterns</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/app_survey/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_survey"><span class="">Application Survey</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation-li">
+  <a href="/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/" title="Application Top Down Analysis" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsinstruction_patternsapp_topdown_evaluation"><span class="">Application Analysis</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocstestbed_internals-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocstestbed_internals"><span class="">Testbed Internals</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/adding_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsadding_toolchains"><span class="">adding toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsdebugging_toolchains"><span class="">debugging toolchains</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains-li">
+  <a href="/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains"><span class="">refreshing toolchains</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsnotes-li">
   <a href="/ghidra_import_tests/docs/notes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsnotes"><span class="">Notes</span></a>
   <ul class="ul-2 foldable">
@@ -184,6 +163,8 @@ How might we inspect a machine-learning application for malware? For example, su
   <a href="/ghidra_import_tests/docs/notes/network_appliances/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesnetwork_appliances"><span class="">Network Appliances</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesvectorization_case_study-li">
   <a href="/ghidra_import_tests/docs/notes/vectorization_case_study/" title="A vectorization case study" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesvectorization_case_study"><span class="">Vectorization case study</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotespcode_testing-li">
+  <a href="/ghidra_import_tests/docs/notes/pcode_testing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotespcode_testing"><span class="">Pcode testing</span></a>
 </li>
   </ul>
 </li>
@@ -195,8 +176,12 @@ How might we inspect a machine-learning application for malware? For example, su
 
           </aside>
           <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
-            
-<div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/thixotropist/ghidra_import_tests/tree/main/content/en/docs/exemplars/whisper_cpp.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/thixotropist/ghidra_import_tests/edit/main/content/en/docs/exemplars/whisper_cpp.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/thixotropist/ghidra_import_tests/new/main/content/en/docs/exemplars?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/thixotropist/ghidra_import_tests/issues/new?title=Whisper_cpp" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a id="print" href="/ghidra_import_tests/docs/exemplars/_print/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
 
 </div>
 
@@ -204,7 +189,7 @@ How might we inspect a machine-learning application for malware? For example, su
         <nav id="TableOfContents">
   <ul>
     <li><a href="#baseline-ghidra-analysis">Baseline Ghidra analysis</a></li>
-    <li><a href="#phase-1---a-top-down-assessment">Phase 1 - a top-down assessment</a>
+    <li><a href="#a-top-down-assessment">A top-down assessment</a>
       <ul>
         <li><a href="#example-dot-product">Example: dot product</a></li>
         <li><a href="#example-auto-vectorization-makes-the-simple-complicated">Example: auto-vectorization makes the simple complicated</a></li>
@@ -217,7 +202,7 @@ How might we inspect a machine-learning application for malware? For example, su
       </div>
     
             
-
+	
           </aside>
           <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
             
@@ -239,7 +224,7 @@ How might we inspect a machine-learning application for malware? For example, su
 	
 	<header class="article-meta">
 		
-</header>
+  </header>
 	
 
 <div class="pageinfo pageinfo-primary">
@@ -280,7 +265,7 @@ Import and perform standard analyses to get these statistics:</p>
 <li>text segment size 0x8678a</li>
 <li>12 bad instruction errors, all of which appear to be the <code>fence.tso</code> instruction extension</li>
 </ul>
-<p>Now examine <code>whisper_cpp_vendor</code> with the baseline Ghidra 11.0:</p>
+<p>Now examine <code>whisper_cpp_vendor</code> (built with gcc 14 rather than gcc 13) with the baseline Ghidra 11.0:</p>
 <ul>
 <li>100521 instructions recognized</li>
 <li>text segment size 0xb93cc</li>
@@ -374,7 +359,7 @@ recognize first.</li>
 <p>Note: <code>fence.tso</code> is now recognized in the Ghidra 11.1-DEV branch <code>isa_ext</code>,
 clearing the <code>bad instruction errors</code>.</p>
 </blockquote>
-<h2 id="phase-1---a-top-down-assessment">Phase 1 - a top-down assessment</h2>
+<h2 id="a-top-down-assessment">A top-down assessment</h2>
 <p>At the highest level, what features of <code>whisper.cpp</code> generate vector instructions?</p>
 <ul>
 <li>There are about 400 invocations of RISCV vector intrinsic within <code>ggml-quants.c</code>.  In these cases the developer
@@ -389,7 +374,7 @@ of the explicit RISCV vector intrinsic C functions appear, and likely the code t
 of vector performance enhancements.</p>
 <h3 id="example-dot-product">Example: dot product</h3>
 <p><code>ggml_vec_dot_f32(n, sum, x, y)</code> generates the vector dot product of two vectors x and y of length n with the result
-stored to *s.  In the absence of vector or SIMD support the source code is:</p>
+stored to <code>*sum</code>.  In the absence of vector or SIMD support the source code is:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// scalar
 </span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#204a87;font-weight:bold">float</span> <span style="color:#000">s</span><span style="color:#000;font-weight:bold">;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">double</span> <span style="color:#000">sumf</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0.0</span><span style="color:#000;font-weight:bold">;</span>
@@ -397,7 +382,7 @@ stored to *s.  In the absence of vector or SIMD support the source code is:</p>
 </span></span><span style="display:flex;"><span>        <span style="color:#000">sumf</span> <span style="color:#ce5c00;font-weight:bold">+=</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">double</span><span style="color:#000;font-weight:bold">)(</span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">]</span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">]);</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
 </span></span><span style="display:flex;"><span>   <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">s</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">sumf</span><span style="color:#000;font-weight:bold">;</span>
-</span></span></code></pre></div><p>GCC will autovectorize this into something Ghidra decompiles like this:</p>
+</span></span></code></pre></div><p>GCC-14 will autovectorize this into something Ghidra decompiles like this (comments added after <code>//</code>):</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">void</span> <span style="color:#000">ggml_vec_dot_f32</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">long</span> <span style="color:#000">n</span><span style="color:#000;font-weight:bold">,</span><span style="color:#204a87;font-weight:bold">float</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">s</span><span style="color:#000;font-weight:bold">,</span><span style="color:#204a87;font-weight:bold">float</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">,</span><span style="color:#204a87;font-weight:bold">float</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
@@ -517,7 +502,7 @@ autovectorizes the loop into something more complex:</p>
 If it has 4 elements then the first and last one or two are handled with scalar math while pairs of elements are accumulated in the loop.
 The gather instructions are used together to generate a mask and then multiply the two elements of vector v1, leaving the result in the first
 element slot of vector v4.</p>
-<p>This particular loop vectorization is likely to change a lot in future releases.  The performance is negligible either way.  The analyst may
+<p>This particular loop vectorization is likely to change a lot in future releases.  The performance impact is negligible either way.  The analyst may
 look at code like this and decide to ignore the ndims&gt;3 case along with <em>all</em> of the vector instructions used within it.  Alternatively, we could
 look at the gcc vectorization code handling the general vector reduction meta operation, then see if this pattern is a macro of some sort within it.</p>
 <p>Take a step back and look at the gcc RISCV autovectorization code.  It&rsquo;s changing quite frequently, so it&rsquo;s probably premature to try and abstract out
@@ -751,7 +736,7 @@ add more explicit decodings for <code>vsetvli</code> and <code>vsetivli</code>, 
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v4
 </span></span></code></pre></div><p>Load these into Ghidra 11.1-DEV.  The <code>x86-64-v4</code> build is useless in Ghidra, since a different class of x86_64 vector extensions is used in that newer microarchitecture
 and Ghidra doesn&rsquo;t recognize it.  The <code>x86-64-v3</code> build looks accessible.</p>
-<p>Try an x86_64 build with the local compiler (Fedora 39 default compiler):</p>
+<p>Try an x86_64 build with the local compiler (Fedora 39 default compiler) and LInk Time Optimization enabled:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel build  --copt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-march=x86-64-v3&#34;</span> --copt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-flto&#34;</span>  --linkopt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-Wl,-flto&#34;</span> @whisper_cpp//:main
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v3-lto
@@ -764,7 +749,10 @@ This suggests BSIM could get confused with intermediate functions if trying to c
 LTO plugin from the gcc-14 toolchain packaging.  We&rsquo;ll try and find such for the next snapshot of gcc-14.</li>
 </ul>
 
-	
+	<div class="td-page-meta__lastmod">
+  Last modified January 29, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/f3477264b20f10a0882508602dfbea44f14add21">edit for spelling errors (f347726)</a>
+</div>
+
 </div>
 
 
@@ -774,23 +762,30 @@ LTO plugin from the gcc-14 toolchain packaging.  We&rsquo;ll try and find such f
       <footer class="td-footer row d-print-none">
   <div class="container-fluid">
     <div class="row mx-md-2">
-      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
         
-      </div>
-      <div class="col-6 col-sm-4 text-end text-xs-center order-sm-3">
-        
-      </div>
-      <div class="td-footer__copyright-etc col-12 col-sm-4 text-center py-2 order-sm-2">
-        
-        
-        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/google/docsy" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2023&ndash;2024
+    <span class="td-footer__authors">Thixotropist | <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a> |</span></span><span class="td-footer__all_rights_reserved">All Rights Reserved</span><span class="ms-2"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></span>
       </div>
     </div>
   </div>
 </footer>
+
     </div>
-    
-  <script src="/ghidra_import_tests/js/main.min.2af786f7daab94bdd6d034b6c4e9b5f5185f680cdfcb60b53f44c6c8f6f9f454.js" integrity="sha256-KveG99qrlL3W0DS2xOm19RhfaAzfy2C1P0TGyPb59FQ=" crossorigin="anonymous"></script>
+    <script src="/ghidra_import_tests/js/main.min.f72b476219d6d29836acbc4e4f93cc4044a1d1e59172fa1e7c4dc32313e85efe.js" integrity="sha256-9ytHYhnW0pg2rLxOT5PMQESh0eWRcvoefE3DIxPoXv4=" crossorigin="anonymous"></script>
 <script defer src="/ghidra_import_tests/js/click-to-copy.min.f724d3de49218995223b7316aa2e53e2b34bf42026bf399ebb21bb02212402d1.js" integrity="sha256-9yTT3kkhiZUiO3MWqi5T4rNL9CAmvzmeuyG7AiEkAtE=" crossorigin="anonymous"></script>
 <script src='/ghidra_import_tests/js/tabpane-persist.js'></script>
 

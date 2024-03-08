@@ -63,7 +63,7 @@ Import and perform standard analyses to get these statistics:&lt;/p&gt;
 &lt;li&gt;text segment size 0x8678a&lt;/li&gt;
 &lt;li&gt;12 bad instruction errors, all of which appear to be the &lt;code&gt;fence.tso&lt;/code&gt; instruction extension&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Now examine &lt;code&gt;whisper_cpp_vendor&lt;/code&gt; with the baseline Ghidra 11.0:&lt;/p&gt;
+&lt;p&gt;Now examine &lt;code&gt;whisper_cpp_vendor&lt;/code&gt; (built with gcc 14 rather than gcc 13) with the baseline Ghidra 11.0:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;100521 instructions recognized&lt;/li&gt;
 &lt;li&gt;text segment size 0xb93cc&lt;/li&gt;
@@ -157,7 +157,7 @@ recognize first.&lt;/li&gt;
 &lt;p&gt;Note: &lt;code&gt;fence.tso&lt;/code&gt; is now recognized in the Ghidra 11.1-DEV branch &lt;code&gt;isa_ext&lt;/code&gt;,
 clearing the &lt;code&gt;bad instruction errors&lt;/code&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;phase-1---a-top-down-assessment&#34;&gt;Phase 1 - a top-down assessment&lt;/h2&gt;
+&lt;h2 id=&#34;a-top-down-assessment&#34;&gt;A top-down assessment&lt;/h2&gt;
 &lt;p&gt;At the highest level, what features of &lt;code&gt;whisper.cpp&lt;/code&gt; generate vector instructions?&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;There are about 400 invocations of RISCV vector intrinsic within &lt;code&gt;ggml-quants.c&lt;/code&gt;.  In these cases the developer
@@ -172,7 +172,7 @@ of the explicit RISCV vector intrinsic C functions appear, and likely the code t
 of vector performance enhancements.&lt;/p&gt;
 &lt;h3 id=&#34;example-dot-product&#34;&gt;Example: dot product&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;ggml_vec_dot_f32(n, sum, x, y)&lt;/code&gt; generates the vector dot product of two vectors x and y of length n with the result
-stored to *s.  In the absence of vector or SIMD support the source code is:&lt;/p&gt;
+stored to &lt;code&gt;*sum&lt;/code&gt;.  In the absence of vector or SIMD support the source code is:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// scalar
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;float&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;s&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;double&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;sumf&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0.0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
@@ -180,7 +180,7 @@ stored to *s.  In the absence of vector or SIMD support the source code is:&lt;/
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000&#34;&gt;sumf&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;x&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;y&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;s&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;sumf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;GCC will autovectorize this into something Ghidra decompiles like this:&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;GCC-14 will autovectorize this into something Ghidra decompiles like this (comments added after &lt;code&gt;//&lt;/code&gt;):&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ggml_vec_dot_f32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;long&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;n&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;float&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;s&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;float&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;x&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;float&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;y&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
@@ -300,7 +300,7 @@ autovectorizes the loop into something more complex:&lt;/p&gt;
 If it has 4 elements then the first and last one or two are handled with scalar math while pairs of elements are accumulated in the loop.
 The gather instructions are used together to generate a mask and then multiply the two elements of vector v1, leaving the result in the first
 element slot of vector v4.&lt;/p&gt;
-&lt;p&gt;This particular loop vectorization is likely to change a lot in future releases.  The performance is negligible either way.  The analyst may
+&lt;p&gt;This particular loop vectorization is likely to change a lot in future releases.  The performance impact is negligible either way.  The analyst may
 look at code like this and decide to ignore the ndims&amp;gt;3 case along with &lt;em&gt;all&lt;/em&gt; of the vector instructions used within it.  Alternatively, we could
 look at the gcc vectorization code handling the general vector reduction meta operation, then see if this pattern is a macro of some sort within it.&lt;/p&gt;
 &lt;p&gt;Take a step back and look at the gcc RISCV autovectorization code.  It&amp;rsquo;s changing quite frequently, so it&amp;rsquo;s probably premature to try and abstract out
@@ -534,7 +534,7 @@ add more explicit decodings for &lt;code&gt;vsetvli&lt;/code&gt; and &lt;code&gt
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v4
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Load these into Ghidra 11.1-DEV.  The &lt;code&gt;x86-64-v4&lt;/code&gt; build is useless in Ghidra, since a different class of x86_64 vector extensions is used in that newer microarchitecture
 and Ghidra doesn&amp;rsquo;t recognize it.  The &lt;code&gt;x86-64-v3&lt;/code&gt; build looks accessible.&lt;/p&gt;
-&lt;p&gt;Try an x86_64 build with the local compiler (Fedora 39 default compiler):&lt;/p&gt;
+&lt;p&gt;Try an x86_64 build with the local compiler (Fedora 39 default compiler) and LInk Time Optimization enabled:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build  --copt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-march=x86-64-v3&amp;#34;&lt;/span&gt; --copt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-flto&amp;#34;&lt;/span&gt;  --linkopt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-Wl,-flto&amp;#34;&lt;/span&gt; @whisper_cpp//:main
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;...
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v3-lto

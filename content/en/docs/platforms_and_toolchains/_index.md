@@ -1,8 +1,7 @@
 ---
 title: Platforms and Toolchains
 linkTitle: Platforms and Toolchains
-menu: {main: {weight: 30}}
-weight: 30
+weight: 50
 ---
 
 {{% pageinfo %}}

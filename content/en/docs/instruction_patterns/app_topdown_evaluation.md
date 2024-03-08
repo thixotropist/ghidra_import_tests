@@ -18,7 +18,7 @@ but that's fine - we just want to understand the rough sequencing and get a hand
 
 ## what is the expected behavior?
 
->Note: added comments are flagged with a trailing `//`
+>Note: added comments are flagged with `//`
 
 ```console
 /opt/whisper_cpp$ ./main -f samples/jfk.wav
@@ -68,7 +68,7 @@ whisper_print_timings:   prompt time =     0.00 ms /     1 runs (    0.00 ms per
 whisper_print_timings:    total time =  1110.87 ms
 ```
 
-The adversary wants to change the text output from "... ask what you can do for your country." to "... ask what you can do for your enemy."
+The adversary wants to change the text output from "... ask not what you can do for your country." to "... ask not what you can do for your enemy."
 They likely drop a string substitution into the code between the output of `main: processing` and `whisper_print_timings:`, probably very close to
 code printing timestamp intervals like `[00:00:00.000 --> 00:00:11.000]`.
 
@@ -124,7 +124,7 @@ Now we have enough context to narrow the search.  We want to know:
 * from what structures is the output text retrieved?
 * where are those structures initialized?  How large are they, and are any of their fields named
   in diagnostic output?
-* are their any diagnostic routines displaying the contents of such structures?
+* are there any diagnostic routines displaying the contents of such structures?
 
 ## next steps
 

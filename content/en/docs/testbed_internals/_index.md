@@ -1,8 +1,7 @@
 ---
 title: Testbed Internals
 linkTitle: Testbed Internals
-menu: {main: {weight: 40}}
-weight: 40
+weight: 90
 ---
 
 {{% pageinfo %}}

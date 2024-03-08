@@ -1,8 +1,7 @@
 ---
 title: Gap Analysis Example
 linkTitle: Gap Analysis Example
-menu: {main: {weight: 50}}
-weight: 50
+weight: 40
 ---
 
 {{% pageinfo %}}

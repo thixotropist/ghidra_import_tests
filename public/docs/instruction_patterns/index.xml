@@ -243,7 +243,7 @@ exploit might attack functions that call this.&lt;/p&gt;
 but that&amp;rsquo;s fine - we just want to understand the rough sequencing and get a handle on the strings we might find in or near the top level main routine.&lt;/p&gt;
 &lt;h2 id=&#34;what-is-the-expected-behavior&#34;&gt;what is the expected behavior?&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: added comments are flagged with a trailing &lt;code&gt;//&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Note: added comments are flagged with &lt;code&gt;//&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;/opt/whisper_cpp$ ./main -f samples/jfk.wav
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;whisper_init_from_file_with_params_no_state: loading model from &amp;#39;models/ggml-base.en.bin&amp;#39;
@@ -290,7 +290,7 @@ but that&amp;rsquo;s fine - we just want to understand the rough sequencing and 
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;whisper_print_timings:   batchd time =   150.96 ms /   125 runs (    1.21 ms per run)
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;whisper_print_timings:   prompt time =     0.00 ms /     1 runs (    0.00 ms per run)
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;whisper_print_timings:    total time =  1110.87 ms
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The adversary wants to change the text output from &amp;ldquo;&amp;hellip; ask what you can do for your country.&amp;rdquo; to &amp;ldquo;&amp;hellip; ask what you can do for your enemy.&amp;rdquo;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The adversary wants to change the text output from &amp;ldquo;&amp;hellip; ask not what you can do for your country.&amp;rdquo; to &amp;ldquo;&amp;hellip; ask not what you can do for your enemy.&amp;rdquo;
 They likely drop a string substitution into the code between the output of &lt;code&gt;main: processing&lt;/code&gt; and &lt;code&gt;whisper_print_timings:&lt;/code&gt;, probably very close to
 code printing timestamp intervals like &lt;code&gt;[00:00:00.000 --&amp;gt; 00:00:11.000]&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;what-function-names-and-strings-look-relevant&#34;&gt;what function names and strings look relevant?&lt;/h2&gt;
@@ -343,7 +343,7 @@ appears to be built on &lt;code&gt;main&lt;/code&gt;&amp;rsquo;s stack, so we do
 &lt;li&gt;from what structures is the output text retrieved?&lt;/li&gt;
 &lt;li&gt;where are those structures initialized?  How large are they, and are any of their fields named
 in diagnostic output?&lt;/li&gt;
-&lt;li&gt;are their any diagnostic routines displaying the contents of such structures?&lt;/li&gt;
+&lt;li&gt;are there any diagnostic routines displaying the contents of such structures?&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;next steps&lt;/h2&gt;
 &lt;p&gt;A simple but tedious technique involves a mix of top-down and bottom-up analysis.  We work upwards from strings and function references, and down

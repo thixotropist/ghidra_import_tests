@@ -1,8 +1,7 @@
 ---
 title: Notes
 linkTitle: Notes
-menu: {main: {weight: 50}}
-weight: 50
+weight: 100
 ---
 
 {{% pageinfo %}}

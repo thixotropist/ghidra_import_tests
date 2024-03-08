@@ -1,8 +1,7 @@
 ---
 title: Instruction Patterns
 linkTitle: Instruction Patterns
-menu: {main: {weight: 10}}
-weight: 10
+weight: 60
 ---
 
 {{% pageinfo %}}
@@ -88,7 +87,7 @@ void movmem_1(void *a, void *b, __SIZE_TYPE__ l)
 
 ### Baseline (no vector)
 
-Ghidra 11 with the `isa_ext` branch decompiler gives us something simple after fixing the signature of the `memcpy`` thunk.
+Ghidra 11 with the `isa_ext` branch decompiler gives us something simple after fixing the signature of the `memcpy` thunk.
 
 ```c
 void cpymem_1(void *param_1,void *param_2,size_t param_3)

@@ -1,0 +1,20 @@
+
+bazel-out/k8-fastbuild/bin/assemblySamples/zvkned.o:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000000000000 <.text>:
+   0:	a280a277          	vaesdf.vv	v4,v8
+   4:	a680a277          	vaesdf.vs	v4,v8
+   8:	a2802277          	vaesdm.vv	v4,v8
+   c:	a6802277          	vaesdm.vs	v4,v8
+  10:	a281a277          	vaesef.vv	v4,v8
+  14:	a681a277          	vaesef.vs	v4,v8
+  18:	a2812277          	vaesem.vv	v4,v8
+  1c:	a6812277          	vaesem.vs	v4,v8
+  20:	8a812277          	vaeskf1.vi	v4,v8,2
+  24:	8a872277          	vaeskf1.vi	v4,v8,14
+  28:	aa812277          	vaeskf2.vi	v4,v8,2
+  2c:	aa872277          	vaeskf2.vi	v4,v8,14
+  30:	a683a277          	vaesz.vs	v4,v8

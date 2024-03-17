@@ -414,6 +414,22 @@ This is the multi-page printable view of this section.
 
     
   
+    
+    
+	
+<li>8.5: <a href="#pg-6f0fcd5d8c6b80f713f332dab5590581">Tracking Convergence</a></li>
+
+
+    
+  
+    
+    
+	
+<li>8.6: <a href="#pg-f22421eca6cb396b0451315422c932fa">Deep Dive  Openssl</a></li>
+
+
+    
+  
 
     </ul>
     
@@ -4776,6 +4792,562 @@ a returned result?  The sleigh pcode documentation suggests that parameters are 
 with the only output register the one returned by the pcode operation.  A quick glance at the ARM Neon and AARCH64 SVE
 vector sleigh files suggests that this is the convention, but perhaps not a requirement.</p>
 <p>Let&rsquo;s try adding some more test cases before taking any action.</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-6f0fcd5d8c6b80f713f332dab5590581">8.5 - Tracking Convergence</h1>
+    
+	
+
+<div class="pageinfo pageinfo-primary">
+<p>We can track external events to plan future integration test effort.</p>
+
+</div>
+
+<p>This project gets more relevant when RISCV-64 processors start appearing in appliances with more instruction set extensions and
+with code compiled by newer compiler toolchains.</p>
+<p>The project results get easier to integrate if and when more development effort is applied to specific Ghidra components.</p>
+<p>This page collects external sites to track for convergence.</p>
+<h2 id="toolchains-and-platforms">Toolchains and platforms</h2>
+<h3 id="binutils">binutils</h3>
+<p>New instruction extensions often appear here as the first public implementation.  Check out the opcodes, aliases, and disassembly
+patterns found in the test suite.</p>
+<ul>
+<li>track the <a href="https://sourceware.org/git/binutils-gdb.git">source</a></li>
+<li>inspect <code>git log include/opcode/|grep riscv|head</code></li>
+<li>inspect <code>git log gas/testsuite/gas/riscv</code></li>
+</ul>
+<h4 id="sample-log">sample log</h4>
+<ul>
+<li>28 Feb 2024 - <a href="mailto:jiawei@iscas.ac.cn">jiawei@iscas.ac.cn</a> added support for Zabha riscv extension (atomic byte and half-word memory ops)</li>
+<li>4 Jan 2024 - <a href="mailto:jinma@linux.alibaba.com">jinma@linux.alibaba.com</a> fixed th.vsetvli for T-Head extensions</li>
+</ul>
+<h3 id="compilers">compilers</h3>
+<ul>
+<li>track the <a href="git://gcc.gnu.org/git/gcc.git">source</a></li>
+<li>inspect <code>git log gcc/testsuite/gcc.target/riscv</code></li>
+</ul>
+<h4 id="log">log</h4>
+<p>Look for commits indicating the stability of vectorization or new compound loop types that now allow auto vectorization.</p>
+<h3 id="libraries">libraries</h3>
+<ul>
+<li>track the <a href="git://sourceware.org/git/glibc.git">source</a></li>
+<li>track the <a href="https://github.com/openssl/openssl">source</a></li>
+</ul>
+<h4 id="log-1">log</h4>
+<ul>
+<li>glibc
+<ul>
+<li>Not much specific to RISC-V</li>
+</ul>
+</li>
+<li>openssl (in master, not released as of openssl 3.2)
+<ul>
+<li><a href="mailto:phoebe.chen@sifive.com">phoebe.chen@sifive.com</a> added vector crypto implementations of AES-CBC mode,  AES-128/192/256-CTR, AES-128/256-XTS</li>
+<li><a href="mailto:jerry.shih@sifive.com">jerry.shih@sifive.com</a> added Zvksh support for sm3</li>
+</ul>
+</li>
+</ul>
+<h3 id="kernels">kernels</h3>
+<ul>
+<li>track the <a href="https://github.com/torvalds/linux.git">source</a></li>
+<li>inspect <code>git log arch/riscv</code></li>
+</ul>
+<h3 id="system-images">system images</h3>
+<ul>
+<li>Fedora</li>
+<li>Ubuntu</li>
+</ul>
+<h3 id="cloud-instances">cloud instances</h3>
+<ul>
+<li><a href="https://www.scaleway.com/en/news/scaleway-launches-its-risc-v-servers-in-the-cloud-a-world-first-and-a-firm-commitment-to-technological-independence/">Scaleway risc-v servers</a>
+<ul>
+<li>with the T-HEAD TH1520 SoC, 16GB RAM and 128GB</li>
+</ul>
+</li>
+</ul>
+<h2 id="isa-extensions">ISA Extensions</h2>
+<ul>
+<li>profiles and individual standards-tracked extensions</li>
+<li>vendor-specific extensions</li>
+<li>gcc intrinsics</li>
+</ul>
+<h2 id="applications">applications</h2>
+<ul>
+<li>track <a href="https://github.com/ggerganov/whisper.cpp.git">source</a></li>
+<li>Look for use of riscv intrinsics with arm/Neon and avx2 eqiuvalents as opposed to allowing compiler autovectorization.</li>
+<li>Watch for standardization of 16 bit floating point</li>
+</ul>
+<h2 id="ghidra">Ghidra</h2>
+<h3 id="similar-vector-instruction-suites">similar vector instruction suites</h3>
+<p><code>Ghidra/Processors/AARCH64/data/languages/AARCH64sve.sinc</code> defines the instructions used by the AARCH64 Scalable Vector Extensions package.
+This suite is similar to the RISCV vector suite in that it is vector register length agnostic.  It was added in March of 2019 and not updated since.</p>
+<h3 id="pcode-extensions">pcode extensions</h3>
+<p><code>Ghidra/Features/Decompiler/src/decompile/cpp</code> holds much of the existing Ghidra code for system and user defined pcodes.
+<code>userop.h</code> and <code>userop.cc</code> look relevant, with <code>caheckman</code> a common contributor.</p>
+<h2 id="community">Community</h2>
+<ul>
+<li><a href="https://riscv.org/">RISCV Organization</a></li>
+<li><a href="https://www.reddit.com/r/RISCV/">reddit discussion group</a>
+<ul>
+<li>new RISCV products are often discussed here.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-f22421eca6cb396b0451315422c932fa">8.6 - Deep Dive  Openssl</h1>
+    
+	
+
+<div class="pageinfo pageinfo-primary">
+<p>Openssl configuration for ISA Extensions provides a good example.</p>
+
+</div>
+
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">/home2/build_openssl$ ../vendor/openssl/Configure linux64-riscv64 --cross-compile-prefix=/opt/riscvx/bin/riscv64-unknown-linux-gnu- -march=rv64gcv_zkne_zknd_zknh_zvkng_zvksg
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> perl configdata.pm --dump
+</span></span><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">Command line (with current working directory = .):
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    /usr/bin/perl ../vendor/openssl/Configure linux64-riscv64 --cross-compile-prefix=/opt/riscvx/bin/riscv64-unknown-linux-gnu- -march=rv64gcv_zkne_zknd_zknh_zvkng_zvksg
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">Perl information:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    /usr/bin/perl
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    5.38.2 for x86_64-linux-thread-multi
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">Enabled features:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    afalgeng
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    apps
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    argon2
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    aria
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    asm
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    async
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    atexit
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    autoalginit
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    autoerrinit
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    autoload-config
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    bf
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    blake2
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    bulk
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    cached-fetch
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    camellia
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    capieng
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    cast
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    chacha
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    cmac
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    cmp
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    cms
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    comp
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ct
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    default-thread-pool
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    deprecated
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    des
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dgram
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dh
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    docs
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dsa
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dso
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dtls
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dynamic-engine
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ec
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ec2m
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ecdh
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ecdsa
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ecx
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    engine
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    err
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    filenames
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    gost
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    http
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    idea
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    legacy
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    loadereng
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    makedepend
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    md4
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    mdc2
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    module
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    multiblock
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    nextprotoneg
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ocb
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ocsp
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    padlockeng
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    pic
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    pinshared
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    poly1305
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    posix-io
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    psk
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    quic
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    unstable-qlog
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    rc2
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    rc4
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    rdrand
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    rfc3779
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    rmd160
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    scrypt
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    secure-memory
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    seed
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    shared
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    siphash
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    siv
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    sm2
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    sm2-precomp
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    sm3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    sm4
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    sock
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    srp
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    srtp
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    sse2
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ssl
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ssl-trace
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    static-engine
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    stdio
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    tests
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    thread-pool
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    threads
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    tls
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ts
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ui-console
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    whirlpool
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    tls1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    tls1-method
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    tls1_1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    tls1_1-method
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    tls1_2
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    tls1_2-method
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    tls1_3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dtls1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dtls1-method
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dtls1_2
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dtls1_2-method
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">Disabled features:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    acvp-tests          [cascade]        OPENSSL_NO_ACVP_TESTS
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    asan                [default]        OPENSSL_NO_ASAN
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    brotli              [default]        OPENSSL_NO_BROTLI
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    brotli-dynamic      [default]        OPENSSL_NO_BROTLI_DYNAMIC
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    buildtest-c++       [default]        
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    winstore            [not-windows]    OPENSSL_NO_WINSTORE
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    crypto-mdebug       [default]        OPENSSL_NO_CRYPTO_MDEBUG
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    devcryptoeng        [default]        OPENSSL_NO_DEVCRYPTOENG
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ec_nistp_64_gcc_128 [default]        OPENSSL_NO_EC_NISTP_64_GCC_128
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    egd                 [default]        OPENSSL_NO_EGD
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    external-tests      [default]        OPENSSL_NO_EXTERNAL_TESTS
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    fips                [default]        
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    fips-securitychecks [cascade]        OPENSSL_NO_FIPS_SECURITYCHECKS
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    fuzz-afl            [default]        OPENSSL_NO_FUZZ_AFL
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    fuzz-libfuzzer      [default]        OPENSSL_NO_FUZZ_LIBFUZZER
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ktls                [default]        OPENSSL_NO_KTLS
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    md2                 [default]        OPENSSL_NO_MD2 (skip crypto/md2)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    msan                [default]        OPENSSL_NO_MSAN
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    rc5                 [default]        OPENSSL_NO_RC5 (skip crypto/rc5)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    sctp                [default]        OPENSSL_NO_SCTP
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    tfo                 [default]        OPENSSL_NO_TFO
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    trace               [default]        OPENSSL_NO_TRACE
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ubsan               [default]        OPENSSL_NO_UBSAN
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    unit-test           [default]        OPENSSL_NO_UNIT_TEST
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    uplink              [no uplink_arch] OPENSSL_NO_UPLINK
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    weak-ssl-ciphers    [default]        OPENSSL_NO_WEAK_SSL_CIPHERS
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    zlib                [default]        OPENSSL_NO_ZLIB
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    zlib-dynamic        [default]        OPENSSL_NO_ZLIB_DYNAMIC
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    zstd                [default]        OPENSSL_NO_ZSTD
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    zstd-dynamic        [default]        OPENSSL_NO_ZSTD_DYNAMIC
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ssl3                [default]        OPENSSL_NO_SSL3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ssl3-method         [default]        OPENSSL_NO_SSL3_METHOD
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">Config target attributes:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    AR =&gt; &#34;ar&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ARFLAGS =&gt; &#34;qc&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CC =&gt; &#34;gcc&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CFLAGS =&gt; &#34;-Wall -O3&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CXX =&gt; &#34;g++&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CXXFLAGS =&gt; &#34;-Wall -O3&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    HASHBANGPERL =&gt; &#34;/usr/bin/env perl&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    RANLIB =&gt; &#34;ranlib&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    RC =&gt; &#34;windres&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    asm_arch =&gt; &#34;riscv64&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    bn_ops =&gt; &#34;SIXTY_FOUR_BIT_LONG RC4_CHAR&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    build_file =&gt; &#34;Makefile&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    build_scheme =&gt; [ &#34;unified&#34;, &#34;unix&#34; ],
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    cflags =&gt; &#34;-pthread&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    cppflags =&gt; &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    cxxflags =&gt; &#34;-std=c++11 -pthread&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    defines =&gt; [ &#34;OPENSSL_BUILDING_OPENSSL&#34; ],
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    disable =&gt; [  ],
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dso_ldflags =&gt; &#34;-Wl,-z,defs&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    dso_scheme =&gt; &#34;dlfcn&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    enable =&gt; [ &#34;afalgeng&#34; ],
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ex_libs =&gt; &#34;-ldl -pthread&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    includes =&gt; [  ],
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    lflags =&gt; &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    lib_cflags =&gt; &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    lib_cppflags =&gt; &#34;-DOPENSSL_USE_NODELETE&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    lib_defines =&gt; [  ],
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    module_cflags =&gt; &#34;-fPIC&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    module_cxxflags =&gt; undef,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    module_ldflags =&gt; &#34;-Wl,-znodelete -shared -Wl,-Bsymbolic&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    perl_platform =&gt; &#34;Unix&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    perlasm_scheme =&gt; &#34;linux64&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    shared_cflag =&gt; &#34;-fPIC&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    shared_defflag =&gt; &#34;-Wl,--version-script=&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    shared_defines =&gt; [  ],
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    shared_ldflag =&gt; &#34;-Wl,-znodelete -shared -Wl,-Bsymbolic&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    shared_rcflag =&gt; &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    shared_sonameflag =&gt; &#34;-Wl,-soname=&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    shared_target =&gt; &#34;linux-shared&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    thread_defines =&gt; [  ],
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    thread_scheme =&gt; &#34;pthreads&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    unistd =&gt; &#34;&lt;unistd.h&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">Recorded environment:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    AR = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    BUILDFILE = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CC = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CFLAGS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CPPFLAGS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CROSS_COMPILE = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CXX = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CXXFLAGS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    HASHBANGPERL = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    LDFLAGS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    LDLIBS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    OPENSSL_LOCAL_CONFIG_DIR = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PERL = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    RANLIB = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    RC = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    RCFLAGS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    WINDRES = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    __CNF_CFLAGS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    __CNF_CPPDEFINES = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    __CNF_CPPFLAGS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    __CNF_CPPINCLUDES = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    __CNF_CXXFLAGS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    __CNF_LDFLAGS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    __CNF_LDLIBS = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">Makevars:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    AR              = /opt/riscvx/bin/riscv64-unknown-linux-gnu-ar
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ARFLAGS         = qc
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ASFLAGS         = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CC              = /opt/riscvx/bin/riscv64-unknown-linux-gnu-gcc
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CFLAGS          = -Wall -O3 -march=rv64gcv_zkne_zknd_zknh_zvkng_zvksg
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CPPDEFINES      = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CPPFLAGS        = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CPPINCLUDES     = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CROSS_COMPILE   = /opt/riscvx/bin/riscv64-unknown-linux-gnu-
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CXX             = /opt/riscvx/bin/riscv64-unknown-linux-gnu-g++
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    CXXFLAGS        = -Wall -O3 -march=rv64gcv_zkne_zknd_zknh_zvkng_zvksg
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    HASHBANGPERL    = /usr/bin/env perl
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    LDFLAGS         = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    LDLIBS          = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PERL            = /usr/bin/perl
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    RANLIB          = /opt/riscvx/bin/riscv64-unknown-linux-gnu-ranlib
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    RC              = /opt/riscvx/bin/riscv64-unknown-linux-gnu-windres
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    RCFLAGS         = 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">NOTE: These variables only represent the configuration view.  The build file
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">template may have processed these variables further, please have a look at the
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">build file for more exact data:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    Makefile
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">build file:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    Makefile
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">build file templates:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">    ../vendor/openssl/Configurations/common0.tmpl
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    ../vendor/openssl/Configurations/unix-Makefile.tmpl
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> make
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">opt/riscvx/lib/gcc/riscv64-unknown-linux-gnu/14.0.1/../../../../riscv64-unknown-linux-gnu/bin/ld: cannot find -ldl: No such file or directory
+</span></span></span></code></pre></div><p>The error is in the linking phase, since we did not provide the correct sysroot and path information needed by the crosscompiling linker.</p>
+<p>A quick check of the object files generated includes:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span>  find . -name <span style="color:#4e9a06">\*</span>risc<span style="color:#4e9a06">\*</span>.o
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sm4/libcrypto-lib-sm4-riscv64-zvksed.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sm4/libcrypto-shlib-sm4-riscv64-zvksed.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/aes/libcrypto-lib-aes-riscv64-zvkned.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/aes/libcrypto-shlib-aes-riscv64-zvkned.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/aes/libcrypto-shlib-aes-riscv64-zvbb-zvkg-zvkned.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/aes/libcrypto-shlib-aes-riscv64-zkn.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/aes/libcrypto-lib-aes-riscv64-zkn.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/aes/libcrypto-shlib-aes-riscv64-zvkb-zvkned.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/aes/libcrypto-shlib-aes-riscv64.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/aes/libcrypto-lib-aes-riscv64-zvkb-zvkned.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/aes/libcrypto-lib-aes-riscv64-zvbb-zvkg-zvkned.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/aes/libcrypto-lib-aes-riscv64.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/chacha/libcrypto-shlib-chacha_riscv.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/chacha/libcrypto-lib-chacha_riscv.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/chacha/libcrypto-lib-chacha-riscv64-zvkb.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/chacha/libcrypto-shlib-chacha-riscv64-zvkb.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/libcrypto-shlib-riscv64cpuid.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/libcrypto-lib-riscv64cpuid.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sha/libcrypto-lib-sha_riscv.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sha/libcrypto-lib-sha256-riscv64-zvkb-zvknha_or_zvknhb.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sha/libcrypto-shlib-sha512-riscv64-zvkb-zvknhb.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sha/libcrypto-shlib-sha_riscv.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sha/libcrypto-shlib-sha256-riscv64-zvkb-zvknha_or_zvknhb.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sha/libcrypto-lib-sha512-riscv64-zvkb-zvknhb.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sm3/libcrypto-lib-sm3-riscv64-zvksh.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sm3/libcrypto-lib-sm3_riscv.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sm3/libcrypto-shlib-sm3-riscv64-zvksh.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/sm3/libcrypto-shlib-sm3_riscv.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/libcrypto-shlib-riscvcap.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/modes/libcrypto-shlib-ghash-riscv64.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/modes/libcrypto-shlib-ghash-riscv64-zvkg.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/modes/libcrypto-lib-aes-gcm-riscv64-zvkb-zvkg-zvkned.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/modes/libcrypto-lib-ghash-riscv64.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/modes/libcrypto-shlib-ghash-riscv64-zvkb-zvbc.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/modes/libcrypto-lib-ghash-riscv64-zvkg.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/modes/libcrypto-shlib-aes-gcm-riscv64-zvkb-zvkg-zvkned.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/modes/libcrypto-lib-ghash-riscv64-zvkb-zvbc.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">./crypto/libcrypto-lib-riscvcap.o
+</span></span></span></code></pre></div><p>That suggests we need to cover more extensions:</p>
+<ul>
+<li>vbb</li>
+<li>vbc</li>
+<li>vkb</li>
+<li>vkg</li>
+<li>vkned</li>
+</ul>
+<p>The openssl source code conditionally defines symbols like:</p>
+<ul>
+<li>RISCV_HAS_V</li>
+<li>RISCV_HAS_ZVBC</li>
+<li>RISCV_HAS_ZVKB</li>
+<li>RISCV_HAS_ZVKNHA</li>
+<li>RISCV_HAS_ZVKNHB</li>
+<li>RISCV_HAS_ZVKSH</li>
+<li>RISCV_HAS_ZBKB</li>
+<li>RISCV_HAS_ZBB</li>
+<li>RISCV_HAS_ZBC</li>
+<li>RISCV_HAS_ZKND</li>
+<li>RISCV_HAS_ZKNE</li>
+<li>RISCV_HAS_ZVKG - currently missing, or a union of zvkng and zvksg?</li>
+<li>RISCV_HAS_ZVKNED - currently missing or a union of zvkned and zvksed?</li>
+<li>RISCV_HAS_ZVKSED - currently missing, defined but unused?</li>
+</ul>
+<p>These symbols are defined in <code>crypto/riscvcap.c</code> after analyzing the <code>march</code> string passed to the compiler.</p>
+<p>So the next steps include:</p>
+<ul>
+<li>Define <code>LDFLAGS</code> and <code>LDLIBS</code> to enable building a riscv-64 <code>openssl.so</code>.</li>
+<li>add additional march elements to generate as many ISA extension exemplars as we can</li>
+<li>iterate on Ghidra sinc files to define any missing instructions</li>
+<li>extend riscv-64 assembly samples to include all riscv-64 ISA extensions appearing in openssl source</li>
+<li>verify that we have acceptable pcode opcodes for all riscv-64 ISA extensions appearing in openssl source</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> build_openssl$../vendor/openssl/Configure linux64-riscv64 --cross-compile-prefix<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscvx/bin/riscv64-unknown-linux-gnu- -march<span style="color:#ce5c00;font-weight:bold">=</span>rv64gcv_zkne_zknd_zknh_zvkng_zvbb_zvbc_zvkb_zvkg_zvkned_zvksg
+</span></span></code></pre></div><p>Patch the generated Makefile to:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>&lt; CNF_EX_LIBS=-ldl -pthread
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>&gt; CNF_EX_LIBS=/opt/riscvx/lib/libdl.a -pthread
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> make
+</span></span></code></pre></div><ul>
+<li>open libcrypto.so.3 and libssl.so.3 in Ghidra.</li>
+<li>analyze and open bookmarks</li>
+<li>verify that all instructions disassembled and no instructions lacked pcode</li>
+</ul>
+<h2 id="integration-testing-manual">Integration testing (manual)</h2>
+<p>Disassembly testing against binutils reference dumps can follow these steps:</p>
+<ul>
+<li>Open <code>libcrypt.so.3</code> in Ghidra</li>
+<li>export as ascii to <code>/tmp/libcrypto.so.3.txt</code></li>
+<li>export as C/C++ to <code>/tmp/libcrypto.so.3.c</code></li>
+<li>generate reference disassembly via
+<ul>
+<li><code>/opt/riscvx/bin/riscv64-unknown-linux-gnu-objdump -j .text -D libcrypto.so.3 &gt; libcrypto.so.3_ref.txt</code></li>
+</ul>
+</li>
+<li>grep both <code>/tmp/libcrypto.so.3.txt</code> and <code>libcrypto.so.3_ref.txt</code> for <code>vset</code> instructions, comparing operands</li>
+<li>optionally parse vector instructions out of both files and compare decodings</li>
+</ul>
+<h2 id="inspect-extension-management">inspect extension management</h2>
+<p>How does openssl manage RISCV ISA extensions?  We&rsquo;ll use the <code>gcm_ghash</code> family of functions as examples.</p>
+<ul>
+<li>At compile time any <code>march=rv64gcv_z...</code> arguments are processed by the openssl configuration tool and
+turned into <code>#ifdef</code> variables. These can include combinations like <code>RISCV_HAS_ZVKB_AND_ZVKSED</code>.
+Multiple versions of key routines are compiled, each with different required extensions.</li>
+<li>The compiler can also use any of the bit manipulation and vector extensions in local optimization.</li>
+<li>At runtime the library queries the underlying system to see which extensions are supported.  The function
+<code>gcm_get_funcs</code> returns the preferred set of implementing functions.  The <code>gcm_ghash</code> set can include:
+<ul>
+<li><code>gcm_ghash_4bit</code></li>
+<li><code>gcm_ghash_rv64i_zvkb_zvbc</code></li>
+<li><code>gcm_ghash_rv64i_zvkg</code></li>
+<li><code>gcm_ghash_rv64i_zbc</code></li>
+<li><code>gcm_ghash_rv64i_zbc__zbkb</code></li>
+</ul>
+</li>
+</ul>
+<p>The <code>gcm_ghash_4bit</code> is the default version with 412 instructions, of which 11 are vector instructions inserted by the compiler.</p>
+<p>The <code>gcm_ghash_rv64i_zvkg</code> is the most advanced version with only 32 instructions.  Ghidra decompiles this as:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">void</span> <span style="color:#000">gcm_ghash_rv64i_zvkg</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">undefined8</span> <span style="color:#000">param_1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#000">undefined8</span> <span style="color:#000">param_2</span><span style="color:#000;font-weight:bold">,</span><span style="color:#204a87;font-weight:bold">long</span> <span style="color:#000">param_3</span><span style="color:#000;font-weight:bold">,</span><span style="color:#204a87;font-weight:bold">long</span> <span style="color:#000">param_4</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">undefined</span> <span style="color:#000">auVar1</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">256</span><span style="color:#000;font-weight:bold">];</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">undefined</span> <span style="color:#000">auVar2</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">256</span><span style="color:#000;font-weight:bold">];</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">vsetivli_e32m1tumu</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">4</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">auVar1</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">vle32_v</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">param_2</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">vle32_v</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">param_1</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">auVar2</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">vle32_v</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">param_3</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">param_3</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">param_3</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">0x10</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">param_4</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">param_4</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#0000cf;font-weight:bold">0x10</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">auVar2</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">vghsh_vv</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">auVar1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#000">auVar2</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">}</span> <span style="color:#204a87;font-weight:bold">while</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">param_4</span> <span style="color:#ce5c00;font-weight:bold">!=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">vse32_v</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">auVar2</span><span style="color:#000;font-weight:bold">,</span><span style="color:#000">param_1</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">return</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>That shows an error in our sinc files - several instructions use the vd register as both an input and an output, so our
+pcode semantics need updating.  Do this and inspect the Ghidra output again:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">void</span> <span style="color:#000">gcm_ghash_rv64i_zvkg</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">undefined8</span> <span style="color:#000">param_1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#000">undefined8</span> <span style="color:#000">param_2</span><span style="color:#000;font-weight:bold">,</span><span style="color:#204a87;font-weight:bold">long</span> <span style="color:#000">param_3</span><span style="color:#000;font-weight:bold">,</span><span style="color:#204a87;font-weight:bold">long</span> <span style="color:#000">param_4</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">undefined</span> <span style="color:#000">auVar1</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">256</span><span style="color:#000;font-weight:bold">];</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">undefined</span> <span style="color:#000">auVar2</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">256</span><span style="color:#000;font-weight:bold">];</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">undefined</span> <span style="color:#000">auVar3</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">256</span><span style="color:#000;font-weight:bold">];</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">vsetivli_e32m1tumu</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">4</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">auVar2</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">vle32_v</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">param_2</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">auVar1</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">vle32_v</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">param_1</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">auVar3</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">vle32_v</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">param_3</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">param_3</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">param_3</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">0x10</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">param_4</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">param_4</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#0000cf;font-weight:bold">0x10</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">auVar1</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">vghsh_vv</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">auVar1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#000">auVar2</span><span style="color:#000;font-weight:bold">,</span><span style="color:#000">auVar3</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">}</span> <span style="color:#204a87;font-weight:bold">while</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">param_4</span> <span style="color:#ce5c00;font-weight:bold">!=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">vse32_v</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">auVar1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#000">param_1</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">return</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>That&rsquo;s better - commit and push.</p>
 
 </div>
 

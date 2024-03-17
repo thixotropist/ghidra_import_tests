@@ -30,14 +30,14 @@ First we want to understand the unmodified behavior using a simple demo case." /
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2024-02-19T10:34:30-05:00" />
+<meta property="article:modified_time" content="2024-03-08T08:16:34-05:00" />
 
 <meta itemprop="name" content="Application Top Down Analysis">
 <meta itemprop="description" content="How much complexity do vector instructions add to a top down analysis?
 We know that whisper.cpp contains lots of vector instructions. Now we want to understand how few vector instruction blocks we really need to understand.
 For this analysis we will assume a specific goal - inspect the final text output phase to see if an adversary has modified the generated text.
 First we want to understand the unmodified behavior using a simple demo case.">
-<meta itemprop="dateModified" content="2024-02-19T10:34:30-05:00" />
+<meta itemprop="dateModified" content="2024-03-08T08:16:34-05:00" />
 <meta itemprop="wordCount" content="2187">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Application Top Down Analysis"/>
 <meta name="twitter:description" content="How much complexity do vector instructions add to a top down analysis?
@@ -173,6 +173,10 @@ First we want to understand the unmodified behavior using a simple demo case."/>
   <a href="/ghidra_import_tests/docs/notes/vectorization_case_study/" title="A vectorization case study" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesvectorization_case_study"><span class="">Vectorization case study</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotespcode_testing-li">
   <a href="/ghidra_import_tests/docs/notes/pcode_testing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotespcode_testing"><span class="">Pcode testing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotestracking-li">
+  <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
+  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive  Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
 </li>
   </ul>
 </li>
@@ -500,7 +504,7 @@ for known architectures, compilers, and compiler optimization settings.</li>
 </ol>
 
 	<div class="td-page-meta__lastmod">
-  Last modified February 19, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/20bf848c14cccb7f39d4a4034f8334862e04eb1e">Explore std::vector templates to compare their complexity with that of riscv-64 ISA vectors (20bf848)</a>
+  Last modified March 8, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/4bde68aa6b026d91fa952b5b4703067126987a7a">Edit and slightly extend documentation     update hugo version to 0.123.7 and fix metadata errors that became fatal. (4bde68a)</a>
 </div>
 
 </div>

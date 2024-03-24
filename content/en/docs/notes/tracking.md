@@ -58,6 +58,9 @@ Look for commits indicating the stability of vectorization or new compound loop 
 * track the [source](https://github.com/torvalds/linux.git)
 * inspect `git log arch/riscv`
 
+>Note: the linux kernel just added vector crypto support, derived from the openssl crypto routines.  This *appears* to mostly
+be in support of encrypted file systems.
+
 ### system images
 
 * Fedora

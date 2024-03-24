@@ -1,5 +1,5 @@
 ---
-title: Deep Dive  Openssl
+title: Deep Dive Openssl
 linkTitle: Openssl
 weight: 60
 ---
@@ -271,7 +271,6 @@ build file templates:
 $ make
 ...
 opt/riscvx/lib/gcc/riscv64-unknown-linux-gnu/14.0.1/../../../../riscv64-unknown-linux-gnu/bin/ld: cannot find -ldl: No such file or directory
-
 ```
 
 The error is in the linking phase, since we did not provide the correct sysroot and path information needed by the crosscompiling linker.
@@ -371,9 +370,9 @@ Patch the generated Makefile to:
 $ make
 ```
 
-* open libcrypto.so.3 and libssl.so.3 in Ghidra.
+* open `libcrypto.so.3` and `libssl.so.3` in Ghidra.
 * analyze and open bookmarks
-* verify that all instructions disassembled and no instructions lacked pcode
+* verify - in the Bookmarks window - that all instructions disassembled and no instructions lack pcode
 
 ## Integration testing (manual)
 

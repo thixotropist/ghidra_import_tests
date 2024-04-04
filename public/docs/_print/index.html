@@ -148,6 +148,14 @@ This is the multi-page printable view of this section.
 
     
   
+    
+    
+	
+<li>2.2: <a href="#pg-82e1212fbf9a7e85bfc9498444b73578">Data Plane Development Kit</a></li>
+
+
+    
+  
 
     </ul>
     
@@ -425,7 +433,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>8.6: <a href="#pg-f22421eca6cb396b0451315422c932fa">Deep Dive  Openssl</a></li>
+<li>8.6: <a href="#pg-f22421eca6cb396b0451315422c932fa">Deep Dive Openssl</a></li>
 
 
     
@@ -474,7 +482,7 @@ This is the multi-page printable view of this section.
 
 <div class="pageinfo pageinfo-primary">
 <p>We can help Ghidra import newer binaries by collecting samples of those binaries.
-The scope is limited to RISCV-64 linux-capable processors one might find in smart network appliances
+The scope is limited to RISCV-64 Linux-capable processors one might find in smart network appliances
 or Machine Learning inference engines.</p>
 
 </div>
@@ -717,6 +725,34 @@ Some are imported from system disk images.  Others are locally built from small 
 The initial scope includes Linux-capable RISCV 64 bit systems that might be found in network appliances or ML inference engines.  That makes for a local
 bias towards privileged code, concurrency management, and performance optimization.  That scope expands slightly to x86_64 exemplars that
 may help triage issues that show up first in RISCV 64 exemplars.</p>
+<p>You can get decent exemplar coverage with this set of exemplars:</p>
+<ul>
+<li>from a general purpose RISCV-64 disk image:
+<ul>
+<li>kernel - a RISCV-64 kernel built with a recent Linux release</li>
+<li>kernel load module - an ELF binary intended to be loaded into a running kernel</li>
+<li>system library - libc.so or libssl.so copied from a generic Linux disk image</li>
+<li>system application - a user application linking against system libraries and running over a Linux kernel</li>
+</ul>
+</li>
+<li>built from source, with the development tip of the gcc toolchain and many explicit ISA extensions:
+<ul>
+<li>binutils assembly test suite - ISA extensions usually show up here first, along with preferred disassembly patterns</li>
+<li>memcpy and other libc replacements coded with RISCV-64 ISA intrinsic extensions</li>
+<li><code>libssl.so</code> and <code>libcrypt.so</code> built from source and configured for all standard and frozen crypto, vector, and bit manipulation
+instruction extensions.</li>
+<li>DPDK network appliance source code, <code>l3fwd</code> and <code>l2fwd</code>.</li>
+</ul>
+</li>
+</ul>
+<p>In general, visual inspection of these exemplars after importing into Ghidra should show:</p>
+<ul>
+<li>no failed constructors, so all instructions are recognized by Ghidra during disassembly</li>
+<li>no missing pcode</li>
+<li>all vector vset* instructions are unwrapped to show selected element width, multiplier, tail and mask handling</li>
+</ul>
+<p>Ghidra will in a few cases disassemble an instruction differently than binutils&rsquo; <code>objdump</code>.  That&rsquo;s fine, if it is due to a limitation
+of Ghidra&rsquo;s SLEIGH language. If alignment to <code>objdump</code> is possible, that&rsquo;s preferable.</p>
 <h2 id="imported-exemplars">Imported exemplars</h2>
 <p>Most of the imported large binary exemplars are broken out of current Fedora disk images.  The top level <code>acquireExternalExemplars.py</code>
 script controls this process, sometimes with some manual intervention to handle image mounting.  Selection of the imported disk image
@@ -903,9 +939,9 @@ gcc-14 toolchain due for mid 2024 release.</p>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
 </span></span></code></pre></div><h3 id="x86_64-exemplars">x86_64 exemplars</h3>
 <p>A few x86_64 exemplars exist to explore the scope of issues raised by RISCV exemplars.  The <code>x86_64/exemplars</code> directory
-shows how optimizing gcc-14 compilations handle simple loops and builtins like <code>memcpy</code> for various microarchitectures.</p>
+shows how optimizing gcc-14 compilations handle simple loops and built-ins like <code>memcpy</code> for various microarchitectures.</p>
 <p>Intel microarchitectures can be grouped into common profiles like <code>x86-64-v2</code>, <code>x86-64-v3</code>, and <code>x86-64-v4</code>.  Each has its own set of
-instruction set extensions, so an optimizing compiler like gcc-14 will autovectorize loops and builtins differently for each microarchitecture.</p>
+instruction set extensions, so an optimizing compiler like gcc-14 will autovectorize loops and built-ins differently for each microarchitecture.</p>
 <p>The <code>memcpy</code> exemplar set includes source code and three executables compiled from that source code with <code>-march=x86-64-v2</code>, <code>-march=x86-64-v3</code>, and
 <code>-march=x86-64-v4</code>.  The binutils-2.41 <code>objdump</code> disassembly is provided for each executable, for comparison with Ghidra&rsquo;s disassembly window.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/exemplars$ ls memcpy*
@@ -1452,7 +1488,7 @@ add more explicit decodings for <code>vsetvli</code> and <code>vsetivli</code>, 
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v4
 </span></span></code></pre></div><p>Load these into Ghidra 11.1-DEV.  The <code>x86-64-v4</code> build is useless in Ghidra, since a different class of x86_64 vector extensions is used in that newer microarchitecture
 and Ghidra doesn&rsquo;t recognize it.  The <code>x86-64-v3</code> build looks accessible.</p>
-<p>Try an x86_64 build with the local compiler (Fedora 39 default compiler) and LInk Time Optimization enabled:</p>
+<p>Try an x86_64 build with the local compiler (Fedora 39 default compiler) and Link Time Optimization enabled:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel build  --copt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-march=x86-64-v3&#34;</span> --copt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-flto&#34;</span>  --linkopt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-Wl,-flto&#34;</span> @whisper_cpp//:main
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v3-lto
@@ -1463,6 +1499,119 @@ and Ghidra doesn&rsquo;t recognize it.  The <code>x86-64-v3</code> build looks a
 This suggests BSIM could get confused with intermediate functions if trying to connect binaries built with and without LTO.</li>
 <li><em>None</em> of the hermetic toolchains appear to work when link time optimization is requested.  There appears to be at least one missing
 LTO plugin from the gcc-14 toolchain packaging.  We&rsquo;ll try and find such for the next snapshot of gcc-14.</li>
+</ul>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-82e1212fbf9a7e85bfc9498444b73578">2.2 - Data Plane Development Kit</h1>
+    
+	
+
+<div class="pageinfo pageinfo-primary">
+<p>Intel&rsquo;s DPDK framework supports some Intel and Arm Neon vector instructions.  What does it for RISCV extensions?
+Are ISA extensions materially useful to a network appliance?</p>
+
+</div>
+
+<p>Check out DPDK from GitHub, patch the RISCV configuration with <code>riscv64/toolchains/dpdk/dpdk.pat</code>, and crosscompile with <code>meson</code>
+and <code>ninja</code>.  Copy some of the examples into <code>riscv64/exemplars</code> and examine them in Ghidra.</p>
+<ul>
+<li>for this we use as many standard extensions as we can, excluding vendor-specific extensions.</li>
+</ul>
+<p>Configure a build directory:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> patch -p1 &lt; .../riscv64/toolchains/dpdk/dpdk.pat
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> meson setup build --cross-file config/riscv/riscv64_linux_gcc -Dexamples<span style="color:#ce5c00;font-weight:bold">=</span>all
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#204a87">cd</span> build
+</span></span></code></pre></div><p>Edit <code>build/build.ninja</code>:</p>
+<ul>
+<li>replace all occurrences of <code>-ldl</code> with <code>/opt/riscvx/lib/libdl.a</code> - you should see about 235 replacements</li>
+</ul>
+<p>Build with:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> ninja -C build
+</span></span></code></pre></div><p>Check the cross-compilation with:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> readelf -A build/examples/dpdk-l3fwd
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Attribute Section: riscv
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">File Attributes
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_stack_align: 16-bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_arch: &#34;rv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zba1p0_zbb1p0_zbc1p0_zbkb1p0_zbkc1p0_zbkx1p0_zvbb1p0_zvbc1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvkb1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_priv_spec: 1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_priv_spec_minor: 11
+</span></span></span></code></pre></div><p>Import into Ghidra 11.1-DEV(isa_ext), noting multiple import messages similar to:</p>
+<ul>
+<li>Unsupported Thread-Local Symbol not loaded</li>
+<li>ELF Relocation Failure: R_RISCV_COPY (4, 0x4) at 00f0c400 (Symbol = stdout) - Runtime copy not supported</li>
+</ul>
+<h2 id="analysis">Analysis</h2>
+<h3 id="source-code-examination">source code examination</h3>
+<h4 id="explicit-vectorization">explicit vectorization</h4>
+<p>The source code has explicit parallel coding for Intel and Arm/Neon architectures, for instance within
+the basic layer 3 forwarding example:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">struct</span> <span style="color:#000">acl_algorithms</span> <span style="color:#000">acl_alg</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;scalar&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_SCALAR</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;sse&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_SSE</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;avx2&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_AVX2</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;neon&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_NEON</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;altivec&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_ALTIVEC</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;avx512x16&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_AVX512X16</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;avx512x32&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_AVX512X32</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">};</span>
+</span></span></code></pre></div><p>If avx512x32 is selected, then basic trie search and other operations can proceed across 32 flows in parallel.
+Other examples exist within the code.  For more information, search the <code>doc</code> directory for <code>SIMD</code>.  Check out <code>lib/fib/trie_avx512.c</code>
+and the function <code>trie_vec_lookup_x16x2</code> for an AVX manual vectorization of a trie address to next hop lookup.</p>
+<blockquote>
+<p>Note: It won&rsquo;t be clear for some time which vectorization transforms actually improve performance on specific processors.  Vector
+support adds a lot of local register space but vector loads and stores can saturate memory bandwidth and drive up processor
+temperature.  We might see earlier adoption in contexts that tolerate higher latency, like firewalls, rather than low-latency
+switches and routers.</p>
+</blockquote>
+<h4 id="explicit-ml-support">explicit ML support</h4>
+<p>DPDK includes ML contributions from Marvell.  See <code>doc/guides/mldevs/cnxk.rst</code> for more information and references to the cnxk support.
+Source code support exists under <code>drivers/ml/cnxk</code> and <code>lib/mldev</code>.  <code>lib/mldev/rte_mldev.c</code> may provide some insight into how
+Marvell expects DPDK users to apply their component.
+See the Marvell Octeon 10 <a href="https://www.marvell.com/content/dam/marvell/en/public-collateral/embedded-processors/marvell-octeon-10-dpu-platform-white-paper.pdf">white paper</a> for some possible applications.</p>
+<h3 id="ghidra-analysis">Ghidra analysis</h3>
+<p>The DPDK exemplars stress test Ghidra in multiple ways:</p>
+<ul>
+<li>When compiled with RISCV-64 vector and bit manipulation extension support you get a good mix of autovectorization instructions.</li>
+<li>There are a number of unsupported thread-local relocations requested</li>
+<li>ELF replication failures are reported for <code>R_RISCV_COPY</code>, claiming &ldquo;Runtime copy is not supported&rdquo;.
+<ul>
+<li>this relocation code apparently asks for a symbol to be copied from a shareable object into an executable.</li>
+</ul>
+</li>
 </ul>
 
 </div>
@@ -2007,7 +2156,7 @@ can also be defaulted into the toolchain definition or individual build files.</
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">See &lt;https://gcc.gnu.org/bugs/&gt; for instructions.
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">lto-wrapper: fatal error: external/gcc-14-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc returned 1 exit status
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">compilation terminated.
-</span></span></span></code></pre></div><p>So it looks like LTO has problems with riscv vector instructions.  We&rsquo;ll keep testing this as more gcc 14 snapshots become available,
+</span></span></span></code></pre></div><p>So it looks like LTO has problems with RISCV vector instructions.  We&rsquo;ll keep testing this as more gcc 14 snapshots become available,
 but as a lower priority exercise.  LTO does not seem like a popular optimization.</p>
 
 </div>
@@ -2224,7 +2373,7 @@ Ghidra users searching for malware will have a harder time of it.</p>
 <p>Note: Some material comes as-is from <a href="https://www.reddit.com/r/RISCV">https://www.reddit.com/r/RISCV</a></p>
 </blockquote>
 <p>The first generally available 64 bit RISCV vector systems development kit has just become available (January 2024), based on the relatively modest
-THead C908 core.  This SDK appears tuned for video processing, perhaps video surveilance applications aggregating multiple cameras into a common video feed.
+THead C908 core.  This SDK appears tuned for video processing, perhaps video surveillance applications aggregating multiple cameras into a common video feed.
 We are probably several years from seeing server-class systems built on SiFive P870 cores, and fabricated on the fastest available fab lines.  Memory bandwidth
 is poor at present, while energy efficiency is potentially better than x86_64 designs.</p>
 <p>Judging from internet hype, we can expect to see RISCV vector code appearing in replacements of ARM systems (automotive and possibly cell phone) and as the extensible
@@ -2373,7 +2522,7 @@ originally contributed by <a href="https://pk.linkedin.com/in/ahmad-tameem">http
 </li>
 <li>What can we add to pcode semantics?
 <ul>
-<li>gcc builtins like __builtin_memcpy or popcount</li>
+<li>gcc built-ins like __builtin_memcpy or popcount</li>
 <li>cross platform vector notation</li>
 <li>processor dependent decompiler plugins</li>
 </ul>
@@ -2385,12 +2534,12 @@ originally contributed by <a href="https://pk.linkedin.com/in/ahmad-tameem">http
 </li>
 <li>What can we add to decompiler
 <ul>
-<li>reconstruct gcc RTL builtins</li>
+<li>reconstruct gcc RTL built-ins</li>
 </ul>
 </li>
 <li>What plugins can we add?
 <ul>
-<li>reconstruct gcc RTL builtins</li>
+<li>reconstruct gcc RTL built-ins</li>
 </ul>
 </li>
 <li>What external tools can we leverage?
@@ -2928,7 +3077,7 @@ Seven <code>vse64.v</code> instructions then store two 64 bit zeros each to succ
 for a dedicated accelerator hart.</p>
 <h3 id="memcpy-with-known-and-limited-nbytes">memcpy with known and limited nbytes</h3>
 <p>This pattern is often found when copying objects of known and limited size.  It is useful with objects as small as 4 bytes if the source alignment is
-unknown and the destination object must be aligned on halfword, word, or doubleword boundaries.</p>
+unknown and the destination object must be aligned on half-word, word, or double-word boundaries.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>;                memcpy(dest=a0, src=a3, nbytes=a4) where a4 &lt; 8 * (VLEN/8)
 </span></span><span style="display:flex;"><span>1d3da:  0c377057                vsetvli zero,a4,e8,m8,ta,ma
 </span></span><span style="display:flex;"><span>1d3de:  02068407                vle8.v  v8,(a3)
@@ -2987,7 +3136,7 @@ The a5 register holds the number of bytes processed per iteration.</p>
 </span></span><span style="display:flex;"><span><span style="color:#000">v4</span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">v1</span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#a40000">⅀</span> <span style="color:#000">v4</span><span style="color:#000;font-weight:bold">;</span>
 </span></span><span style="display:flex;"><span><span style="color:#000">fa5</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">v4</span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">];</span>
 </span></span></code></pre></div><p>The vector instruction <code>vfredusum.vs</code> provides the <em>unordered</em> reduction sum over the elements of a single vector.  That&rsquo;s likely faster than an ordered sum,
-but the floating point roundoff errors will not be deterministic.</p>
+but the floating point round-off errors will not be deterministic.</p>
 <blockquote>
 <p>Note: this <code>whisper.cpp</code> routine attempts to recognize which of two speakers is responsible for each word of a conversation.  A speaker-misattribution
 exploit might attack functions that call this.</p>
@@ -3126,7 +3275,7 @@ the size or field names of those structures.</p>
 near the middle of <code>main</code></li>
 <li><code>[%s --&gt; %s]</code> is referenced by <code>whisper_print_segment_callback</code></li>
 <li><code>[%s --&gt; %s]  %s\n</code> is referenced by <code>whisper_full_with_state</code></li>
-<li><code>segment</code> occurs in several places, suggesting that the word refers to a segment of text generated from speach between two timestamps.</li>
+<li><code>segment</code> occurs in several places, suggesting that the word refers to a segment of text generated from speech between two timestamps.</li>
 <li><code>ctx</code> occurs 33 times, suggesting that a context structure is used - and occasionally displayed with field names</li>
 <li><code>error: failed to initialize whisper context\n</code> is referenced within <code>main</code>.  It may help in understanding internal data organization.</li>
 </ul>
@@ -3146,7 +3295,7 @@ to <code>main</code>.</li>
 <li><code>whisper_context</code> - this likely holds most of the top-level data</li>
 <li><code>whisper_full_params</code> and <code>whisper_params</code> - likely structures related to the optional parameters
 revealed with the <code>--help</code> command line option.</li>
-<li><code>whisper_segment</code> - possibly a segment of digitized audio to be converted as speach.</li>
+<li><code>whisper_segment</code> - possibly a segment of digitized audio to be converted as speech.</li>
 <li><code>whisper_vocab</code> - possible holding the text words known to the training data.</li>
 </ul>
 <h3 id="notes">notes</h3>
@@ -3284,7 +3433,7 @@ are deleted and their memory reclaimed, then the outer containing vector is dele
 <h2 id="summary">Summary</h2>
 <p>If whisper.cpp is representative of a broader class of ML programs compiled for RISCV-64 vector-enabled hardware, then:</p>
 <ol>
-<li>Ghidra&rsquo;s sleigh subsystem needs to recognize at least those vector instrucions found in the rvv 1.0 release.</li>
+<li>Ghidra&rsquo;s sleigh subsystem needs to recognize at least those vector instructions found in the rvv 1.0 release.</li>
 <li>The decompiler view should have access to pcodeops for all of those vector instructions.</li>
 <li>The 20 to 50 most common <code>vset*</code> configurations (e.g., <code>e64m1tama</code>) should be explicitly recognized at the pcodeop layer
 and displayed in the decompiler view.</li>
@@ -4013,12 +4162,15 @@ especially true for hardware requiring aligned integers where alignment can not 
 </div>
 
 <h2 id="general-purpose-systems">General purpose systems</h2>
-<p><a href="https://www.sifive.com/boards/hifive-pro-p550">https://www.sifive.com/boards/hifive-pro-p550</a></p>
-<p><a href="https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/">https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/</a></p>
 <p><a href="https://www.cnx-software.com/2022/11/02/sifive-p670-and-p470-risc-v-processors-add-risc-v-vector-extensions/">https://www.cnx-software.com/2022/11/02/sifive-p670-and-p470-risc-v-processors-add-risc-v-vector-extensions/</a></p>
 <p><a href="https://www.cnx-software.com/2023/08/30/sifive-unveils-p870-high-performance-core-discusses-future-of-risc-v">https://www.cnx-software.com/2023/08/30/sifive-unveils-p870-high-performance-core-discusses-future-of-risc-v</a></p>
 <p><a href="https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc">https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc</a></p>
 <p><a href="https://www.scmp.com/tech/tech-trends/article/3232686/chinas-top-chip-designers-form-risc-v-patent-alliance-promote-semiconductor-self-sufficiency">https://www.scmp.com/tech/tech-trends/article/3232686/chinas-top-chip-designers-form-risc-v-patent-alliance-promote-semiconductor-self-sufficiency</a></p>
+<blockquote>
+<p>Note: the general SiFive SDK boards might have been deprioritized in favor of specific licensing agreements.
+<a href="https://www.sifive.com/boards/hifive-pro-p550">https://www.sifive.com/boards/hifive-pro-p550</a></p>
+</blockquote>
+<p><a href="https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/">https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/</a></p>
 <p>We might expect to see high performance network appliances in 2026 using chip architectures like the SiFive 670 or 870,
 or from one of the alternative Chinese vendors.  Chips with vector extensions are due soon, with crypto extensions coming shortly after.
 A network appliance development board might have two P670 class sockets and four to eight 10 GbE network interfaces.</p>
@@ -4028,6 +4180,7 @@ that help manage or synchronize multi-socket cache memory.</p>
 <p>Let&rsquo;s set a provocative long term goal: How will Ghidra analyze a future network appliance that combines Machine Learning with self-modifying code
 to accelerate network routing and forwarding?  Such a device might generate fast-path code sequences to sessionize incoming packets and deliver them with
 minimal cache flushes or branches taken.</p>
+<p>A RISCV-64 implementation of the Marvell Octeon 10 might be a feasible future hardware component.</p>
 <h2 id="portable-appliances">Portable appliances</h2>
 <p>This might include cell phones or voice-recognition apps.  Things that today might use an Arm core set but be implemented with RISC-V cores in the future.</p>
 <h2 id="role-of-mixed-32-and-64-bit-cores">role of mixed 32 and 64 bit cores</h2>
@@ -4131,7 +4284,7 @@ any given network interface.  ISA extensions supporting gather, hash, vector com
 </div>
 
 <p>This case study compares human and compiler vectorization of a simple ML quantization algorithm.  We&rsquo;ll assume we need to inspect the code to understand why these two
-binaries sometimes produce different results.  Our primary goal is to see whether we can improve Ghidra&rsquo;s riscv pcode generation to make such analyses easier.  A  secondary
+binaries sometimes produce different results.  Our primary goal is to see whether we can improve Ghidra&rsquo;s RISCV pcode generation to make such analyses easier.  A  secondary
 goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code.</p>
 <p>The ML algorithm under test comes from <a href="https://github.com/ggerganov/llama.cpp">https://github.com/ggerganov/llama.cpp</a>.  It packs an array of 32 bit floats into a set of q8_0 blocks to condense large
 model files.  The q8_0 quantization reduces 32 32 bit floating point numbers to 32 8 bit integers with an associated 16 bit floating point scale factor.</p>
@@ -4147,9 +4300,9 @@ reported quirks.  On some systems they produce identical results, on others the 
 <li>A target RISCV-64 processor supporting vector and compressed instructions.</li>
 <li>GCC-14 developmental (pending release) compiler toolchain for native x86_64 builds</li>
 <li>GCC-14 developmental (pending release) RISCV-64 cross-compiler toolchain with standard options <code>-march=rv64gcv</code>, <code>-O3</code>, and <code>-ffast-math</code>.</li>
-<li><code>qemu-riscv64-static</code> emulated execution of user space riscv-64 applications on an x86_64 linux test server.</li>
+<li><code>qemu-riscv64-static</code> emulated execution of user space RISCV-64 applications on an x86_64 Linux test server.</li>
 <li>A generic unit testing framework like <code>gtest</code>.</li>
-<li>Ghidra 11+ with the <code>isa_ext</code> branch supporting  riscv 1.0 vector instructions.</li>
+<li>Ghidra 11+ with the <code>isa_ext</code> branch supporting  RISCV 1.0 vector instructions.</li>
 </ul>
 <p>The unit test process involves three unit test executions:</p>
 <ul>
@@ -4367,7 +4520,7 @@ on our RISCV-64 target architecture.  GCC may elect to duplicate code in order t
 </ul>
 <p>The hand-optimized <code>quantize_row_q8_0</code> has similar distractions, plus a few more:</p>
 <ul>
-<li>The two inner loops have been converted into riscv vector intrinsics, such that each iteration processes 32 4 byte floats into
+<li>The two inner loops have been converted into RISCV vector intrinsics, such that each iteration processes 32 4 byte floats into
 a single 34 byte <code>block_q8_0</code> struct.</li>
 <li>Four adjacent vector registers are grouped with the <code>m4</code> setting.  On architectures with a vector length VLEN=256, that means
 all 32 4 byte floats per block will fit nicely and can be processed in parallel.  If the architecture only supports a vector length of
@@ -4450,7 +4603,7 @@ then name the parameters so that they look more like the source code.</p>
 </span></span></code></pre></div><blockquote>
 <p>Note: an earlier run showed several pcode errors in <code>riscv-rvv.sinc</code>, which have been fixed as of this run.</p>
 </blockquote>
-<p>Red herrings - none of these have anything to do with riscv or vector intrinsics</p>
+<p>Red herrings - none of these have anything to do with RISCV or vector intrinsics</p>
 <ul>
 <li><code>uVar5 = 0x106c50;</code> - there is no uVar5 variable, just a shared upper immediate load register.</li>
 <li><code>iVar2 = (int)(((uint)((int)k &gt;&gt; 0x1f) &gt;&gt; 0x1b) + (int)k) &gt;&gt; 5;</code> - since k is a signed long and not unsigned, the compiler
@@ -4464,7 +4617,7 @@ that duplicating following code for at least one branch will be faster.</li>
 represented in IEEE 754-2008 encoding to the lower 32 bits of integer register rd.  This works fine when the source
 is zero, but it has no clear C-like representation otherwise.  These may better be replaced with specialized pcode operations.</li>
 </ul>
-<p>There is one discrepancy that does involve the vectorization code.  The source code uses a standard riscv vector intrinsic function
+<p>There is one discrepancy that does involve the vectorization code.  The source code uses a standard RISCV vector intrinsic function
 to store data:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#000">__riscv_vse8_v_i8m1</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">].</span><span style="color:#000">qs</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">vs</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">vl</span><span style="color:#000;font-weight:bold">);</span>
 </span></span></code></pre></div><p>Ghidra pcode for this instruction after renaming operands is (currently):</p>
@@ -4865,6 +5018,10 @@ patterns found in the test suite.</p>
 <li>track the <a href="https://github.com/torvalds/linux.git">source</a></li>
 <li>inspect <code>git log arch/riscv</code></li>
 </ul>
+<blockquote>
+<p>Note: the Linux kernel just added vector crypto support, derived from the openssl crypto routines.  This <em>appears</em> to mostly
+be in support of encrypted file systems.</p>
+</blockquote>
 <h3 id="system-images">system images</h3>
 <ul>
 <li>Fedora</li>
@@ -4887,7 +5044,7 @@ patterns found in the test suite.</p>
 <h2 id="applications">applications</h2>
 <ul>
 <li>track <a href="https://github.com/ggerganov/whisper.cpp.git">source</a></li>
-<li>Look for use of riscv intrinsics with arm/Neon and avx2 eqiuvalents as opposed to allowing compiler autovectorization.</li>
+<li>Look for use of riscv intrinsics with arm/Neon and avx2 equivalents as opposed to allowing compiler autovectorization.</li>
 <li>Watch for standardization of 16 bit floating point</li>
 </ul>
 <h2 id="ghidra">Ghidra</h2>
@@ -4921,7 +5078,7 @@ This suite is similar to the RISCV vector suite in that it is vector register le
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-f22421eca6cb396b0451315422c932fa">8.6 - Deep Dive  Openssl</h1>
+	<h1 id="pg-f22421eca6cb396b0451315422c932fa">8.6 - Deep Dive Openssl</h1>
     
 	
 
@@ -5274,15 +5431,15 @@ This suite is similar to the RISCV vector suite in that it is vector register le
 </span></span><span style="display:flex;"><span>&gt; CNF_EX_LIBS=/opt/riscvx/lib/libdl.a -pthread
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> make
 </span></span></code></pre></div><ul>
-<li>open libcrypto.so.3 and libssl.so.3 in Ghidra.</li>
+<li>open <code>libcrypto.so.3</code> and <code>libssl.so.3</code> in Ghidra.</li>
 <li>analyze and open bookmarks</li>
-<li>verify that all instructions disassembled and no instructions lacked pcode</li>
+<li>verify - in the Bookmarks window - that all instructions disassembled and no instructions lack pcode</li>
 </ul>
 <h2 id="integration-testing-manual">Integration testing (manual)</h2>
 <p>Disassembly testing against binutils reference dumps can follow these steps:</p>
 <ul>
 <li>Open <code>libcrypt.so.3</code> in Ghidra</li>
-<li>export as ascii to <code>/tmp/libcrypto.so.3.txt</code></li>
+<li>export as ASCII to <code>/tmp/libcrypto.so.3.txt</code></li>
 <li>export as C/C++ to <code>/tmp/libcrypto.so.3.c</code></li>
 <li>generate reference disassembly via
 <ul>
@@ -5293,9 +5450,9 @@ This suite is similar to the RISCV vector suite in that it is vector register le
 <li>optionally parse vector instructions out of both files and compare decodings</li>
 </ul>
 <h2 id="inspect-extension-management">inspect extension management</h2>
-<p>How does openssl manage RISCV ISA extensions?  We&rsquo;ll use the <code>gcm_ghash</code> family of functions as examples.</p>
+<p>How does Openssl manage RISCV ISA extensions?  We&rsquo;ll use the <code>gcm_ghash</code> family of functions as examples.</p>
 <ul>
-<li>At compile time any <code>march=rv64gcv_z...</code> arguments are processed by the openssl configuration tool and
+<li>At compile time any <code>march=rv64gcv_z...</code> arguments are processed by the Openssl configuration tool and
 turned into <code>#ifdef</code> variables. These can include combinations like <code>RISCV_HAS_ZVKB_AND_ZVKSED</code>.
 Multiple versions of key routines are compiled, each with different required extensions.</li>
 <li>The compiler can also use any of the bit manipulation and vector extensions in local optimization.</li>

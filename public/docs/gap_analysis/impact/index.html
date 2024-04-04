@@ -28,13 +28,13 @@ The most immediate impact involves Ghidra disassembly and decompilation failure 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/impact/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2024-02-04T13:13:04-05:00" />
+<meta property="article:modified_time" content="2024-04-04T08:51:19-04:00" />
 
 <meta itemprop="name" content="Impact">
 <meta itemprop="description" content="What is the impact of this gap?
 How Ghidra&rsquo;s current limits in handling RISCV-64 vector instructions will impact users in phases, where the initial impacts are modest and fairly easy to deal with while later impacts will take significant design work to address.
 The most immediate impact involves Ghidra disassembly and decompilation failure when encountering unrecognized instructions. The Fedora 39 exemplar kernel contains several extension instructions that Ghidra 11 can&rsquo;t recognize.">
-<meta itemprop="dateModified" content="2024-02-04T13:13:04-05:00" />
+<meta itemprop="dateModified" content="2024-04-04T08:51:19-04:00" />
 <meta itemprop="wordCount" content="529">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Impact"/>
 <meta name="twitter:description" content="What is the impact of this gap?
@@ -101,6 +101,8 @@ The most immediate impact involves Ghidra disassembly and decompilation failure 
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarswhisper_cpp-li">
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarsdpdk-li">
+  <a href="/ghidra_import_tests/docs/exemplars/dpdk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarsdpdk"><span class="">Data Plane Development Kit</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
@@ -172,7 +174,7 @@ The most immediate impact involves Ghidra disassembly and decompilation failure 
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotestracking-li">
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
-  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive  Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
+  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
 </li>
   </ul>
 </li>
@@ -252,7 +254,7 @@ Ghidra users searching for malware will have a harder time of it.</p>
 <p>Note: Some material comes as-is from <a href="https://www.reddit.com/r/RISCV">https://www.reddit.com/r/RISCV</a></p>
 </blockquote>
 <p>The first generally available 64 bit RISCV vector systems development kit has just become available (January 2024), based on the relatively modest
-THead C908 core.  This SDK appears tuned for video processing, perhaps video surveilance applications aggregating multiple cameras into a common video feed.
+THead C908 core.  This SDK appears tuned for video processing, perhaps video surveillance applications aggregating multiple cameras into a common video feed.
 We are probably several years from seeing server-class systems built on SiFive P870 cores, and fabricated on the fastest available fab lines.  Memory bandwidth
 is poor at present, while energy efficiency is potentially better than x86_64 designs.</p>
 <p>Judging from internet hype, we can expect to see RISCV vector code appearing in replacements of ARM systems (automotive and possibly cell phone) and as the extensible
@@ -315,7 +317,7 @@ originally contributed by <a href="https://pk.linkedin.com/in/ahmad-tameem">http
 </ul>
 
 	<div class="td-page-meta__lastmod">
-  Last modified February 4, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/25546b8959e62da6c814bb2bbfe1243f6c067fb9">Add gap analysis (25546b8)</a>
+  Last modified April 4, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/08034c6d6444ae5db07582f4f7454f238bc09abe">Spell check pass (08034c6)</a>
 </div>
 
 </div>

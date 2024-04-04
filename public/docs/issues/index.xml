@@ -493,7 +493,7 @@ can also be defaulted into the toolchain definition or individual build files.&l
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;See &amp;lt;https://gcc.gnu.org/bugs/&amp;gt; for instructions.
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;lto-wrapper: fatal error: external/gcc-14-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc returned 1 exit status
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;compilation terminated.
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So it looks like LTO has problems with riscv vector instructions.  We&amp;rsquo;ll keep testing this as more gcc 14 snapshots become available,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So it looks like LTO has problems with RISCV vector instructions.  We&amp;rsquo;ll keep testing this as more gcc 14 snapshots become available,
 but as a lower priority exercise.  LTO does not seem like a popular optimization.&lt;/p&gt;
 
       </description>

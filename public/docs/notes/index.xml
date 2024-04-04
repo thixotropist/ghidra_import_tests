@@ -31,12 +31,15 @@
 &lt;/div&gt;
 
 &lt;h2 id=&#34;general-purpose-systems&#34;&gt;General purpose systems&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.sifive.com/boards/hifive-pro-p550&#34;&gt;https://www.sifive.com/boards/hifive-pro-p550&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/&#34;&gt;https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.cnx-software.com/2022/11/02/sifive-p670-and-p470-risc-v-processors-add-risc-v-vector-extensions/&#34;&gt;https://www.cnx-software.com/2022/11/02/sifive-p670-and-p470-risc-v-processors-add-risc-v-vector-extensions/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.cnx-software.com/2023/08/30/sifive-unveils-p870-high-performance-core-discusses-future-of-risc-v&#34;&gt;https://www.cnx-software.com/2023/08/30/sifive-unveils-p870-high-performance-core-discusses-future-of-risc-v&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc&#34;&gt;https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.scmp.com/tech/tech-trends/article/3232686/chinas-top-chip-designers-form-risc-v-patent-alliance-promote-semiconductor-self-sufficiency&#34;&gt;https://www.scmp.com/tech/tech-trends/article/3232686/chinas-top-chip-designers-form-risc-v-patent-alliance-promote-semiconductor-self-sufficiency&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: the general SiFive SDK boards might have been deprioritized in favor of specific licensing agreements.
+&lt;a href=&#34;https://www.sifive.com/boards/hifive-pro-p550&#34;&gt;https://www.sifive.com/boards/hifive-pro-p550&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/&#34;&gt;https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;We might expect to see high performance network appliances in 2026 using chip architectures like the SiFive 670 or 870,
 or from one of the alternative Chinese vendors.  Chips with vector extensions are due soon, with crypto extensions coming shortly after.
 A network appliance development board might have two P670 class sockets and four to eight 10 GbE network interfaces.&lt;/p&gt;
@@ -46,6 +49,7 @@ that help manage or synchronize multi-socket cache memory.&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s set a provocative long term goal: How will Ghidra analyze a future network appliance that combines Machine Learning with self-modifying code
 to accelerate network routing and forwarding?  Such a device might generate fast-path code sequences to sessionize incoming packets and deliver them with
 minimal cache flushes or branches taken.&lt;/p&gt;
+&lt;p&gt;A RISCV-64 implementation of the Marvell Octeon 10 might be a feasible future hardware component.&lt;/p&gt;
 &lt;h2 id=&#34;portable-appliances&#34;&gt;Portable appliances&lt;/h2&gt;
 &lt;p&gt;This might include cell phones or voice-recognition apps.  Things that today might use an Arm core set but be implemented with RISC-V cores in the future.&lt;/p&gt;
 &lt;h2 id=&#34;role-of-mixed-32-and-64-bit-cores&#34;&gt;role of mixed 32 and 64 bit cores&lt;/h2&gt;
@@ -141,7 +145,7 @@ any given network interface.  ISA extensions supporting gather, hash, vector com
 &lt;/div&gt;
 
 &lt;p&gt;This case study compares human and compiler vectorization of a simple ML quantization algorithm.  We&amp;rsquo;ll assume we need to inspect the code to understand why these two
-binaries sometimes produce different results.  Our primary goal is to see whether we can improve Ghidra&amp;rsquo;s riscv pcode generation to make such analyses easier.  A  secondary
+binaries sometimes produce different results.  Our primary goal is to see whether we can improve Ghidra&amp;rsquo;s RISCV pcode generation to make such analyses easier.  A  secondary
 goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code.&lt;/p&gt;
 &lt;p&gt;The ML algorithm under test comes from &lt;a href=&#34;https://github.com/ggerganov/llama.cpp&#34;&gt;https://github.com/ggerganov/llama.cpp&lt;/a&gt;.  It packs an array of 32 bit floats into a set of q8_0 blocks to condense large
 model files.  The q8_0 quantization reduces 32 32 bit floating point numbers to 32 8 bit integers with an associated 16 bit floating point scale factor.&lt;/p&gt;
@@ -157,9 +161,9 @@ reported quirks.  On some systems they produce identical results, on others the 
 &lt;li&gt;A target RISCV-64 processor supporting vector and compressed instructions.&lt;/li&gt;
 &lt;li&gt;GCC-14 developmental (pending release) compiler toolchain for native x86_64 builds&lt;/li&gt;
 &lt;li&gt;GCC-14 developmental (pending release) RISCV-64 cross-compiler toolchain with standard options &lt;code&gt;-march=rv64gcv&lt;/code&gt;, &lt;code&gt;-O3&lt;/code&gt;, and &lt;code&gt;-ffast-math&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;qemu-riscv64-static&lt;/code&gt; emulated execution of user space riscv-64 applications on an x86_64 linux test server.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;qemu-riscv64-static&lt;/code&gt; emulated execution of user space RISCV-64 applications on an x86_64 Linux test server.&lt;/li&gt;
 &lt;li&gt;A generic unit testing framework like &lt;code&gt;gtest&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Ghidra 11+ with the &lt;code&gt;isa_ext&lt;/code&gt; branch supporting  riscv 1.0 vector instructions.&lt;/li&gt;
+&lt;li&gt;Ghidra 11+ with the &lt;code&gt;isa_ext&lt;/code&gt; branch supporting  RISCV 1.0 vector instructions.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The unit test process involves three unit test executions:&lt;/p&gt;
 &lt;ul&gt;
@@ -377,7 +381,7 @@ on our RISCV-64 target architecture.  GCC may elect to duplicate code in order t
 &lt;/ul&gt;
 &lt;p&gt;The hand-optimized &lt;code&gt;quantize_row_q8_0&lt;/code&gt; has similar distractions, plus a few more:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;The two inner loops have been converted into riscv vector intrinsics, such that each iteration processes 32 4 byte floats into
+&lt;li&gt;The two inner loops have been converted into RISCV vector intrinsics, such that each iteration processes 32 4 byte floats into
 a single 34 byte &lt;code&gt;block_q8_0&lt;/code&gt; struct.&lt;/li&gt;
 &lt;li&gt;Four adjacent vector registers are grouped with the &lt;code&gt;m4&lt;/code&gt; setting.  On architectures with a vector length VLEN=256, that means
 all 32 4 byte floats per block will fit nicely and can be processed in parallel.  If the architecture only supports a vector length of
@@ -460,7 +464,7 @@ then name the parameters so that they look more like the source code.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;Note: an earlier run showed several pcode errors in &lt;code&gt;riscv-rvv.sinc&lt;/code&gt;, which have been fixed as of this run.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Red herrings - none of these have anything to do with riscv or vector intrinsics&lt;/p&gt;
+&lt;p&gt;Red herrings - none of these have anything to do with RISCV or vector intrinsics&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;uVar5 = 0x106c50;&lt;/code&gt; - there is no uVar5 variable, just a shared upper immediate load register.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;iVar2 = (int)(((uint)((int)k &amp;gt;&amp;gt; 0x1f) &amp;gt;&amp;gt; 0x1b) + (int)k) &amp;gt;&amp;gt; 5;&lt;/code&gt; - since k is a signed long and not unsigned, the compiler
@@ -474,7 +478,7 @@ that duplicating following code for at least one branch will be faster.&lt;/li&g
 represented in IEEE 754-2008 encoding to the lower 32 bits of integer register rd.  This works fine when the source
 is zero, but it has no clear C-like representation otherwise.  These may better be replaced with specialized pcode operations.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;There is one discrepancy that does involve the vectorization code.  The source code uses a standard riscv vector intrinsic function
+&lt;p&gt;There is one discrepancy that does involve the vectorization code.  The source code uses a standard RISCV vector intrinsic function
 to store data:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000&#34;&gt;__riscv_vse8_v_i8m1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;y&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;].&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;qs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;vs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;vl&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ghidra pcode for this instruction after renaming operands is (currently):&lt;/p&gt;
@@ -867,6 +871,10 @@ patterns found in the test suite.&lt;/p&gt;
 &lt;li&gt;track the &lt;a href=&#34;https://github.com/torvalds/linux.git&#34;&gt;source&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;inspect &lt;code&gt;git log arch/riscv&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: the Linux kernel just added vector crypto support, derived from the openssl crypto routines.  This &lt;em&gt;appears&lt;/em&gt; to mostly
+be in support of encrypted file systems.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h3 id=&#34;system-images&#34;&gt;system images&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Fedora&lt;/li&gt;
@@ -889,7 +897,7 @@ patterns found in the test suite.&lt;/p&gt;
 &lt;h2 id=&#34;applications&#34;&gt;applications&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;track &lt;a href=&#34;https://github.com/ggerganov/whisper.cpp.git&#34;&gt;source&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Look for use of riscv intrinsics with arm/Neon and avx2 eqiuvalents as opposed to allowing compiler autovectorization.&lt;/li&gt;
+&lt;li&gt;Look for use of riscv intrinsics with arm/Neon and avx2 equivalents as opposed to allowing compiler autovectorization.&lt;/li&gt;
 &lt;li&gt;Watch for standardization of 16 bit floating point&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;ghidra&#34;&gt;Ghidra&lt;/h2&gt;
@@ -913,7 +921,7 @@ This suite is similar to the RISCV vector suite in that it is vector register le
     </item>
     
     <item>
-      <title>Docs: Deep Dive  Openssl</title>
+      <title>Docs: Deep Dive Openssl</title>
       <link>https://thixotropist.github.io/ghidra_import_tests/docs/notes/openssl_deep_dive/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -1272,15 +1280,15 @@ This suite is similar to the RISCV vector suite in that it is vector register le
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;gt; CNF_EX_LIBS=/opt/riscvx/lib/libdl.a -pthread
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; make
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;open libcrypto.so.3 and libssl.so.3 in Ghidra.&lt;/li&gt;
+&lt;li&gt;open &lt;code&gt;libcrypto.so.3&lt;/code&gt; and &lt;code&gt;libssl.so.3&lt;/code&gt; in Ghidra.&lt;/li&gt;
 &lt;li&gt;analyze and open bookmarks&lt;/li&gt;
-&lt;li&gt;verify that all instructions disassembled and no instructions lacked pcode&lt;/li&gt;
+&lt;li&gt;verify - in the Bookmarks window - that all instructions disassembled and no instructions lack pcode&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;integration-testing-manual&#34;&gt;Integration testing (manual)&lt;/h2&gt;
 &lt;p&gt;Disassembly testing against binutils reference dumps can follow these steps:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Open &lt;code&gt;libcrypt.so.3&lt;/code&gt; in Ghidra&lt;/li&gt;
-&lt;li&gt;export as ascii to &lt;code&gt;/tmp/libcrypto.so.3.txt&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;export as ASCII to &lt;code&gt;/tmp/libcrypto.so.3.txt&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;export as C/C++ to &lt;code&gt;/tmp/libcrypto.so.3.c&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;generate reference disassembly via
 &lt;ul&gt;
@@ -1291,9 +1299,9 @@ This suite is similar to the RISCV vector suite in that it is vector register le
 &lt;li&gt;optionally parse vector instructions out of both files and compare decodings&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;inspect-extension-management&#34;&gt;inspect extension management&lt;/h2&gt;
-&lt;p&gt;How does openssl manage RISCV ISA extensions?  We&amp;rsquo;ll use the &lt;code&gt;gcm_ghash&lt;/code&gt; family of functions as examples.&lt;/p&gt;
+&lt;p&gt;How does Openssl manage RISCV ISA extensions?  We&amp;rsquo;ll use the &lt;code&gt;gcm_ghash&lt;/code&gt; family of functions as examples.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;At compile time any &lt;code&gt;march=rv64gcv_z...&lt;/code&gt; arguments are processed by the openssl configuration tool and
+&lt;li&gt;At compile time any &lt;code&gt;march=rv64gcv_z...&lt;/code&gt; arguments are processed by the Openssl configuration tool and
 turned into &lt;code&gt;#ifdef&lt;/code&gt; variables. These can include combinations like &lt;code&gt;RISCV_HAS_ZVKB_AND_ZVKSED&lt;/code&gt;.
 Multiple versions of key routines are compiled, each with different required extensions.&lt;/li&gt;
 &lt;li&gt;The compiler can also use any of the bit manipulation and vector extensions in local optimization.&lt;/li&gt;

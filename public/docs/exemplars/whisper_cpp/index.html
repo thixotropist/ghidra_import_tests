@@ -26,12 +26,12 @@ How might we inspect a machine-learning application for malware? For example, su
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/whisper_cpp/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2024-03-08T08:16:34-05:00" />
+<meta property="article:modified_time" content="2024-04-04T08:51:19-04:00" />
 
 <meta itemprop="name" content="Whisper_cpp">
 <meta itemprop="description" content="Explore analysis of a machine learning application built with large language model techniques. What Ghidra gaps does such an analysis reveal?
 How might we inspect a machine-learning application for malware? For example, suppose someone altered the automatic speech recognition library whisper.cpp. Would Ghidra be able to cope with the instruction set extensions used to accelerate ML inference engines? What might be added to Ghidra to help the human analyst in this kind of inspection?">
-<meta itemprop="dateModified" content="2024-03-08T08:16:34-05:00" />
+<meta itemprop="dateModified" content="2024-04-04T08:51:19-04:00" />
 <meta itemprop="wordCount" content="2818">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Whisper_cpp"/>
 <meta name="twitter:description" content="Explore analysis of a machine learning application built with large language model techniques. What Ghidra gaps does such an analysis reveal?
@@ -97,6 +97,8 @@ How might we inspect a machine-learning application for malware? For example, su
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-ghidra_import_testsdocsexemplarswhisper_cpp-li">
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="td-sidebar-nav-active-item">Whisper_cpp</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarsdpdk-li">
+  <a href="/ghidra_import_tests/docs/exemplars/dpdk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarsdpdk"><span class="">Data Plane Development Kit</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
@@ -168,7 +170,7 @@ How might we inspect a machine-learning application for malware? For example, su
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotestracking-li">
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
-  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive  Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
+  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
 </li>
   </ul>
 </li>
@@ -740,7 +742,7 @@ add more explicit decodings for <code>vsetvli</code> and <code>vsetivli</code>, 
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v4
 </span></span></code></pre></div><p>Load these into Ghidra 11.1-DEV.  The <code>x86-64-v4</code> build is useless in Ghidra, since a different class of x86_64 vector extensions is used in that newer microarchitecture
 and Ghidra doesn&rsquo;t recognize it.  The <code>x86-64-v3</code> build looks accessible.</p>
-<p>Try an x86_64 build with the local compiler (Fedora 39 default compiler) and LInk Time Optimization enabled:</p>
+<p>Try an x86_64 build with the local compiler (Fedora 39 default compiler) and Link Time Optimization enabled:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel build  --copt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-march=x86-64-v3&#34;</span> --copt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-flto&#34;</span>  --linkopt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-Wl,-flto&#34;</span> @whisper_cpp//:main
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v3-lto
@@ -754,7 +756,7 @@ LTO plugin from the gcc-14 toolchain packaging.  We&rsquo;ll try and find such f
 </ul>
 
 	<div class="td-page-meta__lastmod">
-  Last modified March 8, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/4bde68aa6b026d91fa952b5b4703067126987a7a">Edit and slightly extend documentation     update hugo version to 0.123.7 and fix metadata errors that became fatal. (4bde68a)</a>
+  Last modified April 4, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/08034c6d6444ae5db07582f4f7454f238bc09abe">Spell check pass (08034c6)</a>
 </div>
 
 </div>

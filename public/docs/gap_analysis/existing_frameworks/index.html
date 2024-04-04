@@ -19,23 +19,23 @@
 
 <title>Existing Frameworks | Ghidra Import Testing</title>
 <meta name="description" content="Which Ghidra frameworks might be extended to fill the gap?
-Outline What can we add to sleigh .sinc files? add all extension instructions add translation of Elf file attributes into vendor-specific processor selection flesh out extension mnemonics to convey vector context, especially vset* instructions add comments or metadata that is accessible to the decompiler What can we add to pcode semantics? gcc builtins like __builtin_memcpy or popcount cross platform vector notation processor dependent decompiler plugins What can we add to disassembler generalized instruction information on common use patterns What can we add to decompiler reconstruct gcc RTL builtins What plugins can we add?">
+Outline What can we add to sleigh .sinc files? add all extension instructions add translation of Elf file attributes into vendor-specific processor selection flesh out extension mnemonics to convey vector context, especially vset* instructions add comments or metadata that is accessible to the decompiler What can we add to pcode semantics? gcc built-ins like __builtin_memcpy or popcount cross platform vector notation processor dependent decompiler plugins What can we add to disassembler generalized instruction information on common use patterns What can we add to decompiler reconstruct gcc RTL built-ins What plugins can we add?">
 <meta property="og:title" content="Existing Frameworks" />
 <meta property="og:description" content="Which Ghidra frameworks might be extended to fill the gap?
-Outline What can we add to sleigh .sinc files? add all extension instructions add translation of Elf file attributes into vendor-specific processor selection flesh out extension mnemonics to convey vector context, especially vset* instructions add comments or metadata that is accessible to the decompiler What can we add to pcode semantics? gcc builtins like __builtin_memcpy or popcount cross platform vector notation processor dependent decompiler plugins What can we add to disassembler generalized instruction information on common use patterns What can we add to decompiler reconstruct gcc RTL builtins What plugins can we add?" />
+Outline What can we add to sleigh .sinc files? add all extension instructions add translation of Elf file attributes into vendor-specific processor selection flesh out extension mnemonics to convey vector context, especially vset* instructions add comments or metadata that is accessible to the decompiler What can we add to pcode semantics? gcc built-ins like __builtin_memcpy or popcount cross platform vector notation processor dependent decompiler plugins What can we add to disassembler generalized instruction information on common use patterns What can we add to decompiler reconstruct gcc RTL built-ins What plugins can we add?" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/existing_frameworks/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2024-02-04T13:13:04-05:00" />
+<meta property="article:modified_time" content="2024-04-04T08:51:19-04:00" />
 
 <meta itemprop="name" content="Existing Frameworks">
 <meta itemprop="description" content="Which Ghidra frameworks might be extended to fill the gap?
-Outline What can we add to sleigh .sinc files? add all extension instructions add translation of Elf file attributes into vendor-specific processor selection flesh out extension mnemonics to convey vector context, especially vset* instructions add comments or metadata that is accessible to the decompiler What can we add to pcode semantics? gcc builtins like __builtin_memcpy or popcount cross platform vector notation processor dependent decompiler plugins What can we add to disassembler generalized instruction information on common use patterns What can we add to decompiler reconstruct gcc RTL builtins What plugins can we add?">
-<meta itemprop="dateModified" content="2024-02-04T13:13:04-05:00" />
+Outline What can we add to sleigh .sinc files? add all extension instructions add translation of Elf file attributes into vendor-specific processor selection flesh out extension mnemonics to convey vector context, especially vset* instructions add comments or metadata that is accessible to the decompiler What can we add to pcode semantics? gcc built-ins like __builtin_memcpy or popcount cross platform vector notation processor dependent decompiler plugins What can we add to disassembler generalized instruction information on common use patterns What can we add to decompiler reconstruct gcc RTL built-ins What plugins can we add?">
+<meta itemprop="dateModified" content="2024-04-04T08:51:19-04:00" />
 <meta itemprop="wordCount" content="142">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Existing Frameworks"/>
 <meta name="twitter:description" content="Which Ghidra frameworks might be extended to fill the gap?
-Outline What can we add to sleigh .sinc files? add all extension instructions add translation of Elf file attributes into vendor-specific processor selection flesh out extension mnemonics to convey vector context, especially vset* instructions add comments or metadata that is accessible to the decompiler What can we add to pcode semantics? gcc builtins like __builtin_memcpy or popcount cross platform vector notation processor dependent decompiler plugins What can we add to disassembler generalized instruction information on common use patterns What can we add to decompiler reconstruct gcc RTL builtins What plugins can we add?"/>
+Outline What can we add to sleigh .sinc files? add all extension instructions add translation of Elf file attributes into vendor-specific processor selection flesh out extension mnemonics to convey vector context, especially vset* instructions add comments or metadata that is accessible to the decompiler What can we add to pcode semantics? gcc built-ins like __builtin_memcpy or popcount cross platform vector notation processor dependent decompiler plugins What can we add to disassembler generalized instruction information on common use patterns What can we add to decompiler reconstruct gcc RTL built-ins What plugins can we add?"/>
 
 
 
@@ -97,6 +97,8 @@ Outline What can we add to sleigh .sinc files? add all extension instructions ad
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarswhisper_cpp-li">
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarsdpdk-li">
+  <a href="/ghidra_import_tests/docs/exemplars/dpdk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarsdpdk"><span class="">Data Plane Development Kit</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
@@ -168,7 +170,7 @@ Outline What can we add to sleigh .sinc files? add all extension instructions ad
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotestracking-li">
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
-  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive  Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
+  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
 </li>
   </ul>
 </li>
@@ -240,7 +242,7 @@ Outline What can we add to sleigh .sinc files? add all extension instructions ad
 </li>
 <li>What can we add to pcode semantics?
 <ul>
-<li>gcc builtins like __builtin_memcpy or popcount</li>
+<li>gcc built-ins like __builtin_memcpy or popcount</li>
 <li>cross platform vector notation</li>
 <li>processor dependent decompiler plugins</li>
 </ul>
@@ -252,12 +254,12 @@ Outline What can we add to sleigh .sinc files? add all extension instructions ad
 </li>
 <li>What can we add to decompiler
 <ul>
-<li>reconstruct gcc RTL builtins</li>
+<li>reconstruct gcc RTL built-ins</li>
 </ul>
 </li>
 <li>What plugins can we add?
 <ul>
-<li>reconstruct gcc RTL builtins</li>
+<li>reconstruct gcc RTL built-ins</li>
 </ul>
 </li>
 <li>What external tools can we leverage?
@@ -270,7 +272,7 @@ Outline What can we add to sleigh .sinc files? add all extension instructions ad
 </ul>
 
 	<div class="td-page-meta__lastmod">
-  Last modified February 4, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/25546b8959e62da6c814bb2bbfe1243f6c067fb9">Add gap analysis (25546b8)</a>
+  Last modified April 4, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/08034c6d6444ae5db07582f4f7454f238bc09abe">Spell check pass (08034c6)</a>
 </div>
 
 </div>

@@ -90,6 +90,8 @@
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarswhisper_cpp-li">
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarsdpdk-li">
+  <a href="/ghidra_import_tests/docs/exemplars/dpdk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarsdpdk"><span class="">Data Plane Development Kit</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
@@ -161,7 +163,7 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotestracking-li">
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
-  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive  Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
+  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
 </li>
   </ul>
 </li>
@@ -238,6 +240,34 @@ Some are imported from system disk images.  Others are locally built from small 
 The initial scope includes Linux-capable RISCV 64 bit systems that might be found in network appliances or ML inference engines.  That makes for a local
 bias towards privileged code, concurrency management, and performance optimization.  That scope expands slightly to x86_64 exemplars that
 may help triage issues that show up first in RISCV 64 exemplars.</p>
+<p>You can get decent exemplar coverage with this set of exemplars:</p>
+<ul>
+<li>from a general purpose RISCV-64 disk image:
+<ul>
+<li>kernel - a RISCV-64 kernel built with a recent Linux release</li>
+<li>kernel load module - an ELF binary intended to be loaded into a running kernel</li>
+<li>system library - libc.so or libssl.so copied from a generic Linux disk image</li>
+<li>system application - a user application linking against system libraries and running over a Linux kernel</li>
+</ul>
+</li>
+<li>built from source, with the development tip of the gcc toolchain and many explicit ISA extensions:
+<ul>
+<li>binutils assembly test suite - ISA extensions usually show up here first, along with preferred disassembly patterns</li>
+<li>memcpy and other libc replacements coded with RISCV-64 ISA intrinsic extensions</li>
+<li><code>libssl.so</code> and <code>libcrypt.so</code> built from source and configured for all standard and frozen crypto, vector, and bit manipulation
+instruction extensions.</li>
+<li>DPDK network appliance source code, <code>l3fwd</code> and <code>l2fwd</code>.</li>
+</ul>
+</li>
+</ul>
+<p>In general, visual inspection of these exemplars after importing into Ghidra should show:</p>
+<ul>
+<li>no failed constructors, so all instructions are recognized by Ghidra during disassembly</li>
+<li>no missing pcode</li>
+<li>all vector vset* instructions are unwrapped to show selected element width, multiplier, tail and mask handling</li>
+</ul>
+<p>Ghidra will in a few cases disassemble an instruction differently than binutils&rsquo; <code>objdump</code>.  That&rsquo;s fine, if it is due to a limitation
+of Ghidra&rsquo;s SLEIGH language. If alignment to <code>objdump</code> is possible, that&rsquo;s preferable.</p>
 <h2 id="imported-exemplars">Imported exemplars</h2>
 <p>Most of the imported large binary exemplars are broken out of current Fedora disk images.  The top level <code>acquireExternalExemplars.py</code>
 script controls this process, sometimes with some manual intervention to handle image mounting.  Selection of the imported disk image
@@ -424,9 +454,9 @@ gcc-14 toolchain due for mid 2024 release.</p>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
 </span></span></code></pre></div><h3 id="x86_64-exemplars">x86_64 exemplars</h3>
 <p>A few x86_64 exemplars exist to explore the scope of issues raised by RISCV exemplars.  The <code>x86_64/exemplars</code> directory
-shows how optimizing gcc-14 compilations handle simple loops and builtins like <code>memcpy</code> for various microarchitectures.</p>
+shows how optimizing gcc-14 compilations handle simple loops and built-ins like <code>memcpy</code> for various microarchitectures.</p>
 <p>Intel microarchitectures can be grouped into common profiles like <code>x86-64-v2</code>, <code>x86-64-v3</code>, and <code>x86-64-v4</code>.  Each has its own set of
-instruction set extensions, so an optimizing compiler like gcc-14 will autovectorize loops and builtins differently for each microarchitecture.</p>
+instruction set extensions, so an optimizing compiler like gcc-14 will autovectorize loops and built-ins differently for each microarchitecture.</p>
 <p>The <code>memcpy</code> exemplar set includes source code and three executables compiled from that source code with <code>-march=x86-64-v2</code>, <code>-march=x86-64-v3</code>, and
 <code>-march=x86-64-v4</code>.  The binutils-2.41 <code>objdump</code> disassembly is provided for each executable, for comparison with Ghidra&rsquo;s disassembly window.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/exemplars$ ls memcpy*
@@ -448,9 +478,15 @@ instruction set extensions, so an optimizing compiler like gcc-14 will autovecto
                 </h5>
                 <p></p>
             </div>
+        <div class="entry">
+                <h5>
+                    <a href="/ghidra_import_tests/docs/exemplars/dpdk/">Data Plane Development Kit</a>
+                </h5>
+                <p></p>
+            </div>
         </div>
 <div class="td-page-meta__lastmod">
-  Last modified March 8, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/4bde68aa6b026d91fa952b5b4703067126987a7a">Edit and slightly extend documentation     update hugo version to 0.123.7 and fix metadata errors that became fatal. (4bde68a)</a>
+  Last modified April 4, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/08034c6d6444ae5db07582f4f7454f238bc09abe">Spell check pass (08034c6)</a>
 </div>
 </div>
 

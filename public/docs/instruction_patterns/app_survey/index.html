@@ -30,14 +30,14 @@ ML apps like whisper." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/instruction_patterns/app_survey/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2024-02-29T08:41:30-05:00" />
+<meta property="article:modified_time" content="2024-04-04T08:51:19-04:00" />
 
 <meta itemprop="name" content="Application Survey">
 <meta itemprop="description" content="Survey a voice-to-text app for common vector instruction patterns
 Take an exemplar RISCV-64 binary like whisper.cpp, with its many vector instructions. Which vector patterns are easy to recognize, either for a human Ghidra user or for a hypothetical Ghidra plugin?
 Some of the most common patterns correspond to memcpy or memset invocations where the number of bytes is known at compile time as is the alignment of operands.
 ML apps like whisper.">
-<meta itemprop="dateModified" content="2024-02-29T08:41:30-05:00" />
+<meta itemprop="dateModified" content="2024-04-04T08:51:19-04:00" />
 <meta itemprop="wordCount" content="1517">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Application Survey"/>
 <meta name="twitter:description" content="Survey a voice-to-text app for common vector instruction patterns
@@ -105,6 +105,8 @@ ML apps like whisper."/>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarswhisper_cpp-li">
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarsdpdk-li">
+  <a href="/ghidra_import_tests/docs/exemplars/dpdk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarsdpdk"><span class="">Data Plane Development Kit</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
@@ -176,7 +178,7 @@ ML apps like whisper."/>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotestracking-li">
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
-  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive  Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
+  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
 </li>
   </ul>
 </li>
@@ -324,7 +326,7 @@ Seven <code>vse64.v</code> instructions then store two 64 bit zeros each to succ
 for a dedicated accelerator hart.</p>
 <h3 id="memcpy-with-known-and-limited-nbytes">memcpy with known and limited nbytes</h3>
 <p>This pattern is often found when copying objects of known and limited size.  It is useful with objects as small as 4 bytes if the source alignment is
-unknown and the destination object must be aligned on halfword, word, or doubleword boundaries.</p>
+unknown and the destination object must be aligned on half-word, word, or double-word boundaries.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>;                memcpy(dest=a0, src=a3, nbytes=a4) where a4 &lt; 8 * (VLEN/8)
 </span></span><span style="display:flex;"><span>1d3da:  0c377057                vsetvli zero,a4,e8,m8,ta,ma
 </span></span><span style="display:flex;"><span>1d3de:  02068407                vle8.v  v8,(a3)
@@ -383,7 +385,7 @@ The a5 register holds the number of bytes processed per iteration.</p>
 </span></span><span style="display:flex;"><span><span style="color:#000">v4</span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">v1</span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#a40000">⅀</span> <span style="color:#000">v4</span><span style="color:#000;font-weight:bold">;</span>
 </span></span><span style="display:flex;"><span><span style="color:#000">fa5</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">v4</span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">];</span>
 </span></span></code></pre></div><p>The vector instruction <code>vfredusum.vs</code> provides the <em>unordered</em> reduction sum over the elements of a single vector.  That&rsquo;s likely faster than an ordered sum,
-but the floating point roundoff errors will not be deterministic.</p>
+but the floating point round-off errors will not be deterministic.</p>
 <blockquote>
 <p>Note: this <code>whisper.cpp</code> routine attempts to recognize which of two speakers is responsible for each word of a conversation.  A speaker-misattribution
 exploit might attack functions that call this.</p>
@@ -433,7 +435,7 @@ exploit might attack functions that call this.</p>
 </span></span></code></pre></div><p>That&rsquo;s the kind of messy code you could analyze if you had to.  Hopefully not.</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified February 29, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/d77cd96487285aa5a06f57464c6517954ea06825">Add x86_64 unit tests as part of case study (d77cd96)</a>
+  Last modified April 4, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/08034c6d6444ae5db07582f4f7454f238bc09abe">Spell check pass (08034c6)</a>
 </div>
 
 </div>

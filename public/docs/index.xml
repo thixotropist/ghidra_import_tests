@@ -645,12 +645,15 @@ vector instructions like &lt;code&gt;vmovdqu64&lt;/code&gt;, which is unrecogniz
 &lt;/div&gt;
 
 &lt;h2 id=&#34;general-purpose-systems&#34;&gt;General purpose systems&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.sifive.com/boards/hifive-pro-p550&#34;&gt;https://www.sifive.com/boards/hifive-pro-p550&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/&#34;&gt;https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.cnx-software.com/2022/11/02/sifive-p670-and-p470-risc-v-processors-add-risc-v-vector-extensions/&#34;&gt;https://www.cnx-software.com/2022/11/02/sifive-p670-and-p470-risc-v-processors-add-risc-v-vector-extensions/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.cnx-software.com/2023/08/30/sifive-unveils-p870-high-performance-core-discusses-future-of-risc-v&#34;&gt;https://www.cnx-software.com/2023/08/30/sifive-unveils-p870-high-performance-core-discusses-future-of-risc-v&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc&#34;&gt;https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.scmp.com/tech/tech-trends/article/3232686/chinas-top-chip-designers-form-risc-v-patent-alliance-promote-semiconductor-self-sufficiency&#34;&gt;https://www.scmp.com/tech/tech-trends/article/3232686/chinas-top-chip-designers-form-risc-v-patent-alliance-promote-semiconductor-self-sufficiency&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: the general SiFive SDK boards might have been deprioritized in favor of specific licensing agreements.
+&lt;a href=&#34;https://www.sifive.com/boards/hifive-pro-p550&#34;&gt;https://www.sifive.com/boards/hifive-pro-p550&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/&#34;&gt;https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;We might expect to see high performance network appliances in 2026 using chip architectures like the SiFive 670 or 870,
 or from one of the alternative Chinese vendors.  Chips with vector extensions are due soon, with crypto extensions coming shortly after.
 A network appliance development board might have two P670 class sockets and four to eight 10 GbE network interfaces.&lt;/p&gt;
@@ -660,6 +663,7 @@ that help manage or synchronize multi-socket cache memory.&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s set a provocative long term goal: How will Ghidra analyze a future network appliance that combines Machine Learning with self-modifying code
 to accelerate network routing and forwarding?  Such a device might generate fast-path code sequences to sessionize incoming packets and deliver them with
 minimal cache flushes or branches taken.&lt;/p&gt;
+&lt;p&gt;A RISCV-64 implementation of the Marvell Octeon 10 might be a feasible future hardware component.&lt;/p&gt;
 &lt;h2 id=&#34;portable-appliances&#34;&gt;Portable appliances&lt;/h2&gt;
 &lt;p&gt;This might include cell phones or voice-recognition apps.  Things that today might use an Arm core set but be implemented with RISC-V cores in the future.&lt;/p&gt;
 &lt;h2 id=&#34;role-of-mixed-32-and-64-bit-cores&#34;&gt;role of mixed 32 and 64 bit cores&lt;/h2&gt;
@@ -1496,7 +1500,7 @@ add more explicit decodings for &lt;code&gt;vsetvli&lt;/code&gt; and &lt;code&gt
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v4
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Load these into Ghidra 11.1-DEV.  The &lt;code&gt;x86-64-v4&lt;/code&gt; build is useless in Ghidra, since a different class of x86_64 vector extensions is used in that newer microarchitecture
 and Ghidra doesn&amp;rsquo;t recognize it.  The &lt;code&gt;x86-64-v3&lt;/code&gt; build looks accessible.&lt;/p&gt;
-&lt;p&gt;Try an x86_64 build with the local compiler (Fedora 39 default compiler) and LInk Time Optimization enabled:&lt;/p&gt;
+&lt;p&gt;Try an x86_64 build with the local compiler (Fedora 39 default compiler) and Link Time Optimization enabled:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; bazel build  --copt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-march=x86-64-v3&amp;#34;&lt;/span&gt; --copt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-flto&amp;#34;&lt;/span&gt;  --linkopt&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-Wl,-flto&amp;#34;&lt;/span&gt; @whisper_cpp//:main
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;...
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v3-lto
@@ -1608,7 +1612,7 @@ Seven &lt;code&gt;vse64.v&lt;/code&gt; instructions then store two 64 bit zeros 
 for a dedicated accelerator hart.&lt;/p&gt;
 &lt;h3 id=&#34;memcpy-with-known-and-limited-nbytes&#34;&gt;memcpy with known and limited nbytes&lt;/h3&gt;
 &lt;p&gt;This pattern is often found when copying objects of known and limited size.  It is useful with objects as small as 4 bytes if the source alignment is
-unknown and the destination object must be aligned on halfword, word, or doubleword boundaries.&lt;/p&gt;
+unknown and the destination object must be aligned on half-word, word, or double-word boundaries.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;;                memcpy(dest=a0, src=a3, nbytes=a4) where a4 &amp;lt; 8 * (VLEN/8)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1d3da:  0c377057                vsetvli zero,a4,e8,m8,ta,ma
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1d3de:  02068407                vle8.v  v8,(a3)
@@ -1667,7 +1671,7 @@ The a5 register holds the number of bytes processed per iteration.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000&#34;&gt;v4&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;v1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a40000&#34;&gt;⅀&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;v4&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000&#34;&gt;fa5&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;v4&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;];&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The vector instruction &lt;code&gt;vfredusum.vs&lt;/code&gt; provides the &lt;em&gt;unordered&lt;/em&gt; reduction sum over the elements of a single vector.  That&amp;rsquo;s likely faster than an ordered sum,
-but the floating point roundoff errors will not be deterministic.&lt;/p&gt;
+but the floating point round-off errors will not be deterministic.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Note: this &lt;code&gt;whisper.cpp&lt;/code&gt; routine attempts to recognize which of two speakers is responsible for each word of a conversation.  A speaker-misattribution
 exploit might attack functions that call this.&lt;/p&gt;
@@ -1715,6 +1719,115 @@ exploit might attack functions that call this.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2c716:  4a13a157                vsext.vf2       v2,v1
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2c71a:  0205e127                vse32.v v2,(a1)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That&amp;rsquo;s the kind of messy code you could analyze if you had to.  Hopefully not.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Data Plane Development Kit</title>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/dpdk/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/dpdk/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;Intel&amp;rsquo;s DPDK framework supports some Intel and Arm Neon vector instructions.  What does it for RISCV extensions?
+Are ISA extensions materially useful to a network appliance?&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;Check out DPDK from GitHub, patch the RISCV configuration with &lt;code&gt;riscv64/toolchains/dpdk/dpdk.pat&lt;/code&gt;, and crosscompile with &lt;code&gt;meson&lt;/code&gt;
+and &lt;code&gt;ninja&lt;/code&gt;.  Copy some of the examples into &lt;code&gt;riscv64/exemplars&lt;/code&gt; and examine them in Ghidra.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;for this we use as many standard extensions as we can, excluding vendor-specific extensions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Configure a build directory:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; patch -p1 &amp;lt; .../riscv64/toolchains/dpdk/dpdk.pat
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; meson setup build --cross-file config/riscv/riscv64_linux_gcc -Dexamples&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;all
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; &lt;span style=&#34;color:#204a87&#34;&gt;cd&lt;/span&gt; build
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Edit &lt;code&gt;build/build.ninja&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;replace all occurrences of &lt;code&gt;-ldl&lt;/code&gt; with &lt;code&gt;/opt/riscvx/lib/libdl.a&lt;/code&gt; - you should see about 235 replacements&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Build with:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; ninja -C build
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Check the cross-compilation with:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; readelf -A build/examples/dpdk-l3fwd
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;Attribute Section: riscv
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;File Attributes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;  Tag_RISCV_stack_align: 16-bytes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;  Tag_RISCV_arch: &amp;#34;rv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zba1p0_zbb1p0_zbc1p0_zbkb1p0_zbkc1p0_zbkx1p0_zvbb1p0_zvbc1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvkb1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;  Tag_RISCV_priv_spec: 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;  Tag_RISCV_priv_spec_minor: 11
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Import into Ghidra 11.1-DEV(isa_ext), noting multiple import messages similar to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Unsupported Thread-Local Symbol not loaded&lt;/li&gt;
+&lt;li&gt;ELF Relocation Failure: R_RISCV_COPY (4, 0x4) at 00f0c400 (Symbol = stdout) - Runtime copy not supported&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;analysis&#34;&gt;Analysis&lt;/h2&gt;
+&lt;h3 id=&#34;source-code-examination&#34;&gt;source code examination&lt;/h3&gt;
+&lt;h4 id=&#34;explicit-vectorization&#34;&gt;explicit vectorization&lt;/h4&gt;
+&lt;p&gt;The source code has explicit parallel coding for Intel and Arm/Neon architectures, for instance within
+the basic layer 3 forwarding example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;acl_algorithms&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;acl_alg&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[]&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;scalar&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;alg&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RTE_ACL_CLASSIFY_SCALAR&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;sse&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;alg&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RTE_ACL_CLASSIFY_SSE&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;avx2&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;alg&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RTE_ACL_CLASSIFY_AVX2&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;neon&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;alg&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RTE_ACL_CLASSIFY_NEON&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;altivec&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;alg&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RTE_ACL_CLASSIFY_ALTIVEC&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;avx512x16&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;alg&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RTE_ACL_CLASSIFY_AVX512X16&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;avx512x32&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;alg&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RTE_ACL_CLASSIFY_AVX512X32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If avx512x32 is selected, then basic trie search and other operations can proceed across 32 flows in parallel.
+Other examples exist within the code.  For more information, search the &lt;code&gt;doc&lt;/code&gt; directory for &lt;code&gt;SIMD&lt;/code&gt;.  Check out &lt;code&gt;lib/fib/trie_avx512.c&lt;/code&gt;
+and the function &lt;code&gt;trie_vec_lookup_x16x2&lt;/code&gt; for an AVX manual vectorization of a trie address to next hop lookup.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: It won&amp;rsquo;t be clear for some time which vectorization transforms actually improve performance on specific processors.  Vector
+support adds a lot of local register space but vector loads and stores can saturate memory bandwidth and drive up processor
+temperature.  We might see earlier adoption in contexts that tolerate higher latency, like firewalls, rather than low-latency
+switches and routers.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;explicit-ml-support&#34;&gt;explicit ML support&lt;/h4&gt;
+&lt;p&gt;DPDK includes ML contributions from Marvell.  See &lt;code&gt;doc/guides/mldevs/cnxk.rst&lt;/code&gt; for more information and references to the cnxk support.
+Source code support exists under &lt;code&gt;drivers/ml/cnxk&lt;/code&gt; and &lt;code&gt;lib/mldev&lt;/code&gt;.  &lt;code&gt;lib/mldev/rte_mldev.c&lt;/code&gt; may provide some insight into how
+Marvell expects DPDK users to apply their component.
+See the Marvell Octeon 10 &lt;a href=&#34;https://www.marvell.com/content/dam/marvell/en/public-collateral/embedded-processors/marvell-octeon-10-dpu-platform-white-paper.pdf&#34;&gt;white paper&lt;/a&gt; for some possible applications.&lt;/p&gt;
+&lt;h3 id=&#34;ghidra-analysis&#34;&gt;Ghidra analysis&lt;/h3&gt;
+&lt;p&gt;The DPDK exemplars stress test Ghidra in multiple ways:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;When compiled with RISCV-64 vector and bit manipulation extension support you get a good mix of autovectorization instructions.&lt;/li&gt;
+&lt;li&gt;There are a number of unsupported thread-local relocations requested&lt;/li&gt;
+&lt;li&gt;ELF replication failures are reported for &lt;code&gt;R_RISCV_COPY&lt;/code&gt;, claiming &amp;ldquo;Runtime copy is not supported&amp;rdquo;.
+&lt;ul&gt;
+&lt;li&gt;this relocation code apparently asks for a symbol to be copied from a shareable object into an executable.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 
       </description>
     </item>
@@ -1784,7 +1897,7 @@ Ghidra users searching for malware will have a harder time of it.&lt;/p&gt;
 &lt;p&gt;Note: Some material comes as-is from &lt;a href=&#34;https://www.reddit.com/r/RISCV&#34;&gt;https://www.reddit.com/r/RISCV&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;The first generally available 64 bit RISCV vector systems development kit has just become available (January 2024), based on the relatively modest
-THead C908 core.  This SDK appears tuned for video processing, perhaps video surveilance applications aggregating multiple cameras into a common video feed.
+THead C908 core.  This SDK appears tuned for video processing, perhaps video surveillance applications aggregating multiple cameras into a common video feed.
 We are probably several years from seeing server-class systems built on SiFive P870 cores, and fabricated on the fastest available fab lines.  Memory bandwidth
 is poor at present, while energy efficiency is potentially better than x86_64 designs.&lt;/p&gt;
 &lt;p&gt;Judging from internet hype, we can expect to see RISCV vector code appearing in replacements of ARM systems (automotive and possibly cell phone) and as the extensible
@@ -2090,7 +2203,7 @@ the size or field names of those structures.&lt;/p&gt;
 near the middle of &lt;code&gt;main&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;[%s --&amp;gt; %s]&lt;/code&gt; is referenced by &lt;code&gt;whisper_print_segment_callback&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;[%s --&amp;gt; %s]  %s\n&lt;/code&gt; is referenced by &lt;code&gt;whisper_full_with_state&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;segment&lt;/code&gt; occurs in several places, suggesting that the word refers to a segment of text generated from speach between two timestamps.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;segment&lt;/code&gt; occurs in several places, suggesting that the word refers to a segment of text generated from speech between two timestamps.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;ctx&lt;/code&gt; occurs 33 times, suggesting that a context structure is used - and occasionally displayed with field names&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;error: failed to initialize whisper context\n&lt;/code&gt; is referenced within &lt;code&gt;main&lt;/code&gt;.  It may help in understanding internal data organization.&lt;/li&gt;
 &lt;/ul&gt;
@@ -2110,7 +2223,7 @@ to &lt;code&gt;main&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;whisper_context&lt;/code&gt; - this likely holds most of the top-level data&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;whisper_full_params&lt;/code&gt; and &lt;code&gt;whisper_params&lt;/code&gt; - likely structures related to the optional parameters
 revealed with the &lt;code&gt;--help&lt;/code&gt; command line option.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;whisper_segment&lt;/code&gt; - possibly a segment of digitized audio to be converted as speach.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;whisper_segment&lt;/code&gt; - possibly a segment of digitized audio to be converted as speech.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;whisper_vocab&lt;/code&gt; - possible holding the text words known to the training data.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;notes&#34;&gt;notes&lt;/h3&gt;
@@ -2248,7 +2361,7 @@ are deleted and their memory reclaimed, then the outer containing vector is dele
 &lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;If whisper.cpp is representative of a broader class of ML programs compiled for RISCV-64 vector-enabled hardware, then:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Ghidra&amp;rsquo;s sleigh subsystem needs to recognize at least those vector instrucions found in the rvv 1.0 release.&lt;/li&gt;
+&lt;li&gt;Ghidra&amp;rsquo;s sleigh subsystem needs to recognize at least those vector instructions found in the rvv 1.0 release.&lt;/li&gt;
 &lt;li&gt;The decompiler view should have access to pcodeops for all of those vector instructions.&lt;/li&gt;
 &lt;li&gt;The 20 to 50 most common &lt;code&gt;vset*&lt;/code&gt; configurations (e.g., &lt;code&gt;e64m1tama&lt;/code&gt;) should be explicitly recognized at the pcodeop layer
 and displayed in the decompiler view.&lt;/li&gt;
@@ -2358,7 +2471,7 @@ can also be defaulted into the toolchain definition or individual build files.&l
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;See &amp;lt;https://gcc.gnu.org/bugs/&amp;gt; for instructions.
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;lto-wrapper: fatal error: external/gcc-14-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc returned 1 exit status
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-style:italic&#34;&gt;compilation terminated.
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So it looks like LTO has problems with riscv vector instructions.  We&amp;rsquo;ll keep testing this as more gcc 14 snapshots become available,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So it looks like LTO has problems with RISCV vector instructions.  We&amp;rsquo;ll keep testing this as more gcc 14 snapshots become available,
 but as a lower priority exercise.  LTO does not seem like a popular optimization.&lt;/p&gt;
 
       </description>
@@ -2444,7 +2557,7 @@ to cope with.  The PDF listing of all intrinsic functions is currently over 4000
 &lt;/div&gt;
 
 &lt;p&gt;This case study compares human and compiler vectorization of a simple ML quantization algorithm.  We&amp;rsquo;ll assume we need to inspect the code to understand why these two
-binaries sometimes produce different results.  Our primary goal is to see whether we can improve Ghidra&amp;rsquo;s riscv pcode generation to make such analyses easier.  A  secondary
+binaries sometimes produce different results.  Our primary goal is to see whether we can improve Ghidra&amp;rsquo;s RISCV pcode generation to make such analyses easier.  A  secondary
 goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code.&lt;/p&gt;
 &lt;p&gt;The ML algorithm under test comes from &lt;a href=&#34;https://github.com/ggerganov/llama.cpp&#34;&gt;https://github.com/ggerganov/llama.cpp&lt;/a&gt;.  It packs an array of 32 bit floats into a set of q8_0 blocks to condense large
 model files.  The q8_0 quantization reduces 32 32 bit floating point numbers to 32 8 bit integers with an associated 16 bit floating point scale factor.&lt;/p&gt;
@@ -2460,9 +2573,9 @@ reported quirks.  On some systems they produce identical results, on others the 
 &lt;li&gt;A target RISCV-64 processor supporting vector and compressed instructions.&lt;/li&gt;
 &lt;li&gt;GCC-14 developmental (pending release) compiler toolchain for native x86_64 builds&lt;/li&gt;
 &lt;li&gt;GCC-14 developmental (pending release) RISCV-64 cross-compiler toolchain with standard options &lt;code&gt;-march=rv64gcv&lt;/code&gt;, &lt;code&gt;-O3&lt;/code&gt;, and &lt;code&gt;-ffast-math&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;qemu-riscv64-static&lt;/code&gt; emulated execution of user space riscv-64 applications on an x86_64 linux test server.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;qemu-riscv64-static&lt;/code&gt; emulated execution of user space RISCV-64 applications on an x86_64 Linux test server.&lt;/li&gt;
 &lt;li&gt;A generic unit testing framework like &lt;code&gt;gtest&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Ghidra 11+ with the &lt;code&gt;isa_ext&lt;/code&gt; branch supporting  riscv 1.0 vector instructions.&lt;/li&gt;
+&lt;li&gt;Ghidra 11+ with the &lt;code&gt;isa_ext&lt;/code&gt; branch supporting  RISCV 1.0 vector instructions.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The unit test process involves three unit test executions:&lt;/p&gt;
 &lt;ul&gt;
@@ -2680,7 +2793,7 @@ on our RISCV-64 target architecture.  GCC may elect to duplicate code in order t
 &lt;/ul&gt;
 &lt;p&gt;The hand-optimized &lt;code&gt;quantize_row_q8_0&lt;/code&gt; has similar distractions, plus a few more:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;The two inner loops have been converted into riscv vector intrinsics, such that each iteration processes 32 4 byte floats into
+&lt;li&gt;The two inner loops have been converted into RISCV vector intrinsics, such that each iteration processes 32 4 byte floats into
 a single 34 byte &lt;code&gt;block_q8_0&lt;/code&gt; struct.&lt;/li&gt;
 &lt;li&gt;Four adjacent vector registers are grouped with the &lt;code&gt;m4&lt;/code&gt; setting.  On architectures with a vector length VLEN=256, that means
 all 32 4 byte floats per block will fit nicely and can be processed in parallel.  If the architecture only supports a vector length of
@@ -2763,7 +2876,7 @@ then name the parameters so that they look more like the source code.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;Note: an earlier run showed several pcode errors in &lt;code&gt;riscv-rvv.sinc&lt;/code&gt;, which have been fixed as of this run.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Red herrings - none of these have anything to do with riscv or vector intrinsics&lt;/p&gt;
+&lt;p&gt;Red herrings - none of these have anything to do with RISCV or vector intrinsics&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;uVar5 = 0x106c50;&lt;/code&gt; - there is no uVar5 variable, just a shared upper immediate load register.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;iVar2 = (int)(((uint)((int)k &amp;gt;&amp;gt; 0x1f) &amp;gt;&amp;gt; 0x1b) + (int)k) &amp;gt;&amp;gt; 5;&lt;/code&gt; - since k is a signed long and not unsigned, the compiler
@@ -2777,7 +2890,7 @@ that duplicating following code for at least one branch will be faster.&lt;/li&g
 represented in IEEE 754-2008 encoding to the lower 32 bits of integer register rd.  This works fine when the source
 is zero, but it has no clear C-like representation otherwise.  These may better be replaced with specialized pcode operations.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;There is one discrepancy that does involve the vectorization code.  The source code uses a standard riscv vector intrinsic function
+&lt;p&gt;There is one discrepancy that does involve the vectorization code.  The source code uses a standard RISCV vector intrinsic function
 to store data:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000&#34;&gt;__riscv_vse8_v_i8m1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;y&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;].&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;qs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;vs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;vl&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ghidra pcode for this instruction after renaming operands is (currently):&lt;/p&gt;
@@ -3157,7 +3270,7 @@ vector sleigh files suggests that this is the convention, but perhaps not a requ
 &lt;/li&gt;
 &lt;li&gt;What can we add to pcode semantics?
 &lt;ul&gt;
-&lt;li&gt;gcc builtins like __builtin_memcpy or popcount&lt;/li&gt;
+&lt;li&gt;gcc built-ins like __builtin_memcpy or popcount&lt;/li&gt;
 &lt;li&gt;cross platform vector notation&lt;/li&gt;
 &lt;li&gt;processor dependent decompiler plugins&lt;/li&gt;
 &lt;/ul&gt;
@@ -3169,12 +3282,12 @@ vector sleigh files suggests that this is the convention, but perhaps not a requ
 &lt;/li&gt;
 &lt;li&gt;What can we add to decompiler
 &lt;ul&gt;
-&lt;li&gt;reconstruct gcc RTL builtins&lt;/li&gt;
+&lt;li&gt;reconstruct gcc RTL built-ins&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;What plugins can we add?
 &lt;ul&gt;
-&lt;li&gt;reconstruct gcc RTL builtins&lt;/li&gt;
+&lt;li&gt;reconstruct gcc RTL built-ins&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;What external tools can we leverage?
@@ -3254,6 +3367,10 @@ patterns found in the test suite.&lt;/p&gt;
 &lt;li&gt;track the &lt;a href=&#34;https://github.com/torvalds/linux.git&#34;&gt;source&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;inspect &lt;code&gt;git log arch/riscv&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: the Linux kernel just added vector crypto support, derived from the openssl crypto routines.  This &lt;em&gt;appears&lt;/em&gt; to mostly
+be in support of encrypted file systems.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h3 id=&#34;system-images&#34;&gt;system images&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Fedora&lt;/li&gt;
@@ -3276,7 +3393,7 @@ patterns found in the test suite.&lt;/p&gt;
 &lt;h2 id=&#34;applications&#34;&gt;applications&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;track &lt;a href=&#34;https://github.com/ggerganov/whisper.cpp.git&#34;&gt;source&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Look for use of riscv intrinsics with arm/Neon and avx2 eqiuvalents as opposed to allowing compiler autovectorization.&lt;/li&gt;
+&lt;li&gt;Look for use of riscv intrinsics with arm/Neon and avx2 equivalents as opposed to allowing compiler autovectorization.&lt;/li&gt;
 &lt;li&gt;Watch for standardization of 16 bit floating point&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;ghidra&#34;&gt;Ghidra&lt;/h2&gt;
@@ -3300,7 +3417,7 @@ This suite is similar to the RISCV vector suite in that it is vector register le
     </item>
     
     <item>
-      <title>Docs: Deep Dive  Openssl</title>
+      <title>Docs: Deep Dive Openssl</title>
       <link>https://thixotropist.github.io/ghidra_import_tests/docs/notes/openssl_deep_dive/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -3659,15 +3776,15 @@ This suite is similar to the RISCV vector suite in that it is vector register le
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;gt; CNF_EX_LIBS=/opt/riscvx/lib/libdl.a -pthread
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; make
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;open libcrypto.so.3 and libssl.so.3 in Ghidra.&lt;/li&gt;
+&lt;li&gt;open &lt;code&gt;libcrypto.so.3&lt;/code&gt; and &lt;code&gt;libssl.so.3&lt;/code&gt; in Ghidra.&lt;/li&gt;
 &lt;li&gt;analyze and open bookmarks&lt;/li&gt;
-&lt;li&gt;verify that all instructions disassembled and no instructions lacked pcode&lt;/li&gt;
+&lt;li&gt;verify - in the Bookmarks window - that all instructions disassembled and no instructions lack pcode&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;integration-testing-manual&#34;&gt;Integration testing (manual)&lt;/h2&gt;
 &lt;p&gt;Disassembly testing against binutils reference dumps can follow these steps:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Open &lt;code&gt;libcrypt.so.3&lt;/code&gt; in Ghidra&lt;/li&gt;
-&lt;li&gt;export as ascii to &lt;code&gt;/tmp/libcrypto.so.3.txt&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;export as ASCII to &lt;code&gt;/tmp/libcrypto.so.3.txt&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;export as C/C++ to &lt;code&gt;/tmp/libcrypto.so.3.c&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;generate reference disassembly via
 &lt;ul&gt;
@@ -3678,9 +3795,9 @@ This suite is similar to the RISCV vector suite in that it is vector register le
 &lt;li&gt;optionally parse vector instructions out of both files and compare decodings&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;inspect-extension-management&#34;&gt;inspect extension management&lt;/h2&gt;
-&lt;p&gt;How does openssl manage RISCV ISA extensions?  We&amp;rsquo;ll use the &lt;code&gt;gcm_ghash&lt;/code&gt; family of functions as examples.&lt;/p&gt;
+&lt;p&gt;How does Openssl manage RISCV ISA extensions?  We&amp;rsquo;ll use the &lt;code&gt;gcm_ghash&lt;/code&gt; family of functions as examples.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;At compile time any &lt;code&gt;march=rv64gcv_z...&lt;/code&gt; arguments are processed by the openssl configuration tool and
+&lt;li&gt;At compile time any &lt;code&gt;march=rv64gcv_z...&lt;/code&gt; arguments are processed by the Openssl configuration tool and
 turned into &lt;code&gt;#ifdef&lt;/code&gt; variables. These can include combinations like &lt;code&gt;RISCV_HAS_ZVKB_AND_ZVKSED&lt;/code&gt;.
 Multiple versions of key routines are compiled, each with different required extensions.&lt;/li&gt;
 &lt;li&gt;The compiler can also use any of the bit manipulation and vector extensions in local optimization.&lt;/li&gt;

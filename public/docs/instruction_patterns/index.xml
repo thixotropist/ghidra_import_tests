@@ -110,7 +110,7 @@ Seven &lt;code&gt;vse64.v&lt;/code&gt; instructions then store two 64 bit zeros 
 for a dedicated accelerator hart.&lt;/p&gt;
 &lt;h3 id=&#34;memcpy-with-known-and-limited-nbytes&#34;&gt;memcpy with known and limited nbytes&lt;/h3&gt;
 &lt;p&gt;This pattern is often found when copying objects of known and limited size.  It is useful with objects as small as 4 bytes if the source alignment is
-unknown and the destination object must be aligned on halfword, word, or doubleword boundaries.&lt;/p&gt;
+unknown and the destination object must be aligned on half-word, word, or double-word boundaries.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;;                memcpy(dest=a0, src=a3, nbytes=a4) where a4 &amp;lt; 8 * (VLEN/8)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1d3da:  0c377057                vsetvli zero,a4,e8,m8,ta,ma
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1d3de:  02068407                vle8.v  v8,(a3)
@@ -169,7 +169,7 @@ The a5 register holds the number of bytes processed per iteration.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000&#34;&gt;v4&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;v1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a40000&#34;&gt;⅀&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;v4&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000&#34;&gt;fa5&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;v4&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;];&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The vector instruction &lt;code&gt;vfredusum.vs&lt;/code&gt; provides the &lt;em&gt;unordered&lt;/em&gt; reduction sum over the elements of a single vector.  That&amp;rsquo;s likely faster than an ordered sum,
-but the floating point roundoff errors will not be deterministic.&lt;/p&gt;
+but the floating point round-off errors will not be deterministic.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Note: this &lt;code&gt;whisper.cpp&lt;/code&gt; routine attempts to recognize which of two speakers is responsible for each word of a conversation.  A speaker-misattribution
 exploit might attack functions that call this.&lt;/p&gt;
@@ -304,7 +304,7 @@ the size or field names of those structures.&lt;/p&gt;
 near the middle of &lt;code&gt;main&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;[%s --&amp;gt; %s]&lt;/code&gt; is referenced by &lt;code&gt;whisper_print_segment_callback&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;[%s --&amp;gt; %s]  %s\n&lt;/code&gt; is referenced by &lt;code&gt;whisper_full_with_state&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;segment&lt;/code&gt; occurs in several places, suggesting that the word refers to a segment of text generated from speach between two timestamps.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;segment&lt;/code&gt; occurs in several places, suggesting that the word refers to a segment of text generated from speech between two timestamps.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;ctx&lt;/code&gt; occurs 33 times, suggesting that a context structure is used - and occasionally displayed with field names&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;error: failed to initialize whisper context\n&lt;/code&gt; is referenced within &lt;code&gt;main&lt;/code&gt;.  It may help in understanding internal data organization.&lt;/li&gt;
 &lt;/ul&gt;
@@ -324,7 +324,7 @@ to &lt;code&gt;main&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;whisper_context&lt;/code&gt; - this likely holds most of the top-level data&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;whisper_full_params&lt;/code&gt; and &lt;code&gt;whisper_params&lt;/code&gt; - likely structures related to the optional parameters
 revealed with the &lt;code&gt;--help&lt;/code&gt; command line option.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;whisper_segment&lt;/code&gt; - possibly a segment of digitized audio to be converted as speach.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;whisper_segment&lt;/code&gt; - possibly a segment of digitized audio to be converted as speech.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;whisper_vocab&lt;/code&gt; - possible holding the text words known to the training data.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;notes&#34;&gt;notes&lt;/h3&gt;
@@ -462,7 +462,7 @@ are deleted and their memory reclaimed, then the outer containing vector is dele
 &lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;If whisper.cpp is representative of a broader class of ML programs compiled for RISCV-64 vector-enabled hardware, then:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Ghidra&amp;rsquo;s sleigh subsystem needs to recognize at least those vector instrucions found in the rvv 1.0 release.&lt;/li&gt;
+&lt;li&gt;Ghidra&amp;rsquo;s sleigh subsystem needs to recognize at least those vector instructions found in the rvv 1.0 release.&lt;/li&gt;
 &lt;li&gt;The decompiler view should have access to pcodeops for all of those vector instructions.&lt;/li&gt;
 &lt;li&gt;The 20 to 50 most common &lt;code&gt;vset*&lt;/code&gt; configurations (e.g., &lt;code&gt;e64m1tama&lt;/code&gt;) should be explicitly recognized at the pcodeop layer
 and displayed in the decompiler view.&lt;/li&gt;

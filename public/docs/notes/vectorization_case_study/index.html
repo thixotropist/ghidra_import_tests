@@ -19,23 +19,23 @@
 
 <title>A vectorization case study | Ghidra Import Testing</title>
 <meta name="description" content="Compare and debug human and gcc vectorization
-This case study compares human and compiler vectorization of a simple ML quantization algorithm. We&amp;rsquo;ll assume we need to inspect the code to understand why these two binaries sometimes produce different results. Our primary goal is to see whether we can improve Ghidra&amp;rsquo;s riscv pcode generation to make such analyses easier. A secondary goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code.">
+This case study compares human and compiler vectorization of a simple ML quantization algorithm. We&amp;rsquo;ll assume we need to inspect the code to understand why these two binaries sometimes produce different results. Our primary goal is to see whether we can improve Ghidra&amp;rsquo;s RISCV pcode generation to make such analyses easier. A secondary goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code.">
 <meta property="og:title" content="A vectorization case study" />
 <meta property="og:description" content="Compare and debug human and gcc vectorization
-This case study compares human and compiler vectorization of a simple ML quantization algorithm. We&rsquo;ll assume we need to inspect the code to understand why these two binaries sometimes produce different results. Our primary goal is to see whether we can improve Ghidra&rsquo;s riscv pcode generation to make such analyses easier. A secondary goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code." />
+This case study compares human and compiler vectorization of a simple ML quantization algorithm. We&rsquo;ll assume we need to inspect the code to understand why these two binaries sometimes produce different results. Our primary goal is to see whether we can improve Ghidra&rsquo;s RISCV pcode generation to make such analyses easier. A secondary goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/notes/vectorization_case_study/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2024-03-07T08:15:28-05:00" />
+<meta property="article:modified_time" content="2024-04-04T08:51:19-04:00" />
 
 <meta itemprop="name" content="A vectorization case study">
 <meta itemprop="description" content="Compare and debug human and gcc vectorization
-This case study compares human and compiler vectorization of a simple ML quantization algorithm. We&rsquo;ll assume we need to inspect the code to understand why these two binaries sometimes produce different results. Our primary goal is to see whether we can improve Ghidra&rsquo;s riscv pcode generation to make such analyses easier. A secondary goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code.">
-<meta itemprop="dateModified" content="2024-03-07T08:15:28-05:00" />
+This case study compares human and compiler vectorization of a simple ML quantization algorithm. We&rsquo;ll assume we need to inspect the code to understand why these two binaries sometimes produce different results. Our primary goal is to see whether we can improve Ghidra&rsquo;s RISCV pcode generation to make such analyses easier. A secondary goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code.">
+<meta itemprop="dateModified" content="2024-04-04T08:51:19-04:00" />
 <meta itemprop="wordCount" content="3163">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="A vectorization case study"/>
 <meta name="twitter:description" content="Compare and debug human and gcc vectorization
-This case study compares human and compiler vectorization of a simple ML quantization algorithm. We&rsquo;ll assume we need to inspect the code to understand why these two binaries sometimes produce different results. Our primary goal is to see whether we can improve Ghidra&rsquo;s riscv pcode generation to make such analyses easier. A secondary goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code."/>
+This case study compares human and compiler vectorization of a simple ML quantization algorithm. We&rsquo;ll assume we need to inspect the code to understand why these two binaries sometimes produce different results. Our primary goal is to see whether we can improve Ghidra&rsquo;s RISCV pcode generation to make such analyses easier. A secondary goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code."/>
 
 
 
@@ -97,6 +97,8 @@ This case study compares human and compiler vectorization of a simple ML quantiz
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarswhisper_cpp-li">
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarsdpdk-li">
+  <a href="/ghidra_import_tests/docs/exemplars/dpdk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarsdpdk"><span class="">Data Plane Development Kit</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
@@ -168,7 +170,7 @@ This case study compares human and compiler vectorization of a simple ML quantiz
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotestracking-li">
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
-  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive  Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
+  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
 </li>
   </ul>
 </li>
@@ -236,7 +238,7 @@ This case study compares human and compiler vectorization of a simple ML quantiz
 </div>
 
 <p>This case study compares human and compiler vectorization of a simple ML quantization algorithm.  We&rsquo;ll assume we need to inspect the code to understand why these two
-binaries sometimes produce different results.  Our primary goal is to see whether we can improve Ghidra&rsquo;s riscv pcode generation to make such analyses easier.  A  secondary
+binaries sometimes produce different results.  Our primary goal is to see whether we can improve Ghidra&rsquo;s RISCV pcode generation to make such analyses easier.  A  secondary
 goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code.</p>
 <p>The ML algorithm under test comes from <a href="https://github.com/ggerganov/llama.cpp">https://github.com/ggerganov/llama.cpp</a>.  It packs an array of 32 bit floats into a set of q8_0 blocks to condense large
 model files.  The q8_0 quantization reduces 32 32 bit floating point numbers to 32 8 bit integers with an associated 16 bit floating point scale factor.</p>
@@ -252,9 +254,9 @@ reported quirks.  On some systems they produce identical results, on others the 
 <li>A target RISCV-64 processor supporting vector and compressed instructions.</li>
 <li>GCC-14 developmental (pending release) compiler toolchain for native x86_64 builds</li>
 <li>GCC-14 developmental (pending release) RISCV-64 cross-compiler toolchain with standard options <code>-march=rv64gcv</code>, <code>-O3</code>, and <code>-ffast-math</code>.</li>
-<li><code>qemu-riscv64-static</code> emulated execution of user space riscv-64 applications on an x86_64 linux test server.</li>
+<li><code>qemu-riscv64-static</code> emulated execution of user space RISCV-64 applications on an x86_64 Linux test server.</li>
 <li>A generic unit testing framework like <code>gtest</code>.</li>
-<li>Ghidra 11+ with the <code>isa_ext</code> branch supporting  riscv 1.0 vector instructions.</li>
+<li>Ghidra 11+ with the <code>isa_ext</code> branch supporting  RISCV 1.0 vector instructions.</li>
 </ul>
 <p>The unit test process involves three unit test executions:</p>
 <ul>
@@ -472,7 +474,7 @@ on our RISCV-64 target architecture.  GCC may elect to duplicate code in order t
 </ul>
 <p>The hand-optimized <code>quantize_row_q8_0</code> has similar distractions, plus a few more:</p>
 <ul>
-<li>The two inner loops have been converted into riscv vector intrinsics, such that each iteration processes 32 4 byte floats into
+<li>The two inner loops have been converted into RISCV vector intrinsics, such that each iteration processes 32 4 byte floats into
 a single 34 byte <code>block_q8_0</code> struct.</li>
 <li>Four adjacent vector registers are grouped with the <code>m4</code> setting.  On architectures with a vector length VLEN=256, that means
 all 32 4 byte floats per block will fit nicely and can be processed in parallel.  If the architecture only supports a vector length of
@@ -555,7 +557,7 @@ then name the parameters so that they look more like the source code.</p>
 </span></span></code></pre></div><blockquote>
 <p>Note: an earlier run showed several pcode errors in <code>riscv-rvv.sinc</code>, which have been fixed as of this run.</p>
 </blockquote>
-<p>Red herrings - none of these have anything to do with riscv or vector intrinsics</p>
+<p>Red herrings - none of these have anything to do with RISCV or vector intrinsics</p>
 <ul>
 <li><code>uVar5 = 0x106c50;</code> - there is no uVar5 variable, just a shared upper immediate load register.</li>
 <li><code>iVar2 = (int)(((uint)((int)k &gt;&gt; 0x1f) &gt;&gt; 0x1b) + (int)k) &gt;&gt; 5;</code> - since k is a signed long and not unsigned, the compiler
@@ -569,7 +571,7 @@ that duplicating following code for at least one branch will be faster.</li>
 represented in IEEE 754-2008 encoding to the lower 32 bits of integer register rd.  This works fine when the source
 is zero, but it has no clear C-like representation otherwise.  These may better be replaced with specialized pcode operations.</li>
 </ul>
-<p>There is one discrepancy that does involve the vectorization code.  The source code uses a standard riscv vector intrinsic function
+<p>There is one discrepancy that does involve the vectorization code.  The source code uses a standard RISCV vector intrinsic function
 to store data:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#000">__riscv_vse8_v_i8m1</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">].</span><span style="color:#000">qs</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">vs</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">vl</span><span style="color:#000;font-weight:bold">);</span>
 </span></span></code></pre></div><p>Ghidra pcode for this instruction after renaming operands is (currently):</p>
@@ -806,7 +808,7 @@ listing view but missing in the pcode semantics view.  Fix this and move on.</p>
 <code>vmv_x_s</code>.</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified March 7, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/6c1bede65bdc7358edf1fcd2a68f98d1b061f81e">Add notes on pcode testing with qemu (6c1bede)</a>
+  Last modified April 4, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/08034c6d6444ae5db07582f4f7454f238bc09abe">Spell check pass (08034c6)</a>
 </div>
 
 </div>

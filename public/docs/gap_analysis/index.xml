@@ -77,7 +77,7 @@ Ghidra users searching for malware will have a harder time of it.&lt;/p&gt;
 &lt;p&gt;Note: Some material comes as-is from &lt;a href=&#34;https://www.reddit.com/r/RISCV&#34;&gt;https://www.reddit.com/r/RISCV&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;The first generally available 64 bit RISCV vector systems development kit has just become available (January 2024), based on the relatively modest
-THead C908 core.  This SDK appears tuned for video processing, perhaps video surveilance applications aggregating multiple cameras into a common video feed.
+THead C908 core.  This SDK appears tuned for video processing, perhaps video surveillance applications aggregating multiple cameras into a common video feed.
 We are probably several years from seeing server-class systems built on SiFive P870 cores, and fabricated on the fastest available fab lines.  Memory bandwidth
 is poor at present, while energy efficiency is potentially better than x86_64 designs.&lt;/p&gt;
 &lt;p&gt;Judging from internet hype, we can expect to see RISCV vector code appearing in replacements of ARM systems (automotive and possibly cell phone) and as the extensible
@@ -214,7 +214,7 @@ originally contributed by &lt;a href=&#34;https://pk.linkedin.com/in/ahmad-tamee
 &lt;/li&gt;
 &lt;li&gt;What can we add to pcode semantics?
 &lt;ul&gt;
-&lt;li&gt;gcc builtins like __builtin_memcpy or popcount&lt;/li&gt;
+&lt;li&gt;gcc built-ins like __builtin_memcpy or popcount&lt;/li&gt;
 &lt;li&gt;cross platform vector notation&lt;/li&gt;
 &lt;li&gt;processor dependent decompiler plugins&lt;/li&gt;
 &lt;/ul&gt;
@@ -226,12 +226,12 @@ originally contributed by &lt;a href=&#34;https://pk.linkedin.com/in/ahmad-tamee
 &lt;/li&gt;
 &lt;li&gt;What can we add to decompiler
 &lt;ul&gt;
-&lt;li&gt;reconstruct gcc RTL builtins&lt;/li&gt;
+&lt;li&gt;reconstruct gcc RTL built-ins&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;What plugins can we add?
 &lt;ul&gt;
-&lt;li&gt;reconstruct gcc RTL builtins&lt;/li&gt;
+&lt;li&gt;reconstruct gcc RTL built-ins&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;What external tools can we leverage?

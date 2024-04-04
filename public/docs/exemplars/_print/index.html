@@ -106,6 +106,14 @@ This is the multi-page printable view of this section.
 
     
   
+    
+    
+	
+<li>2: <a href="#pg-82e1212fbf9a7e85bfc9498444b73578">Data Plane Development Kit</a></li>
+
+
+    
+  
 
     </ul>
 
@@ -124,6 +132,34 @@ Some are imported from system disk images.  Others are locally built from small 
 The initial scope includes Linux-capable RISCV 64 bit systems that might be found in network appliances or ML inference engines.  That makes for a local
 bias towards privileged code, concurrency management, and performance optimization.  That scope expands slightly to x86_64 exemplars that
 may help triage issues that show up first in RISCV 64 exemplars.</p>
+<p>You can get decent exemplar coverage with this set of exemplars:</p>
+<ul>
+<li>from a general purpose RISCV-64 disk image:
+<ul>
+<li>kernel - a RISCV-64 kernel built with a recent Linux release</li>
+<li>kernel load module - an ELF binary intended to be loaded into a running kernel</li>
+<li>system library - libc.so or libssl.so copied from a generic Linux disk image</li>
+<li>system application - a user application linking against system libraries and running over a Linux kernel</li>
+</ul>
+</li>
+<li>built from source, with the development tip of the gcc toolchain and many explicit ISA extensions:
+<ul>
+<li>binutils assembly test suite - ISA extensions usually show up here first, along with preferred disassembly patterns</li>
+<li>memcpy and other libc replacements coded with RISCV-64 ISA intrinsic extensions</li>
+<li><code>libssl.so</code> and <code>libcrypt.so</code> built from source and configured for all standard and frozen crypto, vector, and bit manipulation
+instruction extensions.</li>
+<li>DPDK network appliance source code, <code>l3fwd</code> and <code>l2fwd</code>.</li>
+</ul>
+</li>
+</ul>
+<p>In general, visual inspection of these exemplars after importing into Ghidra should show:</p>
+<ul>
+<li>no failed constructors, so all instructions are recognized by Ghidra during disassembly</li>
+<li>no missing pcode</li>
+<li>all vector vset* instructions are unwrapped to show selected element width, multiplier, tail and mask handling</li>
+</ul>
+<p>Ghidra will in a few cases disassemble an instruction differently than binutils&rsquo; <code>objdump</code>.  That&rsquo;s fine, if it is due to a limitation
+of Ghidra&rsquo;s SLEIGH language. If alignment to <code>objdump</code> is possible, that&rsquo;s preferable.</p>
 <h2 id="imported-exemplars">Imported exemplars</h2>
 <p>Most of the imported large binary exemplars are broken out of current Fedora disk images.  The top level <code>acquireExternalExemplars.py</code>
 script controls this process, sometimes with some manual intervention to handle image mounting.  Selection of the imported disk image
@@ -310,9 +346,9 @@ gcc-14 toolchain due for mid 2024 release.</p>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
 </span></span></code></pre></div><h3 id="x86_64-exemplars">x86_64 exemplars</h3>
 <p>A few x86_64 exemplars exist to explore the scope of issues raised by RISCV exemplars.  The <code>x86_64/exemplars</code> directory
-shows how optimizing gcc-14 compilations handle simple loops and builtins like <code>memcpy</code> for various microarchitectures.</p>
+shows how optimizing gcc-14 compilations handle simple loops and built-ins like <code>memcpy</code> for various microarchitectures.</p>
 <p>Intel microarchitectures can be grouped into common profiles like <code>x86-64-v2</code>, <code>x86-64-v3</code>, and <code>x86-64-v4</code>.  Each has its own set of
-instruction set extensions, so an optimizing compiler like gcc-14 will autovectorize loops and builtins differently for each microarchitecture.</p>
+instruction set extensions, so an optimizing compiler like gcc-14 will autovectorize loops and built-ins differently for each microarchitecture.</p>
 <p>The <code>memcpy</code> exemplar set includes source code and three executables compiled from that source code with <code>-march=x86-64-v2</code>, <code>-march=x86-64-v3</code>, and
 <code>-march=x86-64-v4</code>.  The binutils-2.41 <code>objdump</code> disassembly is provided for each executable, for comparison with Ghidra&rsquo;s disassembly window.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/exemplars$ ls memcpy*
@@ -857,7 +893,7 @@ add more explicit decodings for <code>vsetvli</code> and <code>vsetivli</code>, 
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v4
 </span></span></code></pre></div><p>Load these into Ghidra 11.1-DEV.  The <code>x86-64-v4</code> build is useless in Ghidra, since a different class of x86_64 vector extensions is used in that newer microarchitecture
 and Ghidra doesn&rsquo;t recognize it.  The <code>x86-64-v3</code> build looks accessible.</p>
-<p>Try an x86_64 build with the local compiler (Fedora 39 default compiler) and LInk Time Optimization enabled:</p>
+<p>Try an x86_64 build with the local compiler (Fedora 39 default compiler) and Link Time Optimization enabled:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel build  --copt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-march=x86-64-v3&#34;</span> --copt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-flto&#34;</span>  --linkopt<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;-Wl,-flto&#34;</span> @whisper_cpp//:main
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v3-lto
@@ -868,6 +904,119 @@ and Ghidra doesn&rsquo;t recognize it.  The <code>x86-64-v3</code> build looks a
 This suggests BSIM could get confused with intermediate functions if trying to connect binaries built with and without LTO.</li>
 <li><em>None</em> of the hermetic toolchains appear to work when link time optimization is requested.  There appears to be at least one missing
 LTO plugin from the gcc-14 toolchain packaging.  We&rsquo;ll try and find such for the next snapshot of gcc-14.</li>
+</ul>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-82e1212fbf9a7e85bfc9498444b73578">2 - Data Plane Development Kit</h1>
+    
+	
+
+<div class="pageinfo pageinfo-primary">
+<p>Intel&rsquo;s DPDK framework supports some Intel and Arm Neon vector instructions.  What does it for RISCV extensions?
+Are ISA extensions materially useful to a network appliance?</p>
+
+</div>
+
+<p>Check out DPDK from GitHub, patch the RISCV configuration with <code>riscv64/toolchains/dpdk/dpdk.pat</code>, and crosscompile with <code>meson</code>
+and <code>ninja</code>.  Copy some of the examples into <code>riscv64/exemplars</code> and examine them in Ghidra.</p>
+<ul>
+<li>for this we use as many standard extensions as we can, excluding vendor-specific extensions.</li>
+</ul>
+<p>Configure a build directory:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> patch -p1 &lt; .../riscv64/toolchains/dpdk/dpdk.pat
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> meson setup build --cross-file config/riscv/riscv64_linux_gcc -Dexamples<span style="color:#ce5c00;font-weight:bold">=</span>all
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#204a87">cd</span> build
+</span></span></code></pre></div><p>Edit <code>build/build.ninja</code>:</p>
+<ul>
+<li>replace all occurrences of <code>-ldl</code> with <code>/opt/riscvx/lib/libdl.a</code> - you should see about 235 replacements</li>
+</ul>
+<p>Build with:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> ninja -C build
+</span></span></code></pre></div><p>Check the cross-compilation with:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> readelf -A build/examples/dpdk-l3fwd
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Attribute Section: riscv
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">File Attributes
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_stack_align: 16-bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_arch: &#34;rv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zba1p0_zbb1p0_zbc1p0_zbkb1p0_zbkc1p0_zbkx1p0_zvbb1p0_zvbc1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvkb1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_priv_spec: 1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  Tag_RISCV_priv_spec_minor: 11
+</span></span></span></code></pre></div><p>Import into Ghidra 11.1-DEV(isa_ext), noting multiple import messages similar to:</p>
+<ul>
+<li>Unsupported Thread-Local Symbol not loaded</li>
+<li>ELF Relocation Failure: R_RISCV_COPY (4, 0x4) at 00f0c400 (Symbol = stdout) - Runtime copy not supported</li>
+</ul>
+<h2 id="analysis">Analysis</h2>
+<h3 id="source-code-examination">source code examination</h3>
+<h4 id="explicit-vectorization">explicit vectorization</h4>
+<p>The source code has explicit parallel coding for Intel and Arm/Neon architectures, for instance within
+the basic layer 3 forwarding example:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">struct</span> <span style="color:#000">acl_algorithms</span> <span style="color:#000">acl_alg</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;scalar&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_SCALAR</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;sse&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_SSE</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;avx2&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_AVX2</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;neon&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_NEON</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;altivec&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_ALTIVEC</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;avx512x16&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_AVX512X16</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;avx512x32&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">alg</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">RTE_ACL_CLASSIFY_AVX512X32</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">};</span>
+</span></span></code></pre></div><p>If avx512x32 is selected, then basic trie search and other operations can proceed across 32 flows in parallel.
+Other examples exist within the code.  For more information, search the <code>doc</code> directory for <code>SIMD</code>.  Check out <code>lib/fib/trie_avx512.c</code>
+and the function <code>trie_vec_lookup_x16x2</code> for an AVX manual vectorization of a trie address to next hop lookup.</p>
+<blockquote>
+<p>Note: It won&rsquo;t be clear for some time which vectorization transforms actually improve performance on specific processors.  Vector
+support adds a lot of local register space but vector loads and stores can saturate memory bandwidth and drive up processor
+temperature.  We might see earlier adoption in contexts that tolerate higher latency, like firewalls, rather than low-latency
+switches and routers.</p>
+</blockquote>
+<h4 id="explicit-ml-support">explicit ML support</h4>
+<p>DPDK includes ML contributions from Marvell.  See <code>doc/guides/mldevs/cnxk.rst</code> for more information and references to the cnxk support.
+Source code support exists under <code>drivers/ml/cnxk</code> and <code>lib/mldev</code>.  <code>lib/mldev/rte_mldev.c</code> may provide some insight into how
+Marvell expects DPDK users to apply their component.
+See the Marvell Octeon 10 <a href="https://www.marvell.com/content/dam/marvell/en/public-collateral/embedded-processors/marvell-octeon-10-dpu-platform-white-paper.pdf">white paper</a> for some possible applications.</p>
+<h3 id="ghidra-analysis">Ghidra analysis</h3>
+<p>The DPDK exemplars stress test Ghidra in multiple ways:</p>
+<ul>
+<li>When compiled with RISCV-64 vector and bit manipulation extension support you get a good mix of autovectorization instructions.</li>
+<li>There are a number of unsupported thread-local relocations requested</li>
+<li>ELF replication failures are reported for <code>R_RISCV_COPY</code>, claiming &ldquo;Runtime copy is not supported&rdquo;.
+<ul>
+<li>this relocation code apparently asks for a symbol to be copied from a shareable object into an executable.</li>
+</ul>
+</li>
 </ul>
 
 </div>

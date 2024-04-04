@@ -412,7 +412,7 @@ Seven <code>vse64.v</code> instructions then store two 64 bit zeros each to succ
 for a dedicated accelerator hart.</p>
 <h3 id="memcpy-with-known-and-limited-nbytes">memcpy with known and limited nbytes</h3>
 <p>This pattern is often found when copying objects of known and limited size.  It is useful with objects as small as 4 bytes if the source alignment is
-unknown and the destination object must be aligned on halfword, word, or doubleword boundaries.</p>
+unknown and the destination object must be aligned on half-word, word, or double-word boundaries.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>;                memcpy(dest=a0, src=a3, nbytes=a4) where a4 &lt; 8 * (VLEN/8)
 </span></span><span style="display:flex;"><span>1d3da:  0c377057                vsetvli zero,a4,e8,m8,ta,ma
 </span></span><span style="display:flex;"><span>1d3de:  02068407                vle8.v  v8,(a3)
@@ -471,7 +471,7 @@ The a5 register holds the number of bytes processed per iteration.</p>
 </span></span><span style="display:flex;"><span><span style="color:#000">v4</span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">v1</span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#a40000">⅀</span> <span style="color:#000">v4</span><span style="color:#000;font-weight:bold">;</span>
 </span></span><span style="display:flex;"><span><span style="color:#000">fa5</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">v4</span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">];</span>
 </span></span></code></pre></div><p>The vector instruction <code>vfredusum.vs</code> provides the <em>unordered</em> reduction sum over the elements of a single vector.  That&rsquo;s likely faster than an ordered sum,
-but the floating point roundoff errors will not be deterministic.</p>
+but the floating point round-off errors will not be deterministic.</p>
 <blockquote>
 <p>Note: this <code>whisper.cpp</code> routine attempts to recognize which of two speakers is responsible for each word of a conversation.  A speaker-misattribution
 exploit might attack functions that call this.</p>
@@ -610,7 +610,7 @@ the size or field names of those structures.</p>
 near the middle of <code>main</code></li>
 <li><code>[%s --&gt; %s]</code> is referenced by <code>whisper_print_segment_callback</code></li>
 <li><code>[%s --&gt; %s]  %s\n</code> is referenced by <code>whisper_full_with_state</code></li>
-<li><code>segment</code> occurs in several places, suggesting that the word refers to a segment of text generated from speach between two timestamps.</li>
+<li><code>segment</code> occurs in several places, suggesting that the word refers to a segment of text generated from speech between two timestamps.</li>
 <li><code>ctx</code> occurs 33 times, suggesting that a context structure is used - and occasionally displayed with field names</li>
 <li><code>error: failed to initialize whisper context\n</code> is referenced within <code>main</code>.  It may help in understanding internal data organization.</li>
 </ul>
@@ -630,7 +630,7 @@ to <code>main</code>.</li>
 <li><code>whisper_context</code> - this likely holds most of the top-level data</li>
 <li><code>whisper_full_params</code> and <code>whisper_params</code> - likely structures related to the optional parameters
 revealed with the <code>--help</code> command line option.</li>
-<li><code>whisper_segment</code> - possibly a segment of digitized audio to be converted as speach.</li>
+<li><code>whisper_segment</code> - possibly a segment of digitized audio to be converted as speech.</li>
 <li><code>whisper_vocab</code> - possible holding the text words known to the training data.</li>
 </ul>
 <h3 id="notes">notes</h3>
@@ -768,7 +768,7 @@ are deleted and their memory reclaimed, then the outer containing vector is dele
 <h2 id="summary">Summary</h2>
 <p>If whisper.cpp is representative of a broader class of ML programs compiled for RISCV-64 vector-enabled hardware, then:</p>
 <ol>
-<li>Ghidra&rsquo;s sleigh subsystem needs to recognize at least those vector instrucions found in the rvv 1.0 release.</li>
+<li>Ghidra&rsquo;s sleigh subsystem needs to recognize at least those vector instructions found in the rvv 1.0 release.</li>
 <li>The decompiler view should have access to pcodeops for all of those vector instructions.</li>
 <li>The 20 to 50 most common <code>vset*</code> configurations (e.g., <code>e64m1tama</code>) should be explicitly recognized at the pcodeop layer
 and displayed in the decompiler view.</li>

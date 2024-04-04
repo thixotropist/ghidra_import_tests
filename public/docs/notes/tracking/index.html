@@ -32,7 +32,7 @@ Toolchains and platforms binutils New instruction extensions often appear here a
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/notes/tracking/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2024-03-15T08:07:19-04:00" />
+<meta property="article:modified_time" content="2024-04-04T08:51:19-04:00" />
 
 <meta itemprop="name" content="Tracking Convergence">
 <meta itemprop="description" content="We can track external events to plan future integration test effort.
@@ -40,8 +40,8 @@ This project gets more relevant when RISCV-64 processors start appearing in appl
 The project results get easier to integrate if and when more development effort is applied to specific Ghidra components.
 This page collects external sites to track for convergence.
 Toolchains and platforms binutils New instruction extensions often appear here as the first public implementation.">
-<meta itemprop="dateModified" content="2024-03-15T08:07:19-04:00" />
-<meta itemprop="wordCount" content="348">
+<meta itemprop="dateModified" content="2024-04-04T08:51:19-04:00" />
+<meta itemprop="wordCount" content="374">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Tracking Convergence"/>
 <meta name="twitter:description" content="We can track external events to plan future integration test effort.
 This project gets more relevant when RISCV-64 processors start appearing in appliances with more instruction set extensions and with code compiled by newer compiler toolchains.
@@ -109,6 +109,8 @@ Toolchains and platforms binutils New instruction extensions often appear here a
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarswhisper_cpp-li">
   <a href="/ghidra_import_tests/docs/exemplars/whisper_cpp/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarswhisper_cpp"><span class="">Whisper_cpp</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsexemplarsdpdk-li">
+  <a href="/ghidra_import_tests/docs/exemplars/dpdk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarsdpdk"><span class="">Data Plane Development Kit</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
@@ -180,7 +182,7 @@ Toolchains and platforms binutils New instruction extensions often appear here a
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-ghidra_import_testsdocsnotestracking-li">
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="td-sidebar-nav-active-item">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
-  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive  Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
+  <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
 </li>
   </ul>
 </li>
@@ -307,6 +309,10 @@ patterns found in the test suite.</p>
 <li>track the <a href="https://github.com/torvalds/linux.git">source</a></li>
 <li>inspect <code>git log arch/riscv</code></li>
 </ul>
+<blockquote>
+<p>Note: the Linux kernel just added vector crypto support, derived from the openssl crypto routines.  This <em>appears</em> to mostly
+be in support of encrypted file systems.</p>
+</blockquote>
 <h3 id="system-images">system images</h3>
 <ul>
 <li>Fedora</li>
@@ -329,7 +335,7 @@ patterns found in the test suite.</p>
 <h2 id="applications">applications</h2>
 <ul>
 <li>track <a href="https://github.com/ggerganov/whisper.cpp.git">source</a></li>
-<li>Look for use of riscv intrinsics with arm/Neon and avx2 eqiuvalents as opposed to allowing compiler autovectorization.</li>
+<li>Look for use of riscv intrinsics with arm/Neon and avx2 equivalents as opposed to allowing compiler autovectorization.</li>
 <li>Watch for standardization of 16 bit floating point</li>
 </ul>
 <h2 id="ghidra">Ghidra</h2>
@@ -350,7 +356,7 @@ This suite is similar to the RISCV vector suite in that it is vector register le
 </ul>
 
 	<div class="td-page-meta__lastmod">
-  Last modified March 15, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/6dc26ba0fe3d05f7b50d99cb4f7836c47736dd27">Add development tip of libcrypto.so as an integration test exemplar for vector crypto and bitmap operations. (6dc26ba)</a>
+  Last modified April 4, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/08034c6d6444ae5db07582f4f7454f238bc09abe">Spell check pass (08034c6)</a>
 </div>
 
 </div>

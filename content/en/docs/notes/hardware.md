@@ -11,10 +11,6 @@ When will RISCV-64 cores be deployed into systems needing reverse-engineering?
 
 ## General purpose systems
 
-https://www.sifive.com/boards/hifive-pro-p550
-
-https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/
-
 https://www.cnx-software.com/2022/11/02/sifive-p670-and-p470-risc-v-processors-add-risc-v-vector-extensions/
 
 https://www.cnx-software.com/2023/08/30/sifive-unveils-p870-high-performance-core-discusses-future-of-risc-v
@@ -22,6 +18,12 @@ https://www.cnx-software.com/2023/08/30/sifive-unveils-p870-high-performance-cor
 https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc
 
 https://www.scmp.com/tech/tech-trends/article/3232686/chinas-top-chip-designers-form-risc-v-patent-alliance-promote-semiconductor-self-sufficiency
+
+
+>Note: the general SiFive SDK boards might have been deprioritized in favor of specific licensing agreements.
+https://www.sifive.com/boards/hifive-pro-p550
+
+https://liliputing.com/sifive-hifive-pro-p550-dev-board-coming-this-summer-with-intel-horse-creek-risc-v-chip/
 
 We might expect to see high performance network appliances in 2026 using chip architectures like the SiFive 670 or 870,
 or from one of the alternative Chinese vendors.  Chips with vector extensions are due soon, with crypto extensions coming shortly after.
@@ -34,6 +36,8 @@ that help manage or synchronize multi-socket cache memory.
 Let's set a provocative long term goal: How will Ghidra analyze a future network appliance that combines Machine Learning with self-modifying code
 to accelerate network routing and forwarding?  Such a device might generate fast-path code sequences to sessionize incoming packets and deliver them with
 minimal cache flushes or branches taken.
+
+A RISCV-64 implementation of the Marvell Octeon 10 might be a feasible future hardware component.
 
 ## Portable appliances
 

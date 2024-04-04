@@ -16,6 +16,29 @@ The initial scope includes Linux-capable RISCV 64 bit systems that might be foun
 bias towards privileged code, concurrency management, and performance optimization.  That scope expands slightly to x86_64 exemplars that
 may help triage issues that show up first in RISCV 64 exemplars.
 
+You can get decent exemplar coverage with this set of exemplars:
+
+* from a general purpose RISCV-64 disk image:
+    * kernel - a RISCV-64 kernel built with a recent Linux release
+    * kernel load module - an ELF binary intended to be loaded into a running kernel
+    * system library - libc.so or libssl.so copied from a generic Linux disk image
+    * system application - a user application linking against system libraries and running over a Linux kernel
+* built from source, with the development tip of the gcc toolchain and many explicit ISA extensions:
+    * binutils assembly test suite - ISA extensions usually show up here first, along with preferred disassembly patterns
+    * memcpy and other libc replacements coded with RISCV-64 ISA intrinsic extensions
+    * `libssl.so` and `libcrypt.so` built from source and configured for all standard and frozen crypto, vector, and bit manipulation
+      instruction extensions.
+    * DPDK network appliance source code, `l3fwd` and `l2fwd`.
+
+In general, visual inspection of these exemplars after importing into Ghidra should show:
+
+* no failed constructors, so all instructions are recognized by Ghidra during disassembly
+* no missing pcode
+* all vector vset* instructions are unwrapped to show selected element width, multiplier, tail and mask handling
+
+Ghidra will in a few cases disassemble an instruction differently than binutils' `objdump`.  That's fine, if it is due to a limitation
+of Ghidra's SLEIGH language. If alignment to `objdump` is possible, that's preferable.
+
 ## Imported exemplars
 
 Most of the imported large binary exemplars are broken out of current Fedora disk images.  The top level `acquireExternalExemplars.py`
@@ -261,10 +284,10 @@ undefined8 main(void)
 ### x86_64 exemplars
 
 A few x86_64 exemplars exist to explore the scope of issues raised by RISCV exemplars.  The `x86_64/exemplars` directory
-shows how optimizing gcc-14 compilations handle simple loops and builtins like `memcpy` for various microarchitectures.
+shows how optimizing gcc-14 compilations handle simple loops and built-ins like `memcpy` for various microarchitectures.
 
 Intel microarchitectures can be grouped into common profiles like `x86-64-v2`, `x86-64-v3`, and `x86-64-v4`.  Each has its own set of
-instruction set extensions, so an optimizing compiler like gcc-14 will autovectorize loops and builtins differently for each microarchitecture.
+instruction set extensions, so an optimizing compiler like gcc-14 will autovectorize loops and built-ins differently for each microarchitecture.
 
 The `memcpy` exemplar set includes source code and three executables compiled from that source code with `-march=x86-64-v2`, `-march=x86-64-v3`, and
 `-march=x86-64-v4`.  The binutils-2.41 `objdump` disassembly is provided for each executable, for comparison with Ghidra's disassembly window.

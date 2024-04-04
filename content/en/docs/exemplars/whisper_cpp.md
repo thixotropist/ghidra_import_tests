@@ -506,7 +506,7 @@ $ cp bazel-bin/external/whisper_cpp/main ../exemplars/whisper_cpp_x86-64-v4
 Load these into Ghidra 11.1-DEV.  The `x86-64-v4` build is useless in Ghidra, since a different class of x86_64 vector extensions is used in that newer microarchitecture
 and Ghidra doesn't recognize it.  The `x86-64-v3` build looks accessible.
 
-Try an x86_64 build with the local compiler (Fedora 39 default compiler) and LInk Time Optimization enabled:
+Try an x86_64 build with the local compiler (Fedora 39 default compiler) and Link Time Optimization enabled:
 
 ```console
 $ bazel build  --copt="-march=x86-64-v3" --copt="-flto"  --linkopt="-Wl,-flto" @whisper_cpp//:main

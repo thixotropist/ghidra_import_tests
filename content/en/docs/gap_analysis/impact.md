@@ -31,7 +31,7 @@ The general challenge for Ghidra is that of reconstructing the context from sequ
 >Note: Some material comes as-is from https://www.reddit.com/r/RISCV
 
 The first generally available 64 bit RISCV vector systems development kit has just become available (January 2024), based on the relatively modest
-THead C908 core.  This SDK appears tuned for video processing, perhaps video surveilance applications aggregating multiple cameras into a common video feed.
+THead C908 core.  This SDK appears tuned for video processing, perhaps video surveillance applications aggregating multiple cameras into a common video feed.
 We are probably several years from seeing server-class systems built on SiFive P870 cores, and fabricated on the fastest available fab lines.  Memory bandwidth
 is poor at present, while energy efficiency is potentially better than x86_64 designs.
 

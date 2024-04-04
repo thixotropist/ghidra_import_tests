@@ -8,7 +8,7 @@ Intel's DPDK framework supports some Intel and Arm Neon vector instructions.  Wh
 Are ISA extensions materially useful to a network appliance?
 {{% /pageinfo %}}
 
-Check out dpdk from github, patch the riscv configuration with `riscv64/toolchains/dpdk/dpdk.pat`, and crosscompile with `meson`
+Check out DPDK from GitHub, patch the RISCV configuration with `riscv64/toolchains/dpdk/dpdk.pat`, and crosscompile with `meson`
 and `ninja`.  Copy some of the examples into `riscv64/exemplars` and examine them in Ghidra.
 
 * for this we use as many standard extensions as we can, excluding vendor-specific extensions.
@@ -23,7 +23,7 @@ $ cd build
 
 Edit `build/build.ninja`:
 
-* replace all occurences of `-ldl` with `/opt/riscvx/lib/libdl.a` - you should see about 235 replacements
+* replace all occurrences of `-ldl` with `/opt/riscvx/lib/libdl.a` - you should see about 235 replacements
 
 Build with:
 
@@ -31,7 +31,7 @@ Build with:
 $ ninja -C build
 ```
 
-Check the crosscompilation with:
+Check the cross-compilation with:
 
 ```console
 $ readelf -A build/examples/dpdk-l3fwd
@@ -113,4 +113,4 @@ The DPDK exemplars stress test Ghidra in multiple ways:
 * When compiled with RISCV-64 vector and bit manipulation extension support you get a good mix of autovectorization instructions.
 * There are a number of unsupported thread-local relocations requested
 * ELF replication failures are reported for `R_RISCV_COPY`, claiming "Runtime copy is not supported".
-    * this relocation code apparently asks for a symbol to be copied from a sharable object into an executable. 
+    * this relocation code apparently asks for a symbol to be copied from a shareable object into an executable. 

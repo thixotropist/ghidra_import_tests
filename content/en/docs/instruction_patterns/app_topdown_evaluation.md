@@ -86,7 +86,7 @@ the size or field names of those structures.
   near the middle of `main`
 * `[%s --> %s]` is referenced by `whisper_print_segment_callback`
 * `[%s --> %s]  %s\n` is referenced by `whisper_full_with_state`
-* `segment` occurs in several places, suggesting that the word refers to a segment of text generated from speach between two timestamps.
+* `segment` occurs in several places, suggesting that the word refers to a segment of text generated from speech between two timestamps.
 * `ctx` occurs 33 times, suggesting that a context structure is used - and occasionally displayed with field names
 * `error: failed to initialize whisper context\n` is referenced within `main`.  It may help in understanding internal data organization.
 
@@ -107,7 +107,7 @@ Ghidra knows that these exist as names, but the details are left to us to unrave
 * `whisper_context` - this likely holds most of the top-level data
 * `whisper_full_params` and `whisper_params` - likely structures related to the optional parameters
   revealed with the `--help` command line option.
-* `whisper_segment` - possibly a segment of digitized audio to be converted as speach.
+* `whisper_segment` - possibly a segment of digitized audio to be converted as speech.
 * `whisper_vocab` - possible holding the text words known to the training data.
 
 ### notes
@@ -276,7 +276,7 @@ The constructor `std::vector<>::vector` is different.  Vector instructions are u
 
 If whisper.cpp is representative of a broader class of ML programs compiled for RISCV-64 vector-enabled hardware, then:
 
-1. Ghidra's sleigh subsystem needs to recognize at least those vector instrucions found in the rvv 1.0 release.
+1. Ghidra's sleigh subsystem needs to recognize at least those vector instructions found in the rvv 1.0 release.
 2. The decompiler view should have access to pcodeops for all of those vector instructions.
 3. The 20 to 50 most common `vset*` configurations (e.g., `e64m1tama`) should be explicitly recognized at the pcodeop layer
    and displayed in the decompiler view.

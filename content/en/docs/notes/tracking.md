@@ -58,7 +58,7 @@ Look for commits indicating the stability of vectorization or new compound loop 
 * track the [source](https://github.com/torvalds/linux.git)
 * inspect `git log arch/riscv`
 
->Note: the linux kernel just added vector crypto support, derived from the openssl crypto routines.  This *appears* to mostly
+>Note: the Linux kernel just added vector crypto support, derived from the openssl crypto routines.  This *appears* to mostly
 be in support of encrypted file systems.
 
 ### system images
@@ -80,7 +80,7 @@ be in support of encrypted file systems.
 ## applications
 
 * track [source](https://github.com/ggerganov/whisper.cpp.git)
-* Look for use of riscv intrinsics with arm/Neon and avx2 eqiuvalents as opposed to allowing compiler autovectorization.
+* Look for use of riscv intrinsics with arm/Neon and avx2 equivalents as opposed to allowing compiler autovectorization.
 * Watch for standardization of 16 bit floating point
 
 ## Ghidra

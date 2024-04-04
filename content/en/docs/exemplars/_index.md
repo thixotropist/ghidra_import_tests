@@ -22,7 +22,7 @@ You can get decent exemplar coverage with this set of exemplars:
     * kernel - a RISCV-64 kernel built with a recent Linux release
     * kernel load module - an ELF binary intended to be loaded into a running kernel
     * system library - libc.so or libssl.so copied from a generic Linux disk image
-    * system application - a user application linking against system libraries and running over a linux kernel
+    * system application - a user application linking against system libraries and running over a Linux kernel
 * built from source, with the development tip of the gcc toolchain and many explicit ISA extensions:
     * binutils assembly test suite - ISA extensions usually show up here first, along with preferred disassembly patterns
     * memcpy and other libc replacements coded with RISCV-64 ISA intrinsic extensions
@@ -284,10 +284,10 @@ undefined8 main(void)
 ### x86_64 exemplars
 
 A few x86_64 exemplars exist to explore the scope of issues raised by RISCV exemplars.  The `x86_64/exemplars` directory
-shows how optimizing gcc-14 compilations handle simple loops and builtins like `memcpy` for various microarchitectures.
+shows how optimizing gcc-14 compilations handle simple loops and built-ins like `memcpy` for various microarchitectures.
 
 Intel microarchitectures can be grouped into common profiles like `x86-64-v2`, `x86-64-v3`, and `x86-64-v4`.  Each has its own set of
-instruction set extensions, so an optimizing compiler like gcc-14 will autovectorize loops and builtins differently for each microarchitecture.
+instruction set extensions, so an optimizing compiler like gcc-14 will autovectorize loops and built-ins differently for each microarchitecture.
 
 The `memcpy` exemplar set includes source code and three executables compiled from that source code with `-march=x86-64-v2`, `-march=x86-64-v3`, and
 `-march=x86-64-v4`.  The binutils-2.41 `objdump` disassembly is provided for each executable, for comparison with Ghidra's disassembly window.

@@ -379,7 +379,7 @@ $ make
 Disassembly testing against binutils reference dumps can follow these steps:
 
 * Open `libcrypt.so.3` in Ghidra
-* export as ascii to `/tmp/libcrypto.so.3.txt`
+* export as ASCII to `/tmp/libcrypto.so.3.txt`
 * export as C/C++ to `/tmp/libcrypto.so.3.c`
 * generate reference disassembly via
     * `/opt/riscvx/bin/riscv64-unknown-linux-gnu-objdump -j .text -D libcrypto.so.3 > libcrypto.so.3_ref.txt`
@@ -388,9 +388,9 @@ Disassembly testing against binutils reference dumps can follow these steps:
 
 ## inspect extension management
 
-How does openssl manage RISCV ISA extensions?  We'll use the `gcm_ghash` family of functions as examples.
+How does Openssl manage RISCV ISA extensions?  We'll use the `gcm_ghash` family of functions as examples.
 
-* At compile time any `march=rv64gcv_z...` arguments are processed by the openssl configuration tool and
+* At compile time any `march=rv64gcv_z...` arguments are processed by the Openssl configuration tool and
   turned into `#ifdef` variables. These can include combinations like `RISCV_HAS_ZVKB_AND_ZVKSED`.
   Multiple versions of key routines are compiled, each with different required extensions.
 * The compiler can also use any of the bit manipulation and vector extensions in local optimization.

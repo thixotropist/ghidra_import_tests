@@ -110,7 +110,7 @@ for a dedicated accelerator hart.
 ### memcpy with known and limited nbytes
 
 This pattern is often found when copying objects of known and limited size.  It is useful with objects as small as 4 bytes if the source alignment is
-unknown and the destination object must be aligned on halfword, word, or doubleword boundaries.
+unknown and the destination object must be aligned on half-word, word, or double-word boundaries.
 
 ```text
 ;                memcpy(dest=a0, src=a3, nbytes=a4) where a4 < 8 * (VLEN/8)
@@ -192,7 +192,7 @@ fa5 = v4[0];
 ```
 
 The vector instruction `vfredusum.vs` provides the *unordered* reduction sum over the elements of a single vector.  That's likely faster than an ordered sum,
-but the floating point roundoff errors will not be deterministic.
+but the floating point round-off errors will not be deterministic.
 
 >Note: this `whisper.cpp` routine attempts to recognize which of two speakers is responsible for each word of a conversation.  A speaker-misattribution
 >      exploit might attack functions that call this.

@@ -9,7 +9,7 @@ Compare and debug human and gcc vectorization
 {{% /pageinfo %}}
 
 This case study compares human and compiler vectorization of a simple ML quantization algorithm.  We'll assume we need to inspect the code to understand why these two
-binaries sometimes produce different results.  Our primary goal is to see whether we can improve Ghidra's riscv pcode generation to make such analyses easier.  A  secondary
+binaries sometimes produce different results.  Our primary goal is to see whether we can improve Ghidra's RISCV pcode generation to make such analyses easier.  A  secondary
 goal is to collect generated instruction patterns that may help Ghidra users understand what optimizing vectorizing compilers can do to source code.
 
 The ML algorithm under test comes from https://github.com/ggerganov/llama.cpp.  It packs an array of 32 bit floats into a set of q8_0 blocks to condense large
@@ -27,9 +27,9 @@ reported quirks.  On some systems they produce identical results, on others the 
 * A target RISCV-64 processor supporting vector and compressed instructions.
 * GCC-14 developmental (pending release) compiler toolchain for native x86_64 builds
 * GCC-14 developmental (pending release) RISCV-64 cross-compiler toolchain with standard options `-march=rv64gcv`, `-O3`, and `-ffast-math`.
-* `qemu-riscv64-static` emulated execution of user space riscv-64 applications on an x86_64 linux test server.
+* `qemu-riscv64-static` emulated execution of user space RISCV-64 applications on an x86_64 Linux test server.
 * A generic unit testing framework like `gtest`.
-* Ghidra 11+ with the `isa_ext` branch supporting  riscv 1.0 vector instructions.
+* Ghidra 11+ with the `isa_ext` branch supporting  RISCV 1.0 vector instructions.
 
 The unit test process involves three unit test executions:
 
@@ -256,7 +256,7 @@ The code includes some distractions that complicate Ghidra analysis:
 
 The hand-optimized `quantize_row_q8_0` has similar distractions, plus a few more:
 
-* The two inner loops have been converted into riscv vector intrinsics, such that each iteration processes 32 4 byte floats into
+* The two inner loops have been converted into RISCV vector intrinsics, such that each iteration processes 32 4 byte floats into
   a single 34 byte `block_q8_0` struct.
 * Four adjacent vector registers are grouped with the `m4` setting.  On architectures with a vector length VLEN=256, that means
   all 32 4 byte floats per block will fit nicely and can be processed in parallel.  If the architecture only supports a vector length of
@@ -344,7 +344,7 @@ void quantize_row_q8_0(float *x,block_q0_0 *y,long k)
 
 >Note: an earlier run showed several pcode errors in `riscv-rvv.sinc`, which have been fixed as of this run.
 
-Red herrings - none of these have anything to do with riscv or vector intrinsics
+Red herrings - none of these have anything to do with RISCV or vector intrinsics
 
 * `uVar5 = 0x106c50;` - there is no uVar5 variable, just a shared upper immediate load register.
 * `iVar2 = (int)(((uint)((int)k >> 0x1f) >> 0x1b) + (int)k) >> 5;` - since k is a signed long and not unsigned, the compiler
@@ -358,7 +358,7 @@ Red herrings - none of these have anything to do with riscv or vector intrinsics
   represented in IEEE 754-2008 encoding to the lower 32 bits of integer register rd.  This works fine when the source
   is zero, but it has no clear C-like representation otherwise.  These may better be replaced with specialized pcode operations.
 
-There is one discrepancy that does involve the vectorization code.  The source code uses a standard riscv vector intrinsic function
+There is one discrepancy that does involve the vectorization code.  The source code uses a standard RISCV vector intrinsic function
 to store data:
 
 ```c

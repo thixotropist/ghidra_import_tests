@@ -6,7 +6,7 @@ weight: 1
 
 {{% pageinfo %}}
 We can help Ghidra import newer binaries by collecting samples of those binaries.
-The scope is limited to RISCV-64 linux-capable processors one might find in smart network appliances
+The scope is limited to RISCV-64 Linux-capable processors one might find in smart network appliances
 or Machine Learning inference engines.
 {{% /pageinfo %}}
 

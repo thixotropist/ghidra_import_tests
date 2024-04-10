@@ -29,6 +29,7 @@ You can get decent exemplar coverage with this set of exemplars:
     * `libssl.so` and `libcrypt.so` built from source and configured for all standard and frozen crypto, vector, and bit manipulation
       instruction extensions.
     * DPDK network appliance source code, `l3fwd` and `l2fwd`.
+    * a custom crosscompiled kernel, with ISA extensions enabled
 
 In general, visual inspection of these exemplars after importing into Ghidra should show:
 
@@ -41,7 +42,7 @@ of Ghidra's SLEIGH language. If alignment to `objdump` is possible, that's prefe
 
 ## Imported exemplars
 
-Most of the imported large binary exemplars are broken out of current Fedora disk images.  The top level `acquireExternalExemplars.py`
+Most of the imported large binary exemplars are broken out of available Fedora disk images.  The top level `acquireExternalExemplars.py`
 script controls this process, sometimes with some manual intervention to handle image mounting.  Selection of the imported disk image
 is controlled with text like:
 
@@ -56,6 +57,9 @@ FEDORA_SYSMAP = "System.map-6.5.4-300.0.riscv64.fc39.riscv64"
 
 ```
 ### Fedora kernel
+
+>Warning: the cited Fedora disk image may no longer be maintained.  If so, we will replace it with a custom cross-compiled
+>         kernel tuned for a hypothetical network appliance.
 
 This exemplar kernel is not an ELF file, so analysis of the import process will need
 help.
@@ -280,6 +284,51 @@ undefined8 main(void)
   return 0;
 }
 ```
+
+### custom Linux kernel and kernel mods
+
+The Fedora 39 disk image is a good exemplar of endpoint system code.  We can supplement that with a custom kernel build.
+This gives us more flexibility and a peek into future system builds.
+
+Building a custom kernel - with standard kernel modules - requires steps like these:
+
+1. Download the linux kernel source from https://github.com/torvalds/linux.git
+   * This example currently uses the kernel development tip shortly after version 6.9 RC2
+2. Generate a new `.config` kernel configuration file with a command like:
+    ```console
+    $ PATH=$PATH:/opt/riscvx/bin
+    $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- MY_CFLAGS='-march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbb_zvbc' menuconfig
+    ```
+3. In the `menuconfig` view select architecture-specific features we want to view.  This will likely include platform
+   selections like `Vector extension support`, `Zbb extension support`.  It may also include Cryptographic API selections
+   like `Accelerated Cryptographic Algorithms for CPU (riscv)`
+4. Build the kernel and selected kernel modules with a gcc 14.0.0 riscv64 toolchain
+    ```console
+    $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- MY_CFLAGS='-march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbb_zvbc' all
+    ```
+5. Copy the selected vmunix ELF files into the riscv64/exemplars directory:
+    ```console
+    $ cp vmlinux ~/projects/github/ghidra_import_tests/riscv64/exemplars/vmlinux_6.9rc2
+    $ cp arch/riscv/crypto/aes-riscv64-zvkned-zvbb-zvkg.o ~/projects/github/ghidra_import_tests/riscv64/exemplars/vmlinux_6.9rc2_aes-riscv64-zvkned-zvbb-zvkg.o
+    ```
+
+#### analysis
+
+Importing the custom `vmlinux` kernel into Ghidra 11.1-DEV(isa_ext) shows:
+
+* there are relatively few vector extension sequences in the kernel - 17 instances of `vset*`.
+    * for example, `__asm_vector_usercopy` uses vector loads and stores to copy into user memory spaces.
+* there are Zbb variants:  `strcmp_zbb`, `strlen_zbb`, and `strncmp_zbb` which can be patched into calls 
+
+Importing the `aes-riscv64-zvkned-zvbb-vkg.o` object file - presumably available for use in loadable kernel crypto
+modules - shows:
+
+* two functions `aes_xts_encrypt_zvkned_zvbb_zvkg` and `aes_xts_decrypt_zvkned_zvbb_zvkg`
+* many vector, crypto, and bit manipulation extension instructions.
+
+Commit logs for the Linux kernel sources suggest that the riscv vector crypto functions were derived from
+openssl source code, possibly intended for use in file system encryption and decryption.
+
 
 ### x86_64 exemplars
 

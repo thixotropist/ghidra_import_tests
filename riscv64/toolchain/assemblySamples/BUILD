@@ -88,7 +88,7 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
             "{}.list".format(fname),
             "{}.objdump".format(fname),
             ],
-        cmd = "$(location //toolchains:gcc-14-riscv/imported/as) --march=rv64gcv{} $(location {}.S) -a -am -a=$(location {}.list) -o $(location {}.o)".format(ext, fname, fname, fname) +
+        cmd = "$(location //toolchains:gcc-14-riscv/imported/as) --march=rv64gcvq{} $(location {}.S) -a -am -a=$(location {}.list) -o $(location {}.o)".format(ext, fname, fname, fname) +
             " && $(location //toolchains:gcc-14-riscv/imported/objdump) -d $(location {}.o) > $(location {}.objdump)".format(fname, fname)
     )
     # our default arch is rv64gv, which must be extended for everything but the vector extensions.
@@ -101,6 +101,7 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
         ("zbkb-64", "_zbkb"),
         ("zbkc", "_zbkc"),
         ("zbkx", "_zbkx"),
+        ("fp-zfh-insns", "_zfh"),
         ("zknd-64", "_zknd"),
         ("zkne-64", "_zkne"),
         ("zknh-64", "_zknh"),
@@ -112,6 +113,7 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
         ("zvbc", "_zvbc"),
         ("unknown", "_zbb_zicbom_zicbop_zicboz"),
         ("semantics", ""),
+        ("sifive-insns", "_xsfvcp"),
         ("x-thead-ba", "_xtheadba"),
         ("x-thead-bb", "_xtheadbb"),
         ("x-thead-bs", "_xtheadbs"),
@@ -140,6 +142,9 @@ filegroup(
         ":svinval.o",
         ":svinval.list",
         ":svinval.objdump",
+        ":sifive-insns.o",
+        ":sifive-insns.list",
+        ":sifive-insns.objdump",
         ":vector.o",
         ":vector.list",
         ":vector.objdump",
@@ -152,6 +157,9 @@ filegroup(
         ":zbkx.o",
         ":zbkx.list",
         ":zbkx.objdump",
+        ":fp-zfh-insns.o",
+        ":fp-zfh-insns.list",
+        ":fp-zfh-insns.objdump",
         ":zknd-64.o",
         ":zknd-64.list",
         ":zknd-64.objdump",

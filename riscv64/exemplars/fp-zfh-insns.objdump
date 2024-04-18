@@ -1,0 +1,72 @@
+
+bazel-out/k8-fastbuild/bin/assemblySamples/fp-zfh-insns.o:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000000000000 <.text>:
+   0:	00059507          	flh	fa0,0(a1)
+   4:	00000297          	auipc	t0,0x0
+   8:	00029507          	flh	fa0,0(t0) # 4 <.text+0x4>
+   c:	00a59027          	fsh	fa0,0(a1)
+  10:	00000297          	auipc	t0,0x0
+  14:	00a29027          	fsh	fa0,0(t0) # 10 <.text+0x10>
+  18:	24b58553          	fmv.h	fa0,fa1
+  1c:	24b59553          	fneg.h	fa0,fa1
+  20:	24b5a553          	fabs.h	fa0,fa1
+  24:	24c58553          	fsgnj.h	fa0,fa1,fa2
+  28:	24c59553          	fsgnjn.h	fa0,fa1,fa2
+  2c:	24c5a553          	fsgnjx.h	fa0,fa1,fa2
+  30:	04c5f553          	fadd.h	fa0,fa1,fa2
+  34:	04c58553          	fadd.h	fa0,fa1,fa2,rne
+  38:	0cc5f553          	fsub.h	fa0,fa1,fa2
+  3c:	0cc58553          	fsub.h	fa0,fa1,fa2,rne
+  40:	14c5f553          	fmul.h	fa0,fa1,fa2
+  44:	14c58553          	fmul.h	fa0,fa1,fa2,rne
+  48:	1cc5f553          	fdiv.h	fa0,fa1,fa2
+  4c:	1cc58553          	fdiv.h	fa0,fa1,fa2,rne
+  50:	5c05f553          	fsqrt.h	fa0,fa1
+  54:	5c058553          	fsqrt.h	fa0,fa1,rne
+  58:	2cc58553          	fmin.h	fa0,fa1,fa2
+  5c:	2cc59553          	fmax.h	fa0,fa1,fa2
+  60:	6cc5f543          	fmadd.h	fa0,fa1,fa2,fa3
+  64:	6cc58543          	fmadd.h	fa0,fa1,fa2,fa3,rne
+  68:	6cc5f54f          	fnmadd.h	fa0,fa1,fa2,fa3
+  6c:	6cc5854f          	fnmadd.h	fa0,fa1,fa2,fa3,rne
+  70:	6cc5f547          	fmsub.h	fa0,fa1,fa2,fa3
+  74:	6cc58547          	fmsub.h	fa0,fa1,fa2,fa3,rne
+  78:	6cc5f54b          	fnmsub.h	fa0,fa1,fa2,fa3
+  7c:	6cc5854b          	fnmsub.h	fa0,fa1,fa2,fa3,rne
+  80:	c405f553          	fcvt.w.h	a0,fa1
+  84:	c4058553          	fcvt.w.h	a0,fa1,rne
+  88:	c415f553          	fcvt.wu.h	a0,fa1
+  8c:	c4158553          	fcvt.wu.h	a0,fa1,rne
+  90:	d405f553          	fcvt.h.w	fa0,a1
+  94:	d4058553          	fcvt.h.w	fa0,a1,rne
+  98:	d415f553          	fcvt.h.wu	fa0,a1
+  9c:	d4158553          	fcvt.h.wu	fa0,a1,rne
+  a0:	c425f553          	fcvt.l.h	a0,fa1
+  a4:	c4258553          	fcvt.l.h	a0,fa1,rne
+  a8:	c435f553          	fcvt.lu.h	a0,fa1
+  ac:	c4358553          	fcvt.lu.h	a0,fa1,rne
+  b0:	d425f553          	fcvt.h.l	fa0,a1
+  b4:	d4258553          	fcvt.h.l	fa0,a1,rne
+  b8:	d435f553          	fcvt.h.lu	fa0,a1
+  bc:	d4358553          	fcvt.h.lu	fa0,a1,rne
+  c0:	e4058553          	fmv.x.h	a0,fa1
+  c4:	f4058553          	fmv.h.x	fa0,a1
+  c8:	40258553          	fcvt.s.h	fa0,fa1
+  cc:	42258553          	fcvt.d.h	fa0,fa1
+  d0:	46258553          	fcvt.q.h	fa0,fa1
+  d4:	4405f553          	fcvt.h.s	fa0,fa1
+  d8:	44058553          	fcvt.h.s	fa0,fa1,rne
+  dc:	4415f553          	fcvt.h.d	fa0,fa1
+  e0:	44158553          	fcvt.h.d	fa0,fa1,rne
+  e4:	4435f553          	fcvt.h.q	fa0,fa1
+  e8:	44358553          	fcvt.h.q	fa0,fa1,rne
+  ec:	e4059553          	fclass.h	a0,fa1
+  f0:	a4c5a553          	feq.h	a0,fa1,fa2
+  f4:	a4c59553          	flt.h	a0,fa1,fa2
+  f8:	a4c58553          	fle.h	a0,fa1,fa2
+  fc:	a4c59553          	flt.h	a0,fa1,fa2
+ 100:	a4c58553          	fle.h	a0,fa1,fa2

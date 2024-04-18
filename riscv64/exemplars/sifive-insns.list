@@ -1,0 +1,43 @@
+GAS LISTING assemblySamples/sifive-insns.S 			page 1
+
+
+   1              		.attribute arch, "rv32iv"
+   2              		# xsfvcp
+   3              		.option push
+   4              		.option arch, +xsfvcp
+   5 0000 DBCFF50E 		sf.vc.x 0x3, 0xf, 0x1f, a1
+   6 0004 DBBFF70E 		sf.vc.i 0x3, 0xf, 0x1f, 15
+   7 0008 DB8F202E 		sf.vc.vv 0x3, 0x1f, v2, v1
+   8 000c DBCF252E 		sf.vc.xv 0x3, 0x1f, v2, a1
+   9 0010 DBBF272E 		sf.vc.iv 0x3, 0x1f, v2, 15
+  10 0014 DBDF252E 		sf.vc.fv 0x1, 0x1f, v2, fa1
+  11 0018 5B8020AE 		sf.vc.vvv 0x3, v0, v2, v1
+  12 001c 5BC025AE 		sf.vc.xvv 0x3, v0, v2, a1
+  13 0020 5BB027AE 		sf.vc.ivv 0x3, v0, v2, 15
+  14 0024 5BD025AE 		sf.vc.fvv 0x1, v0, v2, fa1
+  15 0028 5B8020FE 		sf.vc.vvw 0x3, v0, v2, v1
+  16 002c 5BC025FE 		sf.vc.xvw 0x3, v0, v2, a1
+  17 0030 5BB027FE 		sf.vc.ivw 0x3, v0, v2, 15
+  18 0034 5BD025FE 		sf.vc.fvw 0x1, v0, v2, fa1
+  19 0038 5BC0F50C 		sf.vc.v.x 0x3, 0xf, v0, a1
+  20 003c 5BB0F70C 		sf.vc.v.i 0x3, 0xf, v0, 15
+  21 0040 5B80202C 		sf.vc.v.vv 0x3, v0, v2, v1
+  22 0044 5BC0252C 		sf.vc.v.xv 0x3, v0, v2, a1
+  23 0048 5BB0272C 		sf.vc.v.iv 0x3, v0, v2, 15
+  24 004c 5BD0252C 		sf.vc.v.fv 0x1, v0, v2, fa1
+  25 0050 5B8020AC 		sf.vc.v.vvv 0x3, v0, v2, v1
+  26 0054 5BC025AC 		sf.vc.v.xvv 0x3, v0, v2, a1
+  27 0058 5BB027AC 		sf.vc.v.ivv 0x3, v0, v2, 15
+  28 005c 5BD025AC 		sf.vc.v.fvv 0x1, v0, v2, fa1
+  29 0060 5B8020FC 		sf.vc.v.vvw 0x3, v0, v2, v1
+  30 0064 5BC025FC 		sf.vc.v.xvw 0x3, v0, v2, a1
+  31 0068 5BB027FC 		sf.vc.v.ivw 0x3, v0, v2, 15
+  32 006c 5BD025FC 		sf.vc.v.fvw 0x1, v0, v2, fa1
+  33              		.option pop
+GAS LISTING assemblySamples/sifive-insns.S 			page 2
+
+
+DEFINED SYMBOLS
+assemblySamples/sifive-insns.S:5      .text:00000000 $xrv32i2p1_f2p2_d2p2_v1p0_zicsr2p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_xsfvcp1p0
+
+NO UNDEFINED SYMBOLS

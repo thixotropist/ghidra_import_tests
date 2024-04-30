@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ghidra Import Testing – Platforms and Toolchains</title>
-    <link>https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/</link>
+    <link>http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/</link>
     <description>Recent content in Platforms and Toolchains on Ghidra Import Testing</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	  <atom:link href="https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -16,10 +16,10 @@
     
     <item>
       <title>Docs: ISA Extensions</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</guid>
       <description>
         
         

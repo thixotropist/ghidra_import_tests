@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ghidra Import Testing – Documentation</title>
-    <link>https://thixotropist.github.io/ghidra_import_tests/docs/</link>
+    <link>http://localhost:1313/ghidra_import_tests/docs/</link>
     <description>Recent content in Documentation on Ghidra Import Testing</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	  <atom:link href="https://thixotropist.github.io/ghidra_import_tests/docs/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="http://localhost:1313/ghidra_import_tests/docs/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -16,10 +16,10 @@
     
     <item>
       <title>Docs: adding toolchains</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/adding_toolchains/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/testbed_internals/adding_toolchains/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/adding_toolchains/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/testbed_internals/adding_toolchains/</guid>
       <description>
         
         
@@ -405,10 +405,10 @@ as hermeticity errors and abort the build.&lt;/p&gt;
     
     <item>
       <title>Docs: autovectorization</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/autovectorization/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/issues/autovectorization/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/issues/autovectorization/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/issues/autovectorization/</guid>
       <description>
         
         
@@ -601,10 +601,10 @@ vector instructions like &lt;code&gt;vmovdqu64&lt;/code&gt;, which is unrecogniz
     
     <item>
       <title>Docs: Examples</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/examples/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/examples/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/examples/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/examples/</guid>
       <description>
         
         
@@ -630,10 +630,10 @@ vector instructions like &lt;code&gt;vmovdqu64&lt;/code&gt;, which is unrecogniz
     
     <item>
       <title>Docs: Hardware Availability</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/notes/hardware/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/notes/hardware/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/notes/hardware/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/notes/hardware/</guid>
       <description>
         
         
@@ -686,10 +686,10 @@ determine the most common packet types to be for each physical port.  Cache mana
     
     <item>
       <title>Docs: inferring semantics from code patterns</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/</guid>
       <description>
         
         
@@ -911,10 +911,10 @@ code from the testsuite.&lt;/p&gt;
     
     <item>
       <title>Docs: ISA Extensions</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</guid>
       <description>
         
         
@@ -982,10 +982,10 @@ before reaching the binutils assembler.  We will ignore those instruction extens
     
     <item>
       <title>Docs: Whisper_cpp</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/whisper_cpp/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/exemplars/whisper_cpp/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/whisper_cpp/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/exemplars/whisper_cpp/</guid>
       <description>
         
         
@@ -1518,10 +1518,10 @@ LTO plugin from the gcc-14 toolchain packaging.  We&amp;rsquo;ll try and find su
     
     <item>
       <title>Docs: Application Survey</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/instruction_patterns/app_survey/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/instruction_patterns/app_survey/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/instruction_patterns/app_survey/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/instruction_patterns/app_survey/</guid>
       <description>
         
         
@@ -1725,10 +1725,10 @@ exploit might attack functions that call this.&lt;/p&gt;
     
     <item>
       <title>Docs: Data Plane Development Kit</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/dpdk/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/exemplars/dpdk/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/dpdk/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/exemplars/dpdk/</guid>
       <description>
         
         
@@ -1834,10 +1834,10 @@ See the Marvell Octeon 10 &lt;a href=&#34;https://www.marvell.com/content/dam/ma
     
     <item>
       <title>Docs: debugging toolchains</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/testbed_internals/debugging_toolchains/</guid>
       <description>
         
         
@@ -1865,10 +1865,10 @@ are visible.  That means nothing under /usr or $HOME is generally available, and
     
     <item>
       <title>Docs: Impact</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/impact/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/impact/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/impact/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/impact/</guid>
       <description>
         
         
@@ -1964,10 +1964,10 @@ originally contributed by &lt;a href=&#34;https://pk.linkedin.com/in/ahmad-tamee
     
     <item>
       <title>Docs: Network Appliances</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/notes/network_appliances/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/notes/network_appliances/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/notes/network_appliances/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/notes/network_appliances/</guid>
       <description>
         
         
@@ -2022,10 +2022,10 @@ any given network interface.  ISA extensions supporting gather, hash, vector com
     
     <item>
       <title>Docs: refreshing toolchains</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/</guid>
       <description>
         
         
@@ -2122,10 +2122,10 @@ that builds the portable tarball.&lt;/p&gt;
     
     <item>
       <title>Docs: Application Top Down Analysis</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/instruction_patterns/app_topdown_evaluation/</guid>
       <description>
         
         
@@ -2395,10 +2395,10 @@ for known architectures, compilers, and compiler optimization settings.&lt;/li&g
     
     <item>
       <title>Docs: Effort</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/effort/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/effort/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/effort/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/effort/</guid>
       <description>
         
         
@@ -2415,10 +2415,10 @@ for known architectures, compilers, and compiler optimization settings.&lt;/li&g
     
     <item>
       <title>Docs: link time optimization</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/link_time_optimization/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/issues/link_time_optimization/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/issues/link_time_optimization/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/issues/link_time_optimization/</guid>
       <description>
         
         
@@ -2479,10 +2479,10 @@ but as a lower priority exercise.  LTO does not seem like a popular optimization
     
     <item>
       <title>Docs: vector intrinsics</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/vector_intrinsics/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/issues/vector_intrinsics/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/issues/vector_intrinsics/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/issues/vector_intrinsics/</guid>
       <description>
         
         
@@ -2542,10 +2542,10 @@ to cope with.  The PDF listing of all intrinsic functions is currently over 4000
     
     <item>
       <title>Docs: A vectorization case study</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/notes/vectorization_case_study/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/notes/vectorization_case_study/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/notes/vectorization_case_study/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/notes/vectorization_case_study/</guid>
       <description>
         
         
@@ -3131,10 +3131,10 @@ listing view but missing in the pcode semantics view.  Fix this and move on.&lt;
     
     <item>
       <title>Docs: Pcode testing</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/notes/pcode_testing/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/notes/pcode_testing/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/notes/pcode_testing/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/notes/pcode_testing/</guid>
       <description>
         
         
@@ -3220,10 +3220,10 @@ vector sleigh files suggests that this is the convention, but perhaps not a requ
     
     <item>
       <title>Docs: Scope</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/scope/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/scope/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/scope/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/scope/</guid>
       <description>
         
         
@@ -3244,10 +3244,10 @@ vector sleigh files suggests that this is the convention, but perhaps not a requ
     
     <item>
       <title>Docs: Existing Frameworks</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/existing_frameworks/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/existing_frameworks/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/existing_frameworks/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/existing_frameworks/</guid>
       <description>
         
         
@@ -3304,10 +3304,10 @@ vector sleigh files suggests that this is the convention, but perhaps not a requ
     
     <item>
       <title>Docs: Tracking Convergence</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/notes/tracking/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/notes/tracking/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/notes/tracking/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/notes/tracking/</guid>
       <description>
         
         
@@ -3418,10 +3418,10 @@ This suite is similar to the RISCV vector suite in that it is vector register le
     
     <item>
       <title>Docs: Deep Dive Openssl</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/notes/openssl_deep_dive/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/notes/openssl_deep_dive/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/notes/openssl_deep_dive/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/notes/openssl_deep_dive/</guid>
       <description>
         
         
@@ -3856,10 +3856,10 @@ pcode semantics need updating.  Do this and inspect the Ghidra output again:&lt;
     
     <item>
       <title>Docs: Glossary</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/overview/glossary/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/overview/glossary/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/overview/glossary/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/overview/glossary/</guid>
       <description>
         
         

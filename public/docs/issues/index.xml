@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ghidra Import Testing – Issues</title>
-    <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/</link>
+    <link>http://localhost:1313/ghidra_import_tests/docs/issues/</link>
     <description>Recent content in Issues on Ghidra Import Testing</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	  <atom:link href="https://thixotropist.github.io/ghidra_import_tests/docs/issues/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="http://localhost:1313/ghidra_import_tests/docs/issues/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -16,10 +16,10 @@
     
     <item>
       <title>Docs: autovectorization</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/autovectorization/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/issues/autovectorization/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/issues/autovectorization/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/issues/autovectorization/</guid>
       <description>
         
         
@@ -212,10 +212,10 @@ vector instructions like &lt;code&gt;vmovdqu64&lt;/code&gt;, which is unrecogniz
     
     <item>
       <title>Docs: inferring semantics from code patterns</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/</guid>
       <description>
         
         
@@ -437,10 +437,10 @@ code from the testsuite.&lt;/p&gt;
     
     <item>
       <title>Docs: link time optimization</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/link_time_optimization/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/issues/link_time_optimization/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/issues/link_time_optimization/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/issues/link_time_optimization/</guid>
       <description>
         
         
@@ -501,10 +501,10 @@ but as a lower priority exercise.  LTO does not seem like a popular optimization
     
     <item>
       <title>Docs: vector intrinsics</title>
-      <link>https://thixotropist.github.io/ghidra_import_tests/docs/issues/vector_intrinsics/</link>
+      <link>http://localhost:1313/ghidra_import_tests/docs/issues/vector_intrinsics/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/issues/vector_intrinsics/</guid>
+      <guid>http://localhost:1313/ghidra_import_tests/docs/issues/vector_intrinsics/</guid>
       <description>
         
         

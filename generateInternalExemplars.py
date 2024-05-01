@@ -56,14 +56,14 @@ class T0BazelEnvironment(unittest.TestCase):
         result = self.bazel.execute( Toolchain.DEFAULT_RISCV64_PLATFORM, Toolchain.REFERENCE_C_PGM,
                                     operation='build', mode='dbg')
         self.assertEqual(0, result.returncode,
-            'bazel { Toolchain.DEFAULT_RISCV64_PLATFORM} build of {Toolchain.REFERENCE_C_PGM} failed')
+            f'bazel { Toolchain.DEFAULT_RISCV64_PLATFORM} build of {Toolchain.REFERENCE_C_PGM} failed')
 
         object_file = f'{self.objDir}/helloworld/helloworld.pic.o'
         logger.info(f"Running: file {object_file}")
         result = subprocess.run(['file', object_file], cwd=self.bazel.workspace_dir,
             check=True, capture_output=True, encoding='utf8')
         self.assertRegex(result.stdout, 'ELF 64-bit LSB relocatable, UCB RISC-V',
-            f'//platforms:{ Toolchain.DEFAULT_RISCV64_PLATFORM} compilation generated an unexpected object file format')
+            f'//platforms:{Toolchain.DEFAULT_RISCV64_PLATFORM} compilation generated an unexpected object file format')
 
     def test_04_riscv64_cpp_build(self):
         """
@@ -72,7 +72,7 @@ class T0BazelEnvironment(unittest.TestCase):
         """
         result = self.bazel.execute( Toolchain.DEFAULT_RISCV64_PLATFORM, Toolchain.REFERENCE_CPP_PGM, operation='build', mode='dbg')
         self.assertEqual(0, result.returncode,
-            f'bazel { Toolchain.DEFAULT_RISCV64_PLATFORM} build of {Toolchain.REFERENCE_C_PGM} failed')
+            f'bazel {Toolchain.DEFAULT_RISCV64_PLATFORM} build of {Toolchain.REFERENCE_C_PGM} failed')
 
         object_file = f'{self.objDir}/helloworld++/helloworld.pic.o'
         logger.info(f"Running: file {object_file}")

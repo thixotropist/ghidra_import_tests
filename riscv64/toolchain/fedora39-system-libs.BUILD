@@ -4,8 +4,6 @@ package(default_visibility = ["//visibility:public"])
 filegroup(
     name = "common_compiler_ldd_dependencies",
     srcs = [
-        "libc.so",
-        "libc.so.6",
         "libexpat.so.1",
         "libexpat.so.1.8.10",
         "libgcc_s-13-20231205.so.1",

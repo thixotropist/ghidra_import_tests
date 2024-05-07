@@ -25,7 +25,44 @@ the source file 'userSpaceSamples/helloworld.c' includes the following non-built
 
 In this example the toolchain tried to load host files, where it should have been loading equivalent files from the toolchain tarball.
 
-## Bazel segment faults after upgrade
+## Toolchain failure modes
+
+Bazel toolchains should provide and encapsulate *almost* everything host computers need to compile and link executables.  The goal is simply to minimize toolchain differences
+between individual developers' workstations and the reference Continuous Integration test servers.  The toolchains do not include kernels or loaders, or system code tightly
+associated with the kernel.  That presents a challenge, since we want the linker to be imported as part of the toolchain, while the system loader is provided by the host.
+
+Common toolchain failure modes often show up during crosscompilation of something as simple as `riscv64-unknown-linux-gnu-gcc helloworld.c`.
+
+* The `gcc` compiler must find the compiler dynamic libraries it was compiled with, probably using `LD_LIBRARY_PATH` to find them.
+    * These include compiler-specific files like `libstdc++.so.6` which links to concrete versions like `libstdc++.so.6.0.32`.
+	* These libraries must be part of the imported toolchain tarball and explicitly named as Bazel toolchain dependencies so that they are imported into the 'sandbox' isolating the build
+	  from system libraries
+	* Other host-specific loader files should not be part of the toolchain tarball.  These include the dynamic loader `ld-linux-x86-64.so.2`
+* The `gcc` executable must find and execute multiple other executables from the toolchain, such as `cpp`, `as`, and `ld`.
+    * These should *not* be the same executables as may be provided by the native host system
+    * Each of these other executables must find their own dependencies, never the host system's files of similar name.
+* Many of the toughest problems surface during the linking phase of crosscompilation, where `gcc` internally invokes the linker `ld`.
+    * `ld` executes on the host computer - we assume an x86_64 linux system - which means it needs an x86_64 `libc.so` library from the toolchain.  It also generally needs to link
+	  object files against the target platform's `libc.so` library from a different library in the toolchain.
+	* `ld` also often needs files specific to the target system's kernel or loader.  These include files like `usr/lib/crt1.o`.
+	* `ld` accepts many arguments detailing the target system's memory model.  Different arguments cause the linker to require different linker scripts under `.../ldscripts`.
+	* `ld` sharable object files can be scripts referencing other libraries - and those references may be absolute, not relative.  These scripts may need to be patched so that
+	  host paths are not followed.
+
+Compiler developers often refactor their dependent file layouts, making it very easy to not have required files in the expected places.  You will generally get a useful error message if
+something like `crt1.o` isn't located.  If a dynamic library is not found in a child process, you might just get a segfault.
+
+The debugging process often proceeds with:
+
+1. A python integration test script showing multiple toolchain Bazel failures
+2. Isolate and execute a single failing relatively simple Bazel build operation
+3. Add Bazel diagnostics to the build command, such as `--sandbox_debug`
+4. Locate the Bazel sandbox created for that build command and execute the `gcc` command directly
+5. Check the sandbox to verify that key files are available within the sandbox, not just present in the imported toolchain tarball
+6. Execute the `gcc` command within an `strace` command, with options to follow child processes and expand strings. Examine `execve` and `open` system calls to verify that imported files
+   are found before host system files, and that the imported files are actually in a searched directory
+
+### Bazel segment faults after upgrade
 
 The crosscompiler toolchain assumes that *all* files needed for a build are known to the Bazel build system.  This assumption often breaks
 when upgrading a compiler or OS.  This example shows what can happen when updating the host OS from Fedora 39 to Fedora 40. 

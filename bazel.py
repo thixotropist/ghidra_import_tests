@@ -54,10 +54,9 @@ class Bazel():
     TEST_HOST = BASE_COMMAND + \
         f" test {options['distdir']} {options['toolchain_resolution']} {options['bzlmod']}"
 
-    def __init__(self, workspace_subdir="riscv64/toolchain", logger=logging):
+    def __init__(self, logger=logging):
 
         self.logger = logger
-        self.workspace_dir = f"{os.getcwd()}/{workspace_subdir}"
 
     def execute(self, platform, target, operation='build', mode=None, copt=None):
         """
@@ -70,22 +69,20 @@ class Bazel():
                     operation,                              # request a build or a test
                     '-s',                                   #   showing the compiler arguments
                     Bazel.options['distdir'],               #   into a local distribution cache
-                    Bazel.options['toolchain_resolution'],  #   enabling platform resolution
-                    Bazel.options['bzlmod'],                #     and bzlmod imports
                     Bazel.options['hack'],                  #   hack to permit builds in a tmpfs
                     Bazel.options['save_temps'],            #   keeping intermediate files
                     f'--platforms={platform}'               #   specifying the platform
                     ]
-        if copt != None:
+        if copt is not None:
             command.append(f'--copt="{copt}"')
-        if mode != None:
-            command.append(f'--compilation_mode={mode}') 
+        if mode is not None:
+            command.append(f'--compilation_mode={mode}')
         if isinstance(target, str):
             command.append(target)
         else:   # concatenate a list of targets
             command.extend(target)
         self.logger.info("Running: %s", ' '.join(command))
-        result = subprocess.run(command, cwd=self.workspace_dir,
+        result = subprocess.run(command,
             check=False, capture_output=True, encoding='utf8')
         if result.returncode != 0:
             self.logger.error("Bazel build failed:\n %s", result.stderr)
@@ -97,7 +94,7 @@ class Bazel():
         """
         command = ['bazel', 'query', query_text]
         self.logger.info("Running: %s", ' '.join(command))
-        result = subprocess.run(command, cwd=self.workspace_dir,
+        result = subprocess.run(command,
             check=False, capture_output=True, encoding='utf8')
         if result.returncode != 0:
             self.logger.error("Bazel build failed:\n %s", result.stderr)

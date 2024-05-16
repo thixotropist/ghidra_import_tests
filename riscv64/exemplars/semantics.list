@@ -1,4 +1,4 @@
-GAS LISTING assemblySamples/semantics.S 			page 1
+GAS LISTING riscv64/generated/assemblySamples/semantics.S 			page 1
 
 
    1              	 
@@ -58,7 +58,7 @@ GAS LISTING assemblySamples/semantics.S 			page 1
   55              	
   56 0056 8280     	    ret
   57              	
-GAS LISTING assemblySamples/semantics.S 			page 2
+GAS LISTING riscv64/generated/assemblySamples/semantics.S 			page 2
 
 
   58              	
@@ -118,7 +118,7 @@ GAS LISTING assemblySamples/semantics.S 			page 1
  112 00ca 33066640 	      sub a2, a2, t1        # Decrement count.
  113 00ce 9A96     	      add a3, a3, t1        # Bump dest pointer
  114 00d0 9A95     	      add a1, a1, t1        # Bump src pointer
-GAS LISTING assemblySamples/semantics.S 			page 3
+GAS LISTING riscv64/generated/assemblySamples/semantics.S 			page 3
 
 
  115 00d2 61FE     	      bnez a2, 1b         # Anymore?
@@ -139,22 +139,22 @@ GAS LISTING assemblySamples/semantics.S 			page 1
  130 00f0 6DFA     	      bnez a2, zero_loop    # Anymore?
  131              	
  132 00f2 8280     	      ret
-GAS LISTING assemblySamples/semantics.S 			page 4
+GAS LISTING riscv64/generated/assemblySamples/semantics.S 			page 4
 
 
 DEFINED SYMBOLS
-assemblySamples/semantics.S:10     .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
-assemblySamples/semantics.S:15     .text:0000000000000002 memcpy
-assemblySamples/semantics.S:29     .text:000000000000001c strcmp
-assemblySamples/semantics.S:61     .text:0000000000000058 strcpy
-assemblySamples/semantics.S:82     .text:0000000000000082 strlen
-assemblySamples/semantics.S:101    .text:00000000000000a8 strncpy
-assemblySamples/semantics.S:119    .text:00000000000000d6 zero_tail
-assemblySamples/semantics.S:125    .text:00000000000000e2 zero_loop
-assemblySamples/semantics.S:17     .text:0000000000000004 .L11
-assemblySamples/semantics.S:32     .text:000000000000001e .L12
-assemblySamples/semantics.S:64     .text:000000000000005c .L13
-assemblySamples/semantics.S:84     .text:0000000000000084 .L14
-assemblySamples/semantics.S:103    .text:00000000000000aa .L15
+riscv64/generated/assemblySamples/semantics.S:10     .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_q2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+riscv64/generated/assemblySamples/semantics.S:15     .text:0000000000000002 memcpy
+riscv64/generated/assemblySamples/semantics.S:29     .text:000000000000001c strcmp
+riscv64/generated/assemblySamples/semantics.S:61     .text:0000000000000058 strcpy
+riscv64/generated/assemblySamples/semantics.S:82     .text:0000000000000082 strlen
+riscv64/generated/assemblySamples/semantics.S:101    .text:00000000000000a8 strncpy
+riscv64/generated/assemblySamples/semantics.S:119    .text:00000000000000d6 zero_tail
+riscv64/generated/assemblySamples/semantics.S:125    .text:00000000000000e2 zero_loop
+riscv64/generated/assemblySamples/semantics.S:17     .text:0000000000000004 .L11
+riscv64/generated/assemblySamples/semantics.S:32     .text:000000000000001e .L12
+riscv64/generated/assemblySamples/semantics.S:64     .text:000000000000005c .L13
+riscv64/generated/assemblySamples/semantics.S:84     .text:0000000000000084 .L14
+riscv64/generated/assemblySamples/semantics.S:103    .text:00000000000000aa .L15
 
 NO UNDEFINED SYMBOLS

@@ -1,4 +1,4 @@
-GAS LISTING assemblySamples/zknh-64.S 			page 1
+GAS LISTING riscv64/generated/assemblySamples/zknh-64.S 			page 1
 
 
    1              	target:
@@ -10,11 +10,11 @@ GAS LISTING assemblySamples/zknh-64.S 			page 1
    7 0014 13157510 	        sha512sig1  a0, a0
    8 0018 13154510 	        sha512sum0  a0, a0
    9 001c 13155510 	        sha512sum1  a0, a0
-GAS LISTING assemblySamples/zknh-64.S 			page 2
+GAS LISTING riscv64/generated/assemblySamples/zknh-64.S 			page 2
 
 
 DEFINED SYMBOLS
-assemblySamples/zknh-64.S:1      .text:0000000000000000 target
-assemblySamples/zknh-64.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zknh1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+riscv64/generated/assemblySamples/zknh-64.S:1      .text:0000000000000000 target
+riscv64/generated/assemblySamples/zknh-64.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_q2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zknh1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
 
 NO UNDEFINED SYMBOLS

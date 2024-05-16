@@ -20,7 +20,7 @@ Binaries built with this feature will often include ELF relocation codes like `R
 Ghidra, nor is it clear how TLS storage should be handled itself within Ghidra - perhaps as a memory section akin to BSS?
 
 To reproduce, import `libc.so.6` and look for lines like `Elf Relocation Warning: Type = R_RISCV_TLS_TPREL64`.
-Alternatively, compile, link, and import `riscv64/toolchain/userSpaceSamples/relocationTest.c`.
+Alternatively, compile, link, and import `riscv64/generated/userSpaceSamples/relocationTest.c`.
 
 ## Vector instruction support
 

@@ -184,7 +184,7 @@ This gives us three kinds of insights into Ghidra's import capabilities:
 
 Most exemplars appear as four related files.  We can use the `vector` exemplar as an example.
 
-* The source file is `riscv64/toolchain/assemblySamples/vector.S`, copied from `binutils-gdb/gas/testsuite/gas/riscv/vector-insns.s`.
+* The source file is `riscv64/generated/assemblySamples/vector.S`, copied from `binutils-gdb/gas/testsuite/gas/riscv/vector-insns.s`.
 * `vector.S` is assembled into `riscv64/exemplars/vector.o`
 * That assembly run generates the assembly output listing `riscv64/exemplars/vector.log`.
 * `riscv64/exemplars/vector.o` is finally processed by `binutils` `objdump` to generate the reference disassembly `riscv64/exemplars/vector.objdump`.
@@ -194,7 +194,7 @@ The `riscv64/exemplars/vector.o` is then imported into the Ghidra `exemplars` pr
 Assembly language exemplars usually don't have any sensible decompilation.  C or C++ language exemplars usually do, so that gives the test analyst more to work with.
 
 Another example shows Ghidra's difficulty with vector optimized code.  Compile this C code for the `rv64gcv` architecture (RISCV-64 with vector extensions), using the
-gcc-14 toolchain due for mid 2024 release.
+gcc-14 compiler suite released in May of 2024.
 
 ```c
 #include <stdio.h>
@@ -265,7 +265,7 @@ undefined8 main(void)
 
 That Ghidra branch decompiles, but the decompilation listing only resembles the C source code if you are familiar with RISCV vector extension instructions.
 
-Repeat the example, this time building with a gcc-13 toolchain.  Ghidra 11.0 does a fine job of decompiling this.
+Repeat the example, this time building with a gcc-13 compiler suite.  Ghidra 11.0 does a fine job of decompiling this.
 
 ```c
 undefined8 main(void)
@@ -354,7 +354,7 @@ These exemplars suggest several Ghidra issues:
 
 ## custom exemplars
 
-Not all RISCV instruction set extensions are standardized and supported by open source toolchains.  Vendors can generate their own custom extensions.
+Not all RISCV instruction set extensions are standardized and supported by open source compiler suites.  Vendors can generate their own custom extensions.
 These may be instructions that are proposed for standardization, instructions that predate standardized extensions that are effectively deprecated for new RISCV variants,
 and (potentially) instructions that are considered non-public licenseable intellectual property.
 

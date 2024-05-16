@@ -7,7 +7,7 @@ weight: 20
 Debugging toolchains can be tedious
 {{% /pageinfo %}}
 
-Suppose you wanted to build a gcc-14 toolchain with the latest glibc standard libraries, and you were using a Linux host with gcc-13 and reasonably
+Suppose you wanted to build a gcc-14 toolchain with the latest glibc standard libraries, and you were using a Linux host with gcc-14 and reasonably
 current glibc standard libraries.  How would you guarantee that none of your older host files were accidentally used where you expected
 the newer gcc and glibc files to be used?
 
@@ -17,7 +17,7 @@ are visible.  That means nothing under /usr or $HOME is generally available, and
 Example:
 
 ```console
-ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/toolchain/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule '//userSpaceSamples:helloworld':
+ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule '//userSpaceSamples:helloworld':
 the source file 'userSpaceSamples/helloworld.c' includes the following non-builtin files with absolute paths (if these are builtin files, make sure these paths are in your toolchain):
   '/usr/include/stdc-predef.h'
   '/usr/include/stdio.h'
@@ -91,15 +91,15 @@ The error log is large, showing 5 failures out of 8 tests. We will narrow the te
 $ python  ./generateInternalExemplars.py T0BazelEnvironment.test_03_riscv64_build
 INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_userspace --compilation_mode=dbg userSpaceSamples:helloworld
 ...
-ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/toolchain/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): gcc failed: error executing CppCompile command (from target //userSpaceSamples:helloworld) toolchains/gcc-13-riscv/imported/gcc -U_FORTIFY_SOURCE '--sysroot=external/gcc-13-riscv64-toolchains/sysroot' -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.s.d ... (remaining 20 arguments skipped)
+ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): gcc failed: error executing CppCompile command (from target //userSpaceSamples:helloworld) toolchains/gcc-14-riscv/imported/gcc -U_FORTIFY_SOURCE '--sysroot=external/gcc-14-riscv64-suite/sysroot' -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.s.d ... (remaining 20 arguments skipped)
 
 Use --sandbox_debug to see verbose messages from the sandbox and retain the sandbox build root for debugging
-toolchains/gcc-13-riscv/imported/gcc: line 5:     4 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-13-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc "$@"
-ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/toolchain/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): gcc failed: error executing CppCompile command (from target //userSpaceSamples:helloworld) toolchains/gcc-13-riscv/imported/gcc -U_FORTIFY_SOURCE '--sysroot=external/gcc-13-riscv64-toolchains/sysroot' -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i.d ... (remaining 20 arguments skipped)
+toolchains/gcc-14-riscv/imported/gcc: line 5:     4 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-14-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc "$@"
+ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): gcc failed: error executing CppCompile command (from target //userSpaceSamples:helloworld) toolchains/gcc-14-riscv/imported/gcc -U_FORTIFY_SOURCE '--sysroot=external/gcc-14-riscv64-suite/sysroot' -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i.d ... (remaining 20 arguments skipped)
 
 Use --sandbox_debug to see verbose messages from the sandbox and retain the sandbox build root for debugging
-toolchains/gcc-13-riscv/imported/gcc: line 5:     4 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-13-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc "$@"
-ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/toolchain/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): gcc failed: error executing CppCompile command (from target //userSpaceSamples:helloworld) toolchains/gcc-13-riscv/imported/gcc -U_FORTIFY_SOURCE '--sysroot=external/gcc-13-riscv64-toolchains/sysroot' -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.d ... (remaining 19 arguments skipped)
+toolchains/gcc-14-riscv/imported/gcc: line 5:     4 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-14-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc "$@"
+ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): gcc failed: error executing CppCompile command (from target //userSpaceSamples:helloworld) toolchains/gcc-14-riscv/imported/gcc -U_FORTIFY_SOURCE '--sysroot=external/gcc-14-riscv64-suite/sysroot' -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.d ... (remaining 19 arguments skipped)
 ```
 
 The three segment fault dumps can be found in `/var/lib/systemd/coredump/`.
@@ -108,17 +108,17 @@ The ERROR message indicates segment faults when generating three dependency list
 build command:
 
 ```console
-$  cd riscv64/toolchain/
-riscv64/toolchain $ bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --sandbox_debug --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_userspace --compilation_mode=dbg userSpaceSamples:helloworld
+$  cd riscv64/generated/
+riscv64/generated $ bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --sandbox_debug --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_userspace --compilation_mode=dbg userSpaceSamples:helloworld
 ...
-ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/toolchain/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): linux-sandbox failed: error executing CppCompile command 
+ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): linux-sandbox failed: error executing CppCompile command 
   (cd /run/user/1000/bazel/sandbox/linux-sandbox/4/execroot/_main && \
   exec env - \
     PATH=/home/thixotropist/.local/bin:/home/thixotropist/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin:/home/thixotropist/.local/bin:/home/thixotropist/bin:/opt/ghidra_11.1_DEV/:/home/thixotropist/.cargo/bin::/usr/lib/jvm/jdk-17-oracle-x64/bin:/opt/gradle-7.6.2/bin \
     PWD=/proc/self/cwd \
     TMPDIR=/tmp \
-  /home/thixotropist/.cache/bazel/_bazel_thixotropist/install/80f400a450641cd3dd880bb8dec91ff8/linux-sandbox -t 15 -w /dev/shm -w /run/user/1000/bazel/sandbox/linux-sandbox/4/execroot/_main -w /tmp -S /run/user/1000/bazel/sandbox/linux-sandbox/4/stats.out -D /run/user/1000/bazel/sandbox/linux-sandbox/4/debug.out -- toolchains/gcc-13-riscv/imported/gcc -U_FORTIFY_SOURCE '--sysroot=external/gcc-13-riscv64-toolchains/sysroot' -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i.d '-frandom-seed=bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i' -fPIC -iquote . -iquote bazel-out/k8-dbg/bin -iquote external/bazel_tools -iquote bazel-out/k8-dbg/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined '-D__DATE__="redacted"' '-D__TIMESTAMP__="redacted"' '-D__TIME__="redacted"' -c userSpaceSamples/helloworld.c -E -o bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i)
-toolchains/gcc-13-riscv/imported/gcc: line 5:     4 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-13-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc "$@"
+  /home/thixotropist/.cache/bazel/_bazel_thixotropist/install/80f400a450641cd3dd880bb8dec91ff8/linux-sandbox -t 15 -w /dev/shm -w /run/user/1000/bazel/sandbox/linux-sandbox/4/execroot/_main -w /tmp -S /run/user/1000/bazel/sandbox/linux-sandbox/4/stats.out -D /run/user/1000/bazel/sandbox/linux-sandbox/4/debug.out -- toolchains/gcc-14-riscv/imported/gcc -U_FORTIFY_SOURCE '--sysroot=external/gcc-14-riscv64-suite/sysroot' -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i.d '-frandom-seed=bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i' -fPIC -iquote . -iquote bazel-out/k8-dbg/bin -iquote external/bazel_tools -iquote bazel-out/k8-dbg/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined '-D__DATE__="redacted"' '-D__TIMESTAMP__="redacted"' '-D__TIME__="redacted"' -c userSpaceSamples/helloworld.c -E -o bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i)
+toolchains/gcc-14-riscv/imported/gcc: line 5:     4 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-14-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc "$@"
 ```
 
 This tells us several things:
@@ -130,25 +130,25 @@ The next step is to rerun the generated command outside of bazel, but using the 
 
 ```console
 $ pushd /run/user/1000/bazel/sandbox/linux-sandbox/4/execroot/_main
-$ toolchains/gcc-13-riscv/imported/gcc -U_FORTIFY_SOURCE '--sysroot=external/gcc-13-riscv64-toolchains/sysroot' -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i.d '-frandom-seed=bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i' -fPIC -iquote . -iquote bazel-out/k8-dbg/bin -iquote external/bazel_tools -iquote bazel-out/k8-dbg/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined '-D__DATE__="redacted"' '-D__TIMESTAMP__="redacted"' '-D__TIME__="redacted"' -c userSpaceSamples/helloworld.c -E -o bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i
-toolchains/gcc-13-riscv/imported/gcc: line 5: 552557 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-13-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc "$@"
-$ cat toolchains/gcc-13-riscv/imported/gcc
+$ toolchains/gcc-14-riscv/imported/gcc -U_FORTIFY_SOURCE '--sysroot=external/gcc-14-riscv64-suite/sysroot' -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i.d '-frandom-seed=bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i' -fPIC -iquote . -iquote bazel-out/k8-dbg/bin -iquote external/bazel_tools -iquote bazel-out/k8-dbg/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined '-D__DATE__="redacted"' '-D__TIMESTAMP__="redacted"' '-D__TIME__="redacted"' -c userSpaceSamples/helloworld.c -E -o bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i
+toolchains/gcc-14-riscv/imported/gcc: line 5: 552557 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-14-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc "$@"
+$ cat toolchains/gcc-14-riscv/imported/gcc
 #!/bin/bash
 set -euo pipefail
-PATH=`pwd`/toolchains/gcc-13-riscv/imported \
+PATH=`pwd`/toolchains/gcc-14-riscv/imported \
 LD_LIBRARY_PATH=external/fedora39-system-libs \
-  external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc "$@"
-$ ls -l external/gcc-13-riscv64-toolchains/bin
+  external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc "$@"
+$ ls -l external/gcc-14-riscv64-suite/bin
 total 0
-riscv64-unknown-linux-gnu-ar -> /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-ar
-riscv64-unknown-linux-gnu-as -> /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-as
-riscv64-unknown-linux-gnu-cpp -> /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp
-riscv64-unknown-linux-gnu-gcc -> /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc
-riscv64-unknown-linux-gnu-ld -> /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-ld
-riscv64-unknown-linux-gnu-ld.bfd -> /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-ld.bfd
-riscv64-unknown-linux-gnu-objdump -> /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-objdump
-riscv64-unknown-linux-gnu-ranlib -> /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-ranlib
-riscv64-unknown-linux-gnu-strip -> /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-strip
+riscv64-unknown-linux-gnu-ar -> /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-ar
+riscv64-unknown-linux-gnu-as -> /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-as
+riscv64-unknown-linux-gnu-cpp -> /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp
+riscv64-unknown-linux-gnu-gcc -> /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc
+riscv64-unknown-linux-gnu-ld -> /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-ld
+riscv64-unknown-linux-gnu-ld.bfd -> /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-ld.bfd
+riscv64-unknown-linux-gnu-objdump -> /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-objdump
+riscv64-unknown-linux-gnu-ranlib -> /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-ranlib
+riscv64-unknown-linux-gnu-strip -> /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-strip
 
 $ ls -l external/fedora39-system-libs
 total 0
@@ -181,9 +181,9 @@ libzstd.so.1.5.5 -> /run/user/1000/bazel/execroot/_main/external/fedora39-system
 This suggests a missing or out-of-date sharable library, so try executing cpp with and without overriding the library path
 
 ```console
-$ LD_LIBRARY_PATH=external/fedora39-system-libs /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp --version
+$ LD_LIBRARY_PATH=external/fedora39-system-libs /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp --version
 Segmentation fault (core dumped)
-$ /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp --version
+$ /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp --version
 riscv64-unknown-linux-gnu-cpp (g3f23fa7e74f) 13.2.1 20230901
 Copyright (C) 2023 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
@@ -193,7 +193,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Next see which libraries are required for `cpp` to execute:
 
 ```console
-$ ldd /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp
+$ ldd /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp
 	linux-vdso.so.1 (0x00007ffdb7172000)
 	libstdc++.so.6 => /lib64/libstdc++.so.6 (0x00007faf79200000)
 	libm.so.6 => /lib64/libm.so.6 (0x00007faf7911d000)
@@ -206,22 +206,22 @@ Is this a case of a missing library, or something corrupt in our imported `fedor
 Try a differential test in which we search both libraries, in different orders:
 
 ```console
-$ LD_LIBRARY_PATH=/lib64/:/run/user/1000/bazel/execroot/_main/external/fedora39-system-libs ldd /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp
+$ LD_LIBRARY_PATH=/lib64/:/run/user/1000/bazel/execroot/_main/external/fedora39-system-libs ldd /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp
 	linux-vdso.so.1 (0x00007ffeb2b92000)
 	libstdc++.so.6 => /lib64/libstdc++.so.6 (0x00007fda32200000)
 	libm.so.6 => /lib64/libm.so.6 (0x00007fda3211d000)
 	libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007fda324a7000)
 	libc.so.6 => /lib64/libc.so.6 (0x00007fda31f30000)
 	/lib64/ld-linux-x86-64.so.2 (0x00007fda324d6000)
-$  LD_LIBRARY_PATH=/run/user/1000/bazel/execroot/_main/external/fedora39-system-libs:/lib64 ldd /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp
+$  LD_LIBRARY_PATH=/run/user/1000/bazel/execroot/_main/external/fedora39-system-libs:/lib64 ldd /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp
 Segmentation fault (core dumped)
 ```
 
 We can trace the library and child process actions with commands like:
 
 ```console
-$ strace -f --string-limit=1000 ldd /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp 2>&1 |egrep 'openat|execve'
-execve("/usr/bin/ldd", ["ldd", "/run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp"], 0x7ffcd3479788 /* 54 vars */) = 0
+$ strace -f --string-limit=1000 ldd /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp 2>&1 |egrep 'openat|execve'
+execve("/usr/bin/ldd", ["ldd", "/run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp"], 0x7ffcd3479788 /* 54 vars */) = 0
 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
 openat(AT_FDCWD, "/lib64/libtinfo.so.6", O_RDONLY|O_CLOEXEC) = 3
 openat(AT_FDCWD, "/lib64/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
@@ -236,10 +236,10 @@ openat(AT_FDCWD, "/usr/share/locale/en_US/LC_MESSAGES/libc.mo", O_RDONLY) = -1 E
 openat(AT_FDCWD, "/usr/share/locale/en.UTF-8/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
 openat(AT_FDCWD, "/usr/share/locale/en.utf8/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
 openat(AT_FDCWD, "/usr/share/locale/en/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
-[pid 595197] execve("/lib64/ld-linux-x86-64.so.2", ["/lib64/ld-linux-x86-64.so.2", "--verify", "/run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp"], 0x56317c32bf10 /* 54 vars */) = 0
-[pid 595197] openat(AT_FDCWD, "/run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp", O_RDONLY|O_CLOEXEC) = 3
-[pid 595200] execve("/lib64/ld-linux-x86-64.so.2", ["/lib64/ld-linux-x86-64.so.2", "/run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp"], 0x56317c339130 /* 58 vars */) = 0
-[pid 595200] openat(AT_FDCWD, "/run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp", O_RDONLY|O_CLOEXEC) = 3
+[pid 595197] execve("/lib64/ld-linux-x86-64.so.2", ["/lib64/ld-linux-x86-64.so.2", "--verify", "/run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp"], 0x56317c32bf10 /* 54 vars */) = 0
+[pid 595197] openat(AT_FDCWD, "/run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp", O_RDONLY|O_CLOEXEC) = 3
+[pid 595200] execve("/lib64/ld-linux-x86-64.so.2", ["/lib64/ld-linux-x86-64.so.2", "/run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp"], 0x56317c339130 /* 58 vars */) = 0
+[pid 595200] openat(AT_FDCWD, "/run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp", O_RDONLY|O_CLOEXEC) = 3
 [pid 595200] openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
 [pid 595200] openat(AT_FDCWD, "/lib64/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = 3
 [pid 595200] openat(AT_FDCWD, "/lib64/libm.so.6", O_RDONLY|O_CLOEXEC) = 3
@@ -251,7 +251,7 @@ Examine the imported `fedora39-system-libs` directory, finding one significant e
 the host's `/lib64/libc.so.6`, `/usr/lib64/libc_nonshared.a`, and `/lib64/ld-linux-x86-64.so.2`.  If we purge `libc.*` from `fedora39-system-libs` we get a saner result:
 
 ```console
-$ LD_LIBRARY_PATH=/run/user/1000/bazel/execroot/_main/external/fedora39-system-libs:/lib64 ldd /run/user/1000/bazel/execroot/_main/external/gcc-13-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-cpp 2>&1 
+$ LD_LIBRARY_PATH=/run/user/1000/bazel/execroot/_main/external/fedora39-system-libs:/lib64 ldd /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp 2>&1 
 	linux-vdso.so.1 (0x00007ffda9fed000)
 	libstdc++.so.6 => /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libstdc++.so.6 (0x00007f0c1c45a000)
 	libm.so.6 => /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libm.so.6 (0x00007f0c1c379000)

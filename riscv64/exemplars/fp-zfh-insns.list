@@ -1,4 +1,4 @@
-GAS LISTING assemblySamples/fp-zfh-insns.S 			page 1
+GAS LISTING riscv64/generated/assemblySamples/fp-zfh-insns.S 			page 1
 
 
    1 0000 07950500 		flh		fa0, 0(a1)
@@ -58,7 +58,7 @@ GAS LISTING assemblySamples/fp-zfh-insns.S 			page 1
   53 00c4 538505F4 		fmv.h.x		fa0, a1
   54              	
   55 00c8 53852540 		fcvt.s.h	fa0, fa1
-GAS LISTING assemblySamples/fp-zfh-insns.S 			page 2
+GAS LISTING riscv64/generated/assemblySamples/fp-zfh-insns.S 			page 2
 
 
   56 00cc 53852542 		fcvt.d.h	fa0, fa1
@@ -76,13 +76,13 @@ GAS LISTING assemblySamples/fp-zfh-insns.S 			page 1
   68 00f8 5385C5A4 		fle.h		a0, fa1, fa2
   69 00fc 5395C5A4 		fgt.h		a0, fa2, fa1
   70 0100 5385C5A4 		fge.h		a0, fa2, fa1
-GAS LISTING assemblySamples/fp-zfh-insns.S 			page 3
+GAS LISTING riscv64/generated/assemblySamples/fp-zfh-insns.S 			page 3
 
 
 DEFINED SYMBOLS
-assemblySamples/fp-zfh-insns.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_q2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zfh1p0_zfhmin1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
-assemblySamples/fp-zfh-insns.S:2      .text:0000000000000004 .L0 
-assemblySamples/fp-zfh-insns.S:4      .text:0000000000000010 .L0 
+riscv64/generated/assemblySamples/fp-zfh-insns.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_q2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zfh1p0_zfhmin1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+riscv64/generated/assemblySamples/fp-zfh-insns.S:2      .text:0000000000000004 .L0 
+riscv64/generated/assemblySamples/fp-zfh-insns.S:4      .text:0000000000000010 .L0 
 
 UNDEFINED SYMBOLS
 hval

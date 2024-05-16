@@ -1,4 +1,4 @@
-GAS LISTING assemblySamples/b-ext.S 			page 1
+GAS LISTING riscv64/generated/assemblySamples/b-ext.S 			page 1
 
 
    1              	target:
@@ -44,11 +44,11 @@ GAS LISTING assemblySamples/b-ext.S 			page 1
   41 0098 1395F529 		bset    a0, a1, 31
   42 009c 1395F569 		binv    a0, a1, 31
   43 00a0 13D5F549 		bext    a0, a1, 31
-GAS LISTING assemblySamples/b-ext.S 			page 2
+GAS LISTING riscv64/generated/assemblySamples/b-ext.S 			page 2
 
 
 DEFINED SYMBOLS
-assemblySamples/b-ext.S:1      .text:0000000000000000 target
-assemblySamples/b-ext.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zba1p0_zbb1p0_zbc1p0_zbs1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+riscv64/generated/assemblySamples/b-ext.S:1      .text:0000000000000000 target
+riscv64/generated/assemblySamples/b-ext.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_q2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zba1p0_zbb1p0_zbc1p0_zbs1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
 
 NO UNDEFINED SYMBOLS

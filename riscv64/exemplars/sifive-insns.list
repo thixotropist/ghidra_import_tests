@@ -1,4 +1,4 @@
-GAS LISTING assemblySamples/sifive-insns.S 			page 1
+GAS LISTING riscv64/generated/assemblySamples/sifive-insns.S 			page 1
 
 
    1              		.attribute arch, "rv32iv"
@@ -34,10 +34,10 @@ GAS LISTING assemblySamples/sifive-insns.S 			page 1
   31 0068 5BB027FC 		sf.vc.v.ivw 0x3, v0, v2, 15
   32 006c 5BD025FC 		sf.vc.v.fvw 0x1, v0, v2, fa1
   33              		.option pop
-GAS LISTING assemblySamples/sifive-insns.S 			page 2
+GAS LISTING riscv64/generated/assemblySamples/sifive-insns.S 			page 2
 
 
 DEFINED SYMBOLS
-assemblySamples/sifive-insns.S:5      .text:00000000 $xrv32i2p1_f2p2_d2p2_v1p0_zicsr2p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_xsfvcp1p0
+riscv64/generated/assemblySamples/sifive-insns.S:5      .text:00000000 $xrv32i2p1_f2p2_d2p2_v1p0_zicsr2p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_xsfvcp1p0
 
 NO UNDEFINED SYMBOLS

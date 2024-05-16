@@ -29,21 +29,21 @@ class Toolchain():
     """
 
     # Bazel targets used to test the toolchain environment
-    REFERENCE_C_PGM = 'userSpaceSamples:helloworld'
-    REFERENCE_CPP_PGM = 'userSpaceSamples:helloworld++'
+    REFERENCE_C_PGM = '//riscv64/generated/userSpaceSamples:helloworld'
+    REFERENCE_CPP_PGM = '//riscv64/generated/userSpaceSamples:helloworld++'
 
     # The default risc-v 64 bit platform, roughly tracking an SiFive SDK
-    DEFAULT_RISCV64_PLATFORM = '//platforms:riscv_userspace'
+    DEFAULT_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv_userspace'
 
     # A RISCV-64 platform with support for vector and other mainstream extensions.
     # This likely includes gcc-14 and binutils libraries not yet formally released
-    VECTOR_RISCV64_PLATFORM = '//platforms:riscv_vector'
+    VECTOR_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv_vector'
 
     # A RISCV-64 platform supporting vector and vendor-specific extensions
-    VENDOR_EXTENSION_RISCV64_PLATFORM = '//platforms:riscv_custom'
+    VENDOR_EXTENSION_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv_custom'
 
     # An x86_64 platform
-    DEFAULT_X86_64_PLATFORM = '//platforms:x86_64_default'
+    DEFAULT_X86_64_PLATFORM = '//x86_64/generated/platforms:x86_64_default'
 
     # a bazel-generated platform representing the local development system
     LOCAL_HOST_PLATFORM = '@local_config_platform//:host'

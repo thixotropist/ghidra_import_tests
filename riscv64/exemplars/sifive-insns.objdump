@@ -1,5 +1,5 @@
 
-bazel-out/k8-fastbuild/bin/assemblySamples/sifive-insns.o:     file format elf32-littleriscv
+bazel-out/k8-fastbuild/bin/riscv64/generated/assemblySamples/sifive-insns.o:     file format elf32-littleriscv
 
 
 Disassembly of section .text:

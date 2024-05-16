@@ -1,5 +1,5 @@
 
-bazel-out/k8-fastbuild/bin/assemblySamples/h-ext-64.o:     file format elf64-littleriscv
+bazel-out/k8-fastbuild/bin/riscv64/generated/assemblySamples/h-ext-64.o:     file format elf64-littleriscv
 
 
 Disassembly of section .text:

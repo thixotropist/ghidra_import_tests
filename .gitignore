@@ -40,7 +40,7 @@ __pycache__/*
 bazel-bin
 bazel-out
 bazel-testlogs
-bazel-toolchain
+bazel-generated
 bazel-ghidra_import_tests
 MODULE.bazel.lock
 # test artifacts

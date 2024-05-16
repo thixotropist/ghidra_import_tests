@@ -100,7 +100,7 @@ cc_toolchain_config(
     cpu = "riscv64",
     # we really want the following to be constructed from $(output_base) or $(location ...)
     cxx_builtin_include_directories = [
-       OUTPUT_BASE + "/external/gcc-14-riscv64-suite/sysroot/usr/include",
+       OUTPUT_BASE + "/external/gcc-14-riscv64-suite/usr/include",
        OUTPUT_BASE + "/external/gcc-14-riscv64-suite/riscv64-unknown-linux-gnu/include/c++/14.1.0",
        OUTPUT_BASE + "/external/gcc-14-riscv64-suite/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/include",
        OUTPUT_BASE + "/external/gcc-14-riscv64-suite/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/include-fixed",
@@ -112,7 +112,7 @@ cc_toolchain_config(
     dbg_compile_flags = ["-g"],
     host_system_name = ":empty",
     link_flags = [
-        "-Wl,--library-path=external/gcc-14-riscv64-suite/sysroot/lib",
+        "-Wl,--library-path=external/gcc-14-riscv64-suite/lib",
     ],
     link_libs = ["-lstdc++", "-lm"],
     opt_compile_flags = [

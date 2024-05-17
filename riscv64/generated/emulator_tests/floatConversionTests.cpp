@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <glog/logging.h>
+#include <limits>
 
 extern "C"
 {
@@ -30,6 +31,7 @@ namespace
     {
         float x = 1.0;
         double xd = 1.0;
+        double xdNan = std::numeric_limits<double>::quiet_NaN();
         int i = 1;
         unsigned int iu = 1;
         unsigned int iumax = 0xffffffff;
@@ -41,6 +43,9 @@ namespace
         EXPECT_NEAR(1.0, fcvt_s_wu(&iu), 1.0e-5) << "fcvt.s.wu failure";
         EXPECT_NEAR(4294967295.0, fcvt_s_wu(&iumax), 1.0) << "fcvt.s.wu failure on large unsigned ints";
         EXPECT_NEAR(1.0e0, fcvt_s_d(&xd), 1.0e-5) << "fcvt.s.d failure";
+        GTEST_FLAG_SET(death_test_style, "threadsafe");
+        EXPECT_DEATH(fcvt_s_d(&xdNan), "") << "fcvt.s.d failure on NaN conversion";
+        GTEST_FLAG_SET(death_test_style, "fast");
         EXPECT_NEAR(1.0e0, fcvt_d_s(&x), 1.0e-10) << "fcvt.d.s failure";
         EXPECT_NEAR(1.0e0, fcvt_d_w(&i), 1.0e-10) << "fcvt.d.w failure";
         EXPECT_NEAR(1.0e0, fcvt_d_wu(&iu), 1.0e-10) << "fcvt.d.wu failure";
@@ -60,5 +65,6 @@ namespace
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
+    GTEST_FLAG_SET(death_test_style, "fast");
     return RUN_ALL_TESTS();
 }

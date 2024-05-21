@@ -1,6 +1,6 @@
 ---
 title: link time optimization
-weight: 30
+weight: 40
 ---
 
 {{% pageinfo %}}

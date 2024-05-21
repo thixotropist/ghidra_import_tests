@@ -8,10 +8,10 @@
 # The test framework is Google's gtest C++
 #
 cc_binary(
-    name = "floatConversionTests",
+    name = "floatOperationTests",
     srcs = [
-        "floatConversionTests.cpp",
-        "floatConversions.h",
+        "floatOperationTests.cpp",
+        "floatOperations.h",
     ],
     copts = [
         "-std=c++20",
@@ -19,7 +19,7 @@ cc_binary(
         "-g",
     ],
     deps = [
-        ":floatConversions",
+        ":floatOperations",
         "@glog",
         "@googletest//:gtest",
     ],
@@ -29,14 +29,15 @@ cc_binary(
 # for easier Ghidra analysis
 #
 cc_library(
-    name = "floatConversions",
+    name = "floatOperations",
     srcs = [
-        "floatConversions.c",
-        "floatConversions.h",
+        "floatOperations.c",
+        "floatOperations.h",
     ],
     copts = [
         "-O3",
         "-g",
+        "-march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbc_zfh"
     ],
 )
 #
@@ -46,17 +47,21 @@ cc_library(
 TARGET_ROOT = "/opt/riscv/sysroot"
 TARGET_ARCH = "/opt/riscv/sysroot/riscv64-unknown-linux-gnu"
 
-QEMU_MARCH = "zba=true,zbb=true,v=true,vlen=256,vext_spec=v1.0,rvv_ta_all_1s=true,rvv_ma_all_1s=true"
+SUPPORT_VECTOR = "v=true,vlen=256,vext_spec=v1.0,rvv_ta_all_1s=true,rvv_ma_all_1s=true"
+SUPPORT_BIT_MANIPULATION = "zba=true,zbb=true"
+SUPPORT_FLOAT_16 = "zfh=true"
+
+QEMU_MARCH = SUPPORT_BIT_MANIPULATION + "," + SUPPORT_VECTOR+ "," + SUPPORT_FLOAT_16
 
 genrule(
     name = "testSemantics",
     srcs = [
-        ":floatConversions",
-        ":floatConversionTests",
+        ":floatOperations",
+        ":floatOperationTests",
     ],
     outs = [":results"],
     cmd = "QEMU_CPU=rv64,{} ".format(QEMU_MARCH) +
         "qemu-riscv64-static -L {} ".format(TARGET_ARCH, TARGET_ARCH) +
         "-E LD_LIBRARY_PATH={}/lib64:{}/lib:{}/lib ".format(TARGET_ARCH, TARGET_ARCH, TARGET_ROOT) +
-        "$(location :floatConversionTests) > $(location :results)"
+        "$(location :floatOperationTests) > $(location :results)"
 )

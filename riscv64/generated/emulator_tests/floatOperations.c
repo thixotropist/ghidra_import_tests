@@ -1,5 +1,10 @@
 #include <stdio.h>
-#include "floatConversions.h"
+#include "floatOperations.h"
+
+
+float flw(float* x) {
+    return *x;
+}
 
 int fcvt_w_s(float* x) {
     return (int)*x;
@@ -67,12 +72,58 @@ float fmv_w_x(int* i) {
     return val;
 }
 
+// Convert a half-precision floating-point number to a single-precision floating-point number
+float fcvt_s_h(_fp16* x) {
+    float val;
+    _fp16 src = *x;
+    __asm__ __volatile__ (
+        "fcvt.s.h  %0, %1" \
+        : "=f" (val) \
+        : "f" (src));
+    return val;
+}
+
+// Convert a half-precision floating-point number to a double-precision floating-point number
+double fcvt_d_h(_fp16* x) {
+    double val;
+    _fp16 src = *x;
+    __asm__ __volatile__ (
+        "fcvt.d.h  %0, %1" \
+        : "=f" (val) \
+        : "f" (src));
+    return val;
+}
+
+// Convert a single-precision floating-point number to a half-precision floating-point number
+_fp16 fcvt_h_s(float* x) {
+    float src = *x;
+    _fp16 val;
+    __asm__ __volatile__ (
+        "fcvt.h.s  %0, %1" \
+        : "=f" (val) \
+        : "f" (src));
+    return val;
+}
+
+// Convert a double-precision floating-point number to a half-precision floating-point number
+_fp16 fcvt_h_d(double* x) {
+    double src = *x;
+    _fp16 val;
+    __asm__ __volatile__ (
+        "fcvt.h.d  %0, %1" \
+        : "=f" (val) \
+        : "f" (src));
+    return val;
+}
+
 ///@brief this never-called function helps Ghidra establish key function signatures
 void dummyCalls() {
     float x = 1.0;
     double xd = 1.0;
+    _fp16 xh = short_as_fp16(0x7fc0);
     int i = 1;
     unsigned int j = 1;
+    printf("%f\n", flw(&x));
     printf("%d\n", fcvt_w_s(&x));
     printf("%d\n", fcvt_wu_s(&x));
     printf("%d\n", fcvt_w_d(&xd));
@@ -85,4 +136,9 @@ void dummyCalls() {
     printf("%f\n", fcvt_d_wu(&j));
     printf("%d\n", fmv_x_w(&x));
     printf("%f\n", fmv_w_x(&i));
+    printf("%f\n", fcvt_s_h(&xh));
+    printf("%f\n", fcvt_d_h(&xh));
+    printf("%f\n", fcvt_h_s(&x));
+    printf("%f\n", fcvt_h_d(&xd));
+
 }

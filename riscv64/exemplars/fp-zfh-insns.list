@@ -1,0 +1,88 @@
+GAS LISTING riscv64/generated/assemblySamples/fp-zfh-insns.S 			page 1
+
+
+   1 0000 07950500 		flh		fa0, 0(a1)
+   2 0004 97020000 		flh		fa0, hval, t0
+   2      07950200 
+   3 000c 2790A500 		fsh		fa0, 0(a1)
+   4 0010 97020000 		fsh		fa0, hval, t0
+   4      2790A200 
+   5              	
+   6 0018 5385B524 		fmv.h		fa0, fa1
+   7 001c 5395B524 		fneg.h		fa0, fa1
+   8 0020 53A5B524 		fabs.h		fa0, fa1
+   9 0024 5385C524 		fsgnj.h		fa0, fa1, fa2
+  10 0028 5395C524 		fsgnjn.h	fa0, fa1, fa2
+  11 002c 53A5C524 		fsgnjx.h	fa0, fa1, fa2
+  12              	
+  13 0030 53F5C504 		fadd.h		fa0, fa1, fa2
+  14 0034 5385C504 		fadd.h		fa0, fa1, fa2, rne
+  15 0038 53F5C50C 		fsub.h		fa0, fa1, fa2
+  16 003c 5385C50C 		fsub.h		fa0, fa1, fa2, rne
+  17 0040 53F5C514 		fmul.h		fa0, fa1, fa2
+  18 0044 5385C514 		fmul.h		fa0, fa1, fa2, rne
+  19 0048 53F5C51C 		fdiv.h		fa0, fa1, fa2
+  20 004c 5385C51C 		fdiv.h		fa0, fa1, fa2, rne
+  21 0050 53F5055C 		fsqrt.h		fa0, fa1
+  22 0054 5385055C 		fsqrt.h		fa0, fa1, rne
+  23 0058 5385C52C 		fmin.h		fa0, fa1, fa2
+  24 005c 5395C52C 		fmax.h		fa0, fa1, fa2
+  25              	
+  26 0060 43F5C56C 		fmadd.h		fa0, fa1, fa2, fa3
+  27 0064 4385C56C 		fmadd.h		fa0, fa1, fa2, fa3, rne
+  28 0068 4FF5C56C 		fnmadd.h	fa0, fa1, fa2, fa3
+  29 006c 4F85C56C 		fnmadd.h	fa0, fa1, fa2, fa3, rne
+  30 0070 47F5C56C 		fmsub.h		fa0, fa1, fa2, fa3
+  31 0074 4785C56C 		fmsub.h		fa0, fa1, fa2, fa3, rne
+  32 0078 4BF5C56C 		fnmsub.h	fa0, fa1, fa2, fa3
+  33 007c 4B85C56C 		fnmsub.h	fa0, fa1, fa2, fa3, rne
+  34              	
+  35 0080 53F505C4 		fcvt.w.h	a0, fa1
+  36 0084 538505C4 		fcvt.w.h	a0, fa1, rne
+  37 0088 53F515C4 		fcvt.wu.h	a0, fa1
+  38 008c 538515C4 		fcvt.wu.h	a0, fa1, rne
+  39 0090 53F505D4 		fcvt.h.w	fa0, a1
+  40 0094 538505D4 		fcvt.h.w	fa0, a1, rne
+  41 0098 53F515D4 		fcvt.h.wu	fa0, a1
+  42 009c 538515D4 		fcvt.h.wu	fa0, a1, rne
+  43 00a0 53F525C4 		fcvt.l.h	a0, fa1
+  44 00a4 538525C4 		fcvt.l.h	a0, fa1, rne
+  45 00a8 53F535C4 		fcvt.lu.h	a0, fa1
+  46 00ac 538535C4 		fcvt.lu.h	a0, fa1, rne
+  47 00b0 53F525D4 		fcvt.h.l	fa0, a1
+  48 00b4 538525D4 		fcvt.h.l	fa0, a1, rne
+  49 00b8 53F535D4 		fcvt.h.lu	fa0, a1
+  50 00bc 538535D4 		fcvt.h.lu	fa0, a1, rne
+  51              	
+  52 00c0 538505E4 		fmv.x.h		a0, fa1
+  53 00c4 538505F4 		fmv.h.x		fa0, a1
+  54              	
+  55 00c8 53852540 		fcvt.s.h	fa0, fa1
+GAS LISTING riscv64/generated/assemblySamples/fp-zfh-insns.S 			page 2
+
+
+  56 00cc 53852542 		fcvt.d.h	fa0, fa1
+  57 00d0 53852546 		fcvt.q.h	fa0, fa1
+  58 00d4 53F50544 		fcvt.h.s	fa0, fa1
+  59 00d8 53850544 		fcvt.h.s	fa0, fa1, rne
+  60 00dc 53F51544 		fcvt.h.d	fa0, fa1
+  61 00e0 53851544 		fcvt.h.d	fa0, fa1, rne
+  62 00e4 53F53544 		fcvt.h.q	fa0, fa1
+  63 00e8 53853544 		fcvt.h.q	fa0, fa1, rne
+  64 00ec 539505E4 		fclass.h	a0, fa1
+  65              	
+  66 00f0 53A5C5A4 		feq.h		a0, fa1, fa2
+  67 00f4 5395C5A4 		flt.h		a0, fa1, fa2
+  68 00f8 5385C5A4 		fle.h		a0, fa1, fa2
+  69 00fc 5395C5A4 		fgt.h		a0, fa2, fa1
+  70 0100 5385C5A4 		fge.h		a0, fa2, fa1
+GAS LISTING riscv64/generated/assemblySamples/fp-zfh-insns.S 			page 3
+
+
+DEFINED SYMBOLS
+riscv64/generated/assemblySamples/fp-zfh-insns.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_q2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zfh1p0_zfhmin1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+riscv64/generated/assemblySamples/fp-zfh-insns.S:2      .text:0000000000000004 .L0 
+riscv64/generated/assemblySamples/fp-zfh-insns.S:4      .text:0000000000000010 .L0 
+
+UNDEFINED SYMBOLS
+hval

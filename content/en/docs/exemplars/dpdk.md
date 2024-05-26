@@ -8,7 +8,7 @@ Intel's DPDK framework supports some Intel and Arm Neon vector instructions.  Wh
 Are ISA extensions materially useful to a network appliance?
 {{% /pageinfo %}}
 
-Check out DPDK from GitHub, patch the RISCV configuration with `riscv64/toolchains/dpdk/dpdk.pat`, and crosscompile with `meson`
+Check out DPDK from GitHub, patch the RISCV configuration with `riscv64/generated/dpdk/dpdk.pat`, and crosscompile with `meson`
 and `ninja`.  Copy some of the examples into `riscv64/exemplars` and examine them in Ghidra.
 
 * for this we use as many standard extensions as we can, excluding vendor-specific extensions.
@@ -16,7 +16,7 @@ and `ninja`.  Copy some of the examples into `riscv64/exemplars` and examine the
 Configure a build directory:
 
 ```console
-$ patch -p1 < .../riscv64/toolchains/dpdk/dpdk.pat
+$ patch -p1 < .../riscv64/generated/dpdk/dpdk.pat
 $ meson setup build --cross-file config/riscv/riscv64_linux_gcc -Dexamples=all
 $ cd build
 ```

@@ -1,4 +1,4 @@
-GAS LISTING assemblySamples/vector.S 			page 1
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 1
 
 
    1 0000 57F5C580 		vsetvl   a0, a1,  a2
@@ -58,7 +58,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
   55              	
   56 00c4 07720502 		vle64.v v4, (a0)
   57 00c8 07720502 		vle64.v v4, 0(a0)
-GAS LISTING assemblySamples/vector.S 			page 2
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 2
 
 
   58 00cc 07720500 		vle64.v v4, (a0), v0.t
@@ -118,7 +118,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  112 018c 0752C504 		vluxei16.v v4, (a0), v12, v0.t
  113 0190 2752C506 		vsuxei16.v v4, (a0), v12
  114 0194 2752C506 		vsuxei16.v v4, 0(a0), v12
-GAS LISTING assemblySamples/vector.S 			page 3
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 3
 
 
  115 0198 2752C504 		vsuxei16.v v4, (a0), v12, v0.t
@@ -178,7 +178,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  169 0250 27020542 		vsseg3e8.v v4, (a0)
  170 0254 27020542 		vsseg3e8.v v4, 0(a0)
  171 0258 27020540 		vsseg3e8.v v4, (a0), v0.t
-GAS LISTING assemblySamples/vector.S 			page 4
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 4
 
 
  172              	
@@ -238,7 +238,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  226 0314 27520562 		vsseg4e16.v v4, 0(a0)
  227 0318 27520560 		vsseg4e16.v v4, (a0), v0.t
  228              	
-GAS LISTING assemblySamples/vector.S 			page 5
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 5
 
 
  229 031c 07520582 		vlseg5e16.v v4, (a0)
@@ -298,7 +298,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  283 03d8 27620580 		vsseg5e32.v v4, (a0), v0.t
  284              	
  285 03dc 076205A2 		vlseg6e32.v v4, (a0)
-GAS LISTING assemblySamples/vector.S 			page 6
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 6
 
 
  286 03e0 076205A2 		vlseg6e32.v v4, 0(a0)
@@ -358,7 +358,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  340              	
  341 049c 077205C2 		vlseg7e64.v v4, (a0)
  342 04a0 077205C2 		vlseg7e64.v v4, 0(a0)
-GAS LISTING assemblySamples/vector.S 			page 7
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 7
 
 
  343 04a4 077205C0 		vlseg7e64.v v4, (a0), v0.t
@@ -418,7 +418,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  397 055c 0702B5EA 		vlsseg8e8.v v4, (a0), a1
  398 0560 0702B5EA 		vlsseg8e8.v v4, 0(a0), a1
  399 0564 0702B5E8 		vlsseg8e8.v v4, (a0), a1, v0.t
-GAS LISTING assemblySamples/vector.S 			page 8
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 8
 
 
  400 0568 2702B5EA 		vssseg8e8.v v4, (a0), a1
@@ -478,7 +478,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  454 0620 0762B52A 		vlsseg2e32.v v4, 0(a0), a1
  455 0624 0762B528 		vlsseg2e32.v v4, (a0), a1, v0.t
  456 0628 2762B52A 		vssseg2e32.v v4, (a0), a1
-GAS LISTING assemblySamples/vector.S 			page 9
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 9
 
 
  457 062c 2762B52A 		vssseg2e32.v v4, 0(a0), a1
@@ -538,7 +538,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  511 06e4 0772B548 		vlsseg3e64.v v4, (a0), a1, v0.t
  512 06e8 2772B54A 		vssseg3e64.v v4, (a0), a1
  513 06ec 2772B54A 		vssseg3e64.v v4, 0(a0), a1
-GAS LISTING assemblySamples/vector.S 			page 10
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 10
 
 
  514 06f0 2772B548 		vssseg3e64.v v4, (a0), a1, v0.t
@@ -598,7 +598,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  568 07a8 2702C56E 		vsoxseg4ei8.v v4, (a0), v12
  569 07ac 2702C56E 		vsoxseg4ei8.v v4, 0(a0), v12
  570 07b0 2702C56C 		vsoxseg4ei8.v v4, (a0), v12, v0.t
-GAS LISTING assemblySamples/vector.S 			page 11
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 11
 
 
  571              	
@@ -658,7 +658,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  625 086c 2752C58E 		vsoxseg5ei16.v v4, 0(a0), v12
  626 0870 2752C58C 		vsoxseg5ei16.v v4, (a0), v12, v0.t
  627              	
-GAS LISTING assemblySamples/vector.S 			page 12
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 12
 
 
  628 0874 0752C5AE 		vloxseg6ei16.v v4, (a0), v12
@@ -718,7 +718,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  682 0930 2762C5AC 		vsoxseg6ei32.v v4, (a0), v12, v0.t
  683              	
  684 0934 0762C5CE 		vloxseg7ei32.v v4, (a0), v12
-GAS LISTING assemblySamples/vector.S 			page 13
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 13
 
 
  685 0938 0762C5CE 		vloxseg7ei32.v v4, 0(a0), v12
@@ -778,7 +778,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  739              	
  740 09f4 0772C5EE 		vloxseg8ei64.v v4, (a0), v12
  741 09f8 0772C5EE 		vloxseg8ei64.v v4, 0(a0), v12
-GAS LISTING assemblySamples/vector.S 			page 14
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 14
 
 
  742 09fc 0772C5EC 		vloxseg8ei64.v v4, (a0), v12, v0.t
@@ -838,7 +838,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  796 0ab4 0752C526 		vluxseg2ei16.v v4, (a0), v12
  797 0ab8 0752C526 		vluxseg2ei16.v v4, 0(a0), v12
  798 0abc 0752C524 		vluxseg2ei16.v v4, (a0), v12, v0.t
-GAS LISTING assemblySamples/vector.S 			page 15
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 15
 
 
  799 0ac0 2752C526 		vsuxseg2ei16.v v4, (a0), v12
@@ -898,7 +898,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  853 0b78 0762C546 		vluxseg3ei32.v v4, 0(a0), v12
  854 0b7c 0762C544 		vluxseg3ei32.v v4, (a0), v12, v0.t
  855 0b80 2762C546 		vsuxseg3ei32.v v4, (a0), v12
-GAS LISTING assemblySamples/vector.S 			page 16
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 16
 
 
  856 0b84 2762C546 		vsuxseg3ei32.v v4, 0(a0), v12
@@ -958,7 +958,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  910 0c3c 0772C564 		vluxseg4ei64.v v4, (a0), v12, v0.t
  911 0c40 2772C566 		vsuxseg4ei64.v v4, (a0), v12
  912 0c44 2772C566 		vsuxseg4ei64.v v4, 0(a0), v12
-GAS LISTING assemblySamples/vector.S 			page 17
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 17
 
 
  913 0c48 2772C564 		vsuxseg4ei64.v v4, (a0), v12, v0.t
@@ -1018,7 +1018,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  967 0cf4 070205E3 		vlseg8e8ff.v v4, (a0)
  968 0cf8 070205E3 		vlseg8e8ff.v v4, 0(a0)
  969 0cfc 070205E1 		vlseg8e8ff.v v4, (a0), v0.t
-GAS LISTING assemblySamples/vector.S 			page 18
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 18
 
 
  970              	
@@ -1078,7 +1078,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1024 0da0 076205E3 		vlseg8e32ff.v v4, 0(a0)
  1025 0da4 076205E1 		vlseg8e32ff.v v4, (a0), v0.t
  1026              	
-GAS LISTING assemblySamples/vector.S 			page 19
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 19
 
 
  1027 0da8 07720523 		vlseg2e64ff.v v4, (a0)
@@ -1138,7 +1138,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1081 0e5c 07528562 		vl4re16.v v4, (a0)
  1082 0e60 07528562 		vl4re16.v v4, 0(a0)
  1083 0e64 07628562 		vl4re32.v v4, (a0)
-GAS LISTING assemblySamples/vector.S 			page 20
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 20
 
 
  1084 0e68 07628562 		vl4re32.v v4, 0(a0)
@@ -1198,7 +1198,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1138 0f24 572286C0 		vwaddu.vv v4, v8, v12, v0.t
  1139 0f28 57E285C0 		vwaddu.vx v4, v8, a1, v0.t
  1140 0f2c 572286CA 		vwsubu.vv v4, v8, v12
-GAS LISTING assemblySamples/vector.S 			page 21
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 21
 
 
  1141 0f30 57E285CA 		vwsubu.vx v4, v8, a1
@@ -1258,7 +1258,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1195 1000 57C28548 		vsbc.vxm v4, v8, a1, v0
  1196 1004 5702864C 		vmsbc.vvm v4, v8, v12, v0
  1197 1008 57C2854C 		vmsbc.vxm v4, v8, a1, v0
-GAS LISTING assemblySamples/vector.S 			page 22
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 22
 
 
  1198 100c 5702864E 		vmsbc.vv v4, v8, v12
@@ -1318,7 +1318,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1252 10d4 57B280A4 		vsra.vi v4, v8, 1, v0.t
  1253 10d8 57B28FA4 		vsra.vi v4, v8, 31, v0.t
  1254              	
-GAS LISTING assemblySamples/vector.S 			page 23
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 23
 
 
  1255              		# Aliases
@@ -1378,7 +1378,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1309 11a0 57328860 		vmseq.vi v4, v8, -16, v0.t
  1310 11a4 57028666 		vmsne.vv v4, v8, v12
  1311 11a8 57C28566 		vmsne.vx v4, v8, a1
-GAS LISTING assemblySamples/vector.S 			page 24
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 24
 
 
  1312 11ac 57B28766 		vmsne.vi v4, v8, 15
@@ -1438,7 +1438,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1366 1280 57C28518 		vmaxu.vx v4, v8, a1, v0.t
  1367 1284 5702861E 		vmax.vv v4, v8, v12
  1368 1288 57C2851E 		vmax.vx v4, v8, a1
-GAS LISTING assemblySamples/vector.S 			page 25
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 25
 
 
  1369 128c 5702861C 		vmax.vv v4, v8, v12, v0.t
@@ -1498,7 +1498,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1423 1354 572286F6 		vwmacc.vv v4, v12, v8
  1424 1358 57E285F6 		vwmacc.vx v4, a1, v8
  1425 135c 572286F4 		vwmacc.vv v4, v12, v8, v0.t
-GAS LISTING assemblySamples/vector.S 			page 26
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 26
 
 
  1426 1360 57E285F4 		vwmacc.vx v4, a1, v8, v0.t
@@ -1558,7 +1558,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1480 1428 57C28588 		vssubu.vx v4, v8, a1, v0.t
  1481 142c 5702868E 		vssub.vv v4, v8, v12
  1482 1430 57C2858E 		vssub.vx v4, v8, a1
-GAS LISTING assemblySamples/vector.S 			page 27
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 27
 
 
  1483 1434 5702868C 		vssub.vv v4, v8, v12, v0.t
@@ -1618,7 +1618,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1537 14fc 570286BC 		vnclip.wv v4, v8, v12, v0.t
  1538 1500 57C285BC 		vnclip.wx v4, v8, a1, v0.t
  1539 1504 57B280BC 		vnclip.wi v4, v8, 1, v0.t
-GAS LISTING assemblySamples/vector.S 			page 28
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 28
 
 
  1540 1508 57B28FBC 		vnclip.wi v4, v8, 31, v0.t
@@ -1678,7 +1678,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1594 15cc 571286A0 		vfmadd.vv v4, v12, v8, v0.t
  1595 15d0 575286A0 		vfmadd.vf v4, fa2, v8, v0.t
  1596 15d4 571286A4 		vfnmadd.vv v4, v12, v8, v0.t
-GAS LISTING assemblySamples/vector.S 			page 29
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 29
 
 
  1597 15d8 575286A4 		vfnmadd.vf v4, fa2, v8, v0.t
@@ -1738,7 +1738,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1651 16a4 5712861A 		vfmax.vv v4, v8, v12
  1652 16a8 5752861A 		vfmax.vf v4, v8, fa2
  1653 16ac 57128610 		vfmin.vv v4, v8, v12, v0.t
-GAS LISTING assemblySamples/vector.S 			page 30
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 30
 
 
  1654 16b0 57528610 		vfmin.vf v4, v8, fa2, v0.t
@@ -1798,7 +1798,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1708 176c 5712834A 		vfcvt.rtz.xu.f.v v4, v8
  1709 1770 5792834A 		vfcvt.rtz.x.f.v v4, v8
  1710 1774 5712814A 		vfcvt.f.xu.v v4, v8
-GAS LISTING assemblySamples/vector.S 			page 31
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 31
 
 
  1711 1778 5792814A 		vfcvt.f.x.v v4, v8
@@ -1858,7 +1858,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1765 1844 57228608 		vredor.vs v4, v8, v12, v0.t
  1766 1848 5722860C 		vredxor.vs v4, v8, v12, v0.t
  1767              	
-GAS LISTING assemblySamples/vector.S 			page 32
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 32
 
 
  1768 184c 570286C2 		vwredsumu.vs v4, v8, v12
@@ -1918,7 +1918,7 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1822 190c 57A20850 		vid.v v4, v0.t
  1823              	
  1824 1910 5725C042 		vmv.x.s a0, v12
-GAS LISTING assemblySamples/vector.S 			page 33
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 33
 
 
  1825 1914 57620542 		vmv.s.x v4, a0
@@ -1967,10 +1967,10 @@ GAS LISTING assemblySamples/vector.S 			page 1
  1868 19a0 57B1409E 		vmv2r.v v2, v4
  1869 19a4 57B2819E 		vmv4r.v v4, v8
  1870 19a8 57B0839E 		vmv8r.v v0, v8
-GAS LISTING assemblySamples/vector.S 			page 34
+GAS LISTING riscv64/generated/assemblySamples/vector.S 			page 34
 
 
 DEFINED SYMBOLS
-assemblySamples/vector.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+riscv64/generated/assemblySamples/vector.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_q2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
 
 NO UNDEFINED SYMBOLS

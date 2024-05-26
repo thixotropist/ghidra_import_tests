@@ -9,11 +9,11 @@ Extensions to a processor family's Instruction Set Architecture add capability a
 {{% /pageinfo %}}
 
 The RISCV community has a rich set of extensions to the base Instruction Set Architecture.  That means a diverse set
-of new binary import targets to test against.  This work-in-progress is collected in the `riscv64/toolchain/assemblySamples` directory.
+of new binary import targets to test against.  This work-in-progress is collected in the `riscv64/generated/assemblySamples` directory.
 The basic idea is to compare current Ghidra disassembly with current binutils `objdump` disassembly, using object files
 assembled from the binutils `gas` testsuite.  For example:
 
-* `riscv64/toolchain/assemblySamples/h-ext-64.S` was copied from the binutils gas testsuite.  It contains unit test instructions for
+* `riscv64/generated/assemblySamples/h-ext-64.S` was copied from the binutils gas testsuite.  It contains unit test instructions for
   hypervisor support extensions like `hfence.vvma` and `hlv.w`.
 * `riscv64/exemplars/h-ext-64.o` is the object file produced by a *current snapshot* of the binutils 2-41 assembler.  The associated listing
   is `riscv64/exemplars/h-ext-64.list`.
@@ -28,7 +28,7 @@ instruction, perhaps the simplest one of the given aliases.
 
 Other variances are harder - it looks like Ghidra expects to see an earlier and deprecated set of vector instructions than one currently approved set.
 
-`riscv64/toolchain/assemblySamples/TODO.md` collects some of the variances noted so far.
+`riscv64/generated/assemblySamples/TODO.md` collects some of the variances noted so far.
 
 One big question is what kind of pcode should Ghidra generate for some of these instructions - and how many Ghidra users will care about that pcode.
 The short term answer is to treat extension instructions as pcode function calls.  The longer term answer may be to wait until GCC14 comes out with support for

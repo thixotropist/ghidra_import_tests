@@ -1,4 +1,4 @@
-GAS LISTING assemblySamples/x-thead-fmemidx.S 			page 1
+GAS LISTING riscv64/generated/assemblySamples/x-thead-fmemidx.S 			page 1
 
 
    1              	target:
@@ -18,11 +18,11 @@ GAS LISTING assemblySamples/x-thead-fmemidx.S 			page 1
   15 0034 0BF5C576 		th.fsurd	fa0, a1, a2, 3
   16 0038 0BF5C550 		th.fsurw	fa0, a1, a2, 0
   17 003c 0BF5C556 		th.fsurw	fa0, a1, a2, 3
-GAS LISTING assemblySamples/x-thead-fmemidx.S 			page 2
+GAS LISTING riscv64/generated/assemblySamples/x-thead-fmemidx.S 			page 2
 
 
 DEFINED SYMBOLS
-assemblySamples/x-thead-fmemidx.S:1      .text:0000000000000000 target
-assemblySamples/x-thead-fmemidx.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_xtheadfmemidx1p0
+riscv64/generated/assemblySamples/x-thead-fmemidx.S:1      .text:0000000000000000 target
+riscv64/generated/assemblySamples/x-thead-fmemidx.S:2      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_q2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0_xtheadfmemidx1p0
 
 NO UNDEFINED SYMBOLS

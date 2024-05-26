@@ -1,1 +1,0 @@
-OUTPUT_BASE = "/run/user/1000/bazel"

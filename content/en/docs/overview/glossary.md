@@ -17,8 +17,13 @@ platform
 : The technology base one or more exemplars are used on.  A kernel exemplar expects to be run on top of a bootloader platform.  A Linux application exemplar may consider
 the Linux kernel plus system libraries as its platform.  System libraries like libc.so can then be both exemplars and platform elements.
 
-cross-compiler
-: A compiler capable of generating code for a processor other than the one it is running on.  An x86_64 gcc-13 compiler configured to generate RISCV-64 object files would be a cross-compiler.
+compiler suite
+: A compiler suite includes a compiler or cross compiler plus all of the supporting tools and libraries to build executables for a range of
+platforms.  This generally includes a versioned C and C++ compiler, preprocessor, assembler, linker, linker scripts, and core libraries like libgcc.  Compiler suites often support many architecture variants, such as 32 or 64 bit word size and a host of microarchitecture or instruction set
+options.  Compiler suites can be customized by selecting specific configurations and options, becoming `toolchains`.
+
+cross compiler
+: A compiler capable of generating code for a processor other than the one it is running on.  An x86_64 gcc-14 compiler configured to generate RISCV-64 object files would be a cross-compiler.
 Cross-compilers run on either the local host platform or on a Continuous Integration test server platform.
 
 linker
@@ -36,8 +41,8 @@ over 250 ld scripts detailing how a linker should generate code the kernel loade
 Cross-compiler toolchains often need to import a sysroot to build for a given kernel.  This can make for a circular dependency.
 
 toolchain
-: A toolchain is an assembly of cross-compiler, linker, loader, and sysroot, plus a default set of options and switches for each component.  Different toolchains might share a gcc
-crosscompiler but be configured for different platforms - building a kernel image, building `libc.so`, or building an executable application.
+: A toolchain is an assembly of cross-compiler, linker, loader, and sysroot, plus a default set of options and switches for each component.
+Different toolchains might share a gcc compiler suite, but be configured for different platforms - building a kernel image, building `libc.so`, or building an executable application.  Note: the word `toolchain` is often used in this project where `compiler suite` is intended.
 
 workspace
 : An environment that provides mappings between platforms and toolchains.  If you want to build an executable for a given platform, just name that platform on the command line

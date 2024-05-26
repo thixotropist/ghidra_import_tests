@@ -19,7 +19,7 @@ This example uses the latest released version of binutils and the development he
 
 If we were building a toolchain for an actual product we would start by configuring and building
 a specialized kernel, which would prepopulate the system root.  We aren't doing that here, so
-we will use placeholders from the Fedora 39 x86_64 kernel.
+we will use placeholders from the Fedora 40 x86_64 kernel.
 
 ## binutils and the first gcc pass
 
@@ -193,7 +193,7 @@ which should be collected into a separate tarball.  This tarball can be shared w
 built at the same time, and is generally portable across similar Linux kernels and distributions.
 
 At this point we can `strip` the executable files within the toolchain and identify the ones we want to keep in the portable toolchain tarball.
-Scripts under `toolchain/toolchains/gcc-14-*/scripts` will help with that.
+Scripts under `generated/toolchains/gcc-14-*/scripts` will help with that.
 
 `generate.sh` uses rsync to copy selected files from `/opt/gcc14` into `/tmp/export`, stripping the known binaries, and creating the portable tarball.
 It then collects relevant dynamic libraries from the host and creates a second portable tarball.
@@ -210,9 +210,9 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # gcc-14 x86_64 toolchain from snapshot gcc-14 and glibc development heads
 http_archive(
-    name = "gcc-14-x86_64-toolchains",
+    name = "gcc-14-x86_64-suite",
     urls = ["file:///opt/bazel/x86_64_linux_gnu-14.tar.xz"],
-    build_file = "//:gcc-14-x86_64-toolchains.BUILD",
+    build_file = "//:gcc-14-x86_64-suite.BUILD",
     sha256 = "40cc4664a11b8da56478393c7c8b823b54f250192bdc1e1181c9e4f8ac15e3be",
 )
 
@@ -227,13 +227,13 @@ http_archive(
 )
 ```
 
-Bazel will unpack this tarball into an external project directory, something like `/run/user/1000/bazel/execroot/_main/external/gcc-14-x86_64-toolchains/`.
-Individual files and filegroups within that directory are defined in `x86_64/toolchain/gcc-14-x86_64-toolchains.BUILD`.
+Bazel will unpack this tarball into an external project directory, something like `/run/user/1000/bazel/execroot/_main/external/gcc-14-x86_64-suite/`.
+Individual files and filegroups within that directory are defined in `x86_64/generated/gcc-14-x86_64-suite.BUILD`.
 The filegroup `compiler_files` is probably the most important, as it collects everything that might be used in anything launched from gcc or g++.
-The full Bazel name for this filegroup is `@gcc-14-x86_64-toolchains//:compiler_files`.
+The full Bazel name for this filegroup is `@gcc-14-x86_64-suite//:compiler_files`.
 
-Each custom toolchain is defined within the `x86_64/toolchain/toolchains/BUILD` file.  This associates filegroups from a (possibly shared) toolchain tarball like
-`gcc-14-x86_64-toolchains` with a set of default compiler and linker options and standard libraries.  We might want multiple gcc-14 toolchains, for building kernels,
+Each custom toolchain is defined within the `x86_64/generated/toolchains/BUILD` file.  This associates filegroups from a (possibly shared) toolchain tarball like
+`gcc-14-x86_64-suite` with a set of default compiler and linker options and standard libraries.  We might want multiple gcc-14 toolchains, for building kernels,
 kernel modules, and userspace applications respectively.
 
 Most of the configuration exists within stanzas like this:
@@ -267,7 +267,7 @@ cc_toolchain_config(
     abi_version = ":empty",
     compile_flags = [
         # take the isystem ordering from the output of gcc -xc++ -E -v -
-        "--sysroot", "external/gcc-14-x86_64-toolchains/sysroot/",
+        "--sysroot", "external/gcc-14-x86_64-suite/sysroot/",
         "-Wall",
     ],
     compiler = "gcc",
@@ -276,10 +276,10 @@ cc_toolchain_config(
     cpu = "x86_64",
     # we really want the following to be constructed from $(output_base) or $(location ...)
     cxx_builtin_include_directories = [
-       OUTPUT_BASE + "/external/gcc-14-x86_64-toolchains/sysroot/usr/include",
-       OUTPUT_BASE + "/external/gcc-14-x86_64-toolchains/x86_64-pc-linux-gnu/include/c++/14.0.0",
-       OUTPUT_BASE + "/external/gcc-14-x86_64-toolchains/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include",
-       OUTPUT_BASE + "/external/gcc-14-x86_64-toolchains/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include-fixed",
+       OUTPUT_BASE + "/external/gcc-14-x86_64-suite/sysroot/usr/include",
+       OUTPUT_BASE + "/external/gcc-14-x86_64-suite/x86_64-pc-linux-gnu/include/c++/14.0.0",
+       OUTPUT_BASE + "/external/gcc-14-x86_64-suite/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include",
+       OUTPUT_BASE + "/external/gcc-14-x86_64-suite/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include-fixed",
        ],
     cxx_flags = [
         "-std=c++20",
@@ -287,7 +287,7 @@ cc_toolchain_config(
         ],
     dbg_compile_flags = ["-g"],
     host_system_name = ":empty",
-    link_flags = ["--sysroot", "external/gcc-14-x86_64-toolchains/sysroot/"],
+    link_flags = ["--sysroot", "external/gcc-14-x86_64-suite/sysroot/"],
     link_libs = ["-lstdc++", "-lm"],
     opt_compile_flags = [
         "-g0",
@@ -331,7 +331,7 @@ These give us the chance to use imported system shareable object libraries rathe
 set -euo pipefail
 PATH=`pwd`/toolchains/gcc-14-x86_64/imported \
 LD_LIBRARY_PATH=external/fedora39-system-libs \
-  external/gcc-14-x86_64-toolchains/bin/gcc "$@"
+  external/gcc-14-x86_64-suite/bin/gcc "$@"
 ```
 
 ## finding the hidden toolchain dependencies
@@ -344,7 +344,7 @@ It runs the toolchain in a sandbox, forcing an exception on all references not p
 This kind of exception looks like this:
 
 ```console
-ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/toolchain/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule '//userSpaceSamples:helloworld':
+ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule '//userSpaceSamples:helloworld':
 the source file 'userSpaceSamples/helloworld.c' includes the following non-builtin files with absolute paths (if these are builtin files, make sure these paths are in your toolchain):
   '/usr/include/stdc-predef.h'
   '/usr/include/stdio.h'
@@ -353,11 +353,11 @@ the source file 'userSpaceSamples/helloworld.c' includes the following non-built
 If you see this check:
 * whether `stdio.h` was installed in the right directory under `/opt/gcc14`.
 * whether `stdio.h` was copied into `/tmp/export` when building the tarball
-* whether the instances of `stdio.h` appeared in the appropriate compiler file groups defined in `gcc-14-x86_64-toolchains.BUILD`
+* whether the instances of `stdio.h` appeared in the appropriate compiler file groups defined in `gcc-14-x86_64-suite.BUILD`
 * whether those filegroups were properly imported into the Bazel sandbox for your build
 * whether the compile_flags for your toolchain tell gcc-14 to search the sandbox for the directories containing `stdio.h`
     ```
-    "-isystem", "external/gcc-14-x86_64-toolchains/sysroot/usr/include",
+    "-isystem", "external/gcc-14-x86_64-suite/sysroot/usr/include",
     ```
 * whether the link_flags for your toolchain tell gcc-14 to search the sandbox for the directories containing `crt1.o` and `crti.o`
 
@@ -366,16 +366,16 @@ If you see this check:
 We can test our new toolchain with a build of `helloworld`.
 
 ```console
-x86_64/toolchain$ bazel clean
+x86_64/generated$ bazel clean
 INFO: Starting clean (this may take a while). Consider using --async if the clean takes more than several minutes.
-x86_64/toolchain$ bazel run -s --platforms=//platforms:x86_64_default userSpaceSamples:helloworld
+x86_64/generated$ bazel run -s --platforms=//platforms:x86_64_default userSpaceSamples:helloworld
 INFO: Analyzed target //userSpaceSamples:helloworld (69 packages loaded, 1538 targets configured).
 SUBCOMMAND: # //userSpaceSamples:helloworld [action 'Compiling userSpaceSamples/helloworld.c', configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b, execution platform: @@local_config_platform//:host, mnemonic: CppCompile]
 (cd /run/user/1000/bazel/execroot/_main && \
   exec env - \
     PATH=/home/thixotropist/.local/bin:/home/thixotropist/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin:/home/thixotropist/.local/bin:/home/thixotropist/bin:/opt/ghidra_10.3.2_PUBLIC/:/home/thixotropist/.cargo/bin::/usr/lib/jvm/jdk-17-oracle-x64/bin:/opt/gradle-7.6.2/bin \
     PWD=/proc/self/cwd \
-  toolchains/gcc-14-x86_64/imported/gcc -U_FORTIFY_SOURCE --sysroot external/gcc-14-x86_64-toolchains/sysroot/ -Wall -MD -MF bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.d '-frandom-seed=bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o' -fPIC -iquote . -iquote bazel-out/k8-fastbuild/bin -iquote external/bazel_tools -iquote bazel-out/k8-fastbuild/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined '-D__DATE__="redacted"' '-D__TIMESTAMP__="redacted"' '-D__TIME__="redacted"' -c userSpaceSamples/helloworld.c -o bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o)
+  toolchains/gcc-14-x86_64/imported/gcc -U_FORTIFY_SOURCE --sysroot external/gcc-14-x86_64-suite/sysroot/ -Wall -MD -MF bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.d '-frandom-seed=bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o' -fPIC -iquote . -iquote bazel-out/k8-fastbuild/bin -iquote external/bazel_tools -iquote bazel-out/k8-fastbuild/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined '-D__DATE__="redacted"' '-D__TIMESTAMP__="redacted"' '-D__TIME__="redacted"' -c userSpaceSamples/helloworld.c -o bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o)
 # Configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b
 # Execution platform: @@local_config_platform//:host
 SUBCOMMAND: # //userSpaceSamples:helloworld [action 'Linking userSpaceSamples/helloworld', configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b, execution platform: @@local_config_platform//:host, mnemonic: CppLink]
@@ -383,7 +383,7 @@ SUBCOMMAND: # //userSpaceSamples:helloworld [action 'Linking userSpaceSamples/he
   exec env - \
     PATH=/home/thixotropist/.local/bin:/home/thixotropist/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin:/home/thixotropist/.local/bin:/home/thixotropist/bin:/opt/ghidra_10.3.2_PUBLIC/:/home/thixotropist/.cargo/bin::/usr/lib/jvm/jdk-17-oracle-x64/bin:/opt/gradle-7.6.2/bin \
     PWD=/proc/self/cwd \
-  toolchains/gcc-14-x86_64/imported/gcc -o bazel-out/k8-fastbuild/bin/userSpaceSamples/helloworld -Wl,-S --sysroot external/gcc-14-x86_64-toolchains/sysroot/ bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o -lstdc++ -lm)
+  toolchains/gcc-14-x86_64/imported/gcc -o bazel-out/k8-fastbuild/bin/userSpaceSamples/helloworld -Wl,-S --sysroot external/gcc-14-x86_64-suite/sysroot/ bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o -lstdc++ -lm)
 # Configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b
 # Execution platform: @@local_config_platform//:host
 INFO: Found 1 target...
@@ -401,7 +401,7 @@ GCC: (GNU) 14.0.0 20231218 (experimental)
 Things to note:
 * The command line includes `--platforms=//platforms:x86_64_default` to show we are *not* building for the local host
 * `toolchains/gcc-14-x86_64/imported/gcc` is invoked twice, once to compile and once to link
-* `--sysroot external/gcc-14-x86_64-toolchains/sysroot` is used twice, to avoid including host files under `/usr`
+* `--sysroot external/gcc-14-x86_64-suite/sysroot` is used twice, to avoid including host files under `/usr`
 * The `helloworld` executable happens to execute on the host machine.
 * The `helloworld` executable contains no references to gcc-13, the native toolchain on the host machine.
 

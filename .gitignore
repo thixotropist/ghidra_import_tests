@@ -24,7 +24,7 @@ testResults/*
 riscv64/exemplars/logs
 # Ignore editor metadata
 .vscode/*
-riscv64/toolchain/.vscode/*
+riscv64/generated/.vscode/*
 # ignore generated website files
 .hugo_build.lock
 resources/_gen/*
@@ -35,3 +35,12 @@ package-lock.json
 __pycache__/*
 # ignore ispell backup files
 *.bak
+# Ignore bazel generated artifacts
+bazel-bin
+bazel-out
+bazel-testlogs
+bazel-generated
+bazel-ghidra_import_tests
+MODULE.bazel.lock
+# test artifacts
+testResults

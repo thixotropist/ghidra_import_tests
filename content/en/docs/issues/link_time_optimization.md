@@ -1,6 +1,6 @@
 ---
 title: link time optimization
-weight: 30
+weight: 40
 ---
 
 {{% pageinfo %}}
@@ -56,7 +56,7 @@ ERROR: ...: Linking gcc_vectorization/memcpy_lto failed: (Exit 1): gcc failed: e
 lto1: internal compiler error: in riscv_hard_regno_nregs, at config/riscv/riscv.cc:8058
 Please submit a full bug report, with preprocessed source (by using -freport-bug).
 See <https://gcc.gnu.org/bugs/> for instructions.
-lto-wrapper: fatal error: external/gcc-14-riscv64-toolchains/bin/riscv64-unknown-linux-gnu-gcc returned 1 exit status
+lto-wrapper: fatal error: external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc returned 1 exit status
 compilation terminated.
 ```
 

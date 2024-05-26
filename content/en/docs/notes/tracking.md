@@ -25,6 +25,7 @@ patterns found in the test suite.
 * track the [source](https://sourceware.org/git/binutils-gdb.git)
 * inspect `git log include/opcode/|grep riscv|head`
 * inspect `git log gas/testsuite/gas/riscv`
+* track updates to the list of [supported extensions](https://sourceware.org/git?p=binutils-gdb.git;a=blob_plain;f=gas/testsuite/gas/riscv/march-help.l;hb=HEAD)
 
 #### sample log
 
@@ -42,8 +43,8 @@ Look for commits indicating the stability of vectorization or new compound loop 
 
 ### libraries
 
-* track the [source](git://sourceware.org/git/glibc.git)
-* track the [source](https://github.com/openssl/openssl)
+* track the [glibc source](git://sourceware.org/git/glibc.git)
+* track the [openssl source](https://github.com/openssl/openssl)
 
 #### log
 
@@ -71,13 +72,20 @@ be in support of encrypted file systems.
 * [Scaleway risc-v servers](https://www.scaleway.com/en/news/scaleway-launches-its-risc-v-servers-in-the-cloud-a-world-first-and-a-firm-commitment-to-technological-independence/)
     * with the T-HEAD TH1520 SoC, 16GB RAM and 128GB
 
+## RISCV International Wiki
+
+The RISCV International wiki [home page](https://wiki.riscv.org/) leads to:
+
+* [Active Specification](https://wiki.riscv.org/display/HOME/RISC-V+Specification+Status) updates
+* [Software Ecosystem status](https://tech.riscv.org/software-ecosystem)
+
 ## ISA Extensions
 
 * profiles and individual standards-tracked extensions
 * vendor-specific extensions
 * gcc intrinsics
 
-## applications
+## Applications
 
 * track [source](https://github.com/ggerganov/whisper.cpp.git)
 * Look for use of riscv intrinsics with arm/Neon and avx2 equivalents as opposed to allowing compiler autovectorization.

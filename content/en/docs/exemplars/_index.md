@@ -29,6 +29,7 @@ You can get decent exemplar coverage with this set of exemplars:
     * `libssl.so` and `libcrypt.so` built from source and configured for all standard and frozen crypto, vector, and bit manipulation
       instruction extensions.
     * DPDK network appliance source code, `l3fwd` and `l2fwd`.
+    * a custom crosscompiled kernel, with ISA extensions enabled
 
 In general, visual inspection of these exemplars after importing into Ghidra should show:
 
@@ -41,7 +42,7 @@ of Ghidra's SLEIGH language. If alignment to `objdump` is possible, that's prefe
 
 ## Imported exemplars
 
-Most of the imported large binary exemplars are broken out of current Fedora disk images.  The top level `acquireExternalExemplars.py`
+Most of the imported large binary exemplars are broken out of available Fedora disk images.  The top level `acquireExternalExemplars.py`
 script controls this process, sometimes with some manual intervention to handle image mounting.  Selection of the imported disk image
 is controlled with text like:
 
@@ -56,6 +57,9 @@ FEDORA_SYSMAP = "System.map-6.5.4-300.0.riscv64.fc39.riscv64"
 
 ```
 ### Fedora kernel
+
+>Warning: the cited Fedora disk image may no longer be maintained.  If so, we will replace it with a custom cross-compiled
+>         kernel tuned for a hypothetical network appliance.
 
 This exemplar kernel is not an ELF file, so analysis of the import process will need
 help.
@@ -180,7 +184,7 @@ This gives us three kinds of insights into Ghidra's import capabilities:
 
 Most exemplars appear as four related files.  We can use the `vector` exemplar as an example.
 
-* The source file is `riscv64/toolchain/assemblySamples/vector.S`, copied from `binutils-gdb/gas/testsuite/gas/riscv/vector-insns.s`.
+* The source file is `riscv64/generated/assemblySamples/vector.S`, copied from `binutils-gdb/gas/testsuite/gas/riscv/vector-insns.s`.
 * `vector.S` is assembled into `riscv64/exemplars/vector.o`
 * That assembly run generates the assembly output listing `riscv64/exemplars/vector.log`.
 * `riscv64/exemplars/vector.o` is finally processed by `binutils` `objdump` to generate the reference disassembly `riscv64/exemplars/vector.objdump`.
@@ -190,7 +194,7 @@ The `riscv64/exemplars/vector.o` is then imported into the Ghidra `exemplars` pr
 Assembly language exemplars usually don't have any sensible decompilation.  C or C++ language exemplars usually do, so that gives the test analyst more to work with.
 
 Another example shows Ghidra's difficulty with vector optimized code.  Compile this C code for the `rv64gcv` architecture (RISCV-64 with vector extensions), using the
-gcc-14 toolchain due for mid 2024 release.
+gcc-14 compiler suite released in May of 2024.
 
 ```c
 #include <stdio.h>
@@ -261,7 +265,7 @@ undefined8 main(void)
 
 That Ghidra branch decompiles, but the decompilation listing only resembles the C source code if you are familiar with RISCV vector extension instructions.
 
-Repeat the example, this time building with a gcc-13 toolchain.  Ghidra 11.0 does a fine job of decompiling this.
+Repeat the example, this time building with a gcc-13 compiler suite.  Ghidra 11.0 does a fine job of decompiling this.
 
 ```c
 undefined8 main(void)
@@ -280,6 +284,51 @@ undefined8 main(void)
   return 0;
 }
 ```
+
+### custom Linux kernel and kernel mods
+
+The Fedora 39 disk image is a good exemplar of endpoint system code.  We can supplement that with a custom kernel build.
+This gives us more flexibility and a peek into future system builds.
+
+Building a custom kernel - with standard kernel modules - requires steps like these:
+
+1. Download the linux kernel source from https://github.com/torvalds/linux.git
+   * This example currently uses the kernel development tip shortly after version 6.9 RC2
+2. Generate a new `.config` kernel configuration file with a command like:
+    ```console
+    $ PATH=$PATH:/opt/riscvx/bin
+    $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- MY_CFLAGS='-march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbb_zvbc' menuconfig
+    ```
+3. In the `menuconfig` view select architecture-specific features we want to view.  This will likely include platform
+   selections like `Vector extension support`, `Zbb extension support`.  It may also include Cryptographic API selections
+   like `Accelerated Cryptographic Algorithms for CPU (riscv)`
+4. Build the kernel and selected kernel modules with a gcc 14.0.0 riscv64 toolchain
+    ```console
+    $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- MY_CFLAGS='-march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbb_zvbc' all
+    ```
+5. Copy the selected vmunix ELF files into the riscv64/exemplars directory:
+    ```console
+    $ cp vmlinux ~/projects/github/ghidra_import_tests/riscv64/exemplars/vmlinux_6.9rc2
+    $ cp arch/riscv/crypto/aes-riscv64-zvkned-zvbb-zvkg.o ~/projects/github/ghidra_import_tests/riscv64/exemplars/vmlinux_6.9rc2_aes-riscv64-zvkned-zvbb-zvkg.o
+    ```
+
+#### analysis
+
+Importing the custom `vmlinux` kernel into Ghidra 11.1-DEV(isa_ext) shows:
+
+* there are relatively few vector extension sequences in the kernel - 17 instances of `vset*`.
+    * for example, `__asm_vector_usercopy` uses vector loads and stores to copy into user memory spaces.
+* there are Zbb variants:  `strcmp_zbb`, `strlen_zbb`, and `strncmp_zbb` which can be patched into calls 
+
+Importing the `aes-riscv64-zvkned-zvbb-vkg.o` object file - presumably available for use in loadable kernel crypto
+modules - shows:
+
+* two functions `aes_xts_encrypt_zvkned_zvbb_zvkg` and `aes_xts_decrypt_zvkned_zvbb_zvkg`
+* many vector, crypto, and bit manipulation extension instructions.
+
+Commit logs for the Linux kernel sources suggest that the riscv vector crypto functions were derived from
+openssl source code, possibly intended for use in file system encryption and decryption.
+
 
 ### x86_64 exemplars
 
@@ -302,3 +351,49 @@ These exemplars suggest several Ghidra issues:
 * Ghidra's disassembler is generally unable to recognize many vector instructions generated by gcc-14 with `-march=x86-64-v4` and `-O3`.
 * Ghidra's decompiler provides the user little help in recognizing the semantics of `memcpy` or many simple loops with `-march=x86-64-v2` or `-march=x86-64-v3`.
 * Ghidra users should be prepared for wide variety in vector optimized instruction sequences.  Pattern recognition will be difficult.
+
+## custom exemplars
+
+Not all RISCV instruction set extensions are standardized and supported by open source compiler suites.  Vendors can generate their own custom extensions.
+These may be instructions that are proposed for standardization, instructions that predate standardized extensions that are effectively deprecated for new RISCV variants,
+and (potentially) instructions that are considered non-public licenseable intellectual property.
+
+We have one example of a set of vendor-specific RISC-V extension exemplars that is pending classification. Some of the WCH QingKe 32 bit RISCV
+processors support what they call extended instruction or `XW` instructions like `c.lbu`, `c.lhu`, `c.sb`, `c.sh`, `c.lbusp`, `c.lhusp`, `c.sbsp`, and `c.shsp`.
+The encoding for these custom instructions overlaps other, standardized extensions like `Zcd`, while some of the instruction mnemonics overlap those of `Zcb`.
+There is no known evidence that these `XW` instructions are tracked for inclusion in `binutils`, as other full-custom extensions from the THead alibaba group are.
+There is no evidence that these `XW` instructions are considered licensable or proprietary to WCH (Nanjing Qinheng Microelectronics).
+
+https://github.com/ArcaneNibble has generated a set of binary exemplars for this vendor custom extension.  Naming conventions for full-custom extensions are very
+much To Be Determined.  The RISCV binutils toolchain attaches an architecture tag to each ELF file it generates.  For these binary exemplars that is:
+
+```text
+Tag_RISCV_arch: "rv32i2p0_m2p0_a2p0_f2p0_c2p0_xw2p2"
+```
+
+That architectural tag implies the binaries are for a base RISCV 32 bit processor, with the standard compressed (`c`) extension version 2.0 and other standard extensions.
+The vendor custom (`x`) extension (`w`) version 2.0 (`2p2`) is enabled.  The `Zcd` and `Zcb` extensions are explicitly not enabled, so there is no conflict with
+either assembly or disassembly of the instructions.
+
+These exemplars are currently filed under `riscv64/exemplars` as:
+
+```console
+custom
+└── wch
+    ├── lbu.S
+    ├── lbusp.S
+    ├── lhu.S
+    ├── lhusp.S
+    ├── sb.S
+    ├── sbsp.S
+    ├── sh.S
+    ├── shsp.S
+    ├── w2p2-lbu.o
+    ├── w2p2-lbusp.o
+    ├── w2p2-lhu.o
+    ├── w2p2-lhusp.o
+    ├── w2p2-sb.o
+    ├── w2p2-sbsp.o
+    ├── w2p2-sh.o
+    └── w2p2-shsp.o
+```

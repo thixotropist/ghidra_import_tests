@@ -1,4 +1,4 @@
-GAS LISTING assemblySamples/zvbb.S 			page 1
+GAS LISTING riscv64/generated/assemblySamples/zvbb.S 			page 1
 
 
    1 0000 57028606 		vandn.vv v4, v8, v12
@@ -35,10 +35,10 @@ GAS LISTING assemblySamples/zvbb.S 			page 1
   32 007c 57C285D4 		vwsll.vx v4, v8, a1, v0.t
   33 0080 573280D6 		vwsll.vi v4, v8, 0
   34 0084 57B28FD4 		vwsll.vi v4, v8, 31, v0.t
-GAS LISTING assemblySamples/zvbb.S 			page 2
+GAS LISTING riscv64/generated/assemblySamples/zvbb.S 			page 2
 
 
 DEFINED SYMBOLS
-assemblySamples/zvbb.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zvbb1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
+riscv64/generated/assemblySamples/zvbb.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_q2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zvbb1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvkb1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
 
 NO UNDEFINED SYMBOLS

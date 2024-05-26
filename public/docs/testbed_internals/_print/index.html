@@ -1,10 +1,10 @@
 <!doctype html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
-  <head><script src="/ghidra_import_tests/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=ghidra_import_tests/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="canonical" type="text/html" href="http://localhost:1313/ghidra_import_tests/docs/testbed_internals/">
-<link rel="alternate" type="application/rss&#43;xml" href="http://localhost:1313/ghidra_import_tests/docs/testbed_internals/index.xml">
+<link rel="canonical" type="text/html" href="https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/">
+<link rel="alternate" type="application/rss&#43;xml" href="https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/index.xml">
 <meta name="robots" content="noindex, nofollow">
 
 
@@ -21,7 +21,7 @@
 
 <title>Testbed Internals | Ghidra Import Testing</title>
 <meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
-<meta property="og:url" content="http://localhost:1313/ghidra_import_tests/docs/testbed_internals/">
+<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/">
   <meta property="og:site_name" content="Ghidra Import Testing">
   <meta property="og:title" content="Testbed Internals">
   <meta property="og:description" content="This testbed uses several open source components that need descriptions and reference links.
@@ -41,8 +41,8 @@ Toolchain sources binutils source repo: https://sourceware.">
 
 
 
-
-<link href="/ghidra_import_tests/scss/main.css" rel="stylesheet">
+<link rel="preload" href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" as="style">
+<link href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -216,7 +216,7 @@ be and how global new solutions may need to be.</p>
 <p>This example uses the latest released version of binutils and the development head of gcc and glibc.</p>
 <p>If we were building a toolchain for an actual product we would start by configuring and building
 a specialized kernel, which would prepopulate the system root.  We aren&rsquo;t doing that here, so
-we will use placeholders from the Fedora 39 x86_64 kernel.</p>
+we will use placeholders from the Fedora 40 x86_64 kernel.</p>
 <h2 id="binutils-and-the-first-gcc-pass">binutils and the first gcc pass</h2>
 <p>We want binutils installed first.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#204a87">cd</span> /home2/vendor/binutils-gdb
@@ -349,7 +349,7 @@ The <code>ldd</code> command will identify these local system files,
 which should be collected into a separate tarball.  This tarball can be shared with other cross-compilers
 built at the same time, and is generally portable across similar Linux kernels and distributions.</p>
 <p>At this point we can <code>strip</code> the executable files within the toolchain and identify the ones we want to keep in the portable toolchain tarball.
-Scripts under <code>toolchain/toolchains/gcc-14-*/scripts</code> will help with that.</p>
+Scripts under <code>generated/toolchains/gcc-14-*/scripts</code> will help with that.</p>
 <p><code>generate.sh</code> uses rsync to copy selected files from <code>/opt/gcc14</code> into <code>/tmp/export</code>, stripping the known binaries, and creating the portable tarball.
 It then collects relevant dynamic libraries from the host and creates a second portable tarball.</p>
 <p>These two tarballs can then be copied to other computers and imported into a project by adding stanzas to the project WORKSPACE file.</p>
@@ -359,9 +359,9 @@ It then collects relevant dynamic libraries from the host and creates a second p
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># gcc-14 x86_64 toolchain from snapshot gcc-14 and glibc development heads</span>
 </span></span><span style="display:flex;"><span><span style="color:#000">http_archive</span><span style="color:#000;font-weight:bold">(</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64-toolchains&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64-suite&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">urls</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;file:///opt/bazel/x86_64_linux_gnu-14.tar.xz&#34;</span><span style="color:#000;font-weight:bold">],</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">build_file</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;//:gcc-14-x86_64-toolchains.BUILD&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">build_file</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;//:gcc-14-x86_64-suite.BUILD&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">sha256</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;40cc4664a11b8da56478393c7c8b823b54f250192bdc1e1181c9e4f8ac15e3be&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
 </span></span><span style="display:flex;"><span>
@@ -374,12 +374,12 @@ It then collects relevant dynamic libraries from the host and creates a second p
 </span></span><span style="display:flex;"><span>    <span style="color:#000">build_file</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;//:fedora39-system-libs.BUILD&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">sha256</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;fe91415b05bb902964f05f7986683b84c70338bf484f23d05f7e8d4096949d1b&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre></div><p>Bazel will unpack this tarball into an external project directory, something like <code>/run/user/1000/bazel/execroot/_main/external/gcc-14-x86_64-toolchains/</code>.
-Individual files and filegroups within that directory are defined in <code>x86_64/toolchain/gcc-14-x86_64-toolchains.BUILD</code>.
+</span></span></code></pre></div><p>Bazel will unpack this tarball into an external project directory, something like <code>/run/user/1000/bazel/execroot/_main/external/gcc-14-x86_64-suite/</code>.
+Individual files and filegroups within that directory are defined in <code>x86_64/generated/gcc-14-x86_64-suite.BUILD</code>.
 The filegroup <code>compiler_files</code> is probably the most important, as it collects everything that might be used in anything launched from gcc or g++.
-The full Bazel name for this filegroup is <code>@gcc-14-x86_64-toolchains//:compiler_files</code>.</p>
-<p>Each custom toolchain is defined within the <code>x86_64/toolchain/toolchains/BUILD</code> file.  This associates filegroups from a (possibly shared) toolchain tarball like
-<code>gcc-14-x86_64-toolchains</code> with a set of default compiler and linker options and standard libraries.  We might want multiple gcc-14 toolchains, for building kernels,
+The full Bazel name for this filegroup is <code>@gcc-14-x86_64-suite//:compiler_files</code>.</p>
+<p>Each custom toolchain is defined within the <code>x86_64/generated/toolchains/BUILD</code> file.  This associates filegroups from a (possibly shared) toolchain tarball like
+<code>gcc-14-x86_64-suite</code> with a set of default compiler and linker options and standard libraries.  We might want multiple gcc-14 toolchains, for building kernels,
 kernel modules, and userspace applications respectively.</p>
 <p>Most of the configuration exists within stanzas like this:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000">toolchain</span><span style="color:#000;font-weight:bold">(</span>
@@ -410,7 +410,7 @@ kernel modules, and userspace applications respectively.</p>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">abi_version</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic"># take the isystem ordering from the output of gcc -xc++ -E -v -</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;--sysroot&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;external/gcc-14-x86_64-toolchains/sysroot/&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;--sysroot&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;external/gcc-14-x86_64-suite/sysroot/&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-Wall&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">compiler</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;gcc&#34;</span><span style="color:#000;font-weight:bold">,</span>
@@ -419,10 +419,10 @@ kernel modules, and userspace applications respectively.</p>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">cpu</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;x86_64&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic"># we really want the following to be constructed from $(output_base) or $(location ...)</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">cxx_builtin_include_directories</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
-</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/sysroot/usr/include&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/x86_64-pc-linux-gnu/include/c++/14.0.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include-fixed&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-suite/sysroot/usr/include&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-suite/x86_64-pc-linux-gnu/include/c++/14.0.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-suite/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-suite/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include-fixed&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>       <span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">cxx_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-std=c++20&#34;</span><span style="color:#000;font-weight:bold">,</span>
@@ -430,7 +430,7 @@ kernel modules, and userspace applications respectively.</p>
 </span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">dbg_compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;-g&#34;</span><span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">host_system_name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">link_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;--sysroot&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;external/gcc-14-x86_64-toolchains/sysroot/&#34;</span><span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">link_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;--sysroot&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;external/gcc-14-x86_64-suite/sysroot/&#34;</span><span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">link_libs</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;-lstdc++&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;-lm&#34;</span><span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">opt_compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-g0&#34;</span><span style="color:#000;font-weight:bold">,</span>
@@ -470,14 +470,14 @@ These give us the chance to use imported system shareable object libraries rathe
 </span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87">set</span> -euo pipefail
 </span></span><span style="display:flex;"><span><span style="color:#000">PATH</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">`</span><span style="color:#204a87">pwd</span><span style="color:#4e9a06">`</span>/toolchains/gcc-14-x86_64/imported <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span><span style="color:#000">LD_LIBRARY_PATH</span><span style="color:#ce5c00;font-weight:bold">=</span>external/fedora39-system-libs <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>  external/gcc-14-x86_64-toolchains/bin/gcc <span style="color:#4e9a06">&#34;</span><span style="color:#000">$@</span><span style="color:#4e9a06">&#34;</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>  external/gcc-14-x86_64-suite/bin/gcc <span style="color:#4e9a06">&#34;</span><span style="color:#000">$@</span><span style="color:#4e9a06">&#34;</span>
 </span></span></code></pre></div><h2 id="finding-the-hidden-toolchain-dependencies">finding the hidden toolchain dependencies</h2>
 <p>Compiling and linking source files takes many dependent files from <code>/opt/gcc14</code>.  The next step is tedious and iterative - we need to prove
 that the portable toolchain tarball derived from <code>/opt/gcc14</code> never references any file in that directory, or any local host file under <code>/usr</code>.
 Bazel can do that for us, at the cost of identifying every file or file &lsquo;glob&rsquo; that may be called for each of the toolchain primitives.
 It runs the toolchain in a sandbox, forcing an exception on all references not previously declared as dependencies.</p>
 <p>This kind of exception looks like this:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/toolchain/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule &#39;//userSpaceSamples:helloworld&#39;:
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule &#39;//userSpaceSamples:helloworld&#39;:
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">the source file &#39;userSpaceSamples/helloworld.c&#39; includes the following non-builtin files with absolute paths (if these are builtin files, make sure these paths are in your toolchain):
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  &#39;/usr/include/stdc-predef.h&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  &#39;/usr/include/stdio.h&#39;
@@ -485,25 +485,25 @@ It runs the toolchain in a sandbox, forcing an exception on all references not p
 <ul>
 <li>whether <code>stdio.h</code> was installed in the right directory under <code>/opt/gcc14</code>.</li>
 <li>whether <code>stdio.h</code> was copied into <code>/tmp/export</code> when building the tarball</li>
-<li>whether the instances of <code>stdio.h</code> appeared in the appropriate compiler file groups defined in <code>gcc-14-x86_64-toolchains.BUILD</code></li>
+<li>whether the instances of <code>stdio.h</code> appeared in the appropriate compiler file groups defined in <code>gcc-14-x86_64-suite.BUILD</code></li>
 <li>whether those filegroups were properly imported into the Bazel sandbox for your build</li>
 <li>whether the compile_flags for your toolchain tell gcc-14 to search the sandbox for the directories containing <code>stdio.h</code>
-<pre tabindex="0"><code>&#34;-isystem&#34;, &#34;external/gcc-14-x86_64-toolchains/sysroot/usr/include&#34;,
+<pre tabindex="0"><code>&#34;-isystem&#34;, &#34;external/gcc-14-x86_64-suite/sysroot/usr/include&#34;,
 </code></pre></li>
 <li>whether the link_flags for your toolchain tell gcc-14 to search the sandbox for the directories containing <code>crt1.o</code> and <code>crti.o</code></li>
 </ul>
 <h2 id="using-the-toolchain">using the toolchain</h2>
 <p>We can test our new toolchain with a build of <code>helloworld</code>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/toolchain$ bazel clean
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/generated$ bazel clean
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Starting clean (this may take a while). Consider using --async if the clean takes more than several minutes.
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/toolchain$ bazel run -s --platforms=//platforms:x86_64_default userSpaceSamples:helloworld
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/generated$ bazel run -s --platforms=//platforms:x86_64_default userSpaceSamples:helloworld
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Analyzed target //userSpaceSamples:helloworld (69 packages loaded, 1538 targets configured).
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">SUBCOMMAND: # //userSpaceSamples:helloworld [action &#39;Compiling userSpaceSamples/helloworld.c&#39;, configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b, execution platform: @@local_config_platform//:host, mnemonic: CppCompile]
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">(cd /run/user/1000/bazel/execroot/_main &amp;&amp; \
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  exec env - \
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PATH=/home/thixotropist/.local/bin:/home/thixotropist/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin:/home/thixotropist/.local/bin:/home/thixotropist/bin:/opt/ghidra_10.3.2_PUBLIC/:/home/thixotropist/.cargo/bin::/usr/lib/jvm/jdk-17-oracle-x64/bin:/opt/gradle-7.6.2/bin \
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PWD=/proc/self/cwd \
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  toolchains/gcc-14-x86_64/imported/gcc -U_FORTIFY_SOURCE --sysroot external/gcc-14-x86_64-toolchains/sysroot/ -Wall -MD -MF bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.d &#39;-frandom-seed=bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o&#39; -fPIC -iquote . -iquote bazel-out/k8-fastbuild/bin -iquote external/bazel_tools -iquote bazel-out/k8-fastbuild/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined &#39;-D__DATE__=&#34;redacted&#34;&#39; &#39;-D__TIMESTAMP__=&#34;redacted&#34;&#39; &#39;-D__TIME__=&#34;redacted&#34;&#39; -c userSpaceSamples/helloworld.c -o bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  toolchains/gcc-14-x86_64/imported/gcc -U_FORTIFY_SOURCE --sysroot external/gcc-14-x86_64-suite/sysroot/ -Wall -MD -MF bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.d &#39;-frandom-seed=bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o&#39; -fPIC -iquote . -iquote bazel-out/k8-fastbuild/bin -iquote external/bazel_tools -iquote bazel-out/k8-fastbuild/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined &#39;-D__DATE__=&#34;redacted&#34;&#39; &#39;-D__TIMESTAMP__=&#34;redacted&#34;&#39; &#39;-D__TIME__=&#34;redacted&#34;&#39; -c userSpaceSamples/helloworld.c -o bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o)
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">#</span> Configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b
 </span></span><span style="display:flex;"><span><span style="color:#8f5902">#</span> Execution platform: @@local_config_platform//:host
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">SUBCOMMAND: # //userSpaceSamples:helloworld [action &#39;Linking userSpaceSamples/helloworld&#39;, configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b, execution platform: @@local_config_platform//:host, mnemonic: CppLink]
@@ -511,7 +511,7 @@ It runs the toolchain in a sandbox, forcing an exception on all references not p
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  exec env - \
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PATH=/home/thixotropist/.local/bin:/home/thixotropist/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin:/home/thixotropist/.local/bin:/home/thixotropist/bin:/opt/ghidra_10.3.2_PUBLIC/:/home/thixotropist/.cargo/bin::/usr/lib/jvm/jdk-17-oracle-x64/bin:/opt/gradle-7.6.2/bin \
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PWD=/proc/self/cwd \
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  toolchains/gcc-14-x86_64/imported/gcc -o bazel-out/k8-fastbuild/bin/userSpaceSamples/helloworld -Wl,-S --sysroot external/gcc-14-x86_64-toolchains/sysroot/ bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o -lstdc++ -lm)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  toolchains/gcc-14-x86_64/imported/gcc -o bazel-out/k8-fastbuild/bin/userSpaceSamples/helloworld -Wl,-S --sysroot external/gcc-14-x86_64-suite/sysroot/ bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o -lstdc++ -lm)
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">#</span> Configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b
 </span></span><span style="display:flex;"><span><span style="color:#8f5902">#</span> Execution platform: @@local_config_platform//:host
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Found 1 target...
@@ -528,7 +528,7 @@ It runs the toolchain in a sandbox, forcing an exception on all references not p
 <ul>
 <li>The command line includes <code>--platforms=//platforms:x86_64_default</code> to show we are <em>not</em> building for the local host</li>
 <li><code>toolchains/gcc-14-x86_64/imported/gcc</code> is invoked twice, once to compile and once to link</li>
-<li><code>--sysroot external/gcc-14-x86_64-toolchains/sysroot</code> is used twice, to avoid including host files under <code>/usr</code></li>
+<li><code>--sysroot external/gcc-14-x86_64-suite/sysroot</code> is used twice, to avoid including host files under <code>/usr</code></li>
 <li>The <code>helloworld</code> executable happens to execute on the host machine.</li>
 <li>The <code>helloworld</code> executable contains no references to gcc-13, the native toolchain on the host machine.</li>
 </ul>
@@ -601,18 +601,241 @@ as hermeticity errors and abort the build.</p>
 
 </div>
 
-<p>Suppose you wanted to build a gcc-14 toolchain with the latest glibc standard libraries, and you were using a Linux host with gcc-13 and reasonably
+<p>Suppose you wanted to build a gcc-14 toolchain with the latest glibc standard libraries, and you were using a Linux host with gcc-14 and reasonably
 current glibc standard libraries.  How would you guarantee that none of your older host files were accidentally used where you expected
 the newer gcc and glibc files to be used?</p>
 <p>Bazel enforces this <em>hermeticity</em> by running all toolchain steps in a sandbox, where only declared dependencies of the toolchain components
 are visible.  That means nothing under /usr or $HOME is generally available, and any attempt to access files there will abort the build.</p>
 <p>Example:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/toolchain/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule &#39;//userSpaceSamples:helloworld&#39;:
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule &#39;//userSpaceSamples:helloworld&#39;:
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">the source file &#39;userSpaceSamples/helloworld.c&#39; includes the following non-builtin files with absolute paths (if these are builtin files, make sure these paths are in your toolchain):
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  &#39;/usr/include/stdc-predef.h&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  &#39;/usr/include/stdio.h&#39;
 </span></span></span></code></pre></div><p>In this example the toolchain tried to load host files, where it should have been loading equivalent files from the toolchain tarball.</p>
-
+<h2 id="toolchain-failure-modes">Toolchain failure modes</h2>
+<p>Bazel toolchains should provide and encapsulate <em>almost</em> everything host computers need to compile and link executables.  The goal is simply to minimize toolchain differences
+between individual developers&rsquo; workstations and the reference Continuous Integration test servers.  The toolchains do not include kernels or loaders, or system code tightly
+associated with the kernel.  That presents a challenge, since we want the linker to be imported as part of the toolchain, while the system loader is provided by the host.</p>
+<p>Common toolchain failure modes often show up during crosscompilation of something as simple as <code>riscv64-unknown-linux-gnu-gcc helloworld.c</code>.</p>
+<ul>
+<li>The <code>gcc</code> compiler must find the compiler dynamic libraries it was compiled with, probably using <code>LD_LIBRARY_PATH</code> to find them.
+<ul>
+<li>These include compiler-specific files like <code>libstdc++.so.6</code> which links to concrete versions like <code>libstdc++.so.6.0.32</code>.</li>
+<li>These libraries must be part of the imported toolchain tarball and explicitly named as Bazel toolchain dependencies so that they are imported into the &lsquo;sandbox&rsquo; isolating the build
+from system libraries</li>
+<li>Other host-specific loader files should not be part of the toolchain tarball.  These include the dynamic loader <code>ld-linux-x86-64.so.2</code></li>
+</ul>
+</li>
+<li>The <code>gcc</code> executable must find and execute multiple other executables from the toolchain, such as <code>cpp</code>, <code>as</code>, and <code>ld</code>.
+<ul>
+<li>These should <em>not</em> be the same executables as may be provided by the native host system</li>
+<li>Each of these other executables must find their own dependencies, never the host system&rsquo;s files of similar name.</li>
+</ul>
+</li>
+<li>Many of the toughest problems surface during the linking phase of crosscompilation, where <code>gcc</code> internally invokes the linker <code>ld</code>.
+<ul>
+<li><code>ld</code> executes on the host computer - we assume an x86_64 linux system - which means it needs an x86_64 <code>libc.so</code> library from the toolchain.  It also generally needs to link
+object files against the target platform&rsquo;s <code>libc.so</code> library from a different library in the toolchain.</li>
+<li><code>ld</code> also often needs files specific to the target system&rsquo;s kernel or loader.  These include files like <code>usr/lib/crt1.o</code>.</li>
+<li><code>ld</code> accepts many arguments detailing the target system&rsquo;s memory model.  Different arguments cause the linker to require different linker scripts under <code>.../ldscripts</code>.</li>
+<li><code>ld</code> sharable object files can be scripts referencing other libraries - and those references may be absolute, not relative.  These scripts may need to be patched so that
+host paths are not followed.</li>
+</ul>
+</li>
+</ul>
+<p>Compiler developers often refactor their dependent file layouts, making it very easy to not have required files in the expected places.  You will generally get a useful error message if
+something like <code>crt1.o</code> isn&rsquo;t located.  If a dynamic library is not found in a child process, you might just get a segfault.</p>
+<p>The debugging process often proceeds with:</p>
+<ol>
+<li>A python integration test script showing multiple toolchain Bazel failures</li>
+<li>Isolate and execute a single failing relatively simple Bazel build operation</li>
+<li>Add Bazel diagnostics to the build command, such as <code>--sandbox_debug</code></li>
+<li>Locate the Bazel sandbox created for that build command and execute the <code>gcc</code> command directly</li>
+<li>Check the sandbox to verify that key files are available within the sandbox, not just present in the imported toolchain tarball</li>
+<li>Execute the <code>gcc</code> command within an <code>strace</code> command, with options to follow child processes and expand strings. Examine <code>execve</code> and <code>open</code> system calls to verify that imported files
+are found before host system files, and that the imported files are actually in a searched directory</li>
+</ol>
+<h3 id="bazel-segment-faults-after-upgrade">Bazel segment faults after upgrade</h3>
+<p>The crosscompiler toolchain assumes that <em>all</em> files needed for a build are known to the Bazel build system.  This assumption often breaks
+when upgrading a compiler or OS.  This example shows what can happen when updating the host OS from Fedora 39 to Fedora 40.</p>
+<p>The relevant integration test is <code>generateInternalExemplars.py</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> ./generateInternalExemplars.py
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">FAIL: test_03_riscv64_build (__main__.T0BazelEnvironment.test_03_riscv64_build)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscV64 C build of helloworld, with checks to see if a compatible toolchain was
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">----------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Traceback (most recent call last):
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  File &#34;/home/thixotropist/projects/github/ghidra_import_tests/./generateInternalExemplars.py&#34;, line 58, in test_03_riscv64_build
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    self.assertEqual(0, result.returncode,
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">AssertionError: 0 != 1 : bazel //platforms:riscv_userspace build of userSpaceSamples:helloworld failed
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Ran 8 tests in 6.290s
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">FAILED (failures=5)
+</span></span></span></code></pre></div><p>The error log is large, showing 5 failures out of 8 tests. We will narrow the test to a single test case:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> python  ./generateInternalExemplars.py T0BazelEnvironment.test_03_riscv64_build
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_userspace --compilation_mode=dbg userSpaceSamples:helloworld
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): gcc failed: error executing CppCompile command (from target //userSpaceSamples:helloworld) toolchains/gcc-14-riscv/imported/gcc -U_FORTIFY_SOURCE &#39;--sysroot=external/gcc-14-riscv64-suite/sysroot&#39; -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.s.d ... (remaining 20 arguments skipped)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">Use --sandbox_debug to see verbose messages from the sandbox and retain the sandbox build root for debugging
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">toolchains/gcc-14-riscv/imported/gcc: line 5:     4 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-14-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc &#34;$@&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): gcc failed: error executing CppCompile command (from target //userSpaceSamples:helloworld) toolchains/gcc-14-riscv/imported/gcc -U_FORTIFY_SOURCE &#39;--sysroot=external/gcc-14-riscv64-suite/sysroot&#39; -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i.d ... (remaining 20 arguments skipped)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">Use --sandbox_debug to see verbose messages from the sandbox and retain the sandbox build root for debugging
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">toolchains/gcc-14-riscv/imported/gcc: line 5:     4 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-14-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc &#34;$@&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): gcc failed: error executing CppCompile command (from target //userSpaceSamples:helloworld) toolchains/gcc-14-riscv/imported/gcc -U_FORTIFY_SOURCE &#39;--sysroot=external/gcc-14-riscv64-suite/sysroot&#39; -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.d ... (remaining 19 arguments skipped)
+</span></span></span></code></pre></div><p>The three segment fault dumps can be found in <code>/var/lib/systemd/coredump/</code>.</p>
+<p>The ERROR message indicates segment faults when generating three dependency listings.  To drill down further we want to use take the <code>Use --sandbox_debug</code> hint and run the single bazel
+build command:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span>  <span style="color:#204a87">cd</span> riscv64/generated/
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64/generated $ bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --sandbox_debug --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_userspace --compilation_mode=dbg userSpaceSamples:helloworld
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/thixotropist/projects/github/ghidra_import_tests/riscv64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: (Segmentation fault): linux-sandbox failed: error executing CppCompile command 
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  (cd /run/user/1000/bazel/sandbox/linux-sandbox/4/execroot/_main &amp;&amp; \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  exec env - \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PATH=/home/thixotropist/.local/bin:/home/thixotropist/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin:/home/thixotropist/.local/bin:/home/thixotropist/bin:/opt/ghidra_11.1_DEV/:/home/thixotropist/.cargo/bin::/usr/lib/jvm/jdk-17-oracle-x64/bin:/opt/gradle-7.6.2/bin \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PWD=/proc/self/cwd \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    TMPDIR=/tmp \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  /home/thixotropist/.cache/bazel/_bazel_thixotropist/install/80f400a450641cd3dd880bb8dec91ff8/linux-sandbox -t 15 -w /dev/shm -w /run/user/1000/bazel/sandbox/linux-sandbox/4/execroot/_main -w /tmp -S /run/user/1000/bazel/sandbox/linux-sandbox/4/stats.out -D /run/user/1000/bazel/sandbox/linux-sandbox/4/debug.out -- toolchains/gcc-14-riscv/imported/gcc -U_FORTIFY_SOURCE &#39;--sysroot=external/gcc-14-riscv64-suite/sysroot&#39; -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i.d &#39;-frandom-seed=bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i&#39; -fPIC -iquote . -iquote bazel-out/k8-dbg/bin -iquote external/bazel_tools -iquote bazel-out/k8-dbg/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined &#39;-D__DATE__=&#34;redacted&#34;&#39; &#39;-D__TIMESTAMP__=&#34;redacted&#34;&#39; &#39;-D__TIME__=&#34;redacted&#34;&#39; -c userSpaceSamples/helloworld.c -E -o bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">toolchains/gcc-14-riscv/imported/gcc: line 5:     4 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-14-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc &#34;$@&#34;
+</span></span></span></code></pre></div><p>This tells us several things:</p>
+<ul>
+<li>the failing command is trying to generate <code>helloworld.pic.i</code> from <code>userSpaceSamples/helloworld.c</code> with the gcc flag <code>-E</code>.  This means the failure involves the preprocessor phase, not the compiler or linker phase.</li>
+<li>the failing command is executing in the sandbox directory <code>/run/user/1000/bazel/sandbox/linux-sandbox/4</code>.</li>
+</ul>
+<p>The next step is to rerun the generated command outside of bazel, but using the bazel sandbox.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#204a87">pushd</span> /run/user/1000/bazel/sandbox/linux-sandbox/4/execroot/_main
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> toolchains/gcc-14-riscv/imported/gcc -U_FORTIFY_SOURCE <span style="color:#4e9a06">&#39;--sysroot=external/gcc-14-riscv64-suite/sysroot&#39;</span> -Wall -g -MD -MF bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i.d <span style="color:#4e9a06">&#39;-frandom-seed=bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i&#39;</span> -fPIC -iquote . -iquote bazel-out/k8-dbg/bin -iquote external/bazel_tools -iquote bazel-out/k8-dbg/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined <span style="color:#4e9a06">&#39;-D__DATE__=&#34;redacted&#34;&#39;</span> <span style="color:#4e9a06">&#39;-D__TIMESTAMP__=&#34;redacted&#34;&#39;</span> <span style="color:#4e9a06">&#39;-D__TIME__=&#34;redacted&#34;&#39;</span> -c userSpaceSamples/helloworld.c -E -o bazel-out/k8-dbg/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.i
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">toolchains/gcc-14-riscv/imported/gcc: line 5: 552557 Segmentation fault      (core dumped) PATH=`pwd`/toolchains/gcc-14-riscv/imported LD_LIBRARY_PATH=external/fedora39-system-libs external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc &#34;$@&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> cat toolchains/gcc-14-riscv/imported/gcc
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">#</span>!/bin/bash
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">set -euo pipefail
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">PATH=`pwd`/toolchains/gcc-14-riscv/imported \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">LD_LIBRARY_PATH=external/fedora39-system-libs \
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc &#34;$@&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> ls -l external/gcc-14-riscv64-suite/bin
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">total 0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64-unknown-linux-gnu-ar -&gt; /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-ar
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64-unknown-linux-gnu-as -&gt; /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-as
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64-unknown-linux-gnu-cpp -&gt; /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64-unknown-linux-gnu-gcc -&gt; /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-gcc
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64-unknown-linux-gnu-ld -&gt; /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-ld
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64-unknown-linux-gnu-ld.bfd -&gt; /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-ld.bfd
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64-unknown-linux-gnu-objdump -&gt; /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-objdump
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64-unknown-linux-gnu-ranlib -&gt; /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-ranlib
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64-unknown-linux-gnu-strip -&gt; /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-strip
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">$</span> ls -l external/fedora39-system-libs
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">total 0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libc.so -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libc.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libc.so.6 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libc.so.6
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libexpat.so.1 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libexpat.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libexpat.so.1.8.10 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libexpat.so.1.8.10
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libgcc_s-13-20231205.so.1 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libgcc_s-13-20231205.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libgcc_s.so.1 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libgcc_s.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libgmp.so.10 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libgmp.so.10
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libgmp.so.10.4.1 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libgmp.so.10.4.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libisl.so.15 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libisl.so.15
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libisl.so.15.1.1 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libisl.so.15.1.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libmpc.so.3 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libmpc.so.3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libmpc.so.3.3.1 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libmpc.so.3.3.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libmpfr.so.6 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libmpfr.so.6
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libmpfr.so.6.2.0 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libmpfr.so.6.2.0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libm.so.6 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libm.so.6
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libpython3.12.so -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libpython3.12.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libpython3.12.so.1.0 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libpython3.12.so.1.0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libpython3.so -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libpython3.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libstdc++.so.6 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libstdc++.so.6
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libstdc++.so.6.0.32 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libstdc++.so.6.0.32
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libz.so.1 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libz.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libz.so.1.2.13 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libz.so.1.2.13
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libzstd.so.1 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libzstd.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">libzstd.so.1.5.5 -&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libzstd.so.1.5.5
+</span></span></span></code></pre></div><p>This suggests a missing or out-of-date sharable library, so try executing cpp with and without overriding the library path</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#000">LD_LIBRARY_PATH</span><span style="color:#ce5c00;font-weight:bold">=</span>external/fedora39-system-libs /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp --version
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Segmentation fault (core dumped)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp --version
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">riscv64-unknown-linux-gnu-cpp (g3f23fa7e74f) 13.2.1 20230901
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Copyright (C) 2023 Free Software Foundation, Inc.
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">This is free software; see the source for copying conditions.  There is NO
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+</span></span></span></code></pre></div><p>Next see which libraries are required for <code>cpp</code> to execute:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> ldd /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	linux-vdso.so.1 (0x00007ffdb7172000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libstdc++.so.6 =&gt; /lib64/libstdc++.so.6 (0x00007faf79200000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libm.so.6 =&gt; /lib64/libm.so.6 (0x00007faf7911d000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libgcc_s.so.1 =&gt; /lib64/libgcc_s.so.1 (0x00007faf794ff000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libc.so.6 =&gt; /lib64/libc.so.6 (0x00007faf78f30000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	/lib64/ld-linux-x86-64.so.2 (0x00007faf79547000)
+</span></span></span></code></pre></div><p>Is this a case of a missing library, or something corrupt in our imported <code>fedora39-system-libs</code>?
+Try a differential test in which we search both libraries, in different orders:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#000">LD_LIBRARY_PATH</span><span style="color:#ce5c00;font-weight:bold">=</span>/lib64/:/run/user/1000/bazel/execroot/_main/external/fedora39-system-libs ldd /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	linux-vdso.so.1 (0x00007ffeb2b92000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libstdc++.so.6 =&gt; /lib64/libstdc++.so.6 (0x00007fda32200000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libm.so.6 =&gt; /lib64/libm.so.6 (0x00007fda3211d000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libgcc_s.so.1 =&gt; /lib64/libgcc_s.so.1 (0x00007fda324a7000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fda31f30000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	/lib64/ld-linux-x86-64.so.2 (0x00007fda324d6000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span>  <span style="color:#000">LD_LIBRARY_PATH</span><span style="color:#ce5c00;font-weight:bold">=</span>/run/user/1000/bazel/execroot/_main/external/fedora39-system-libs:/lib64 ldd /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Segmentation fault (core dumped)
+</span></span></span></code></pre></div><p>We can trace the library and child process actions with commands like:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> strace -f --string-limit<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">1000</span> ldd /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp 2&gt;<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#0000cf;font-weight:bold">1</span> <span style="color:#000;font-weight:bold">|</span>egrep <span style="color:#4e9a06">&#39;openat|execve&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">execve(&#34;/usr/bin/ldd&#34;, [&#34;ldd&#34;, &#34;/run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp&#34;], 0x7ffcd3479788 /* 54 vars */) = 0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/etc/ld.so.cache&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/lib64/libtinfo.so.6&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/lib64/libc.so.6&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/dev/tty&#34;, O_RDWR|O_NONBLOCK) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/usr/lib/locale/locale-archive&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/usr/lib64/gconv/gconv-modules.cache&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/usr/bin/ldd&#34;, O_RDONLY) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/usr/share/locale/locale.alias&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/usr/share/locale/en_US.UTF-8/LC_MESSAGES/libc.mo&#34;, O_RDONLY) = -1 ENOENT (No such file or directory)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/usr/share/locale/en_US.utf8/LC_MESSAGES/libc.mo&#34;, O_RDONLY) = -1 ENOENT (No such file or directory)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/usr/share/locale/en_US/LC_MESSAGES/libc.mo&#34;, O_RDONLY) = -1 ENOENT (No such file or directory)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/usr/share/locale/en.UTF-8/LC_MESSAGES/libc.mo&#34;, O_RDONLY) = -1 ENOENT (No such file or directory)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/usr/share/locale/en.utf8/LC_MESSAGES/libc.mo&#34;, O_RDONLY) = -1 ENOENT (No such file or directory)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">openat(AT_FDCWD, &#34;/usr/share/locale/en/LC_MESSAGES/libc.mo&#34;, O_RDONLY) = -1 ENOENT (No such file or directory)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[pid 595197] execve(&#34;/lib64/ld-linux-x86-64.so.2&#34;, [&#34;/lib64/ld-linux-x86-64.so.2&#34;, &#34;--verify&#34;, &#34;/run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp&#34;], 0x56317c32bf10 /* 54 vars */) = 0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[pid 595197] openat(AT_FDCWD, &#34;/run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[pid 595200] execve(&#34;/lib64/ld-linux-x86-64.so.2&#34;, [&#34;/lib64/ld-linux-x86-64.so.2&#34;, &#34;/run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp&#34;], 0x56317c339130 /* 58 vars */) = 0
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[pid 595200] openat(AT_FDCWD, &#34;/run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[pid 595200] openat(AT_FDCWD, &#34;/etc/ld.so.cache&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[pid 595200] openat(AT_FDCWD, &#34;/lib64/libstdc++.so.6&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[pid 595200] openat(AT_FDCWD, &#34;/lib64/libm.so.6&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[pid 595200] openat(AT_FDCWD, &#34;/lib64/libgcc_s.so.1&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[pid 595200] openat(AT_FDCWD, &#34;/lib64/libc.so.6&#34;, O_RDONLY|O_CLOEXEC) = 3
+</span></span></span></code></pre></div><p>Examine the imported <code>fedora39-system-libs</code> directory, finding one significant error.  The file <code>libc.so</code> is not a symbolic link but a loader script, referencing
+the host&rsquo;s <code>/lib64/libc.so.6</code>, <code>/usr/lib64/libc_nonshared.a</code>, and <code>/lib64/ld-linux-x86-64.so.2</code>.  If we purge <code>libc.*</code> from <code>fedora39-system-libs</code> we get a saner result:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#000">LD_LIBRARY_PATH</span><span style="color:#ce5c00;font-weight:bold">=</span>/run/user/1000/bazel/execroot/_main/external/fedora39-system-libs:/lib64 ldd /run/user/1000/bazel/execroot/_main/external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-cpp 2&gt;<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#0000cf;font-weight:bold">1</span> 
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	linux-vdso.so.1 (0x00007ffda9fed000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libstdc++.so.6 =&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libstdc++.so.6 (0x00007f0c1c45a000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libm.so.6 =&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libm.so.6 (0x00007f0c1c379000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libgcc_s.so.1 =&gt; /run/user/1000/bazel/execroot/_main/external/fedora39-system-libs/libgcc_s.so.1 (0x00007f0c1c355000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	libc.so.6 =&gt; /lib64/libc.so.6 (0x00007f0c1c168000)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">	/lib64/ld-linux-x86-64.so.2 (0x00007f0c1c6b0000)
+</span></span></span></code></pre></div><p>Now we have a hermeticity design question to resolve - which system libraries do we import, and which do we pull from the host machine?  This exercise suggests we use the host libraries
+for dynamic loading <em>and</em> for the standard C <code>libc.so</code>, and import libraries associated with the C and C++ compiler.</p>
+<p>Update the <code>LD_LIBRARY_PATH</code> variable in <em>all</em> toolchain scripts and explicitly remove libc.* files from the system libraries, then try repeat the failing tests:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> ./generateInternalExemplars.py 
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=@local_config_platform//:host --compilation_mode=dbg userSpaceSamples:helloworld
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.INFO:root:Running: bazel query //platforms:*
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_userspace --compilation_mode=dbg userSpaceSamples:helloworld
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO:root:Running: file bazel-bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_userspace --compilation_mode=dbg userSpaceSamples:helloworld++
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO:root:Running: file bazel-bin/userSpaceSamples/_objs/helloworld++/helloworld.pic.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_custom assemblySamples:archive
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_custom gcc_expansions:archive
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_custom @whisper_cpp//:main @whisper_cpp//:main.stripped
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_vector @whisper_cpp//:main @whisper_cpp//:main.stripped
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:riscv_userspace @whisper_cpp//:main @whisper_cpp//:main.stripped
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.INFO:root:Running: bazel --noworkspace_rc --output_base=/run/user/1000/bazel build -s --distdir=/opt/bazel/distdir --incompatible_enable_cc_toolchain_resolution --experimental_enable_bzlmod --incompatible_sandbox_hermetic_tmp=false --save_temps --platforms=//platforms:x86_64_default gcc_vectorization:archive
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">.
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">----------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Ran 8 tests in 61.357s
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">OK
+</span></span></span></code></pre></div>
 </div>
 
 
@@ -756,8 +979,8 @@ that builds the portable tarball.</p>
 </footer>
 
     </div>
-    <script src="/ghidra_import_tests/js/main.js"></script>
-<script defer src="/ghidra_import_tests/js/click-to-copy.js" crossorigin="anonymous"></script>
+    <script src="/ghidra_import_tests/js/main.min.88ada60cfbccfad3e369423d9ebd9f7c08c7bdde5f07d26fee1a238bb3a19184.js" integrity="sha256-iK2mDPvM&#43;tPjaUI9nr2ffAjHvd5fB9Jv7hoji7OhkYQ=" crossorigin="anonymous"></script>
+<script defer src="/ghidra_import_tests/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/ghidra_import_tests/js/tabpane-persist.js'></script>
 
   </body>

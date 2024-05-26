@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ghidra Import Testing – Gap Analysis Example</title>
-    <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/</link>
+    <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/</link>
     <description>Recent content in Gap Analysis Example on Ghidra Import Testing</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	  <atom:link href="http://localhost:1313/ghidra_import_tests/docs/gap_analysis/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -16,10 +16,10 @@
     
     <item>
       <title>Docs: Examples</title>
-      <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/examples/</link>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/examples/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/examples/</guid>
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/examples/</guid>
       <description>
         
         
@@ -45,10 +45,10 @@
     
     <item>
       <title>Docs: Impact</title>
-      <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/impact/</link>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/impact/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/impact/</guid>
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/impact/</guid>
       <description>
         
         
@@ -144,10 +144,10 @@ originally contributed by &lt;a href=&#34;https://pk.linkedin.com/in/ahmad-tamee
     
     <item>
       <title>Docs: Effort</title>
-      <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/effort/</link>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/effort/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/effort/</guid>
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/effort/</guid>
       <description>
         
         
@@ -164,10 +164,10 @@ originally contributed by &lt;a href=&#34;https://pk.linkedin.com/in/ahmad-tamee
     
     <item>
       <title>Docs: Scope</title>
-      <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/scope/</link>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/scope/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/scope/</guid>
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/scope/</guid>
       <description>
         
         
@@ -188,10 +188,10 @@ originally contributed by &lt;a href=&#34;https://pk.linkedin.com/in/ahmad-tamee
     
     <item>
       <title>Docs: Existing Frameworks</title>
-      <link>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/existing_frameworks/</link>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/existing_frameworks/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/ghidra_import_tests/docs/gap_analysis/existing_frameworks/</guid>
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/gap_analysis/existing_frameworks/</guid>
       <description>
         
         

@@ -1,9 +1,9 @@
 <!doctype html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
-  <head><script src="/ghidra_import_tests/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=ghidra_import_tests/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 
 
 <link rel="shortcut icon" href="/ghidra_import_tests/favicons/favicon.ico" >
@@ -21,7 +21,7 @@
 <meta name="description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
 Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
 We will generate this x86_64 gcc-14 toolchain about the same way as our existing RISCV-64 gcc-14 toolchain.">
-<meta property="og:url" content="http://localhost:1313/ghidra_import_tests/docs/testbed_internals/adding_toolchains/">
+<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/testbed_internals/adding_toolchains/">
   <meta property="og:site_name" content="Ghidra Import Testing">
   <meta property="og:title" content="adding toolchains">
   <meta property="og:description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
@@ -30,13 +30,13 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
-    <meta property="article:modified_time" content="2024-01-29T21:36:45-05:00">
+    <meta property="article:modified_time" content="2024-05-16T10:22:07-04:00">
 
   <meta itemprop="name" content="adding toolchains">
   <meta itemprop="description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
 Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
 We will generate this x86_64 gcc-14 toolchain about the same way as our existing RISCV-64 gcc-14 toolchain.">
-  <meta itemprop="dateModified" content="2024-01-29T21:36:45-05:00">
+  <meta itemprop="dateModified" content="2024-05-16T10:22:07-04:00">
   <meta itemprop="wordCount" content="2353"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="adding toolchains">
 <meta name="twitter:description" content="Adding a new toolchain takes lots of little steps, and some trial and error.
 Overview We want x86_64 exemplars built with the same next generation of gcc, libc, and libstdc&#43;&#43; as we use for RISCV exemplars. This will give us some hints about how common new issues may be and how global new solutions may need to be.
@@ -45,8 +45,8 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
 
 
 
-
-<link href="/ghidra_import_tests/scss/main.css" rel="stylesheet">
+<link rel="preload" href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" as="style">
+<link href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -109,14 +109,16 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
   <a href="/ghidra_import_tests/docs/issues/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsissues"><span class="">Issues</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesautovectorization-li">
-  <a href="/ghidra_import_tests/docs/issues/autovectorization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesautovectorization"><span class="">autovectorization</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns-li">
   <a href="/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns"><span class="">inferring semantics from code patterns</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissueslink_time_optimization-li">
-  <a href="/ghidra_import_tests/docs/issues/link_time_optimization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissueslink_time_optimization"><span class="">link time optimization</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesautovectorization-li">
+  <a href="/ghidra_import_tests/docs/issues/autovectorization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesautovectorization"><span class="">autovectorization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesvector_intrinsics-li">
   <a href="/ghidra_import_tests/docs/issues/vector_intrinsics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesvector_intrinsics"><span class="">vector intrinsics</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissueslink_time_optimization-li">
+  <a href="/ghidra_import_tests/docs/issues/link_time_optimization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissueslink_time_optimization"><span class="">link time optimization</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuestesting_semantics-li">
+  <a href="/ghidra_import_tests/docs/issues/testing_semantics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuestesting_semantics"><span class="">testing pcode semantics</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsgap_analysis-li">
@@ -176,6 +178,8 @@ We will generate this x86_64 gcc-14 toolchain about the same way as our existing
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
   <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesgcc_14_toolchain-li">
+  <a href="/ghidra_import_tests/docs/notes/gcc_14_toolchain/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesgcc_14_toolchain"><span class="">Building a gcc-14 toolchain</span></a>
 </li>
   </ul>
 </li>
@@ -261,7 +265,7 @@ be and how global new solutions may need to be.</p>
 <p>This example uses the latest released version of binutils and the development head of gcc and glibc.</p>
 <p>If we were building a toolchain for an actual product we would start by configuring and building
 a specialized kernel, which would prepopulate the system root.  We aren&rsquo;t doing that here, so
-we will use placeholders from the Fedora 39 x86_64 kernel.</p>
+we will use placeholders from the Fedora 40 x86_64 kernel.</p>
 <h2 id="binutils-and-the-first-gcc-pass">binutils and the first gcc pass</h2>
 <p>We want binutils installed first.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#204a87">cd</span> /home2/vendor/binutils-gdb
@@ -394,7 +398,7 @@ The <code>ldd</code> command will identify these local system files,
 which should be collected into a separate tarball.  This tarball can be shared with other cross-compilers
 built at the same time, and is generally portable across similar Linux kernels and distributions.</p>
 <p>At this point we can <code>strip</code> the executable files within the toolchain and identify the ones we want to keep in the portable toolchain tarball.
-Scripts under <code>toolchain/toolchains/gcc-14-*/scripts</code> will help with that.</p>
+Scripts under <code>generated/toolchains/gcc-14-*/scripts</code> will help with that.</p>
 <p><code>generate.sh</code> uses rsync to copy selected files from <code>/opt/gcc14</code> into <code>/tmp/export</code>, stripping the known binaries, and creating the portable tarball.
 It then collects relevant dynamic libraries from the host and creates a second portable tarball.</p>
 <p>These two tarballs can then be copied to other computers and imported into a project by adding stanzas to the project WORKSPACE file.</p>
@@ -404,9 +408,9 @@ It then collects relevant dynamic libraries from the host and creates a second p
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># gcc-14 x86_64 toolchain from snapshot gcc-14 and glibc development heads</span>
 </span></span><span style="display:flex;"><span><span style="color:#000">http_archive</span><span style="color:#000;font-weight:bold">(</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64-toolchains&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;gcc-14-x86_64-suite&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">urls</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;file:///opt/bazel/x86_64_linux_gnu-14.tar.xz&#34;</span><span style="color:#000;font-weight:bold">],</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">build_file</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;//:gcc-14-x86_64-toolchains.BUILD&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">build_file</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;//:gcc-14-x86_64-suite.BUILD&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">sha256</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;40cc4664a11b8da56478393c7c8b823b54f250192bdc1e1181c9e4f8ac15e3be&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
 </span></span><span style="display:flex;"><span>
@@ -419,12 +423,12 @@ It then collects relevant dynamic libraries from the host and creates a second p
 </span></span><span style="display:flex;"><span>    <span style="color:#000">build_file</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;//:fedora39-system-libs.BUILD&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">sha256</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;fe91415b05bb902964f05f7986683b84c70338bf484f23d05f7e8d4096949d1b&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre></div><p>Bazel will unpack this tarball into an external project directory, something like <code>/run/user/1000/bazel/execroot/_main/external/gcc-14-x86_64-toolchains/</code>.
-Individual files and filegroups within that directory are defined in <code>x86_64/toolchain/gcc-14-x86_64-toolchains.BUILD</code>.
+</span></span></code></pre></div><p>Bazel will unpack this tarball into an external project directory, something like <code>/run/user/1000/bazel/execroot/_main/external/gcc-14-x86_64-suite/</code>.
+Individual files and filegroups within that directory are defined in <code>x86_64/generated/gcc-14-x86_64-suite.BUILD</code>.
 The filegroup <code>compiler_files</code> is probably the most important, as it collects everything that might be used in anything launched from gcc or g++.
-The full Bazel name for this filegroup is <code>@gcc-14-x86_64-toolchains//:compiler_files</code>.</p>
-<p>Each custom toolchain is defined within the <code>x86_64/toolchain/toolchains/BUILD</code> file.  This associates filegroups from a (possibly shared) toolchain tarball like
-<code>gcc-14-x86_64-toolchains</code> with a set of default compiler and linker options and standard libraries.  We might want multiple gcc-14 toolchains, for building kernels,
+The full Bazel name for this filegroup is <code>@gcc-14-x86_64-suite//:compiler_files</code>.</p>
+<p>Each custom toolchain is defined within the <code>x86_64/generated/toolchains/BUILD</code> file.  This associates filegroups from a (possibly shared) toolchain tarball like
+<code>gcc-14-x86_64-suite</code> with a set of default compiler and linker options and standard libraries.  We might want multiple gcc-14 toolchains, for building kernels,
 kernel modules, and userspace applications respectively.</p>
 <p>Most of the configuration exists within stanzas like this:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000">toolchain</span><span style="color:#000;font-weight:bold">(</span>
@@ -455,7 +459,7 @@ kernel modules, and userspace applications respectively.</p>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">abi_version</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic"># take the isystem ordering from the output of gcc -xc++ -E -v -</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;--sysroot&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;external/gcc-14-x86_64-toolchains/sysroot/&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;--sysroot&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;external/gcc-14-x86_64-suite/sysroot/&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-Wall&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">compiler</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;gcc&#34;</span><span style="color:#000;font-weight:bold">,</span>
@@ -464,10 +468,10 @@ kernel modules, and userspace applications respectively.</p>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">cpu</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;x86_64&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic"># we really want the following to be constructed from $(output_base) or $(location ...)</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">cxx_builtin_include_directories</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
-</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/sysroot/usr/include&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/x86_64-pc-linux-gnu/include/c++/14.0.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-toolchains/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include-fixed&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-suite/sysroot/usr/include&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-suite/x86_64-pc-linux-gnu/include/c++/14.0.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-suite/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#000">OUTPUT_BASE</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">&#34;/external/gcc-14-x86_64-suite/lib/gcc/x86_64-pc-linux-gnu/14.0.0/include-fixed&#34;</span><span style="color:#000;font-weight:bold">,</span>
 </span></span><span style="display:flex;"><span>       <span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">cxx_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-std=c++20&#34;</span><span style="color:#000;font-weight:bold">,</span>
@@ -475,7 +479,7 @@ kernel modules, and userspace applications respectively.</p>
 </span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">dbg_compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;-g&#34;</span><span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">host_system_name</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;:empty&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">link_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;--sysroot&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;external/gcc-14-x86_64-toolchains/sysroot/&#34;</span><span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">link_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;--sysroot&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;external/gcc-14-x86_64-suite/sysroot/&#34;</span><span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">link_libs</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;-lstdc++&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;-lm&#34;</span><span style="color:#000;font-weight:bold">],</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">opt_compile_flags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;-g0&#34;</span><span style="color:#000;font-weight:bold">,</span>
@@ -515,14 +519,14 @@ These give us the chance to use imported system shareable object libraries rathe
 </span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87">set</span> -euo pipefail
 </span></span><span style="display:flex;"><span><span style="color:#000">PATH</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">`</span><span style="color:#204a87">pwd</span><span style="color:#4e9a06">`</span>/toolchains/gcc-14-x86_64/imported <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span><span style="color:#000">LD_LIBRARY_PATH</span><span style="color:#ce5c00;font-weight:bold">=</span>external/fedora39-system-libs <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>  external/gcc-14-x86_64-toolchains/bin/gcc <span style="color:#4e9a06">&#34;</span><span style="color:#000">$@</span><span style="color:#4e9a06">&#34;</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>  external/gcc-14-x86_64-suite/bin/gcc <span style="color:#4e9a06">&#34;</span><span style="color:#000">$@</span><span style="color:#4e9a06">&#34;</span>
 </span></span></code></pre></div><h2 id="finding-the-hidden-toolchain-dependencies">finding the hidden toolchain dependencies</h2>
 <p>Compiling and linking source files takes many dependent files from <code>/opt/gcc14</code>.  The next step is tedious and iterative - we need to prove
 that the portable toolchain tarball derived from <code>/opt/gcc14</code> never references any file in that directory, or any local host file under <code>/usr</code>.
 Bazel can do that for us, at the cost of identifying every file or file &lsquo;glob&rsquo; that may be called for each of the toolchain primitives.
 It runs the toolchain in a sandbox, forcing an exception on all references not previously declared as dependencies.</p>
 <p>This kind of exception looks like this:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/toolchain/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule &#39;//userSpaceSamples:helloworld&#39;:
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">ERROR: /home/XXX/projects/github/ghidra_import_tests/x86_64/generated/userSpaceSamples/BUILD:3:10: Compiling userSpaceSamples/helloworld.c failed: absolute path inclusion(s) found in rule &#39;//userSpaceSamples:helloworld&#39;:
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">the source file &#39;userSpaceSamples/helloworld.c&#39; includes the following non-builtin files with absolute paths (if these are builtin files, make sure these paths are in your toolchain):
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  &#39;/usr/include/stdc-predef.h&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  &#39;/usr/include/stdio.h&#39;
@@ -530,25 +534,25 @@ It runs the toolchain in a sandbox, forcing an exception on all references not p
 <ul>
 <li>whether <code>stdio.h</code> was installed in the right directory under <code>/opt/gcc14</code>.</li>
 <li>whether <code>stdio.h</code> was copied into <code>/tmp/export</code> when building the tarball</li>
-<li>whether the instances of <code>stdio.h</code> appeared in the appropriate compiler file groups defined in <code>gcc-14-x86_64-toolchains.BUILD</code></li>
+<li>whether the instances of <code>stdio.h</code> appeared in the appropriate compiler file groups defined in <code>gcc-14-x86_64-suite.BUILD</code></li>
 <li>whether those filegroups were properly imported into the Bazel sandbox for your build</li>
 <li>whether the compile_flags for your toolchain tell gcc-14 to search the sandbox for the directories containing <code>stdio.h</code>
-<pre tabindex="0"><code>&#34;-isystem&#34;, &#34;external/gcc-14-x86_64-toolchains/sysroot/usr/include&#34;,
+<pre tabindex="0"><code>&#34;-isystem&#34;, &#34;external/gcc-14-x86_64-suite/sysroot/usr/include&#34;,
 </code></pre></li>
 <li>whether the link_flags for your toolchain tell gcc-14 to search the sandbox for the directories containing <code>crt1.o</code> and <code>crti.o</code></li>
 </ul>
 <h2 id="using-the-toolchain">using the toolchain</h2>
 <p>We can test our new toolchain with a build of <code>helloworld</code>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/toolchain$ bazel clean
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/generated$ bazel clean
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Starting clean (this may take a while). Consider using --async if the clean takes more than several minutes.
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/toolchain$ bazel run -s --platforms=//platforms:x86_64_default userSpaceSamples:helloworld
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">x86_64/generated$ bazel run -s --platforms=//platforms:x86_64_default userSpaceSamples:helloworld
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Analyzed target //userSpaceSamples:helloworld (69 packages loaded, 1538 targets configured).
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">SUBCOMMAND: # //userSpaceSamples:helloworld [action &#39;Compiling userSpaceSamples/helloworld.c&#39;, configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b, execution platform: @@local_config_platform//:host, mnemonic: CppCompile]
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">(cd /run/user/1000/bazel/execroot/_main &amp;&amp; \
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  exec env - \
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PATH=/home/thixotropist/.local/bin:/home/thixotropist/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin:/home/thixotropist/.local/bin:/home/thixotropist/bin:/opt/ghidra_10.3.2_PUBLIC/:/home/thixotropist/.cargo/bin::/usr/lib/jvm/jdk-17-oracle-x64/bin:/opt/gradle-7.6.2/bin \
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PWD=/proc/self/cwd \
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  toolchains/gcc-14-x86_64/imported/gcc -U_FORTIFY_SOURCE --sysroot external/gcc-14-x86_64-toolchains/sysroot/ -Wall -MD -MF bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.d &#39;-frandom-seed=bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o&#39; -fPIC -iquote . -iquote bazel-out/k8-fastbuild/bin -iquote external/bazel_tools -iquote bazel-out/k8-fastbuild/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined &#39;-D__DATE__=&#34;redacted&#34;&#39; &#39;-D__TIMESTAMP__=&#34;redacted&#34;&#39; &#39;-D__TIME__=&#34;redacted&#34;&#39; -c userSpaceSamples/helloworld.c -o bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  toolchains/gcc-14-x86_64/imported/gcc -U_FORTIFY_SOURCE --sysroot external/gcc-14-x86_64-suite/sysroot/ -Wall -MD -MF bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.d &#39;-frandom-seed=bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o&#39; -fPIC -iquote . -iquote bazel-out/k8-fastbuild/bin -iquote external/bazel_tools -iquote bazel-out/k8-fastbuild/bin/external/bazel_tools -fno-canonical-system-headers -Wno-builtin-macro-redefined &#39;-D__DATE__=&#34;redacted&#34;&#39; &#39;-D__TIMESTAMP__=&#34;redacted&#34;&#39; &#39;-D__TIME__=&#34;redacted&#34;&#39; -c userSpaceSamples/helloworld.c -o bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o)
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">#</span> Configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b
 </span></span><span style="display:flex;"><span><span style="color:#8f5902">#</span> Execution platform: @@local_config_platform//:host
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">SUBCOMMAND: # //userSpaceSamples:helloworld [action &#39;Linking userSpaceSamples/helloworld&#39;, configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b, execution platform: @@local_config_platform//:host, mnemonic: CppLink]
@@ -556,7 +560,7 @@ It runs the toolchain in a sandbox, forcing an exception on all references not p
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  exec env - \
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PATH=/home/thixotropist/.local/bin:/home/thixotropist/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin:/home/thixotropist/.local/bin:/home/thixotropist/bin:/opt/ghidra_10.3.2_PUBLIC/:/home/thixotropist/.cargo/bin::/usr/lib/jvm/jdk-17-oracle-x64/bin:/opt/gradle-7.6.2/bin \
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">    PWD=/proc/self/cwd \
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  toolchains/gcc-14-x86_64/imported/gcc -o bazel-out/k8-fastbuild/bin/userSpaceSamples/helloworld -Wl,-S --sysroot external/gcc-14-x86_64-toolchains/sysroot/ bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o -lstdc++ -lm)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  toolchains/gcc-14-x86_64/imported/gcc -o bazel-out/k8-fastbuild/bin/userSpaceSamples/helloworld -Wl,-S --sysroot external/gcc-14-x86_64-suite/sysroot/ bazel-out/k8-fastbuild/bin/userSpaceSamples/_objs/helloworld/helloworld.pic.o -lstdc++ -lm)
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">#</span> Configuration: 672d6d72a34879952e2365b9bc032c10f7e50fda380c4b7c8e86b49faa982e8b
 </span></span><span style="display:flex;"><span><span style="color:#8f5902">#</span> Execution platform: @@local_config_platform//:host
 </span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Found 1 target...
@@ -573,7 +577,7 @@ It runs the toolchain in a sandbox, forcing an exception on all references not p
 <ul>
 <li>The command line includes <code>--platforms=//platforms:x86_64_default</code> to show we are <em>not</em> building for the local host</li>
 <li><code>toolchains/gcc-14-x86_64/imported/gcc</code> is invoked twice, once to compile and once to link</li>
-<li><code>--sysroot external/gcc-14-x86_64-toolchains/sysroot</code> is used twice, to avoid including host files under <code>/usr</code></li>
+<li><code>--sysroot external/gcc-14-x86_64-suite/sysroot</code> is used twice, to avoid including host files under <code>/usr</code></li>
 <li>The <code>helloworld</code> executable happens to execute on the host machine.</li>
 <li>The <code>helloworld</code> executable contains no references to gcc-13, the native toolchain on the host machine.</li>
 </ul>
@@ -624,7 +628,7 @@ cached toolchain tarball are explicitly named as dependencies for that step.  To
 as hermeticity errors and abort the build.</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified January 29, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/f3477264b20f10a0882508602dfbea44f14add21">edit for spelling errors (f347726)</a>
+  Last modified May 16, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/995d8421732592f6a822b4abd817e13e8c3725be">Complete Issue #22, including refactoring to pull toolchain suite into top level (995d842)</a>
 </div>
 
 </div>
@@ -659,8 +663,8 @@ as hermeticity errors and abort the build.</p>
 </footer>
 
     </div>
-    <script src="/ghidra_import_tests/js/main.js"></script>
-<script defer src="/ghidra_import_tests/js/click-to-copy.js" crossorigin="anonymous"></script>
+    <script src="/ghidra_import_tests/js/main.min.88ada60cfbccfad3e369423d9ebd9f7c08c7bdde5f07d26fee1a238bb3a19184.js" integrity="sha256-iK2mDPvM&#43;tPjaUI9nr2ffAjHvd5fB9Jv7hoji7OhkYQ=" crossorigin="anonymous"></script>
+<script defer src="/ghidra_import_tests/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/ghidra_import_tests/js/tabpane-persist.js'></script>
 
   </body>

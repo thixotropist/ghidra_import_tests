@@ -17,34 +17,30 @@
 <link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-192x192.png" sizes="192x192">
 
-<title>Pcode testing | Ghidra Import Testing</title>
-<meta name="description" content="Ghidra testing of semantic pcode.
-Note: paths and names are likely to change here. Use these notes just as a guide.
-The Ghidra 11 isa_ext branch makes heavy use of user-defined pcode (aka Sleigh semantics). Much of that pcode is arbitrarily defined, adding more confusion to an already complex field. Can we build a testing framework to highlight problem areas in pcode semantics?
-For example, let&amp;rsquo;s look at Ghidra&amp;rsquo;s decompiler rendering of two RISCV-64 vector instructions vmv.">
-<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/notes/pcode_testing/">
+<title>testing pcode semantics | Ghidra Import Testing</title>
+<meta name="description" content="Ghidra processor semantics needs tests
+Procesor instructions known to Ghidra are defined in Sleigh pcode or semanitc sections. Adding new instructions - such as instruction set extensions to an existing processor - requires a pcode description of what that instruction does. That pcode drives both the decompiler process and any emulator or debugger processes.
+This generates a conflict in testing. Should we test for maximum clarity for semantics rendered in the decompiler window or maximum fidelity in any Ghidra emulator?">
+<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/issues/testing_semantics/">
   <meta property="og:site_name" content="Ghidra Import Testing">
-  <meta property="og:title" content="Pcode testing">
-  <meta property="og:description" content="Ghidra testing of semantic pcode.
-Note: paths and names are likely to change here. Use these notes just as a guide.
-The Ghidra 11 isa_ext branch makes heavy use of user-defined pcode (aka Sleigh semantics). Much of that pcode is arbitrarily defined, adding more confusion to an already complex field. Can we build a testing framework to highlight problem areas in pcode semantics?
-For example, let’s look at Ghidra’s decompiler rendering of two RISCV-64 vector instructions vmv.">
+  <meta property="og:title" content="testing pcode semantics">
+  <meta property="og:description" content="Ghidra processor semantics needs tests
+Procesor instructions known to Ghidra are defined in Sleigh pcode or semanitc sections. Adding new instructions - such as instruction set extensions to an existing processor - requires a pcode description of what that instruction does. That pcode drives both the decompiler process and any emulator or debugger processes.
+This generates a conflict in testing. Should we test for maximum clarity for semantics rendered in the decompiler window or maximum fidelity in any Ghidra emulator?">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
-    <meta property="article:modified_time" content="2024-03-08T08:16:34-05:00">
+    <meta property="article:modified_time" content="2024-05-26T06:42:50-04:00">
 
-  <meta itemprop="name" content="Pcode testing">
-  <meta itemprop="description" content="Ghidra testing of semantic pcode.
-Note: paths and names are likely to change here. Use these notes just as a guide.
-The Ghidra 11 isa_ext branch makes heavy use of user-defined pcode (aka Sleigh semantics). Much of that pcode is arbitrarily defined, adding more confusion to an already complex field. Can we build a testing framework to highlight problem areas in pcode semantics?
-For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISCV-64 vector instructions vmv.">
-  <meta itemprop="dateModified" content="2024-03-08T08:16:34-05:00">
-  <meta itemprop="wordCount" content="579"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Pcode testing">
-<meta name="twitter:description" content="Ghidra testing of semantic pcode.
-Note: paths and names are likely to change here. Use these notes just as a guide.
-The Ghidra 11 isa_ext branch makes heavy use of user-defined pcode (aka Sleigh semantics). Much of that pcode is arbitrarily defined, adding more confusion to an already complex field. Can we build a testing framework to highlight problem areas in pcode semantics?
-For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISCV-64 vector instructions vmv.">
+  <meta itemprop="name" content="testing pcode semantics">
+  <meta itemprop="description" content="Ghidra processor semantics needs tests
+Procesor instructions known to Ghidra are defined in Sleigh pcode or semanitc sections. Adding new instructions - such as instruction set extensions to an existing processor - requires a pcode description of what that instruction does. That pcode drives both the decompiler process and any emulator or debugger processes.
+This generates a conflict in testing. Should we test for maximum clarity for semantics rendered in the decompiler window or maximum fidelity in any Ghidra emulator?">
+  <meta itemprop="dateModified" content="2024-05-26T06:42:50-04:00">
+  <meta itemprop="wordCount" content="969"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="testing pcode semantics">
+<meta name="twitter:description" content="Ghidra processor semantics needs tests
+Procesor instructions known to Ghidra are defined in Sleigh pcode or semanitc sections. Adding new instructions - such as instruction set extensions to an existing processor - requires a pcode description of what that instruction does. That pcode drives both the decompiler process and any emulator or debugger processes.
+This generates a conflict in testing. Should we test for maximum clarity for semantics rendered in the decompiler window or maximum fidelity in any Ghidra emulator?">
 
 
 
@@ -110,7 +106,7 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
   <a href="/ghidra_import_tests/docs/exemplars/dpdk/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsexemplarsdpdk"><span class="">Data Plane Development Kit</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-ghidra_import_testsdocsissues-li">
   <a href="/ghidra_import_tests/docs/issues/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsissues"><span class="">Issues</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns-li">
@@ -121,8 +117,8 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
   <a href="/ghidra_import_tests/docs/issues/vector_intrinsics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesvector_intrinsics"><span class="">vector intrinsics</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissueslink_time_optimization-li">
   <a href="/ghidra_import_tests/docs/issues/link_time_optimization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissueslink_time_optimization"><span class="">link time optimization</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuestesting_semantics-li">
-  <a href="/ghidra_import_tests/docs/issues/testing_semantics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuestesting_semantics"><span class="">testing pcode semantics</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-ghidra_import_testsdocsissuestesting_semantics-li">
+  <a href="/ghidra_import_tests/docs/issues/testing_semantics/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuestesting_semantics"><span class="td-sidebar-nav-active-item">testing pcode semantics</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsgap_analysis-li">
@@ -167,7 +163,7 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
   <a href="/ghidra_import_tests/docs/testbed_internals/refreshing_toolchains/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocstestbed_internalsrefreshing_toolchains"><span class="">refreshing toolchains</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-ghidra_import_testsdocsnotes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsnotes-li">
   <a href="/ghidra_import_tests/docs/notes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsnotes"><span class="">Notes</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnoteshardware-li">
@@ -176,8 +172,8 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
   <a href="/ghidra_import_tests/docs/notes/network_appliances/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesnetwork_appliances"><span class="">Network Appliances</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesvectorization_case_study-li">
   <a href="/ghidra_import_tests/docs/notes/vectorization_case_study/" title="A vectorization case study" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesvectorization_case_study"><span class="">Vectorization case study</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-ghidra_import_testsdocsnotespcode_testing-li">
-  <a href="/ghidra_import_tests/docs/notes/pcode_testing/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotespcode_testing"><span class="td-sidebar-nav-active-item">Pcode testing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotespcode_testing-li">
+  <a href="/ghidra_import_tests/docs/notes/pcode_testing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotespcode_testing"><span class="">Pcode testing</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotestracking-li">
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
@@ -196,15 +192,26 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
           </aside>
           <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
             <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
-<a href="https://github.com/thixotropist/ghidra_import_tests/tree/main/content/en/docs/notes/pcode_testing.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
-  <a href="https://github.com/thixotropist/ghidra_import_tests/edit/main/content/en/docs/notes/pcode_testing.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
-  <a href="https://github.com/thixotropist/ghidra_import_tests/new/main/content/en/docs/notes?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
-  <a href="https://github.com/thixotropist/ghidra_import_tests/issues/new?title=Pcode%20testing" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
-  <a id="print" href="/ghidra_import_tests/docs/notes/_print/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
+<a href="https://github.com/thixotropist/ghidra_import_tests/tree/main/content/en/docs/issues/testing_semantics.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/thixotropist/ghidra_import_tests/edit/main/content/en/docs/issues/testing_semantics.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/thixotropist/ghidra_import_tests/new/main/content/en/docs/issues?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/thixotropist/ghidra_import_tests/issues/new?title=testing%20pcode%20semantics" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a id="print" href="/ghidra_import_tests/docs/issues/_print/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#concept-of-operations">Concept of Operations</a></li>
+    <li><a href="#running-tests">Running tests</a></li>
+    <li><a href="#test-parameters">Test parameters</a></li>
+    <li><a href="#test-example">Test example</a></li>
+    <li><a href="#next-steps">Next steps</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 	
           </aside>
@@ -217,14 +224,14 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
   <li class="breadcrumb-item">
     <a href="/ghidra_import_tests/docs/">Docs</a></li>
   <li class="breadcrumb-item">
-    <a href="/ghidra_import_tests/docs/notes/">Notes</a></li>
+    <a href="/ghidra_import_tests/docs/issues/">Issues</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Pcode testing</li>
+    testing pcode semantics</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Pcode testing</h1>
+	<h1>testing pcode semantics</h1>
 	
 	<header class="article-meta">
 		
@@ -232,82 +239,193 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
 	
 
 <div class="pageinfo pageinfo-primary">
-<p>Ghidra testing of semantic pcode.</p>
+<p>Ghidra processor semantics needs tests</p>
 
 </div>
 
-<blockquote>
-<p>Note: paths and names are likely to change here.  Use these notes just as a guide.</p>
-</blockquote>
-<p>The Ghidra 11 <code>isa_ext</code> branch makes heavy use of user-defined pcode (aka Sleigh semantics).  Much of that pcode is arbitrarily defined, adding more confusion to an
-already complex field.  Can we build a testing framework to highlight problem areas in pcode semantics?</p>
-<p>For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISCV-64 vector instructions <code>vmv.s.x</code> and <code>vmv.x.s</code>.  These instructions move a single element between an
-integer scalar register and the first element of a vector register.  The <a href="https://github.com/riscv/riscv-v-spec/blob/master/v-spec.adoc">RISCV</a>
-vector definition says:</p>
+<p>Procesor instructions known to Ghidra are defined in Sleigh pcode or semanitc sections.
+Adding new instructions - such as instruction set extensions to an existing processor -
+requires a pcode description of what that instruction does.  That pcode drives both the decompiler
+process and any emulator or debugger processes.</p>
+<p>This generates a conflict in testing.  Should we test for maximum clarity for semantics rendered
+in the decompiler window or maximum fidelity in any Ghidra emulator?  For example,
+should a divide instruction include pcode to test against a divide-by-zero?  Should floating point
+instructions guard against NaN (Not a Number) inputs?</p>
+<p>We assume here that decompiler fidelity is more important than emulator fidelity.  That implies:</p>
 <ul>
-<li>The vmv.x.s instruction copies a single SEW-wide element from index 0 of the source vector register to a destination integer register.</li>
-<li>The vmv.s.x instruction copies the scalar integer register to element 0 of the destination vector register.</li>
+<li>ignore any exception-generating cases, including divide-by-zero, NaN, memory access and memory alignment.</li>
+<li>pcode must allow for normal C implicit type conversions, such as between different integer and
+floating point lengths.
+<ul>
+<li>this implies pcode must pay attention to Ghidra&rsquo;s type inference system.</li>
 </ul>
-<p>These instructions have a lot of symmetry, but the current isa_ext branch doesn&rsquo;t render them symmetrically.  Let&rsquo;s build a sample function
-that uses both instructions followed by an assertion of what we expect to see.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000">test_integer_scalar_vector_move</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">///@ exercise integer scalar moves into and out of a vector register
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">x</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">y</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// set vector mode to something simple
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">__asm__</span> <span style="color:#000">__volatile__</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;vsetivli zero,1,e32,m1,ta,ma</span><span style="color:#4e9a06">\n\t</span><span style="color:#4e9a06">&#34;</span><span style="color:#000;font-weight:bold">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// execute both instructions to set y:= x
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">__asm__</span> <span style="color:#000">__volatile__</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;vmv.s.x  v1, %1</span><span style="color:#4e9a06">\n\t</span><span style="color:#4e9a06">&#34;</span> <span style="color:#4e9a06">&#34;vmv.x.s  %0, v1&#34;</span>\
-</span></span><span style="display:flex;"><span>                          <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;=r&#34;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">)</span> \
-</span></span><span style="display:flex;"><span>                          <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;r&#34;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">x</span><span style="color:#ce5c00;font-weight:bold">==</span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">;</span>
+</li>
+</ul>
+<h2 id="concept-of-operations">Concept of Operations</h2>
+<p>Individual instructions are wrapped in C and exercised within a Google Test C++ framework.
+The test framework is then executed within a qemu static emulation environment.</p>
+<p>For example, let&rsquo;s examine two riscv-64 instructions: <code>fcvt.w.s</code> and <code>fmv.x.w</code></p>
+<ul>
+<li><code>fcvt.w.s</code> converts a ﬂoating-point number in ﬂoating-point register rs1 to a signed
+32-bit or 64-bit integer, respectively, in integer register rd.</li>
+<li><code>fmv.x.w</code> moves the single-precision value in floating-point register rs1 represented in
+IEEE 754-2008 encoding to the lower 32 bits of integer register rd. For RV64,
+the higher 32 bits of the destination register are filled with copies of the floating-point
+number’s sign bit.</li>
+</ul>
+<p>These two instructions have similar signatures but very different semantics.  <code>fcvt.w.s</code> performs
+a float to int type conversion, so the <code>float 1.0</code> can be converted to <code>int 1</code>.  <code>fmv.x.w</code> moves the
+raw bits between float and int registers without any type coversion.</p>
+<p>We can generate simple exemplars of both instructions with this C code:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">fcvt_w_s</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">float</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">x</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">int</span><span style="color:#000;font-weight:bold">)</span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">;</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div><p>This function should return the boolean value True.  It&rsquo;s defined in the file <code>failing_tests/pcodeSamples.cpp</code> and
-compiled into the library <code>libsamples.so</code>.  The function is executed within the test harness <code>failing_tests/pcodeTests.cpp</code>.</p>
-<p>Build (with O3 optimization) and execute the test harness with:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel clean
-</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Starting clean (this may take a while). Consider using --async if the clean takes more than several minutes.
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> bazel build -s -c opt  --platforms<span style="color:#ce5c00;font-weight:bold">=</span>//platforms:riscv_vector failing_tests:samples
-</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> cp -f bazel-bin/failing_tests/libsamples.so /tmp
-</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel build -s -c opt  --platforms<span style="color:#ce5c00;font-weight:bold">=</span>//platforms:riscv_vector failing_tests:pcodeTests
-</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#204a87">export</span> <span style="color:#000">QEMU_CPU</span><span style="color:#ce5c00;font-weight:bold">=</span>rv64,zba<span style="color:#ce5c00;font-weight:bold">=</span>true,zbb<span style="color:#ce5c00;font-weight:bold">=</span>true,v<span style="color:#ce5c00;font-weight:bold">=</span>true,vlen<span style="color:#ce5c00;font-weight:bold">=</span>128,vext_spec<span style="color:#ce5c00;font-weight:bold">=</span>v1.0,rvv_ta_all_1s<span style="color:#ce5c00;font-weight:bold">=</span>true,rvv_ma_all_1s<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> qemu-riscv64-static -L /opt/riscvx -E <span style="color:#000">LD_LIBRARY_PATH</span><span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscvx/riscv64-unknown-linux-gnu/lib/ bazel-bin/failing_tests/pcodeTests
-</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[==========] Running 1 test from 1 test suite.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">fmv_x_w</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">float</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">x</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">val</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">float</span> <span style="color:#000">src</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">__asm__</span> <span style="color:#000">__volatile__</span> <span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#4e9a06">&#34;fmv.x.w  %0, %1&#34;</span> \
+</span></span><span style="display:flex;"><span>        <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;=r&#34;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">val</span><span style="color:#000;font-weight:bold">)</span> \
+</span></span><span style="display:flex;"><span>        <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;f&#34;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">src</span><span style="color:#000;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">val</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>Ghidra&rsquo;s 11.2-DEV decompiler renders these as:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">long</span> <span style="color:#000">fcvt_w_s</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">float</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">param_1</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">long</span><span style="color:#000;font-weight:bold">)(</span><span style="color:#204a87;font-weight:bold">int</span><span style="color:#000;font-weight:bold">)</span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">param_1</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">long</span> <span style="color:#000">fmv_x_w</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">float</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">param_1</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">long</span><span style="color:#000;font-weight:bold">)(</span><span style="color:#204a87;font-weight:bold">int</span><span style="color:#000;font-weight:bold">)</span><span style="color:#000">param_1</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p><code>fmv_x_w</code> was missing a dereference operation.  The <code>fmv_x_w</code> version was also implying an
+implicit type conversion when none is actually performed.  Let&rsquo;s trace how to use these test
+results to improve the decompiler output.</p>
+<h2 id="running-tests">Running tests</h2>
+<p>The draft test harness can be built and run from the top level workspace directory.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel build --platforms<span style="color:#ce5c00;font-weight:bold">=</span>//riscv64/generated/platforms:riscv_userspace riscv64/generated/emulator_tests:testSemantics
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Starting local Bazel server and connecting to it...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Analyzed target //riscv64/generated/emulator_tests:testSemantics (74 packages loaded, 1902 targets configured).
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: From Executing genrule //riscv64/generated/emulator_tests:testSemantics:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Found 1 target...
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">Target //riscv64/generated/emulator_tests:testSemantics up-to-date:
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">  bazel-bin/riscv64/generated/emulator_tests/results
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Elapsed time: 4.172s, Critical Path: 1.93s
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: 4 processes: 1 internal, 3 linux-sandbox.
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Build completed successfully, 4 total actions
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">$</span> cat bazel-bin/riscv64/generated/emulator_tests/results
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[==========] Running 4 tests from 1 test suite.
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[----------] Global test environment set-up.
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[----------] 1 test from VectorMove
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[ RUN      ] VectorMove.vmv_s_x
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[       OK ] VectorMove.vmv_s_x (0 ms)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[----------] 1 test from VectorMove (0 ms total)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[----------] 4 tests from FP
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[ RUN      ] FP.testharness
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[       OK ] FP.testharness (3 ms)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[ RUN      ] FP.fcvt
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[       OK ] FP.fcvt (10 ms)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[ RUN      ] FP.fmv
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[       OK ] FP.fmv (1 ms)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[ RUN      ] FP.fp16
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[       OK ] FP.fp16 (0 ms)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[----------] 4 tests from FP (15 ms total)
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
 </span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">[----------] Global test environment tear-down
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[==========] 1 test from 1 test suite ran. (3 ms total)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[  PASSED  ] 1 test.
-</span></span></span></code></pre></div><p>Now import /tmp/libsamples.so into Ghidra and look for test* functions.  The decompilation is:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000">test_integer_scalar_vector_move</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">void</span><span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">undefined8</span> <span style="color:#000">uVar1</span><span style="color:#000;font-weight:bold">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">undefined</span> <span style="color:#000">in_v1</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">256</span><span style="color:#000;font-weight:bold">];</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">vsetivli_e32m1tama</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">vmv_s_x</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">in_v1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">uVar1</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">vmv_x_s</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">in_v1</span><span style="color:#000;font-weight:bold">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">int</span><span style="color:#000;font-weight:bold">)</span><span style="color:#000">uVar1</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div><p>This shows two issues:</p>
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[==========] 4 tests from 1 test suite ran. (19 ms total)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[  PASSED  ] 4 tests.
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902">$</span> file bazel-bin/riscv64/generated/emulator_tests/libfloatOperations.so
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">bazel-bin/riscv64/generated/emulator_tests/libfloatOperations.so: ELF 64-bit LSB shared object, UCB RISC-V, RVC, double-float ABI, version 1 (SYSV), dynamically linked, not stripped
+</span></span></span></code></pre></div><h2 id="test-parameters">Test parameters</h2>
+<p>What version of Ghidra are we testing against?</p>
 <ul>
-<li>Ghidra believes vector v1 is 256 bits long, when in fact it is unknown at compile and link time.  That&rsquo;s
-probably OK for now, as it provides a hint that this is a vector register.</li>
-<li>The treatment of instruction output is inconsistent.  For <code>vmv_s_x</code>, the output is the first element of <code>in_v1</code>.
-For <code>vmv_x_s</code>, the output is the scalar register <code>uVar1</code>.  That <em>might</em> be OK, since we don&rsquo;t specify what
-happens to other elements of <code>in_v1</code>.</li>
+<li>Ghidra as released, e.g., 11.1</li>
+<li><a href="https://github.com/NationalSecurityAgency/ghidra">Ghidra master</a>, currently 11.2-DEV</li>
+<li>Our <a href="https://github.com/thixotropist/ghidra/tree/isa_ext">isa_ext</a> fork</li>
+<li><a href="https://github.com/jobermayr/ghidra/tree/clang">jobermayr&rsquo;s clang fork</a></li>
+<li>One of the many <a href="https://github.com/Sleigh-InSPECtor/ghidra">Sleigh-InSPECtor</a> RISCV Ghidra pull requests</li>
 </ul>
-<p>The general question raised by this example is how to treat pcode output - as an output parameter or as
-a returned result?  The sleigh pcode documentation suggests that parameters are assumed to be input parameters,
-with the only output register the one returned by the pcode operation.  A quick glance at the ARM Neon and AARCH64 SVE
-vector sleigh files suggests that this is the convention, but perhaps not a requirement.</p>
-<p>Let&rsquo;s try adding some more test cases before taking any action.</p>
+<p>What do we do with Ghidra patches that improve the decompilation results?</p>
+<ul>
+<li>If the patched instructions only exist within the <a href="https://github.com/thixotropist/ghidra/tree/isa_ext">isa_ext</a>
+fork, we will make the changes to that fork and <a href="https://github.com/NationalSecurityAgency/ghidra/pull/5778">PR</a></li>
+<li>If the patches come from unmerged PRs we may cherry-pick them into
+<a href="https://github.com/thixotropist/ghidra/tree/isa_ext">isa_ext</a>.  This includes some of the <code>fcvt</code> and <code>fmv</code>
+patches from other sources.</li>
+</ul>
+<h2 id="test-example">Test example</h2>
+<p>Use <code>meld</code> to compare the original C source file <code>floatOperations.c</code> with the exported C decompiler view from Ghidra 11.2-DEV. A quick inspection shows some errors to address:</p>
+<table>
+<thead>
+<tr>
+<th>Original</th>
+<th>Ghidra</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float fcvt_s_wu(uint32_t* i) {return (float)*i;}</td>
+<td>float fcvt_s_wu(uint *param_1){return (float)ZEXT416(*param_1);}</td>
+</tr>
+<tr>
+<td>double fcvt_d_wu(uint32_t* j){return (double)*j;}</td>
+<td>double fcvt_d_wu(uint *param_1){return (double)ZEXT416(*param_1);}</td>
+</tr>
+<tr>
+<td></td>
+<td>long fmv_x_w(float *param_1){return (long)(int)*param_1;}</td>
+</tr>
+<tr>
+<td></td>
+<td>long fmv_x_d(double *param_1){return (long)(int)*param_1;}</td>
+</tr>
+<tr>
+<td></td>
+<td>long fcvt_h_w(int param_1){return (long)param_1;}</td>
+</tr>
+<tr>
+<td></td>
+<td>long fcvt_h_wu(int param_1){return (long)param_1;}</td>
+</tr>
+<tr>
+<td></td>
+<td>ulong fcvt_h_d(ulong *param_1){return *param_1 &amp; 0xffffffff;}</td>
+</tr>
+</tbody>
+</table>
+<p>The errors include:</p>
+<ul>
+<li>spurious <code>ZEXT416</code> in two places</li>
+<li><code>fmv</code> instructions appear to force an implicit type conversion where none is wanted</li>
+<li>missing dereference operation in <code>fcvt_h_w</code> and <code>fcvt_h_wu</code></li>
+<li>bad mask operation in <code>fcvt_h_d</code></li>
+</ul>
+<h2 id="next-steps">Next steps</h2>
+<p>Testing semantics for the <code>zfh</code> half-precision floating point instructions is more complicated
+than usual.  Ghidra&rsquo;s semantics and pcode system has no known provision for half-precision floating point,
+so emulation won&rsquo;t work well.  The current <code>zfh</code> implementation makes these _fp16 objects look
+like 32 bit floats in registers and like 16 bit shorts in memory operations, making Ghidra type inferencing
+even more confusing.</p>
+<p>Let&rsquo;s look at a more limited scope, the definition of the Ghidra <code>trunc</code> pcode op.</p>
+<p>The documentation says <code>trunc</code> produces a signed integer obtained by truncating its argument.</p>
+<ul>
+<li>how does <code>trunc</code> set its result type?</li>
+<li>does <code>trunc</code> expect only a floating point double?</li>
+<li>what would it take to define <code>trunk_u</code> to generate an unsigned integer</li>
+<li>what would it take to accept a half-precision floating point value as an argument?</li>
+</ul>
+<p>The documentation also says that <code>float2float</code> &lsquo;copies a floating-point number with more or less precision&rsquo;,
+so its implementation may tell us something about type inferencing.</p>
+<ul>
+<li><code>Ghidra/Features/Decompiler/src/decompile/cpp/pcodeparse.cc</code> binds <code>float2float</code> to <code>OP_FLOAT2FLOAT</code></li>
+<li>this leads to <code>CPUI_FLOAT_FLOAT2FLOAT</code> and to several files under <code>Ghidra/Features/Decompiler/src/decompile/cpp</code>.</li>
+<li>functions like <code>FloatFormat::opFloat2Float</code> and <code>FloatFormat::opTrunc</code> look relevant in <code>float.hh</code> and <code>float.cc</code></li>
+</ul>
 
 	<div class="td-page-meta__lastmod">
-  Last modified March 8, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/4bde68aa6b026d91fa952b5b4703067126987a7a">Edit and slightly extend documentation     update hugo version to 0.123.7 and fix metadata errors that became fatal. (4bde68a)</a>
+  Last modified May 26, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/6ea9e3c8d0abd3769b3b1711466d2cdce1f68d41">Extend the zfh semantics tests (6ea9e3c)</a>
 </div>
 
 </div>

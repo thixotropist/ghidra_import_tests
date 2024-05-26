@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ghidra Import Testing – Platforms and Toolchains</title>
-    <link>http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/</link>
+    <link>https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/</link>
     <description>Recent content in Platforms and Toolchains on Ghidra Import Testing</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	  <atom:link href="http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -16,10 +16,10 @@
     
     <item>
       <title>Docs: ISA Extensions</title>
-      <link>http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</link>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</guid>
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/isa_extensions/</guid>
       <description>
         
         
@@ -31,11 +31,11 @@
 &lt;/div&gt;
 
 &lt;p&gt;The RISCV community has a rich set of extensions to the base Instruction Set Architecture.  That means a diverse set
-of new binary import targets to test against.  This work-in-progress is collected in the &lt;code&gt;riscv64/toolchain/assemblySamples&lt;/code&gt; directory.
+of new binary import targets to test against.  This work-in-progress is collected in the &lt;code&gt;riscv64/generated/assemblySamples&lt;/code&gt; directory.
 The basic idea is to compare current Ghidra disassembly with current binutils &lt;code&gt;objdump&lt;/code&gt; disassembly, using object files
 assembled from the binutils &lt;code&gt;gas&lt;/code&gt; testsuite.  For example:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;riscv64/toolchain/assemblySamples/h-ext-64.S&lt;/code&gt; was copied from the binutils gas testsuite.  It contains unit test instructions for
+&lt;li&gt;&lt;code&gt;riscv64/generated/assemblySamples/h-ext-64.S&lt;/code&gt; was copied from the binutils gas testsuite.  It contains unit test instructions for
 hypervisor support extensions like &lt;code&gt;hfence.vvma&lt;/code&gt; and &lt;code&gt;hlv.w&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;riscv64/exemplars/h-ext-64.o&lt;/code&gt; is the object file produced by a &lt;em&gt;current snapshot&lt;/em&gt; of the binutils 2-41 assembler.  The associated listing
 is &lt;code&gt;riscv64/exemplars/h-ext-64.list&lt;/code&gt;.&lt;/li&gt;
@@ -47,7 +47,7 @@ any variances.&lt;/p&gt;
 &lt;p&gt;Some variances are trivial.  The &lt;code&gt;h-ext-64.S&lt;/code&gt; tests include instructions that assemble into a single 4 byte sequence.  Disassembly will only give a single
 instruction, perhaps the simplest one of the given aliases.&lt;/p&gt;
 &lt;p&gt;Other variances are harder - it looks like Ghidra expects to see an earlier and deprecated set of vector instructions than one currently approved set.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;riscv64/toolchain/assemblySamples/TODO.md&lt;/code&gt; collects some of the variances noted so far.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;riscv64/generated/assemblySamples/TODO.md&lt;/code&gt; collects some of the variances noted so far.&lt;/p&gt;
 &lt;p&gt;One big question is what kind of pcode should Ghidra generate for some of these instructions - and how many Ghidra users will care about that pcode.
 The short term answer is to treat extension instructions as pcode function calls.  The longer term answer may be to wait until GCC14 comes out with support for
 vector extensions, then see what kind of C source is conventionally used when invoking those extensions.  The &lt;code&gt;memcpy&lt;/code&gt; inline function from &lt;code&gt;libc&lt;/code&gt; is a likely

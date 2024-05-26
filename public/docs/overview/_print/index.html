@@ -1,10 +1,10 @@
 <!doctype html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
-  <head><script src="/ghidra_import_tests/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=ghidra_import_tests/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="canonical" type="text/html" href="http://localhost:1313/ghidra_import_tests/docs/overview/">
-<link rel="alternate" type="application/rss&#43;xml" href="http://localhost:1313/ghidra_import_tests/docs/overview/index.xml">
+<link rel="canonical" type="text/html" href="https://thixotropist.github.io/ghidra_import_tests/docs/overview/">
+<link rel="alternate" type="application/rss&#43;xml" href="https://thixotropist.github.io/ghidra_import_tests/docs/overview/index.xml">
 <meta name="robots" content="noindex, nofollow">
 
 
@@ -21,7 +21,7 @@
 
 <title>Overview | Ghidra Import Testing</title>
 <meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
-<meta property="og:url" content="http://localhost:1313/ghidra_import_tests/docs/overview/">
+<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/overview/">
   <meta property="og:site_name" content="Ghidra Import Testing">
   <meta property="og:title" content="Overview">
   <meta property="og:description" content="We can help Ghidra import newer binaries by collecting samples of those binaries. The scope is limited to RISCV-64 Linux-capable processors one might find in smart network appliances or Machine Learning inference engines.
@@ -41,8 +41,8 @@ This project collects files that may stress - in a good way - Ghidra&rsquo;s imp
 
 
 
-
-<link href="/ghidra_import_tests/scss/main.css" rel="stylesheet">
+<link rel="preload" href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" as="style">
+<link href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -305,8 +305,12 @@ by the current Ghidra release.</dd>
 <dt>platform</dt>
 <dd>The technology base one or more exemplars are used on.  A kernel exemplar expects to be run on top of a bootloader platform.  A Linux application exemplar may consider
 the Linux kernel plus system libraries as its platform.  System libraries like libc.so can then be both exemplars and platform elements.</dd>
-<dt>cross-compiler</dt>
-<dd>A compiler capable of generating code for a processor other than the one it is running on.  An x86_64 gcc-13 compiler configured to generate RISCV-64 object files would be a cross-compiler.
+<dt>compiler suite</dt>
+<dd>A compiler suite includes a compiler or cross compiler plus all of the supporting tools and libraries to build executables for a range of
+platforms.  This generally includes a versioned C and C++ compiler, preprocessor, assembler, linker, linker scripts, and core libraries like libgcc.  Compiler suites often support many architecture variants, such as 32 or 64 bit word size and a host of microarchitecture or instruction set
+options.  Compiler suites can be customized by selecting specific configurations and options, becoming <code>toolchains</code>.</dd>
+<dt>cross compiler</dt>
+<dd>A compiler capable of generating code for a processor other than the one it is running on.  An x86_64 gcc-14 compiler configured to generate RISCV-64 object files would be a cross-compiler.
 Cross-compilers run on either the local host platform or on a Continuous Integration test server platform.</dd>
 <dt>linker</dt>
 <dd>A tool that takes one or more object files and resolves those runtime linkages internal to those object files.  Usually <code>ld</code> on a Linux system.  Often generates an ELF file
@@ -320,8 +324,8 @@ This can be as simple as <code>/usr/include</code> or as complicated as a <code>
 over 250 ld scripts detailing how a linker should generate code the kernel loader can fully process.
 Cross-compiler toolchains often need to import a sysroot to build for a given kernel.  This can make for a circular dependency.</dd>
 <dt>toolchain</dt>
-<dd>A toolchain is an assembly of cross-compiler, linker, loader, and sysroot, plus a default set of options and switches for each component.  Different toolchains might share a gcc
-crosscompiler but be configured for different platforms - building a kernel image, building <code>libc.so</code>, or building an executable application.</dd>
+<dd>A toolchain is an assembly of cross-compiler, linker, loader, and sysroot, plus a default set of options and switches for each component.
+Different toolchains might share a gcc compiler suite, but be configured for different platforms - building a kernel image, building <code>libc.so</code>, or building an executable application.  Note: the word <code>toolchain</code> is often used in this project where <code>compiler suite</code> is intended.</dd>
 <dt>workspace</dt>
 <dd>An environment that provides mappings between platforms and toolchains.  If you want to build an executable for a given platform, just name that platform on the command line
 and the build tool will select a compatible toolchain and a <em>default</em> set of options.  You can still override those options.</dd>
@@ -370,8 +374,8 @@ development team.</dd>
 </footer>
 
     </div>
-    <script src="/ghidra_import_tests/js/main.js"></script>
-<script defer src="/ghidra_import_tests/js/click-to-copy.js" crossorigin="anonymous"></script>
+    <script src="/ghidra_import_tests/js/main.min.88ada60cfbccfad3e369423d9ebd9f7c08c7bdde5f07d26fee1a238bb3a19184.js" integrity="sha256-iK2mDPvM&#43;tPjaUI9nr2ffAjHvd5fB9Jv7hoji7OhkYQ=" crossorigin="anonymous"></script>
+<script defer src="/ghidra_import_tests/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/ghidra_import_tests/js/tabpane-persist.js'></script>
 
   </body>

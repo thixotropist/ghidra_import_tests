@@ -1,9 +1,9 @@
 <!doctype html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
-  <head><script src="/ghidra_import_tests/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=ghidra_import_tests/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 
 
 <link rel="shortcut icon" href="/ghidra_import_tests/favicons/favicon.ico" >
@@ -20,7 +20,7 @@
 <title>Network Appliances | Ghidra Import Testing</title>
 <meta name="description" content="What will RISCV-64 cores offer networking?
 will vector instructions be useful in network appliances? Network kernel code has lots of conditional branches and very few loops. This suggests RISCV vector instructions won&amp;rsquo;t be found in network appliances anytime soon, other than memmove or similar simple contexts. Gather-scatter, bit manipulation, and crypto instruction extensions are likely to be useful in networking much sooner. Ghidra will have a much easier time generating pcode for those instructions than the 25K&#43; RISCV vector intrinsic C functions covering all combinations of vector instructions and vector processing modes.">
-<meta property="og:url" content="http://localhost:1313/ghidra_import_tests/docs/notes/network_appliances/">
+<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/notes/network_appliances/">
   <meta property="og:site_name" content="Ghidra Import Testing">
   <meta property="og:title" content="Network Appliances">
   <meta property="og:description" content="What will RISCV-64 cores offer networking?
@@ -41,8 +41,8 @@ will vector instructions be useful in network appliances? Network kernel code ha
 
 
 
-
-<link href="/ghidra_import_tests/scss/main.css" rel="stylesheet">
+<link rel="preload" href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" as="style">
+<link href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -105,14 +105,16 @@ will vector instructions be useful in network appliances? Network kernel code ha
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsissues-li">
   <a href="/ghidra_import_tests/docs/issues/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-ghidra_import_testsdocsissues"><span class="">Issues</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesautovectorization-li">
-  <a href="/ghidra_import_tests/docs/issues/autovectorization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesautovectorization"><span class="">autovectorization</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns-li">
   <a href="/ghidra_import_tests/docs/issues/inferring_semantics_from_code_patterns/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesinferring_semantics_from_code_patterns"><span class="">inferring semantics from code patterns</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissueslink_time_optimization-li">
-  <a href="/ghidra_import_tests/docs/issues/link_time_optimization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissueslink_time_optimization"><span class="">link time optimization</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesautovectorization-li">
+  <a href="/ghidra_import_tests/docs/issues/autovectorization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesautovectorization"><span class="">autovectorization</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuesvector_intrinsics-li">
   <a href="/ghidra_import_tests/docs/issues/vector_intrinsics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuesvector_intrinsics"><span class="">vector intrinsics</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissueslink_time_optimization-li">
+  <a href="/ghidra_import_tests/docs/issues/link_time_optimization/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissueslink_time_optimization"><span class="">link time optimization</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsissuestesting_semantics-li">
+  <a href="/ghidra_import_tests/docs/issues/testing_semantics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsissuestesting_semantics"><span class="">testing pcode semantics</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-ghidra_import_testsdocsgap_analysis-li">
@@ -172,6 +174,8 @@ will vector instructions be useful in network appliances? Network kernel code ha
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
   <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesgcc_14_toolchain-li">
+  <a href="/ghidra_import_tests/docs/notes/gcc_14_toolchain/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesgcc_14_toolchain"><span class="">Building a gcc-14 toolchain</span></a>
 </li>
   </ul>
 </li>
@@ -310,8 +314,8 @@ any given network interface.  ISA extensions supporting gather, hash, vector com
 </footer>
 
     </div>
-    <script src="/ghidra_import_tests/js/main.js"></script>
-<script defer src="/ghidra_import_tests/js/click-to-copy.js" crossorigin="anonymous"></script>
+    <script src="/ghidra_import_tests/js/main.min.88ada60cfbccfad3e369423d9ebd9f7c08c7bdde5f07d26fee1a238bb3a19184.js" integrity="sha256-iK2mDPvM&#43;tPjaUI9nr2ffAjHvd5fB9Jv7hoji7OhkYQ=" crossorigin="anonymous"></script>
+<script defer src="/ghidra_import_tests/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/ghidra_import_tests/js/tabpane-persist.js'></script>
 
   </body>

@@ -1,10 +1,10 @@
 <!doctype html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
-  <head><script src="/ghidra_import_tests/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=ghidra_import_tests/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="canonical" type="text/html" href="http://localhost:1313/ghidra_import_tests/docs/notes/">
-<link rel="alternate" type="application/rss&#43;xml" href="http://localhost:1313/ghidra_import_tests/docs/notes/index.xml">
+<link rel="canonical" type="text/html" href="https://thixotropist.github.io/ghidra_import_tests/docs/notes/">
+<link rel="alternate" type="application/rss&#43;xml" href="https://thixotropist.github.io/ghidra_import_tests/docs/notes/index.xml">
 <meta name="robots" content="noindex, nofollow">
 
 
@@ -21,7 +21,7 @@
 
 <title>Notes | Ghidra Import Testing</title>
 <meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
-<meta property="og:url" content="http://localhost:1313/ghidra_import_tests/docs/notes/">
+<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/notes/">
   <meta property="og:site_name" content="Ghidra Import Testing">
   <meta property="og:title" content="Notes">
   <meta property="og:description" content="Put unstructured comments here until we know what to do with them.
@@ -39,8 +39,8 @@ TODO Update the isa_ext Ghidra branch to expand vsetvli arguments vsetvli zero,z
 
 
 
-
-<link href="/ghidra_import_tests/scss/main.css" rel="stylesheet">
+<link rel="preload" href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" as="style">
+<link href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -148,6 +148,14 @@ This is the multi-page printable view of this section.
     
 	
 <li>6: <a href="#pg-f22421eca6cb396b0451315422c932fa">Deep Dive Openssl</a></li>
+
+
+    
+  
+    
+    
+	
+<li>7: <a href="#pg-61d8d612fe445078900e0844403305ae">Building a gcc-14 toolchain</a></li>
 
 
     
@@ -1050,6 +1058,7 @@ patterns found in the test suite.</p>
 <li>track the <a href="https://sourceware.org/git/binutils-gdb.git">source</a></li>
 <li>inspect <code>git log include/opcode/|grep riscv|head</code></li>
 <li>inspect <code>git log gas/testsuite/gas/riscv</code></li>
+<li>track updates to the list of <a href="https://sourceware.org/git?p=binutils-gdb.git;a=blob_plain;f=gas/testsuite/gas/riscv/march-help.l;hb=HEAD">supported extensions</a></li>
 </ul>
 <h4 id="sample-log">sample log</h4>
 <ul>
@@ -1065,8 +1074,8 @@ patterns found in the test suite.</p>
 <p>Look for commits indicating the stability of vectorization or new compound loop types that now allow auto vectorization.</p>
 <h3 id="libraries">libraries</h3>
 <ul>
-<li>track the <a href="git://sourceware.org/git/glibc.git">source</a></li>
-<li>track the <a href="https://github.com/openssl/openssl">source</a></li>
+<li>track the <a href="git://sourceware.org/git/glibc.git">glibc source</a></li>
+<li>track the <a href="https://github.com/openssl/openssl">openssl source</a></li>
 </ul>
 <h4 id="log-1">log</h4>
 <ul>
@@ -1104,13 +1113,19 @@ be in support of encrypted file systems.</p>
 </ul>
 </li>
 </ul>
+<h2 id="riscv-international-wiki">RISCV International Wiki</h2>
+<p>The RISCV International wiki <a href="https://wiki.riscv.org/">home page</a> leads to:</p>
+<ul>
+<li><a href="https://wiki.riscv.org/display/HOME/RISC-V+Specification+Status">Active Specification</a> updates</li>
+<li><a href="https://tech.riscv.org/software-ecosystem">Software Ecosystem status</a></li>
+</ul>
 <h2 id="isa-extensions">ISA Extensions</h2>
 <ul>
 <li>profiles and individual standards-tracked extensions</li>
 <li>vendor-specific extensions</li>
 <li>gcc intrinsics</li>
 </ul>
-<h2 id="applications">applications</h2>
+<h2 id="applications">Applications</h2>
 <ul>
 <li>track <a href="https://github.com/ggerganov/whisper.cpp.git">source</a></li>
 <li>Look for use of riscv intrinsics with arm/Neon and avx2 equivalents as opposed to allowing compiler autovectorization.</li>
@@ -1582,6 +1597,122 @@ pcode semantics need updating.  Do this and inspect the Ghidra output again:</p>
     
 	
   
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-61d8d612fe445078900e0844403305ae">7 - Building a gcc-14 toolchain</h1>
+    
+	
+
+<div class="pageinfo pageinfo-primary">
+<p>Building a new toolchain can be messy.</p>
+
+</div>
+
+<p>A C or C++ toolchain needs at least three components:</p>
+<ul>
+<li>kernel - to supply key header files and loader dependencies</li>
+<li>binutils - to supply assembler and linker</li>
+<li>gcc - to supply the compiler and compiler dependencies</li>
+<li>glibc - to supply key libraries and header files</li>
+<li>sysroot - a directory containing the libraries and resources expected for the root of the target system</li>
+</ul>
+<p>These components have cross-dependencies.  A full gcc build needs libc.so from glibc.  A full glibc build needs libgcc from gcc.
+There are different ways to handle these cross-dependencies, such as splitting the gcc build into two phases or prepopulating
+the build directories with &lsquo;close-enough&rsquo; files from a previous build.</p>
+<p>The <code>sysroot</code> component is the trickiest to handle, since gcc and glibc need to pull files from the <code>sysroot</code> as they update files within <code>sysroot</code>.
+You can generally start with a bootstrap <code>sysroot</code>, say from a previous toolchain, then update it with the latest binutils, gcc, and glibc.</p>
+<p>Start with a released tarball for gcc and glibc.  We&rsquo;ll use the development tip of binutils for this pass.</p>
+<p>Copy kernel header files into <code>/opt/riscv/sysroot/usr/include/</code>.</p>
+<p>Configure and install binutils:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> /home2/vendor/binutils-gdb/configure --prefix<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot --with-sysroot<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot --target<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make -j4
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make install
+</span></span></code></pre></div><p>Configure and install minimal gcc:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> /home2/vendor/gcc-14.1.0/configure --prefix<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv --enable-languages<span style="color:#ce5c00;font-weight:bold">=</span>c,c++ --disable-multilib --target<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu --with-sysroot<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make all-gcc
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make install-gcc
+</span></span></code></pre></div><p>Configure and install glibc</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> ../../vendor/glibc-2.39/configure --host<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu --target<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu --prefix<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv --disable-werror --enable-shared --disable-multilib --with-headers<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot/usr/include
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make install-bootstrap-headers<span style="color:#ce5c00;font-weight:bold">=</span>yes <span style="color:#000">install_root</span><span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot install-headers
+</span></span></code></pre></div><h2 id="cleaning-sysroot-of-bootstrap-artifacts">Cleaning sysroot of bootstrap artifacts</h2>
+<p>How do we replace any older sysroot bootstrap files with their freshly built versions?  The most common problems involve libgcc*, libc*, and crt* files.
+The bootstrap sysroot needs these files to exist.  The toolchain build process should replace them, but it may not replace all instances of these files.</p>
+<p>Let&rsquo;s scrub the libgcc files, comparing the gcc directory in which they are built with the sysroot directories in which they will be saved.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#000">B</span><span style="color:#ce5c00;font-weight:bold">=</span>/home2/build_riscv/gcc
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#000">S</span><span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> find <span style="color:#000">$B</span> <span style="color:#000">$S</span> -name libgcc_s.so -ls
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940911      4 -rw-r--r--   1 ____     ____          132 May 10 12:28 /home2/build_riscv/gcc/gcc/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940908      4 -rw-r--r--   1 ____     ____          132 May 10 12:28 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361792      4 -rw-r--r--   1 ____     ____          132 May 10 12:32 /opt/riscv/sysroot/riscv64-unknown-linux-gnu/lib/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14351655      4 -rw-r--r--   1 ____     ____          132 May 10 08:52 /opt/riscv/sysroot/lib/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> $ diff /opt/riscv/sysroot/lib/libgcc_s.so /opt/riscv/sysroot/riscv64-unknown-linux-gnu/lib/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> $ $ cat /opt/riscv/sysroot/lib/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/* GNU ld script
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">   Use the shared library, but some functions are only in
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">   the static library.  */
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GROUP ( libgcc_s.so.1 -lgcc )
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> 
+</span></span></code></pre></div><ul>
+<li><code>/opt/riscv/sysroot/lib/libgcc_s.so</code> is our bootstrap input</li>
+<li><code>/home2/build_riscv/gcc/gcc/libgcc_s.so</code> and <code>/home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/libgcc_s.so</code> are the generated outputs</li>
+<li>the bootstrap input is identical to the generate output</li>
+<li>neither input nor output contain absolute paths</li>
+</ul>
+<p>Now check <code>libgcc_s.so.1</code> for staleness:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> find <span style="color:#000">$B</span> <span style="color:#000">$S</span> -name libgcc_s.so.1 -ls
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940910    700 -rw-r--r--   1 ____     ____       713128 May 10 12:28 /home2/build_riscv/gcc/gcc/libgcc_s.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57946454    700 -rwxr-xr-x   1 ____     ____       713128 May 10 12:28 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/libgcc_s.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361791    700 -rw-r--r--   1 ____     ____       713128 May 10 12:32 /opt/riscv/sysroot/riscv64-unknown-linux-gnu/lib/libgcc_s.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14351656    696 -rw-r--r--   1 ____     ____       708624 May 10 08:53 /opt/riscv/sysroot/lib/libgcc_s.so.1
+</span></span></span></code></pre></div><p>That looks like a potential problem.  The older bootstrap file is older and smaller than the generated files.  We need to fix that:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> rm /opt/riscv/sysroot/lib/libgcc_s.so.1
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> ln /opt/riscv/sysroot/riscv64-unknown-linux-gnu/lib/libgcc_s.so.1 /opt/riscv/sysroot/lib/libgcc_s.so.1
+</span></span></code></pre></div><p>Next check the crt* files:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> find <span style="color:#000">$B</span> <span style="color:#000">$S</span> -name crt<span style="color:#4e9a06">\*</span>.o -ls
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940817      8 -rw-r--r--   1 ____     ____         4248 May 10 12:28 /home2/build_riscv/gcc/gcc/crtbeginS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940826      4 -rw-r--r--   1 ____     ____          848 May 10 12:28 /home2/build_riscv/gcc/gcc/crtn.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940824      4 -rw-r--r--   1 ____     ____          848 May 10 12:28 /home2/build_riscv/gcc/gcc/crti.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940827      8 -rw-r--r--   1 ____     ____         4712 May 10 12:28 /home2/build_riscv/gcc/gcc/crtbeginT.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940822      4 -rw-r--r--   1 ____     ____         1384 May 10 12:28 /home2/build_riscv/gcc/gcc/crtendS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940823      4 -rw-r--r--   1 ____     ____         1384 May 10 12:28 /home2/build_riscv/gcc/gcc/crtend.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940815      4 -rw-r--r--   1 ____     ____         3640 May 10 12:28 /home2/build_riscv/gcc/gcc/crtbegin.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940800      8 -rw-r--r--   1 ____     ____         4248 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtbeginS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940808      4 -rw-r--r--   1 ____     ____          848 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtn.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940806      4 -rw-r--r--   1 ____     ____          848 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crti.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940803      8 -rw-r--r--   1 ____     ____         4712 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtbeginT.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940812      4 -rw-r--r--   1 ____     ____         1384 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtendS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940804      4 -rw-r--r--   1 ____     ____         1384 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtend.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940798      4 -rw-r--r--   1 ____     ____         3640 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtbegin.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14351609     16 -rw-r--r--   1 ____     ____        13848 May 10 08:48 /opt/riscv/sysroot/usr/lib/crt1.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14351614      4 -rw-r--r--   1 ____     ____          952 May 10 08:48 /opt/riscv/sysroot/usr/lib/crti.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14351623      4 -rw-r--r--   1 ____     ____          952 May 10 08:49 /opt/riscv/sysroot/usr/lib/crtn.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361798      8 -rw-r--r--   1 ____     ____         4248 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtbeginS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361802      4 -rw-r--r--   1 ____     ____         3640 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtbegin.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361803      4 -rw-r--r--   1 ____     ____         1384 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtend.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361804      4 -rw-r--r--   1 ____     ____          848 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crti.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361805      4 -rw-r--r--   1 ____     ____          848 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtn.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361806      4 -rw-r--r--   1 ____     ____         1384 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtendS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361807      8 -rw-r--r--   1 ____     ____         4712 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtbeginT.o
+</span></span></span></code></pre></div><p>The files in <code>/opt/riscv/sysroot/usr/lib</code> are likely the bootstrap files.  The sysroot files are identical to the build files, with exceptions:</p>
+<ul>
+<li><code>crt1.o</code> is not generated by the gcc compiler build process.  It <em>may</em> be something provided by the kernel build.</li>
+<li><code>crti.o</code> and <code>crtn.o</code> bootstrap files and generated files are different.  If we wanted to use this updated sysroot to build a 14.2.0 toolchain,
+we probably want to use the newer versions.</li>
+</ul>
+<p>So replace the bootstrap <code>/opt/riscv/sysroot/usr/lib/crt*.o</code> with hard links to the generated files.</p>
+
+</div>
+
+
+
+    
+	
+  
 
 
 
@@ -1614,8 +1745,8 @@ pcode semantics need updating.  Do this and inspect the Ghidra output again:</p>
 </footer>
 
     </div>
-    <script src="/ghidra_import_tests/js/main.js"></script>
-<script defer src="/ghidra_import_tests/js/click-to-copy.js" crossorigin="anonymous"></script>
+    <script src="/ghidra_import_tests/js/main.min.88ada60cfbccfad3e369423d9ebd9f7c08c7bdde5f07d26fee1a238bb3a19184.js" integrity="sha256-iK2mDPvM&#43;tPjaUI9nr2ffAjHvd5fB9Jv7hoji7OhkYQ=" crossorigin="anonymous"></script>
+<script defer src="/ghidra_import_tests/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/ghidra_import_tests/js/tabpane-persist.js'></script>
 
   </body>

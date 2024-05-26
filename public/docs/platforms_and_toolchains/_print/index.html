@@ -1,10 +1,10 @@
 <!doctype html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
-  <head><script src="/ghidra_import_tests/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=ghidra_import_tests/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="canonical" type="text/html" href="http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/">
-<link rel="alternate" type="application/rss&#43;xml" href="http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/index.xml">
+<link rel="canonical" type="text/html" href="https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/">
+<link rel="alternate" type="application/rss&#43;xml" href="https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/index.xml">
 <meta name="robots" content="noindex, nofollow">
 
 
@@ -21,7 +21,7 @@
 
 <title>Platforms and Toolchains | Ghidra Import Testing</title>
 <meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
-<meta property="og:url" content="http://localhost:1313/ghidra_import_tests/docs/platforms_and_toolchains/">
+<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/platforms_and_toolchains/">
   <meta property="og:site_name" content="Ghidra Import Testing">
   <meta property="og:title" content="Platforms and Toolchains">
   <meta property="og:description" content="Code is built by a toolchain (compiler, linker) to run on a platform (e.g., a pixel 7a cellphone).
@@ -39,8 +39,8 @@ This project adopts the Bazel framework for building importable exemplars. Platf
 
 
 
-
-<link href="/ghidra_import_tests/scss/main.css" rel="stylesheet">
+<link rel="preload" href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" as="style">
+<link href="/ghidra_import_tests/scss/main.min.d7828a63be699f877d0f40d15fbb8ba8375c451530782351367eff6e43fbf1b2.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -255,11 +255,11 @@ even if the compilers are identical.</p>
 </div>
 
 <p>The RISCV community has a rich set of extensions to the base Instruction Set Architecture.  That means a diverse set
-of new binary import targets to test against.  This work-in-progress is collected in the <code>riscv64/toolchain/assemblySamples</code> directory.
+of new binary import targets to test against.  This work-in-progress is collected in the <code>riscv64/generated/assemblySamples</code> directory.
 The basic idea is to compare current Ghidra disassembly with current binutils <code>objdump</code> disassembly, using object files
 assembled from the binutils <code>gas</code> testsuite.  For example:</p>
 <ul>
-<li><code>riscv64/toolchain/assemblySamples/h-ext-64.S</code> was copied from the binutils gas testsuite.  It contains unit test instructions for
+<li><code>riscv64/generated/assemblySamples/h-ext-64.S</code> was copied from the binutils gas testsuite.  It contains unit test instructions for
 hypervisor support extensions like <code>hfence.vvma</code> and <code>hlv.w</code>.</li>
 <li><code>riscv64/exemplars/h-ext-64.o</code> is the object file produced by a <em>current snapshot</em> of the binutils 2-41 assembler.  The associated listing
 is <code>riscv64/exemplars/h-ext-64.list</code>.</li>
@@ -271,7 +271,7 @@ any variances.</p>
 <p>Some variances are trivial.  The <code>h-ext-64.S</code> tests include instructions that assemble into a single 4 byte sequence.  Disassembly will only give a single
 instruction, perhaps the simplest one of the given aliases.</p>
 <p>Other variances are harder - it looks like Ghidra expects to see an earlier and deprecated set of vector instructions than one currently approved set.</p>
-<p><code>riscv64/toolchain/assemblySamples/TODO.md</code> collects some of the variances noted so far.</p>
+<p><code>riscv64/generated/assemblySamples/TODO.md</code> collects some of the variances noted so far.</p>
 <p>One big question is what kind of pcode should Ghidra generate for some of these instructions - and how many Ghidra users will care about that pcode.
 The short term answer is to treat extension instructions as pcode function calls.  The longer term answer may be to wait until GCC14 comes out with support for
 vector extensions, then see what kind of C source is conventionally used when invoking those extensions.  The <code>memcpy</code> inline function from <code>libc</code> is a likely
@@ -345,8 +345,8 @@ before reaching the binutils assembler.  We will ignore those instruction extens
 </footer>
 
     </div>
-    <script src="/ghidra_import_tests/js/main.js"></script>
-<script defer src="/ghidra_import_tests/js/click-to-copy.js" crossorigin="anonymous"></script>
+    <script src="/ghidra_import_tests/js/main.min.88ada60cfbccfad3e369423d9ebd9f7c08c7bdde5f07d26fee1a238bb3a19184.js" integrity="sha256-iK2mDPvM&#43;tPjaUI9nr2ffAjHvd5fB9Jv7hoji7OhkYQ=" crossorigin="anonymous"></script>
+<script defer src="/ghidra_import_tests/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/ghidra_import_tests/js/tabpane-persist.js'></script>
 
   </body>

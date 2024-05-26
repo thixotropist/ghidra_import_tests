@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ghidra Import Testing – Overview</title>
-    <link>http://localhost:1313/ghidra_import_tests/docs/overview/</link>
+    <link>https://thixotropist.github.io/ghidra_import_tests/docs/overview/</link>
     <description>Recent content in Overview on Ghidra Import Testing</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	  <atom:link href="http://localhost:1313/ghidra_import_tests/docs/overview/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://thixotropist.github.io/ghidra_import_tests/docs/overview/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -16,10 +16,10 @@
     
     <item>
       <title>Docs: Glossary</title>
-      <link>http://localhost:1313/ghidra_import_tests/docs/overview/glossary/</link>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/overview/glossary/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/ghidra_import_tests/docs/overview/glossary/</guid>
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/overview/glossary/</guid>
       <description>
         
         
@@ -38,8 +38,12 @@ by the current Ghidra release.&lt;/dd&gt;
 &lt;dt&gt;platform&lt;/dt&gt;
 &lt;dd&gt;The technology base one or more exemplars are used on.  A kernel exemplar expects to be run on top of a bootloader platform.  A Linux application exemplar may consider
 the Linux kernel plus system libraries as its platform.  System libraries like libc.so can then be both exemplars and platform elements.&lt;/dd&gt;
-&lt;dt&gt;cross-compiler&lt;/dt&gt;
-&lt;dd&gt;A compiler capable of generating code for a processor other than the one it is running on.  An x86_64 gcc-13 compiler configured to generate RISCV-64 object files would be a cross-compiler.
+&lt;dt&gt;compiler suite&lt;/dt&gt;
+&lt;dd&gt;A compiler suite includes a compiler or cross compiler plus all of the supporting tools and libraries to build executables for a range of
+platforms.  This generally includes a versioned C and C++ compiler, preprocessor, assembler, linker, linker scripts, and core libraries like libgcc.  Compiler suites often support many architecture variants, such as 32 or 64 bit word size and a host of microarchitecture or instruction set
+options.  Compiler suites can be customized by selecting specific configurations and options, becoming &lt;code&gt;toolchains&lt;/code&gt;.&lt;/dd&gt;
+&lt;dt&gt;cross compiler&lt;/dt&gt;
+&lt;dd&gt;A compiler capable of generating code for a processor other than the one it is running on.  An x86_64 gcc-14 compiler configured to generate RISCV-64 object files would be a cross-compiler.
 Cross-compilers run on either the local host platform or on a Continuous Integration test server platform.&lt;/dd&gt;
 &lt;dt&gt;linker&lt;/dt&gt;
 &lt;dd&gt;A tool that takes one or more object files and resolves those runtime linkages internal to those object files.  Usually &lt;code&gt;ld&lt;/code&gt; on a Linux system.  Often generates an ELF file
@@ -53,8 +57,8 @@ This can be as simple as &lt;code&gt;/usr/include&lt;/code&gt; or as complicated
 over 250 ld scripts detailing how a linker should generate code the kernel loader can fully process.
 Cross-compiler toolchains often need to import a sysroot to build for a given kernel.  This can make for a circular dependency.&lt;/dd&gt;
 &lt;dt&gt;toolchain&lt;/dt&gt;
-&lt;dd&gt;A toolchain is an assembly of cross-compiler, linker, loader, and sysroot, plus a default set of options and switches for each component.  Different toolchains might share a gcc
-crosscompiler but be configured for different platforms - building a kernel image, building &lt;code&gt;libc.so&lt;/code&gt;, or building an executable application.&lt;/dd&gt;
+&lt;dd&gt;A toolchain is an assembly of cross-compiler, linker, loader, and sysroot, plus a default set of options and switches for each component.
+Different toolchains might share a gcc compiler suite, but be configured for different platforms - building a kernel image, building &lt;code&gt;libc.so&lt;/code&gt;, or building an executable application.  Note: the word &lt;code&gt;toolchain&lt;/code&gt; is often used in this project where &lt;code&gt;compiler suite&lt;/code&gt; is intended.&lt;/dd&gt;
 &lt;dt&gt;workspace&lt;/dt&gt;
 &lt;dd&gt;An environment that provides mappings between platforms and toolchains.  If you want to build an executable for a given platform, just name that platform on the command line
 and the build tool will select a compatible toolchain and a &lt;em&gt;default&lt;/em&gt; set of options.  You can still override those options.&lt;/dd&gt;

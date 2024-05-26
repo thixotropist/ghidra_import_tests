@@ -17,34 +17,30 @@
 <link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/ghidra_import_tests/favicons/android-192x192.png" sizes="192x192">
 
-<title>Pcode testing | Ghidra Import Testing</title>
-<meta name="description" content="Ghidra testing of semantic pcode.
-Note: paths and names are likely to change here. Use these notes just as a guide.
-The Ghidra 11 isa_ext branch makes heavy use of user-defined pcode (aka Sleigh semantics). Much of that pcode is arbitrarily defined, adding more confusion to an already complex field. Can we build a testing framework to highlight problem areas in pcode semantics?
-For example, let&amp;rsquo;s look at Ghidra&amp;rsquo;s decompiler rendering of two RISCV-64 vector instructions vmv.">
-<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/notes/pcode_testing/">
+<title>Building a gcc-14 toolchain | Ghidra Import Testing</title>
+<meta name="description" content="Building a new toolchain can be messy.
+A C or C&#43;&#43; toolchain needs at least three components:
+kernel - to supply key header files and loader dependencies binutils - to supply assembler and linker gcc - to supply the compiler and compiler dependencies glibc - to supply key libraries and header files sysroot - a directory containing the libraries and resources expected for the root of the target system These components have cross-dependencies.">
+<meta property="og:url" content="https://thixotropist.github.io/ghidra_import_tests/docs/notes/gcc_14_toolchain/">
   <meta property="og:site_name" content="Ghidra Import Testing">
-  <meta property="og:title" content="Pcode testing">
-  <meta property="og:description" content="Ghidra testing of semantic pcode.
-Note: paths and names are likely to change here. Use these notes just as a guide.
-The Ghidra 11 isa_ext branch makes heavy use of user-defined pcode (aka Sleigh semantics). Much of that pcode is arbitrarily defined, adding more confusion to an already complex field. Can we build a testing framework to highlight problem areas in pcode semantics?
-For example, let’s look at Ghidra’s decompiler rendering of two RISCV-64 vector instructions vmv.">
+  <meta property="og:title" content="Building a gcc-14 toolchain">
+  <meta property="og:description" content="Building a new toolchain can be messy.
+A C or C&#43;&#43; toolchain needs at least three components:
+kernel - to supply key header files and loader dependencies binutils - to supply assembler and linker gcc - to supply the compiler and compiler dependencies glibc - to supply key libraries and header files sysroot - a directory containing the libraries and resources expected for the root of the target system These components have cross-dependencies.">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
-    <meta property="article:modified_time" content="2024-03-08T08:16:34-05:00">
+    <meta property="article:modified_time" content="2024-05-16T10:22:07-04:00">
 
-  <meta itemprop="name" content="Pcode testing">
-  <meta itemprop="description" content="Ghidra testing of semantic pcode.
-Note: paths and names are likely to change here. Use these notes just as a guide.
-The Ghidra 11 isa_ext branch makes heavy use of user-defined pcode (aka Sleigh semantics). Much of that pcode is arbitrarily defined, adding more confusion to an already complex field. Can we build a testing framework to highlight problem areas in pcode semantics?
-For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISCV-64 vector instructions vmv.">
-  <meta itemprop="dateModified" content="2024-03-08T08:16:34-05:00">
-  <meta itemprop="wordCount" content="579"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Pcode testing">
-<meta name="twitter:description" content="Ghidra testing of semantic pcode.
-Note: paths and names are likely to change here. Use these notes just as a guide.
-The Ghidra 11 isa_ext branch makes heavy use of user-defined pcode (aka Sleigh semantics). Much of that pcode is arbitrarily defined, adding more confusion to an already complex field. Can we build a testing framework to highlight problem areas in pcode semantics?
-For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISCV-64 vector instructions vmv.">
+  <meta itemprop="name" content="Building a gcc-14 toolchain">
+  <meta itemprop="description" content="Building a new toolchain can be messy.
+A C or C&#43;&#43; toolchain needs at least three components:
+kernel - to supply key header files and loader dependencies binutils - to supply assembler and linker gcc - to supply the compiler and compiler dependencies glibc - to supply key libraries and header files sysroot - a directory containing the libraries and resources expected for the root of the target system These components have cross-dependencies.">
+  <meta itemprop="dateModified" content="2024-05-16T10:22:07-04:00">
+  <meta itemprop="wordCount" content="879"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Building a gcc-14 toolchain">
+<meta name="twitter:description" content="Building a new toolchain can be messy.
+A C or C&#43;&#43; toolchain needs at least three components:
+kernel - to supply key header files and loader dependencies binutils - to supply assembler and linker gcc - to supply the compiler and compiler dependencies glibc - to supply key libraries and header files sysroot - a directory containing the libraries and resources expected for the root of the target system These components have cross-dependencies.">
 
 
 
@@ -176,14 +172,14 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
   <a href="/ghidra_import_tests/docs/notes/network_appliances/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesnetwork_appliances"><span class="">Network Appliances</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesvectorization_case_study-li">
   <a href="/ghidra_import_tests/docs/notes/vectorization_case_study/" title="A vectorization case study" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesvectorization_case_study"><span class="">Vectorization case study</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-ghidra_import_testsdocsnotespcode_testing-li">
-  <a href="/ghidra_import_tests/docs/notes/pcode_testing/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotespcode_testing"><span class="td-sidebar-nav-active-item">Pcode testing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotespcode_testing-li">
+  <a href="/ghidra_import_tests/docs/notes/pcode_testing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotespcode_testing"><span class="">Pcode testing</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotestracking-li">
   <a href="/ghidra_import_tests/docs/notes/tracking/" title="Tracking Convergence" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotestracking"><span class="">Tracking</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive-li">
   <a href="/ghidra_import_tests/docs/notes/openssl_deep_dive/" title="Deep Dive Openssl" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesopenssl_deep_dive"><span class="">Openssl</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-ghidra_import_testsdocsnotesgcc_14_toolchain-li">
-  <a href="/ghidra_import_tests/docs/notes/gcc_14_toolchain/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesgcc_14_toolchain"><span class="">Building a gcc-14 toolchain</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-ghidra_import_testsdocsnotesgcc_14_toolchain-li">
+  <a href="/ghidra_import_tests/docs/notes/gcc_14_toolchain/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-ghidra_import_testsdocsnotesgcc_14_toolchain"><span class="td-sidebar-nav-active-item">Building a gcc-14 toolchain</span></a>
 </li>
   </ul>
 </li>
@@ -196,15 +192,22 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
           </aside>
           <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
             <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
-<a href="https://github.com/thixotropist/ghidra_import_tests/tree/main/content/en/docs/notes/pcode_testing.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
-  <a href="https://github.com/thixotropist/ghidra_import_tests/edit/main/content/en/docs/notes/pcode_testing.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+<a href="https://github.com/thixotropist/ghidra_import_tests/tree/main/content/en/docs/notes/gcc_14_toolchain.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/thixotropist/ghidra_import_tests/edit/main/content/en/docs/notes/gcc_14_toolchain.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
   <a href="https://github.com/thixotropist/ghidra_import_tests/new/main/content/en/docs/notes?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
-  <a href="https://github.com/thixotropist/ghidra_import_tests/issues/new?title=Pcode%20testing" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a href="https://github.com/thixotropist/ghidra_import_tests/issues/new?title=Building%20a%20gcc-14%20toolchain" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
   <a id="print" href="/ghidra_import_tests/docs/notes/_print/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#cleaning-sysroot-of-bootstrap-artifacts">Cleaning sysroot of bootstrap artifacts</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 	
           </aside>
@@ -219,12 +222,12 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
   <li class="breadcrumb-item">
     <a href="/ghidra_import_tests/docs/notes/">Notes</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Pcode testing</li>
+    Building a gcc-14 toolchain</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Pcode testing</h1>
+	<h1>Building a gcc-14 toolchain</h1>
 	
 	<header class="article-meta">
 		
@@ -232,82 +235,105 @@ For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISC
 	
 
 <div class="pageinfo pageinfo-primary">
-<p>Ghidra testing of semantic pcode.</p>
+<p>Building a new toolchain can be messy.</p>
 
 </div>
 
-<blockquote>
-<p>Note: paths and names are likely to change here.  Use these notes just as a guide.</p>
-</blockquote>
-<p>The Ghidra 11 <code>isa_ext</code> branch makes heavy use of user-defined pcode (aka Sleigh semantics).  Much of that pcode is arbitrarily defined, adding more confusion to an
-already complex field.  Can we build a testing framework to highlight problem areas in pcode semantics?</p>
-<p>For example, let&rsquo;s look at Ghidra&rsquo;s decompiler rendering of two RISCV-64 vector instructions <code>vmv.s.x</code> and <code>vmv.x.s</code>.  These instructions move a single element between an
-integer scalar register and the first element of a vector register.  The <a href="https://github.com/riscv/riscv-v-spec/blob/master/v-spec.adoc">RISCV</a>
-vector definition says:</p>
+<p>A C or C++ toolchain needs at least three components:</p>
 <ul>
-<li>The vmv.x.s instruction copies a single SEW-wide element from index 0 of the source vector register to a destination integer register.</li>
-<li>The vmv.s.x instruction copies the scalar integer register to element 0 of the destination vector register.</li>
+<li>kernel - to supply key header files and loader dependencies</li>
+<li>binutils - to supply assembler and linker</li>
+<li>gcc - to supply the compiler and compiler dependencies</li>
+<li>glibc - to supply key libraries and header files</li>
+<li>sysroot - a directory containing the libraries and resources expected for the root of the target system</li>
 </ul>
-<p>These instructions have a lot of symmetry, but the current isa_ext branch doesn&rsquo;t render them symmetrically.  Let&rsquo;s build a sample function
-that uses both instructions followed by an assertion of what we expect to see.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000">test_integer_scalar_vector_move</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">///@ exercise integer scalar moves into and out of a vector register
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">x</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">y</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// set vector mode to something simple
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">__asm__</span> <span style="color:#000">__volatile__</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;vsetivli zero,1,e32,m1,ta,ma</span><span style="color:#4e9a06">\n\t</span><span style="color:#4e9a06">&#34;</span><span style="color:#000;font-weight:bold">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// execute both instructions to set y:= x
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">__asm__</span> <span style="color:#000">__volatile__</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;vmv.s.x  v1, %1</span><span style="color:#4e9a06">\n\t</span><span style="color:#4e9a06">&#34;</span> <span style="color:#4e9a06">&#34;vmv.x.s  %0, v1&#34;</span>\
-</span></span><span style="display:flex;"><span>                          <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;=r&#34;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">)</span> \
-</span></span><span style="display:flex;"><span>                          <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;r&#34;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">x</span><span style="color:#ce5c00;font-weight:bold">==</span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div><p>This function should return the boolean value True.  It&rsquo;s defined in the file <code>failing_tests/pcodeSamples.cpp</code> and
-compiled into the library <code>libsamples.so</code>.  The function is executed within the test harness <code>failing_tests/pcodeTests.cpp</code>.</p>
-<p>Build (with O3 optimization) and execute the test harness with:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel clean
-</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">INFO: Starting clean (this may take a while). Consider using --async if the clean takes more than several minutes.
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> bazel build -s -c opt  --platforms<span style="color:#ce5c00;font-weight:bold">=</span>//platforms:riscv_vector failing_tests:samples
-</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> cp -f bazel-bin/failing_tests/libsamples.so /tmp
-</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> bazel build -s -c opt  --platforms<span style="color:#ce5c00;font-weight:bold">=</span>//platforms:riscv_vector failing_tests:pcodeTests
-</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#204a87">export</span> <span style="color:#000">QEMU_CPU</span><span style="color:#ce5c00;font-weight:bold">=</span>rv64,zba<span style="color:#ce5c00;font-weight:bold">=</span>true,zbb<span style="color:#ce5c00;font-weight:bold">=</span>true,v<span style="color:#ce5c00;font-weight:bold">=</span>true,vlen<span style="color:#ce5c00;font-weight:bold">=</span>128,vext_spec<span style="color:#ce5c00;font-weight:bold">=</span>v1.0,rvv_ta_all_1s<span style="color:#ce5c00;font-weight:bold">=</span>true,rvv_ma_all_1s<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> qemu-riscv64-static -L /opt/riscvx -E <span style="color:#000">LD_LIBRARY_PATH</span><span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscvx/riscv64-unknown-linux-gnu/lib/ bazel-bin/failing_tests/pcodeTests
-</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[==========] Running 1 test from 1 test suite.
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[----------] Global test environment set-up.
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[----------] 1 test from VectorMove
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[ RUN      ] VectorMove.vmv_s_x
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[       OK ] VectorMove.vmv_s_x (0 ms)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[----------] 1 test from VectorMove (0 ms total)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#a40000">
-</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-style:italic">[----------] Global test environment tear-down
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[==========] 1 test from 1 test suite ran. (3 ms total)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">[  PASSED  ] 1 test.
-</span></span></span></code></pre></div><p>Now import /tmp/libsamples.so into Ghidra and look for test* functions.  The decompilation is:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000">test_integer_scalar_vector_move</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">void</span><span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">undefined8</span> <span style="color:#000">uVar1</span><span style="color:#000;font-weight:bold">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">undefined</span> <span style="color:#000">in_v1</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">256</span><span style="color:#000;font-weight:bold">];</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">vsetivli_e32m1tama</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">vmv_s_x</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">in_v1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">uVar1</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">vmv_x_s</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">in_v1</span><span style="color:#000;font-weight:bold">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">int</span><span style="color:#000;font-weight:bold">)</span><span style="color:#000">uVar1</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div><p>This shows two issues:</p>
+<p>These components have cross-dependencies.  A full gcc build needs libc.so from glibc.  A full glibc build needs libgcc from gcc.
+There are different ways to handle these cross-dependencies, such as splitting the gcc build into two phases or prepopulating
+the build directories with &lsquo;close-enough&rsquo; files from a previous build.</p>
+<p>The <code>sysroot</code> component is the trickiest to handle, since gcc and glibc need to pull files from the <code>sysroot</code> as they update files within <code>sysroot</code>.
+You can generally start with a bootstrap <code>sysroot</code>, say from a previous toolchain, then update it with the latest binutils, gcc, and glibc.</p>
+<p>Start with a released tarball for gcc and glibc.  We&rsquo;ll use the development tip of binutils for this pass.</p>
+<p>Copy kernel header files into <code>/opt/riscv/sysroot/usr/include/</code>.</p>
+<p>Configure and install binutils:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> /home2/vendor/binutils-gdb/configure --prefix<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot --with-sysroot<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot --target<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make -j4
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make install
+</span></span></code></pre></div><p>Configure and install minimal gcc:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> /home2/vendor/gcc-14.1.0/configure --prefix<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv --enable-languages<span style="color:#ce5c00;font-weight:bold">=</span>c,c++ --disable-multilib --target<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu --with-sysroot<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make all-gcc
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make install-gcc
+</span></span></code></pre></div><p>Configure and install glibc</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> ../../vendor/glibc-2.39/configure --host<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu --target<span style="color:#ce5c00;font-weight:bold">=</span>riscv64-unknown-linux-gnu --prefix<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv --disable-werror --enable-shared --disable-multilib --with-headers<span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot/usr/include
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> make install-bootstrap-headers<span style="color:#ce5c00;font-weight:bold">=</span>yes <span style="color:#000">install_root</span><span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot install-headers
+</span></span></code></pre></div><h2 id="cleaning-sysroot-of-bootstrap-artifacts">Cleaning sysroot of bootstrap artifacts</h2>
+<p>How do we replace any older sysroot bootstrap files with their freshly built versions?  The most common problems involve libgcc*, libc*, and crt* files.
+The bootstrap sysroot needs these files to exist.  The toolchain build process should replace them, but it may not replace all instances of these files.</p>
+<p>Let&rsquo;s scrub the libgcc files, comparing the gcc directory in which they are built with the sysroot directories in which they will be saved.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#000">B</span><span style="color:#ce5c00;font-weight:bold">=</span>/home2/build_riscv/gcc
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> <span style="color:#000">S</span><span style="color:#ce5c00;font-weight:bold">=</span>/opt/riscv/sysroot
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> find <span style="color:#000">$B</span> <span style="color:#000">$S</span> -name libgcc_s.so -ls
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940911      4 -rw-r--r--   1 ____     ____          132 May 10 12:28 /home2/build_riscv/gcc/gcc/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940908      4 -rw-r--r--   1 ____     ____          132 May 10 12:28 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361792      4 -rw-r--r--   1 ____     ____          132 May 10 12:32 /opt/riscv/sysroot/riscv64-unknown-linux-gnu/lib/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14351655      4 -rw-r--r--   1 ____     ____          132 May 10 08:52 /opt/riscv/sysroot/lib/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> $ diff /opt/riscv/sysroot/lib/libgcc_s.so /opt/riscv/sysroot/riscv64-unknown-linux-gnu/lib/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> $ $ cat /opt/riscv/sysroot/lib/libgcc_s.so
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">/* GNU ld script
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">   Use the shared library, but some functions are only in
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">   the static library.  */
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic">GROUP ( libgcc_s.so.1 -lgcc )
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"></span><span style="color:#8f5902">$</span> 
+</span></span></code></pre></div><ul>
+<li><code>/opt/riscv/sysroot/lib/libgcc_s.so</code> is our bootstrap input</li>
+<li><code>/home2/build_riscv/gcc/gcc/libgcc_s.so</code> and <code>/home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/libgcc_s.so</code> are the generated outputs</li>
+<li>the bootstrap input is identical to the generate output</li>
+<li>neither input nor output contain absolute paths</li>
+</ul>
+<p>Now check <code>libgcc_s.so.1</code> for staleness:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> find <span style="color:#000">$B</span> <span style="color:#000">$S</span> -name libgcc_s.so.1 -ls
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940910    700 -rw-r--r--   1 ____     ____       713128 May 10 12:28 /home2/build_riscv/gcc/gcc/libgcc_s.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57946454    700 -rwxr-xr-x   1 ____     ____       713128 May 10 12:28 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/libgcc_s.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361791    700 -rw-r--r--   1 ____     ____       713128 May 10 12:32 /opt/riscv/sysroot/riscv64-unknown-linux-gnu/lib/libgcc_s.so.1
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14351656    696 -rw-r--r--   1 ____     ____       708624 May 10 08:53 /opt/riscv/sysroot/lib/libgcc_s.so.1
+</span></span></span></code></pre></div><p>That looks like a potential problem.  The older bootstrap file is older and smaller than the generated files.  We need to fix that:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> rm /opt/riscv/sysroot/lib/libgcc_s.so.1
+</span></span><span style="display:flex;"><span><span style="color:#8f5902">$</span> ln /opt/riscv/sysroot/riscv64-unknown-linux-gnu/lib/libgcc_s.so.1 /opt/riscv/sysroot/lib/libgcc_s.so.1
+</span></span></code></pre></div><p>Next check the crt* files:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span><span style="color:#8f5902">$</span> find <span style="color:#000">$B</span> <span style="color:#000">$S</span> -name crt<span style="color:#4e9a06">\*</span>.o -ls
+</span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940817      8 -rw-r--r--   1 ____     ____         4248 May 10 12:28 /home2/build_riscv/gcc/gcc/crtbeginS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940826      4 -rw-r--r--   1 ____     ____          848 May 10 12:28 /home2/build_riscv/gcc/gcc/crtn.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940824      4 -rw-r--r--   1 ____     ____          848 May 10 12:28 /home2/build_riscv/gcc/gcc/crti.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940827      8 -rw-r--r--   1 ____     ____         4712 May 10 12:28 /home2/build_riscv/gcc/gcc/crtbeginT.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940822      4 -rw-r--r--   1 ____     ____         1384 May 10 12:28 /home2/build_riscv/gcc/gcc/crtendS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940823      4 -rw-r--r--   1 ____     ____         1384 May 10 12:28 /home2/build_riscv/gcc/gcc/crtend.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940815      4 -rw-r--r--   1 ____     ____         3640 May 10 12:28 /home2/build_riscv/gcc/gcc/crtbegin.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940800      8 -rw-r--r--   1 ____     ____         4248 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtbeginS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940808      4 -rw-r--r--   1 ____     ____          848 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtn.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940806      4 -rw-r--r--   1 ____     ____          848 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crti.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940803      8 -rw-r--r--   1 ____     ____         4712 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtbeginT.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940812      4 -rw-r--r--   1 ____     ____         1384 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtendS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940804      4 -rw-r--r--   1 ____     ____         1384 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtend.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 57940798      4 -rw-r--r--   1 ____     ____         3640 May  9 16:00 /home2/build_riscv/gcc/riscv64-unknown-linux-gnu/libgcc/crtbegin.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14351609     16 -rw-r--r--   1 ____     ____        13848 May 10 08:48 /opt/riscv/sysroot/usr/lib/crt1.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14351614      4 -rw-r--r--   1 ____     ____          952 May 10 08:48 /opt/riscv/sysroot/usr/lib/crti.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14351623      4 -rw-r--r--   1 ____     ____          952 May 10 08:49 /opt/riscv/sysroot/usr/lib/crtn.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361798      8 -rw-r--r--   1 ____     ____         4248 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtbeginS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361802      4 -rw-r--r--   1 ____     ____         3640 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtbegin.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361803      4 -rw-r--r--   1 ____     ____         1384 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtend.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361804      4 -rw-r--r--   1 ____     ____          848 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crti.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361805      4 -rw-r--r--   1 ____     ____          848 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtn.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361806      4 -rw-r--r--   1 ____     ____         1384 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtendS.o
+</span></span></span><span style="display:flex;"><span><span style="color:#000;font-style:italic"> 14361807      8 -rw-r--r--   1 ____     ____         4712 May 10 12:32 /opt/riscv/sysroot/lib/gcc/riscv64-unknown-linux-gnu/14.1.0/crtbeginT.o
+</span></span></span></code></pre></div><p>The files in <code>/opt/riscv/sysroot/usr/lib</code> are likely the bootstrap files.  The sysroot files are identical to the build files, with exceptions:</p>
 <ul>
-<li>Ghidra believes vector v1 is 256 bits long, when in fact it is unknown at compile and link time.  That&rsquo;s
-probably OK for now, as it provides a hint that this is a vector register.</li>
-<li>The treatment of instruction output is inconsistent.  For <code>vmv_s_x</code>, the output is the first element of <code>in_v1</code>.
-For <code>vmv_x_s</code>, the output is the scalar register <code>uVar1</code>.  That <em>might</em> be OK, since we don&rsquo;t specify what
-happens to other elements of <code>in_v1</code>.</li>
+<li><code>crt1.o</code> is not generated by the gcc compiler build process.  It <em>may</em> be something provided by the kernel build.</li>
+<li><code>crti.o</code> and <code>crtn.o</code> bootstrap files and generated files are different.  If we wanted to use this updated sysroot to build a 14.2.0 toolchain,
+we probably want to use the newer versions.</li>
 </ul>
-<p>The general question raised by this example is how to treat pcode output - as an output parameter or as
-a returned result?  The sleigh pcode documentation suggests that parameters are assumed to be input parameters,
-with the only output register the one returned by the pcode operation.  A quick glance at the ARM Neon and AARCH64 SVE
-vector sleigh files suggests that this is the convention, but perhaps not a requirement.</p>
-<p>Let&rsquo;s try adding some more test cases before taking any action.</p>
+<p>So replace the bootstrap <code>/opt/riscv/sysroot/usr/lib/crt*.o</code> with hard links to the generated files.</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified March 8, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/4bde68aa6b026d91fa952b5b4703067126987a7a">Edit and slightly extend documentation     update hugo version to 0.123.7 and fix metadata errors that became fatal. (4bde68a)</a>
+  Last modified May 16, 2024: <a href="https://github.com/thixotropist/ghidra_import_tests/commit/995d8421732592f6a822b4abd817e13e8c3725be">Complete Issue #22, including refactoring to pull toolchain suite into top level (995d842)</a>
 </div>
 
 </div>

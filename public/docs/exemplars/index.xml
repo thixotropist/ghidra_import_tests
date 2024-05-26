@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ghidra Import Testing – Exemplars</title>
-    <link>http://localhost:1313/ghidra_import_tests/docs/exemplars/</link>
+    <link>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/</link>
     <description>Recent content in Exemplars on Ghidra Import Testing</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	  <atom:link href="http://localhost:1313/ghidra_import_tests/docs/exemplars/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -16,10 +16,10 @@
     
     <item>
       <title>Docs: Whisper_cpp</title>
-      <link>http://localhost:1313/ghidra_import_tests/docs/exemplars/whisper_cpp/</link>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/whisper_cpp/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/ghidra_import_tests/docs/exemplars/whisper_cpp/</guid>
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/whisper_cpp/</guid>
       <description>
         
         
@@ -552,10 +552,10 @@ LTO plugin from the gcc-14 toolchain packaging.  We&amp;rsquo;ll try and find su
     
     <item>
       <title>Docs: Data Plane Development Kit</title>
-      <link>http://localhost:1313/ghidra_import_tests/docs/exemplars/dpdk/</link>
+      <link>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/dpdk/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/ghidra_import_tests/docs/exemplars/dpdk/</guid>
+      <guid>https://thixotropist.github.io/ghidra_import_tests/docs/exemplars/dpdk/</guid>
       <description>
         
         
@@ -567,13 +567,13 @@ Are ISA extensions materially useful to a network appliance?&lt;/p&gt;
 
 &lt;/div&gt;
 
-&lt;p&gt;Check out DPDK from GitHub, patch the RISCV configuration with &lt;code&gt;riscv64/toolchains/dpdk/dpdk.pat&lt;/code&gt;, and crosscompile with &lt;code&gt;meson&lt;/code&gt;
+&lt;p&gt;Check out DPDK from GitHub, patch the RISCV configuration with &lt;code&gt;riscv64/generated/dpdk/dpdk.pat&lt;/code&gt;, and crosscompile with &lt;code&gt;meson&lt;/code&gt;
 and &lt;code&gt;ninja&lt;/code&gt;.  Copy some of the examples into &lt;code&gt;riscv64/exemplars&lt;/code&gt; and examine them in Ghidra.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;for this we use as many standard extensions as we can, excluding vendor-specific extensions.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Configure a build directory:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; patch -p1 &amp;lt; .../riscv64/toolchains/dpdk/dpdk.pat
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; patch -p1 &amp;lt; .../riscv64/generated/dpdk/dpdk.pat
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; meson setup build --cross-file config/riscv/riscv64_linux_gcc -Dexamples&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;all
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902&#34;&gt;$&lt;/span&gt; &lt;span style=&#34;color:#204a87&#34;&gt;cd&lt;/span&gt; build
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Edit &lt;code&gt;build/build.ninja&lt;/code&gt;:&lt;/p&gt;

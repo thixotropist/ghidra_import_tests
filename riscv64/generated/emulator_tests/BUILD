@@ -50,7 +50,8 @@ TARGET_ARCH = "/opt/riscv/sysroot/riscv64-unknown-linux-gnu"
 SUPPORT_VECTOR = "v=true,vlen=256,vext_spec=v1.0,rvv_ta_all_1s=true,rvv_ma_all_1s=true"
 SUPPORT_BIT_MANIPULATION = "zba=true,zbb=true"
 SUPPORT_FLOAT_16 = "zfh=true"
-
+#QEMU = "qemu-riscv64-static"
+QEMU = "/opt/riscv/bin/qemu-riscv64"
 QEMU_MARCH = SUPPORT_BIT_MANIPULATION + "," + SUPPORT_VECTOR+ "," + SUPPORT_FLOAT_16
 
 genrule(
@@ -61,7 +62,7 @@ genrule(
     ],
     outs = [":results"],
     cmd = "QEMU_CPU=rv64,{} ".format(QEMU_MARCH) +
-        "qemu-riscv64-static -L {} ".format(TARGET_ARCH, TARGET_ARCH) +
+        "{} -L {} ".format(QEMU, TARGET_ARCH) +
         "-E LD_LIBRARY_PATH={}/lib64:{}/lib:{}/lib ".format(TARGET_ARCH, TARGET_ARCH, TARGET_ROOT) +
         "$(location :floatOperationTests) > $(location :results)"
 )

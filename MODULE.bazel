@@ -2,6 +2,10 @@ module(
     name = "ghidra_import_tests",
     version = "0.1",
 )
+
+bazel_dep(name="fedora_syslibs", version="40.0.0")
+bazel_dep(name="gcc_riscv_suite", version="14.1.0")
+bazel_dep(name="gcc_x86_64_suite", version="14.1.0")
 bazel_dep(name = "googletest", version = "1.12.1")
 bazel_dep(name = "glog", version = "0.5.0")
 
@@ -14,4 +18,18 @@ single_version_override(
   version = "0.5.0",
   patches = ["//:glog.pat"],
   patch_strip = 1,
+)
+
+register_toolchains(
+    # a separate Bazel project independent of /opt/riscv,
+    # currently based on gcc-riscv64-suite
+    "//riscv64/generated/toolchains:riscv64-default",
+    # a toolchain that adds vector extensions
+    "//riscv64/generated/toolchains:riscv64-vector",
+    # a toolchain loaded with supported customizations
+    "//riscv64/generated/toolchains:riscv64-custom",
+    # a non-hermetic local toolchain used in debugging the Bazel sandbox
+    "//riscv64/generated/toolchains:riscv64-local",
+    # a generic x86_64 toolchain
+    "//x86_64/generated/toolchains:x86_64_default",
 )

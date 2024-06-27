@@ -1,5 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-PATH=`pwd`/toolchains/gcc-14-riscv/imported \
-LD_LIBRARY_PATH=external/fedora40-system-libs:/lib64 \
-  external/gcc-14-riscv64-suite/bin/riscv64-unknown-linux-gnu-objdump "$@"

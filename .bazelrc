@@ -7,7 +7,9 @@ startup --output_base=/run/user/1000/bazel
 build --incompatible_enable_cc_toolchain_resolution 
 # Allow for local caching of imported packages
 build --distdir=/opt/bazel/distdir
-# Allow experimental Bazel Module support
-build --enable_bzlmod
+# Add global registry
+common --registry https://bcr.bazel.build
+# Add local registry
+common --registry file:///opt/bazel/bzlmod
 # Workaround a hermeticity bug
 build --incompatible_sandbox_hermetic_tmp=false

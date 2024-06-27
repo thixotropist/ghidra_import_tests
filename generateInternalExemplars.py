@@ -46,8 +46,6 @@ class T0BazelEnvironment(unittest.TestCase):
 
         self.assertRegex(result.stdout, r'riscv_userspace',
                          "riscv64 default user space platform is defined")
-        self.assertRegex(result.stdout, r'riscv_vector',
-                         "riscv64 vector extension user space platform is defined")
         self.assertRegex(result.stdout, r'riscv_custom',
                          "riscv64 custom  user space platform is defined")
 
@@ -108,7 +106,6 @@ class T1IsaExemplars(unittest.TestCase):
         Initialize a toolchain test environment
         """
         cls.bazel = Bazel()
-        cls.bazel = Bazel()
 
     def test_00_riscv64_assembly_exemplars(self):
         """
@@ -158,7 +155,7 @@ class T1IsaExemplars(unittest.TestCase):
 
     def test_02_whisper_apps(self):
         """
-        Build the whisper.cpp app under multiple architectures
+        Build the whisper.cpp app using multiple platforms
         """
 
         platform = Toolchain.VENDOR_EXTENSION_RISCV64_PLATFORM
@@ -183,6 +180,12 @@ class T1IsaExemplars(unittest.TestCase):
         copyfile("bazel-bin/external/whisper_cpp/main.stripped",
                  "riscv64/exemplars/whisper_cpp_vendor_stripped")
 
+        result = subprocess.run(['readelf', '-A', 'riscv64/exemplars/whisper_cpp_vendor'],
+            check=False, capture_output=True, encoding='utf8')
+        if result.returncode != 0:
+            logger.error("Unable to extract whisper_cpp_vendor attributes:\n %s", result.stderr)
+        self.assertRegex(result.stdout, r'xtheadba', 'Whisper vendor build did not enable THead extensions')
+
         result = self.bazel.execute(Toolchain.VECTOR_RISCV64_PLATFORM,
                                             build_targets, operation='build')
         self.assertEqual(0, result.returncode,
@@ -191,6 +194,12 @@ class T1IsaExemplars(unittest.TestCase):
                  "riscv64/exemplars/whisper_cpp_vector")
         copyfile("bazel-bin/external/whisper_cpp/main.stripped",
                  "riscv64/exemplars/whisper_cpp_vector_stripped")
+
+        result = subprocess.run(['readelf', '-A', 'riscv64/exemplars/whisper_cpp_vector'],
+            check=False, capture_output=True, encoding='utf8')
+        if result.returncode != 0:
+            logger.error("Unable to extract whisper_cpp_vector attributes:\n %s", result.stderr)
+        self.assertRegex(result.stdout, r'_v1p', 'Whisper vector build did not enable vector extensions')
 
         result = self.bazel.execute(Toolchain.DEFAULT_RISCV64_PLATFORM,
                                             build_targets, operation='build')
@@ -201,7 +210,28 @@ class T1IsaExemplars(unittest.TestCase):
         copyfile("bazel-bin/external/whisper_cpp/main.stripped",
                  "riscv64/exemplars/whisper_cpp_default_stripped")
 
-    def test_03_x86_64_vector_exemplars(self):
+        result = subprocess.run(['readelf', '-A', 'riscv64/exemplars/whisper_cpp_default'],
+            check=False, capture_output=True, encoding='utf8')
+        if result.returncode != 0:
+            logger.error("Unable to extract whisper_cpp_default attributes:\n %s", result.stderr)
+        self.assertNotRegex(result.stdout, r'_v1p', 'Whisper default build unexpectedly enabled vector extensions')
+
+    def test_03_x86_64_toolchains(self):
+        """
+        Verify x86_64 C and C++ toolchains with a helloworld build
+        """
+        result = self.bazel.execute(Toolchain.DEFAULT_X86_64_PLATFORM,
+                                    '//x86_64/generated/userSpaceSamples:helloworld',
+                                    operation='build')
+        self.assertEqual(0, result.returncode,
+            f'bazel {Toolchain.DEFAULT_X86_64_PLATFORM} C toolchain test failed')
+        result = self.bazel.execute(Toolchain.DEFAULT_X86_64_PLATFORM,
+                                    '//x86_64/generated/userSpaceSamples:helloworld++',
+                                    operation='build')
+        self.assertEqual(0, result.returncode,
+            f'bazel {Toolchain.DEFAULT_X86_64_PLATFORM} C++ toolchain test failed')
+
+    def test_04_x86_64_vector_exemplars(self):
         """
         Generate reference x86_64 exemplars showing vectorization for different architectures
         """

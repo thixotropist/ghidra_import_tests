@@ -11,7 +11,6 @@ cc_binary(
     srcs = ["helloworld.cc"],
 )
 
-
 # Build the relocation test object file with Position Independent Executable
 #    - this might be typical of a kernel module where .data and .bss are
 #      relocated together with .text and .rodata

@@ -4,8 +4,8 @@ module(
 )
 
 bazel_dep(name="fedora_syslibs", version="40.0.0")
-bazel_dep(name="gcc_riscv_suite", version="14.1.0")
-bazel_dep(name="gcc_x86_64_suite", version="14.1.0")
+bazel_dep(name="gcc_riscv_suite", version="15.0.0")
+bazel_dep(name="gcc_x86_64_suite", version="15.0.0")
 bazel_dep(name = "googletest", version = "1.12.1")
 bazel_dep(name = "glog", version = "0.5.0")
 

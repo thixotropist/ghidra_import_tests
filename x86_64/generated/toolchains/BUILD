@@ -4,7 +4,7 @@ package(default_visibility = ["//visibility:public"])
 
 # These should match a dependency named in MODULE.bazel
 SUITE_MODULE = 'gcc_x86_64_suite'
-SUITE_VERSION = '14.1.0'
+SUITE_VERSION = '15.0.0'
 
 # the binutils, gcc, and glibc configuration target
 SUITE_TARGET = 'x86_64-pc-linux-gnu'

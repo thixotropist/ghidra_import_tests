@@ -4,7 +4,7 @@ package(default_visibility = ["//visibility:public"])
 
 # These should match a dependency named in MODULE.bazel
 SUITE_MODULE = 'gcc_riscv_suite'
-SUITE_VERSION = '14.1.0'
+SUITE_VERSION = '15.0.0'
 
 # the binutils, gcc, and glibc configuration target
 SUITE_TARGET = 'riscv64-unknown-linux-gnu'

@@ -10,7 +10,8 @@ Code is built by a toolchain (compiler, linker) to run on a platform (e.g., a pi
 
 This project adopts the Bazel framework for building importable exemplars.  [Platforms](https://bazel.build/extending/platforms)
 describe the foundation on which code will run.  [Toolchains](https://bazel.build/extending/toolchains) compile and link code for different
-platforms.  Bazel builds are [hermetic](https://bazel.build/basics/hermeticity), which for our purposes means that platforms and toolchains
+platforms.  Compiler suites assemble `gcc`, `binutils`, and `glibc` packages for different architectures.
+Bazel builds are [hermetic](https://bazel.build/basics/hermeticity), which for our purposes means that platforms and toolchains
 are all versioned and importable, so build results are the same no matter where the build host may be.
 
 ## Example of RISCV-64 platforms and toolchains
@@ -27,11 +28,9 @@ The directory RISCV64/toolchain defines these platforms:
 
 This directory defines these toolchains:
 
-* `//toolchains:riscv64-default` - a gcc-13 stable RISCV compiler, linker, loader, and sysroot of related include files and libraries
-* `//toolchains:riscv64-next` - a gcc-14 unreleased but feature-frozen RISCV compiler, linker, loader, and sysroot of related include files
-  and libraries
-* `//toolchains:riscv64-custom` - a variant of  `//toolchains:riscv64-next` with multiple standard and vendor-specific ISA extensions enabled
-  by default
+* `//toolchains:riscv64-default` - usually the most current gcc stable RISCV compiler, linker, loader, and sysroot of related include files and libraries
+* `//toolchains:riscv64-vector` - a variant of  `//toolchains:riscv64-default` with vector extensions enabled
+* `//toolchains:riscv64-custom` - a variant of  `//toolchains:riscv64-default` with multiple standard and vendor-specific ISA extensions enabled
 * `//toolchains:riscv64-local` - a toolchain executing out of `/opt/riscvx` instead of a portable tarball.  Generally useful only when
   debugging the generation of a fully portable and hermetic toolchain tarball.
 
@@ -49,7 +48,7 @@ This table shows relationships between platforms, constraints, toolchains, and d
 | platform                    | cpu constraint         | toolchain                    | default options              | added optimized options |
 | --------------------------- | ---------------------- | ---------------------------- | ---------------------------- | ----------------------- |
 | //platforms:riscv_userspace | //toolchains:riscv64   | //toolchains:riscv64-default |                              | -O3                     |
-| //platforms:riscv_vector    | //toolchains:riscv64-v | //toolchains:riscv64-next    | -march=rv64gcv               | -O3                     |
+| //platforms:riscv_vector    | //toolchains:riscv64-v | //toolchains:riscv64-vector  | -march=rv64gcv               | -O3                     |
 | //platforms:riscv_custom    | //toolchains:riscv64-c | //toolchains:riscv64-custom  | -march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbc_xtheadba_xtheadbb_xtheadbs_xtheadcmo_xtheadcondmov_xtheadmac_xtheadfmemidx_xtheadmempair_xtheadsync | -O3 |
 | //platforms:riscv_local     | //toolchains:riscv64-l | //toolchains:riscv64-local   |                              | -O3                      |
 
@@ -57,17 +56,17 @@ Notes:
  * The `-O3` option is likely too aggressive. The `-O2` option would be more common in broadly released software.
  * `//toolchains:riscv64-default` currently uses a gcc-13 toolchain suite
  * the other toolchains use various developmental snapshots of the gcc-14 toolchain suite
- * vector extensions version 1.0 are default on `//toolchains:riscv64-next` and `//toolchains:riscv64-custom`
+ * vector extensions version 1.0 are default on `//toolchains:riscv64-custom`
  * `//toolchains:riscv64-custom` adds bit manipulation and many of the THead extensions supported by binutils.
 
  >Warning: C options can be added by the toolchain, within a BUILD file, and on the command line.  For options like `-O` and `-march`, only
  >         the last instance of the option affects the build.  
 
-## Toolchain details
+## Compiler Suites
 
-Toolchains generally include several components that can affect the generated binaries:
+Compiler suites generally include several components that can affect the generated binaries:
 
-* the gcc compiler, built from source and configured for a specific target architecture and language set
+* the gcc compiler or cross-compiler, built from source and configured for a specific target architecture and language set
 * binutils utilities, including a `gas` assembler with support for various instruction set extensions
   and disassembler tools like `objdump` that provide reference handling of newer instructions.
 * linker and linker scripts
@@ -76,7 +75,12 @@ Toolchains generally include several components that can affect the generated bi
 * libc, libstdc++, etc.
 * default compiler options and include directories
 
-The toolchain prepared for building a kernel module won't be the same as a toolchain built for userspace programs,
-even if the compilers are identical.
+Compiler suites are generated externally and imported into the workspace as Bazel modules using lines like this in `MODULE.bazel`:
 
-See [adding toolchains]({{< relref "adding_toolchains" >}}) for an example of adding a new toolchain to this project.
+```text
+bazel_dep(name="fedora_syslibs", version="40.0.0")
+bazel_dep(name="gcc_riscv_suite", version="14.1.0")
+bazel_dep(name="gcc_x86_64_suite", version="14.1.0")
+```
+
+>Note: any single workspace can only import a single version of any given module

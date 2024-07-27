@@ -40,6 +40,8 @@ class Bazel():
         'resolution_debug': "--=toolchain_resolution_debug\'.*\'",
         'opt': "--compilation_mode=opt",
         'dbg': "--compilation_mode=dbg",
+        'global_repo': "--registry=https://bcr.bazel.build",
+        'local_repo': "--registry=file:///opt/bazel/bzlmod",
         # add an early 7.0.0 bazel workaround
         'hack': "--incompatible_sandbox_hermetic_tmp=false"
     }
@@ -67,6 +69,8 @@ class Bazel():
                     Bazel.options['no_bazelrc'],            #   ignoring .bazelrc
                     Bazel.options['output_base'],           #   with output redirected
                     operation,                              # request a build or a test
+                    Bazel.options['global_repo'],           #   using the global Bazelmod repo
+                    Bazel.options['local_repo'],            #   and a local filesystem Bazelmod repo
                     '-s',                                   #   showing the compiler arguments
                     Bazel.options['distdir'],               #   into a local distribution cache
                     Bazel.options['hack'],                  #   hack to permit builds in a tmpfs

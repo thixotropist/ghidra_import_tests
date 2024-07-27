@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+PATH=`pwd`/external/gcc_x86_64_suite~/bin \
+LD_LIBRARY_PATH=external/fedora_syslibs~:/lib64 \
+  external/gcc_x86_64_suite~/bin/gcc "$@"

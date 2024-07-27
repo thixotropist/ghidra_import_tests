@@ -2,6 +2,28 @@ load(":cc_toolchain_config.bzl", "cc_toolchain_config")
 load("//:variables.bzl", "OUTPUT_BASE")
 package(default_visibility = ["//visibility:public"])
 
+# These should match a dependency named in MODULE.bazel
+SUITE_MODULE = 'gcc_x86_64_suite'
+SUITE_VERSION = '14.1.0'
+
+# the binutils, gcc, and glibc configuration target
+SUITE_TARGET = 'x86_64-pc-linux-gnu'
+
+# Bazel currently makes the imported module available at this file system location
+PATH_TO_MODULE = OUTPUT_BASE + '/external/gcc_x86_64_suite~'
+
+# compiler and linker need to know the imported location of sysroot
+SYSROOT = "external/" + SUITE_MODULE + "~/"
+
+# Generate the set of sandbox filesystem directories containing system include files
+BUILTIN_INCLUDE_DIRS = [
+    PATH_TO_MODULE + '/include',
+    PATH_TO_MODULE + '/usr/include',
+    PATH_TO_MODULE + '/include/c++/' + SUITE_VERSION,
+    PATH_TO_MODULE + '/lib/gcc/' + SUITE_TARGET + '/' + SUITE_VERSION + '/include',
+    PATH_TO_MODULE + '/lib/gcc/' + SUITE_TARGET + '/' + SUITE_VERSION + '/include-fixed'
+]
+
 constraint_value(
     name = "x86_64",
     constraint_setting = "@platforms//cpu",
@@ -12,19 +34,17 @@ filegroup(
     srcs = [],
 )
 
-##### x86_64 #####
-
 filegroup(
-    name = 'gcc_14_x86_64_wrappers',
+    name = 'gcc_x86_64_wrappers',
     srcs = glob([
-        "gcc-14-x86_64/imported/*",
+        "gcc-x86_64/imported/*",
     ])
 )
 
 filegroup(
-    name = 'gcc_14_compiler_files',
-    srcs = [':gcc_14_x86_64_wrappers',
-       '@gcc-14-x86_64-suite//:compiler_files',
+    name = 'gcc_compiler_files',
+    srcs = [':gcc_x86_64_wrappers',
+       '@gcc_x86_64_suite//:compiler_files',
     ]
 )
 
@@ -39,11 +59,11 @@ toolchain(
 cc_toolchain(
     name = "x86_64-default-gcc",
     all_files = ":all_files",
-    ar_files = ":gcc_14_compiler_files",
+    ar_files = ":gcc_compiler_files",
     as_files = ":empty",
-    compiler_files = ":gcc_14_compiler_files",
+    compiler_files = ":gcc_compiler_files",
     dwp_files = ":empty",
-    linker_files = ":gcc_14_compiler_files",
+    linker_files = ":gcc_compiler_files",
     objcopy_files = ":empty",
     strip_files = ":empty",
     supports_param_files = 0,
@@ -57,29 +77,21 @@ cc_toolchain_config(
     abi_version = ":empty",
     compile_flags = [
         # take the isystem ordering from the output of gcc -xc++ -E -v -
-        "--sysroot", "external/gcc-14-x86_64-suite/",
+        "--sysroot", SYSROOT,
         "-Wall",
     ],
     compiler = "gcc",
     coverage_compile_flags = ["--coverage"],
     coverage_link_flags = ["--coverage"],
     cpu = "x86_64",
-    # we really want the following to be constructed from $(output_base) or $(location ...)
-    cxx_builtin_include_directories = [
-       OUTPUT_BASE + "/external/gcc-14-x86_64-suite/include",
-       OUTPUT_BASE + "/external/gcc-14-x86_64-suite/usr/include",
-       OUTPUT_BASE + "/external/gcc-14-x86_64-suite/include/c++/14.1.0",
-#      OUTPUT_BASE + "/external/gcc-14-x86_64-suite/x86_64-pc-linux-gnu/include/c++/14.1.0",
-       OUTPUT_BASE + "/external/gcc-14-x86_64-suite/lib/gcc/x86_64-pc-linux-gnu/14.1.0/include",
-       OUTPUT_BASE + "/external/gcc-14-x86_64-suite/lib/gcc/x86_64-pc-linux-gnu/14.1.0/include-fixed",
-       ],
+    cxx_builtin_include_directories = BUILTIN_INCLUDE_DIRS,
     cxx_flags = [
         "-std=c++20",
         "-fno-rtti",
         ],
     dbg_compile_flags = ["-g"],
     host_system_name = ":empty",
-    link_flags = ["--sysroot", "external/gcc-14-x86_64-suite/"],
+    link_flags = ["--sysroot", SYSROOT],
     link_libs = ["-lstdc++", "-lm"],
     opt_compile_flags = [
         "-g0",
@@ -93,18 +105,18 @@ cc_toolchain_config(
     target_libc = ":empty",
     target_system_name = ":empty",
     tool_paths = {
-        "ar": "gcc-14-x86_64/imported/ar",
-        "ld": "gcc-14-x86_64/imported/ld",
-        "cpp": "gcc-14-x86_64/imported/cpp",
-        "gcc": "gcc-14-x86_64/imported/gcc",
+        "ar": "gcc-x86_64/imported/ar",
+        "ld": "gcc-x86_64/imported/ld",
+        "cpp": "gcc-x86_64/imported/cpp",
+        "gcc": "gcc-x86_64/imported/gcc",
         "dwp": ":empty",
         "gcov": ":empty",
-        "nm": "gcc-14-x86_64/imported/nm",
-        "objcopy": "gcc-14-x86_64/imported/objcopy",
-        "objdump": "gcc-14-x86_64/imported/objdump",
-        "strip": "gcc-14-x86_64/imported/strip",
+        "nm": "gcc-x86_64/imported/nm",
+        "objcopy": "gcc-x86_64/imported/objcopy",
+        "objdump": "gcc-x86_64/imported/objdump",
+        "strip": "gcc-x86_64/imported/strip",
     },
-    toolchain_identifier = "gcc-14-x86_64",
+    toolchain_identifier = "gcc-x86_64",
     unfiltered_compile_flags = [
         "-fno-canonical-system-headers",
         "-Wno-builtin-macro-redefined",
@@ -112,13 +124,6 @@ cc_toolchain_config(
         "-D__TIMESTAMP__=\"redacted\"",
         "-D__TIME__=\"redacted\"",
     ],
-)
-
-filegroup(
-    name = 'gcc14_compiler_files',
-    srcs = [':gcc_14_x86__wrappers',
-       '@gcc-14-x86_64-suite//:compiler_files',
-    ]
 )
 
 toolchain(

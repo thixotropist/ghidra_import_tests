@@ -79,17 +79,17 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
         name = fname,
         srcs = [
             "{}.S".format(fname),
-            "//riscv64/generated/toolchains:gcc_14_riscv64_compiler_files",
-            "//riscv64/generated/toolchains:gcc_14_riscv64_as",
-            "//riscv64/generated/toolchains:gcc_14_riscv64_objdump",
+            "//riscv64/generated/toolchains:gcc_riscv64_compiler_files",
+            "//riscv64/generated/toolchains:gcc_riscv_as",
+            "//riscv64/generated/toolchains:gcc_riscv_objdump",
             ],
         outs = [
             "{}.o".format(fname), 
             "{}.list".format(fname),
             "{}.objdump".format(fname),
             ],
-        cmd = "$(location //riscv64/generated/toolchains:gcc_14_riscv64_as) --march=rv64gcvq{} $(location {}.S) -a -am -a=$(location {}.list) -o $(location {}.o)".format(ext, fname, fname, fname) +
-            " && $(location //riscv64/generated/toolchains:gcc_14_riscv64_objdump) -d $(location {}.o) > $(location {}.objdump)".format(fname, fname)
+        cmd = "$(location //riscv64/generated/toolchains:gcc_riscv_as) --march=rv64gcvq{} $(location {}.S) -a -am -a=$(location {}.list) -o $(location {}.o)".format(ext, fname, fname, fname) +
+            " && $(location //riscv64/generated/toolchains:gcc_riscv_objdump) -d $(location {}.o) > $(location {}.objdump)".format(fname, fname)
     )
     # our default arch is rv64gv, which must be extended for everything but the vector extensions.
     for (fname, ext) in [

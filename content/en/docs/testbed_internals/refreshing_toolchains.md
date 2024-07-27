@@ -1,6 +1,6 @@
 ---
 title: refreshing toolchains
-weight: 20
+weight: 30
 ---
 
 {{% pageinfo %}}

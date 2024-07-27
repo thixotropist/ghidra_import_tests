@@ -35,8 +35,7 @@ class Toolchain():
     # The default risc-v 64 bit platform, roughly tracking an SiFive SDK
     DEFAULT_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv_userspace'
 
-    # A RISCV-64 platform with support for vector and other mainstream extensions.
-    # This likely includes gcc-14 and binutils libraries not yet formally released
+    # A risc-v 64 bit platform supporting the vector ISA
     VECTOR_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv_vector'
 
     # A RISCV-64 platform supporting vector and vendor-specific extensions

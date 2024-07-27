@@ -27,7 +27,7 @@ Loop autovectorization What happens when a gcc toolchain optimizes the following
   <meta property="og:description" content="If a processor supports vector (aka SIMD) instructions, optimizing compilers will use them. That means Ghidra may need to make sense of the generated code.
 Loop autovectorization What happens when a gcc toolchain optimizes the following code?
 #include &lt;stdio.h&gt; int main(int argc, char** argv){ const int N = 1320; char s[N]; for (int i = 0; i &lt; N - 1; &#43;&#43;i) s[i] = i &#43; 1; s[N - 1] = &#39;\0&#39;; printf(s); } This involves a simple loop filling a character array with integers.">
-  <meta property="og:locale" content="en-us">
+  <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
     <meta property="article:modified_time" content="2024-05-21T08:07:13-04:00">
@@ -37,8 +37,10 @@ Loop autovectorization What happens when a gcc toolchain optimizes the following
 Loop autovectorization What happens when a gcc toolchain optimizes the following code?
 #include &lt;stdio.h&gt; int main(int argc, char** argv){ const int N = 1320; char s[N]; for (int i = 0; i &lt; N - 1; &#43;&#43;i) s[i] = i &#43; 1; s[N - 1] = &#39;\0&#39;; printf(s); } This involves a simple loop filling a character array with integers.">
   <meta itemprop="dateModified" content="2024-05-21T08:07:13-04:00">
-  <meta itemprop="wordCount" content="1021"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="autovectorization">
-<meta name="twitter:description" content="If a processor supports vector (aka SIMD) instructions, optimizing compilers will use them. That means Ghidra may need to make sense of the generated code.
+  <meta itemprop="wordCount" content="1021">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="autovectorization">
+  <meta name="twitter:description" content="If a processor supports vector (aka SIMD) instructions, optimizing compilers will use them. That means Ghidra may need to make sense of the generated code.
 Loop autovectorization What happens when a gcc toolchain optimizes the following code?
 #include &lt;stdio.h&gt; int main(int argc, char** argv){ const int N = 1320; char s[N]; for (int i = 0; i &lt; N - 1; &#43;&#43;i) s[i] = i &#43; 1; s[N - 1] = &#39;\0&#39;; printf(s); } This involves a simple loop filling a character array with integers.">
 

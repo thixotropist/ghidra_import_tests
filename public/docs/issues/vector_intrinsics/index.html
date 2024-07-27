@@ -29,7 +29,7 @@ void *memcpy_vec(void *restrict destination, const void *restrict source, size_t
 RISCV vector intrinsic functions can be coded into C or C&#43;&#43;.
 That document includes examples of code that might be found shortly in libc:
 void *memcpy_vec(void *restrict destination, const void *restrict source, size_t n) { unsigned char *dst = destination; const unsigned char *src = source; // copy data byte by byte for (size_t vl; n &gt; 0; n -= vl, src &#43;= vl, dst &#43;= vl) { vl = __riscv_vsetvl_e8m8(n); vuint8m8_t vec_src = __riscv_vle8_v_u8m8(src, vl); __riscv_vse8_v_u8m8(dst, vec_src, vl); } return destination; } Note: GCC-14 autovectorization will often convert normal calls to memcpy into something very similar to the memcpy_vec code above, then assemble it down to RISCV vector instructions.">
-  <meta property="og:locale" content="en-us">
+  <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
     <meta property="article:modified_time" content="2024-01-29T21:36:45-05:00">
@@ -40,8 +40,10 @@ RISCV vector intrinsic functions can be coded into C or C&#43;&#43;.
 That document includes examples of code that might be found shortly in libc:
 void *memcpy_vec(void *restrict destination, const void *restrict source, size_t n) { unsigned char *dst = destination; const unsigned char *src = source; // copy data byte by byte for (size_t vl; n &gt; 0; n -= vl, src &#43;= vl, dst &#43;= vl) { vl = __riscv_vsetvl_e8m8(n); vuint8m8_t vec_src = __riscv_vle8_v_u8m8(src, vl); __riscv_vse8_v_u8m8(dst, vec_src, vl); } return destination; } Note: GCC-14 autovectorization will often convert normal calls to memcpy into something very similar to the memcpy_vec code above, then assemble it down to RISCV vector instructions.">
   <meta itemprop="dateModified" content="2024-01-29T21:36:45-05:00">
-  <meta itemprop="wordCount" content="302"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="vector intrinsics">
-<meta name="twitter:description" content="Invoking RISCV vector instructions from C.
+  <meta itemprop="wordCount" content="302">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="vector intrinsics">
+  <meta name="twitter:description" content="Invoking RISCV vector instructions from C.
 RISCV vector intrinsic functions can be coded into C or C&#43;&#43;.
 That document includes examples of code that might be found shortly in libc:
 void *memcpy_vec(void *restrict destination, const void *restrict source, size_t n) { unsigned char *dst = destination; const unsigned char *src = source; // copy data byte by byte for (size_t vl; n &gt; 0; n -= vl, src &#43;= vl, dst &#43;= vl) { vl = __riscv_vsetvl_e8m8(n); vuint8m8_t vec_src = __riscv_vle8_v_u8m8(src, vl); __riscv_vse8_v_u8m8(dst, vec_src, vl); } return destination; } Note: GCC-14 autovectorization will often convert normal calls to memcpy into something very similar to the memcpy_vec code above, then assemble it down to RISCV vector instructions.">

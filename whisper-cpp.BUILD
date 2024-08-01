@@ -4,6 +4,7 @@ cc_library(
     name = 'whisper',
     hdrs = [
         'ggml.h',
+        'ggml-common.h',
         'ggml-quants.h',
         'whisper.h',
         'ggml-backend.h',
@@ -35,6 +36,8 @@ cc_binary(
     srcs = [
         'examples/common.h',
         'examples/dr_wav.h',
+        'examples/grammar-parser.h',
+        'examples/grammar-parser.cpp',
         'examples/main/main.cpp',
         'examples/common.cpp',
         'examples/common-ggml.h',

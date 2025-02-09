@@ -1,9 +1,0 @@
-
-bazel-out/k8-fastbuild/bin/riscv64/generated/assemblySamples/zksed.o:     file format elf64-littleriscv
-
-
-Disassembly of section .text:
-
-0000000000000000 <target>:
-   0:	b0c58533          	sm4ed	a0,a1,a2,0x2
-   4:	b4c58533          	sm4ks	a0,a1,a2,0x2

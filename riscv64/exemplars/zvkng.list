@@ -1,14 +1,0 @@
-GAS LISTING riscv64/generated/assemblySamples/zvkng.S 			page 1
-
-
-   1 0000 77A280A2 		vaesdf.vv v4, v8
-   2 0004 772286BA 		vsha2ch.vv v4, v8, v12
-   3 0008 772286B2 		vghsh.vv v4, v8, v12
-   4 000c 77A2C8A2 		vgmul.vv v4, v12
-GAS LISTING riscv64/generated/assemblySamples/zvkng.S 			page 2
-
-
-DEFINED SYMBOLS
-riscv64/generated/assemblySamples/zvkng.S:1      .text:0000000000000000 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_q2p2_c2p0_v1p0_zicsr2p0_zifencei2p0_zmmul1p0_zve32f1p0_zve32x1p0_zve64d1p0_zve64f1p0_zve64x1p0_zvkb1p0_zvkg1p0_zvkn1p0_zvkned1p0_zvkng1p0_zvknha1p0_zvknhb1p0_zvkt1p0_zvl128b1p0_zvl32b1p0_zvl64b1p0
-
-NO UNDEFINED SYMBOLS

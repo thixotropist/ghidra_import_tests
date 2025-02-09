@@ -20,7 +20,7 @@ The directory RISCV64/toolchain defines these platforms:
 
 * `//platforms:riscv_userspace` for a generic RISCV-64 Linux appliance with the usual libc and libstdio APIs
 * `//platforms:riscv_vector` for a more specialized RISCV-64 Linux appliance with vector extensions supported
-* `//platforms:riscv_custom` for a highly specialized RISCV-64 Linux appliance with vector and vendor-specific extensions supported
+* `//platforms:riscv64_thead` for a highly specialized RISCV-64 Linux appliance with vector and vendor-specific extensions supported
 * `//platforms:riscv_local` for toolchain debugging, using a local file system toolchain under `/opt/riscvx`
 
 >Note: The current binutils and gcc show more vendor-specific instruction set extensions from THead, so we will arbitrarily use that
@@ -49,7 +49,7 @@ This table shows relationships between platforms, constraints, toolchains, and d
 | --------------------------- | ---------------------- | ---------------------------- | ---------------------------- | ----------------------- |
 | //platforms:riscv_userspace | //toolchains:riscv64   | //toolchains:riscv64-default |                              | -O3                     |
 | //platforms:riscv_vector    | //toolchains:riscv64-v | //toolchains:riscv64-vector  | -march=rv64gcv               | -O3                     |
-| //platforms:riscv_custom    | //toolchains:riscv64-c | //toolchains:riscv64-custom  | -march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbc_xtheadba_xtheadbb_xtheadbs_xtheadcmo_xtheadcondmov_xtheadmac_xtheadfmemidx_xtheadmempair_xtheadsync | -O3 |
+| //platforms:riscv64_thead    | //toolchains:riscv64-c | //toolchains:riscv64-custom  | -march=rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbc_xtheadba_xtheadbb_xtheadbs_xtheadcmo_xtheadcondmov_xtheadmac_xtheadfmemidx_xtheadmempair_xtheadsync | -O3 |
 | //platforms:riscv_local     | //toolchains:riscv64-l | //toolchains:riscv64-local   |                              | -O3                      |
 
 Notes:

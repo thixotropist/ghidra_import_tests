@@ -2,7 +2,6 @@
 # using riscv vector intrinsics.  Note that gcc14 will in some cases autovectorize the
 # 'golden' C code too, letting us compare manually vectorized with autovectorized loops.
 
-
 # nested list comprehensions give us rules for all combinations of source code and machine architecture
 [
     [
@@ -30,13 +29,15 @@
     )
 ]
 
-OBJDUMP = "/opt/x86_64/sysroot/x86_64-pc-linux-gnu/bin/objdump"
-
 [   genrule(
     name = file + "-refdump",
-    srcs = [file],
+    srcs = [
+        "//x86_64/generated/toolchains/x86:compiler_files",
+        "//x86_64/generated/toolchains/x86:objdump",
+        file
+        ],
     outs = [file + ".objdump"],
-    cmd = OBJDUMP + " -d $(location {}) > $(location {}.objdump)".format(file, file)
+    cmd = "$(location //x86_64/generated/toolchains/x86:objdump) -d $(location {}) > $(location {}.objdump)".format(file, file)
     )
     for file in (
         "memcpy_x86-64-v2",

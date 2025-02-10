@@ -3,7 +3,7 @@
 DIR=/opt/riscv_vm
 #QEMU=qemu-system-riscv64
 QEMU=/opt/riscv/bin/qemu-system-riscv64
-QEMU_CPU=rv64,v=true,zba=true,zbb=true,zbc=true,zbkb=true,zbkc=true,zbkx=true,zvbb=true, zvbc=true,vlen=256,vext_spec=v1.0 \
+QEMU_CPU=rv64,v=true,zba=true,zbb=true,zbc=true,zbkb=true,zbkc=true,zbkx=true,zvbb=true,zvbc=true,vlen=256,vext_spec=v1.0 \
 $QEMU -L $DIR/lib \
 -machine virt -cpu max,zfbfmin=false,zvfbfmin=false,zvfbfwma=false -nographic -m 8192 -smp 4 \
 -kernel $DIR/u-boot.bin \

@@ -45,3 +45,6 @@ bazel-ghidra_import_tests
 MODULE.bazel.lock
 # test artifacts
 testResults
+# binary exemplars change too rapidly to commit to git
+riscv64/exemplars/*
+x86_64/exemplars/*

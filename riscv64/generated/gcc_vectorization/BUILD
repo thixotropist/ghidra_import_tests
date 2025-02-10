@@ -40,28 +40,6 @@
     )
 ]
 
-[
-    cc_binary(
-        name = file + "_lto",
-        srcs = [
-            "common.h",
-            file + ".c",
-        ],
-        copts = [
-            "-O2",
-            "-march=rv64gcv",
-            "-flto",
-        ],
-        linkopts = [
-            "-Wl,-flto",
-        ],
-    )
-    for file in (
-        "narrowing_loop",
-        "memcpy",
-    )
-]
-
 cc_library(
     name = "autovec_binop",
     srcs = [

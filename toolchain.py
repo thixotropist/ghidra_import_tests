@@ -33,16 +33,16 @@ class Toolchain():
     REFERENCE_CPP_PGM = '//riscv64/generated/userSpaceSamples:helloworld++'
 
     # The default risc-v 64 bit platform, roughly tracking an SiFive SDK
-    DEFAULT_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv_userspace'
+    DEFAULT_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv64_default'
 
     # A risc-v 64 bit platform supporting the vector ISA
-    VECTOR_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv_vector'
+    VECTOR_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv64_rva23'
 
     # A RISCV-64 platform supporting vector and vendor-specific extensions
-    VENDOR_EXTENSION_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv_custom'
+    VENDOR_EXTENSION_RISCV64_PLATFORM = '//riscv64/generated/platforms:riscv64_thead'
 
     # An x86_64 platform
-    DEFAULT_X86_64_PLATFORM = '//x86_64/generated/platforms:x86_64_default'
+    DEFAULT_X86_64_PLATFORM = '//x86_64/generated/platforms:x86_64-native'
 
     # a bazel-generated platform representing the local development system
     LOCAL_HOST_PLATFORM = '@local_config_platform//:host'

@@ -6,9 +6,6 @@
 # This program has absolutely no warranty.
 # This assembler was configured for a target of `riscv64-elf-linux-gnu'.
 
-GAS = "/home2/vendor/binutils-gdb/gas/as-new"
-OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
-
 # RVA23U64 Mandatory Extensions (from the draft document https://github.com/riscv/riscv-profiles/blob/main/rva23-profile.adoc)
 
 # The following mandatory extensions were present in RVA22U64.
@@ -79,17 +76,17 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
         name = fname,
         srcs = [
             "{}.S".format(fname),
-            "//riscv64/generated/toolchains:gcc_riscv64_compiler_files",
-            "//riscv64/generated/toolchains:gcc_riscv_as",
-            "//riscv64/generated/toolchains:gcc_riscv_objdump",
+            "//riscv64/generated/toolchains/riscv:compiler_files",
+            "//riscv64/generated/toolchains/riscv:as",
+            "//riscv64/generated/toolchains/riscv:objdump",
             ],
         outs = [
             "{}.o".format(fname), 
             "{}.list".format(fname),
             "{}.objdump".format(fname),
             ],
-        cmd = "$(location //riscv64/generated/toolchains:gcc_riscv_as) --march=rv64gcvq{} $(location {}.S) -a -am -a=$(location {}.list) -o $(location {}.o)".format(ext, fname, fname, fname) +
-            " && $(location //riscv64/generated/toolchains:gcc_riscv_objdump) -d $(location {}.o) > $(location {}.objdump)".format(fname, fname)
+        cmd = "$(location //riscv64/generated/toolchains/riscv:as) --march=rv64gcvq{} $(location {}.S) -a -am -a=$(location {}.list) -o $(location {}.o)".format(ext, fname, fname, fname) +
+            " && $(location //riscv64/generated/toolchains/riscv:objdump) -d $(location {}.o) > $(location {}.objdump)".format(fname, fname)
     )
     # our default arch is rv64gv, which must be extended for everything but the vector extensions.
     for (fname, ext) in [
@@ -101,6 +98,7 @@ OBJDUMP = "/home2/vendor/binutils-gdb/binutils/objdump"
         ("zbkb-64", "_zbkb"),
         ("zbkc", "_zbkc"),
         ("zbkx", "_zbkx"),
+        ("zfa", "_zfa_zfh"),
         ("fp-zfh-insns", "_zfh"),
         ("zknd-64", "_zknd"),
         ("zkne-64", "_zkne"),
@@ -157,6 +155,9 @@ filegroup(
         ":zbkx.o",
         ":zbkx.list",
         ":zbkx.objdump",
+        ":zfa.o",
+        ":zfa.list",
+        ":zfa.objdump",
         ":fp-zfh-insns.o",
         ":fp-zfh-insns.list",
         ":fp-zfh-insns.objdump",
@@ -259,6 +260,8 @@ genrule(
 genrule(
     name = "rvv_32",
     srcs = [
+        "//riscv64/generated/toolchains/riscv:objdump",
+        "//riscv64/generated/toolchains/riscv:as",
         "vector.S",
     ],
     outs = [
@@ -266,7 +269,7 @@ genrule(
         "vector_32.list",
         "vector_32.objdump",
     ],
-    cmd = "{} --march=rv32gv $(location vector.S) -a -am -a=$(location vector_32.list) -o $(location vector_32.o)".format(GAS) +
-            " && {} -d $(location vector_32.o) > $(location vector_32.objdump)".format(OBJDUMP)
+    cmd = "$(location //riscv64/generated/toolchains/riscv:as) --march=rv32gv $(location vector.S) -a -am -a=$(location vector_32.list) -o $(location vector_32.o)" +
+            " && $(location //riscv64/generated/toolchains/riscv:objdump) -d $(location vector_32.o) > $(location vector_32.objdump)"
 )
 

@@ -146,8 +146,7 @@ class T1IsaExemplars(unittest.TestCase):
         self.assertEqual(0, result.returncode,
             f'bazel {platform} build of gcc_expansions:archive failed')
         exemplar_tarball = "bazel-bin/riscv64/generated/gcc_expansions/archive.tar"
-        command = f'tar -xf {exemplar_tarball} --strip-components=6 -C riscv64/exemplars ' + \
-            '&& chmod a-x riscv64/exemplars/*.so'
+        command = f'tar -xf {exemplar_tarball} --strip-components=6 -C riscv64/exemplars'
         result = subprocess.run(command,
             check=False, capture_output=True, encoding='utf8', shell=True)
         self.assertEqual(0, result.returncode,

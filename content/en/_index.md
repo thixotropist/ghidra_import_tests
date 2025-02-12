@@ -42,6 +42,9 @@ This test harness includes several components:
 3. one or more integration test programs using python's unittest framework.  These are used to catch regressions and help keep Ghidra aligned with
    advances in toolchain development.
 
+To keep the scope manageable we will concentrate on importing RISCV-64 binaries built for CPUs implementing the RVA23 profile of instruction set extensions.
+This includes RISCV's vector (aka SIMD) instructions, which can pose quite a challenge to Ghidra's import and analysis capabilities.
+
 ## Example
 
 RISCV ratified extensions include vector extensions that speed up code from memcpy to machine language inference engines.
@@ -63,7 +66,7 @@ void *memcpy_vec(void *restrict destination, const void *restrict source,
 }
 ```
 
-With gcc-14, due for release mid 2024, calls to the C standard library version of memcpy can *also* be machine-optimized into similar vectorized
+With gcc calls to the C standard library version of memcpy can *also* be machine-optimized into similar vectorized
 inline code.  Ghidra should probably be able to make sense of those instruction sequences, perhaps even recognizing vectorized patterns that
 correspond to common library functions like memcpy, and strncpy.
 

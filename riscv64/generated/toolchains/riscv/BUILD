@@ -105,10 +105,12 @@ toolchain(
 )
 
 
-# This toolchain is for user-space platforms supporting all of the RVA23
+# This toolchain is for user-space platforms supporting many of the RVA23
 # profile extensions
 
-cc_toolchain_config(name = "riscv64-rva23-gcc-config")
+cc_toolchain_config(
+    name = "riscv64-rva23-gcc-config",
+    march="rv64gcv_zba_zbb_zbc_zbkb_zbkc_zbkx_zvbb_zvbc_zvkng_zvksg_zvkt_zcb_zfa")
 
 cc_toolchain(
     name = "riscv64-rva23-gcc",
